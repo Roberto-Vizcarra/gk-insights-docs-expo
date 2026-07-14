@@ -1,18 +1,18 @@
 ---
 title: Connect Your Data — Setting Up AI Adoption
-description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect GitHub, your AI coding tools (Claude Code, Codex, Cursor), and Jira, map developer identities, and invite your team.
+description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect GitHub or Bitbucket, your AI coding tools (Claude Code, Codex, Cursor), and Jira, map developer identities, and invite your team.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, Bitbucket, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: July 2026</kbd>
 
-This is the hands-on setup guide for AI Adoption in GitKraken Insights. By the end, your organization's GitHub activity and AI coding-tool telemetry will be flowing into the dashboard, your developers will be mapped to a single identity, and your team will have access.
+This is the hands-on setup guide for AI Adoption in GitKraken Insights. By the end, your organization's GitHub or Bitbucket activity and AI coding-tool telemetry will be flowing into the dashboard, your developers will be mapped to a single identity, and your team will have access.
 
 Plan on **15–20 minutes of active work**, plus up to a day for the first full data sync to complete in the background.
 
@@ -32,20 +32,23 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | You'll need… | …who has this access | What they'll do |
 | --- | --- | --- |
 | **GitKraken organization** | Owner or Admin of your gk.dev org | Manage data connections, invite teammates |
-| **GitHub** | An org admin (to create an org-level token) | Generate the GitHub access token |
+| **GitHub** *(if you use GitHub)* | An org admin (to create an org-level token) | Generate the GitHub access token |
+| **Bitbucket** *(if you use Bitbucket)* | An admin of your Bitbucket workspace | Generate a Bitbucket-specific Atlassian API token |
 | **Claude Code / Codex** | The **Owner** of your Anthropic (Claude Code) organization — *admins cannot do this* | Paste the telemetry snippet into org-managed settings |
 | **Cursor** | A Cursor **team admin** | Create a team-level admin API key |
 | **Jira** (optional) | A Jira admin | Create an API token |
 
-> **Start the GitHub token request now.** In larger orgs, getting approval to create a GitHub token with the right scope can take days — sometimes weeks. It's the most common bottleneck, so kick it off before anything else.
+> **Start your git-provider token request now.** In larger orgs, getting approval to create a GitHub or Bitbucket token with the right scope can take days — sometimes weeks. It's the most common bottleneck, so kick it off before anything else.
 
 > **Only Owners and Admins can connect data.** If you open Settings → Data Connections and see a read-only banner, you'll need an org Owner or Admin to either make the connections or grant you access.
 
 ---
 
-## Step 1 — Connect GitHub
+## Step 1 — Connect your git provider
 
-GitHub is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty.
+Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect **GitHub or Bitbucket**, whichever hosts your repositories.
+
+### GitHub
 
 1. In gitkraken.dev, open **Insights → Settings → Data Connections**.
 2. On the **GitHub** card, click **Connect**.
@@ -53,7 +56,7 @@ GitHub is the foundation. It powers every PR, commit, contributor, and cycle-tim
 
 <!-- FLAG FOR HUMAN REVIEW: screenshot of the Data Connections page with the GitHub card needed. -->
 
-### Fine-grained vs. classic token
+#### Fine-grained vs. classic token
 
 Either works. The tradeoffs:
 
@@ -64,7 +67,7 @@ Either works. The tradeoffs:
 
 We generally recommend a **fine-grained token scoped to your organization**.
 
-### Required permissions (read-only)
+#### Required permissions (read-only)
 
 Create the token at **GitHub → Settings → Developer settings → Personal access tokens**. Set the **Resource owner** to your organization (not your personal account) so the token can see org repositories.
 
@@ -83,6 +86,34 @@ Create the token at **GitHub → Settings → Developer settings → Personal ac
 > **You can edit a token's scopes after creating it** — you don't need to regenerate it if you missed one. (Note: GitHub does *not* let you change a token's expiration after creation, so set a comfortably long expiry up front.)
 
 Once connected, GitHub data begins syncing in the background and continues over the next several hours.
+
+### Bitbucket
+
+Connect Bitbucket instead if your repositories live in a Bitbucket workspace. Like GitHub, it powers every PR, commit, contributor, and cycle-time metric.
+
+1. In gitkraken.dev, open **Insights → Settings → Data Connections**.
+2. On the **Bitbucket** card, click **Connect**.
+3. In the **Connect Bitbucket** modal, enter your **Atlassian account email** and a **Bitbucket API token** (see scopes below), click **Validate**, then **Connect**.
+
+<figure>
+  <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights listing the scoped Atlassian API token scopes required and the Atlassian account email and Bitbucket API token fields" />
+  <figcaption style="text-align: center; color: #888">The Connect Bitbucket modal — the required token scopes plus the Atlassian account email and Bitbucket API token fields.</figcaption>
+</figure>
+
+<!-- FLAG FOR HUMAN REVIEW: add the screenshot binary at _images/connect-bitbucket-modal.png (served at /wp-content/uploads/connect-bitbucket-modal.png). -->
+
+#### Required token scopes
+
+Bitbucket connects with a **scoped Atlassian API token**. Create it at [**id.atlassian.com → Security → API tokens**](https://id.atlassian.com/manage-profile/security/api-tokens) using **Create API token with scopes**, and include at least these scopes:
+
+- `read:account`
+- `read:pipeline:bitbucket`
+- `read:pullrequest:bitbucket`
+- `read:repository:bitbucket`
+- `admin:repository:bitbucket`
+- `read:workspace:bitbucket`
+
+Once connected, Bitbucket data begins syncing in the background and continues over the next several hours.
 
 ---
 
@@ -186,13 +217,13 @@ You can change all of these at any time. For what each setting affects, see the 
 
 ## Step 5 — Map developer identities
 
-This is the step that makes or breaks clean data. The same person often shows up under several identities — a GitHub login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
+This is the step that makes or breaks clean data. The same person often shows up under several identities — a GitHub or Bitbucket login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
 
-1. After GitHub has been processing for a bit (allow ~12 hours), open **Settings → Developers**.
+1. After your git provider has been processing for a bit (allow ~12 hours), open **Settings → Developers**.
 2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them.
 3. Where an identity is missing an email, add it — this helps tie commit data back to the right person.
 
-Insights auto-suggests matches using email, GitHub handle, and name, but you should confirm them and clean up anything it couldn't resolve. **Treat this like an inbox and keep it empty** — see the [For admins](/gk-insights/ai-adoption-getting-started#for-admins) page for ongoing roster hygiene.
+Insights auto-suggests matches using email, git handle, and name, but you should confirm them and clean up anything it couldn't resolve. **Treat this like an inbox and keep it empty** — see the [For admins](/gk-insights/ai-adoption-getting-started#for-admins) page for ongoing roster hygiene.
 
 ### Excluding review bots
 

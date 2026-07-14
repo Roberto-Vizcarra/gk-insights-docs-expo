@@ -10,14 +10,14 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: July 2026</kbd>
 
 GitKraken Insights gives engineering leaders a single view of how AI tools, code delivery, and team capacity work together. The AI Adoption section measures how much your team is actually using AI, how autonomously, and what AI is actually delivering — in time and dollars.
 
 > **Plan:** GitKraken Insights
 > **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
 > **Role:** Lead, Admin, or Owner
-> **Prerequisite:** Connected GitHub and at least one AI provider (Claude Code, Codex, or Cursor). See [Connect Your Data](/gk-insights/ai-adoption-connect-your-data).
+> **Prerequisite:** Connected GitHub or Bitbucket and at least one AI provider (Claude Code, Codex, or Cursor). See [Connect Your Data](/gk-insights/ai-adoption-connect-your-data).
 
 ---
 
@@ -25,7 +25,7 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 
 | Page | What it covers |
 | --- | --- |
-| [Connect Your Data — Setting Up AI Adoption](/gk-insights/ai-adoption-connect-your-data) | The hands-on setup guide: gather access, connect GitHub and your AI tools, map developer identities, and invite your team. |
+| [Connect Your Data — Setting Up AI Adoption](/gk-insights/ai-adoption-connect-your-data) | The hands-on setup guide: gather access, connect GitHub or Bitbucket and your AI tools, map developer identities, and invite your team. |
 | [Getting Started with AI Adoption](/gk-insights/ai-adoption-getting-started) | A short tour organized by what you do, with quickstarts for executives, engineering leaders, team leads, and admins. |
 | [Adoption & Agentic Metrics](/gk-insights/ai-adoption-agentic-metrics) | How much your team is actually using AI, and how autonomously: Agent Adoption Score, Agent Autonomy Score, AI Tier, Maturity Factor, and Cursor Boost. |
 | [Output & Throughput Metrics](/gk-insights/ai-adoption-output-metrics) | What your team ships: Output Score, Throughput, Direct Commits, and Effort Score (Complexity). |

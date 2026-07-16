@@ -1,11 +1,11 @@
 ---
 title: Connect Your Data — Setting Up AI Adoption
-description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect GitHub or Bitbucket, your AI coding tools (Claude Code, Codex, Cursor), and Jira, map developer identities, and invite your team.
+description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect GitHub or Bitbucket, your AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot), and Jira, map developer identities, and invite your team.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, Bitbucket, Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, Bitbucket, Claude Code, Codex, Cursor, GitHub Copilot, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
@@ -36,6 +36,7 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | **Bitbucket** *(if you use Bitbucket)* | An admin of your Bitbucket workspace | Generate a Bitbucket-specific Atlassian API token |
 | **Claude Code / Codex** | The **Owner** of your Anthropic (Claude Code) organization — *admins cannot do this* | Paste the telemetry snippet into org-managed settings |
 | **Cursor** | A Cursor **team admin** | Create a team-level admin API key |
+| **GitHub Copilot** (optional) | A GitHub org admin | Create a GitHub PAT and provide the org name |
 | **Jira** (optional) | A Jira admin | Create an API token |
 
 > **Start your git-provider token request now.** In larger orgs, getting approval to create a GitHub or Bitbucket token with the right scope can take days — sometimes weeks. It's the most common bottleneck, so kick it off before anything else.
@@ -148,7 +149,16 @@ Claude Code and Codex report usage through OpenTelemetry (OTel). You'll paste a 
 
 ### GitHub Copilot
 
-Copilot support is on the way. Copilot returns a narrower set of data than Claude Code, Codex, or Cursor, so some metrics will be partial. Your account team will let you know when it's available to connect.
+Connect GitHub Copilot to pull Copilot usage metrics for your organization. Copilot returns a narrower set of data than Claude Code, Codex, or Cursor, so some metrics will be partial.
+
+1. In **Data Connections**, click **Connect** on the **GitHub Copilot** card.
+2. In the **Connect GitHub Copilot** modal, optionally give the connection a **Name**, then enter a **GitHub Personal Access Token** and your **GitHub Organization name**.
+3. Click **Connect**.
+
+<figure>
+  <img src="/wp-content/uploads/connect-copilot-modal.png" class="help-center-img img-bordered" alt="Connect GitHub Copilot modal in GitKraken Insights showing an optional connection name field, a GitHub Personal Access Token field, and a GitHub Organization name field" />
+  <figcaption style="text-align: center; color: #888">The Connect GitHub Copilot modal — an optional connection name, a GitHub Personal Access Token, and the GitHub organization name.</figcaption>
+</figure>
 
 ---
 
@@ -245,10 +255,9 @@ Give the rest of your stakeholders access so they can read the dashboards.
 
 ## What to expect after setup
 
-- **First data:** the last month of GitHub activity typically appears within a few hours; a full year usually lands within one to two days.
+- **First data:** the last month of GitHub or Bitbucket activity typically appears within a few hours; a full year usually lands within one to two days.
 - **AI tool data:** starts flowing on each developer's next Claude Code / Codex / Cursor session — there's no backfill before the connection was made.
 - **Sync status:** each connection on the Data Connections page shows a health status. If a connection looks degraded or errored, that's the first place to check — and let your account team know.
-- **Coming soon:** **GitHub Copilot** telemetry and **Bitbucket** support (with aggregated multi-provider dashboards, so GitHub and Bitbucket activity show side by side). Your account team will confirm availability.
 
 ---
 

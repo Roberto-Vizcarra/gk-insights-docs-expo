@@ -93,14 +93,12 @@ Connect Bitbucket instead if your repositories live in a Bitbucket workspace. Li
 
 1. In gitkraken.dev, open **Insights → Settings → Data Connections**.
 2. On the **Bitbucket** card, click **Connect**.
-3. In the **Connect Bitbucket** modal, enter your **Atlassian account email** and a **Bitbucket API token** (see scopes below), click **Validate**, then **Connect**.
+3. In the **Connect Bitbucket** modal, optionally give the connection a **Name**, then enter your **Atlassian account email** and a **Bitbucket API token** (see scopes below), click **Validate**, then **Connect**.
 
 <figure>
-  <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights listing the scoped Atlassian API token scopes required and the Atlassian account email and Bitbucket API token fields" />
-  <figcaption style="text-align: center; color: #888">The Connect Bitbucket modal — the required token scopes plus the Atlassian account email and Bitbucket API token fields.</figcaption>
+  <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights showing an optional connection name field, the list of scoped Atlassian API token scopes required, and the Atlassian account email and Bitbucket API token fields" />
+  <figcaption style="text-align: center; color: #888">The Connect Bitbucket modal — an optional connection name, the required token scopes, and the Atlassian account email and Bitbucket API token fields.</figcaption>
 </figure>
-
-<!-- FLAG FOR HUMAN REVIEW: add the screenshot binary at _images/connect-bitbucket-modal.png (served at /wp-content/uploads/connect-bitbucket-modal.png). -->
 
 #### Required token scopes
 

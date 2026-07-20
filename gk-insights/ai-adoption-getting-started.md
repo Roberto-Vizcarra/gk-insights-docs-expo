@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: July 2026</kbd>
 
 <!-- NOTE: The Confluence Glossary page was intentionally not migrated. All terms it defines are documented in their dedicated metric pages; the cross-cutting terms (active developer, window, P90, Maturity Factor) are summarized in the "Glossary refresher" section below. -->
 
@@ -20,7 +20,7 @@ GitKraken Insights is the dashboard your engineering organization uses to see �
 
 ## What this product does, in one sentence
 
-It connects your GitHub, your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
+It connects your GitHub or Bitbucket, your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
 
 ## What this product does _not_ do
 
@@ -431,7 +431,7 @@ Setup, integrations, and the small list of things that keep the data clean. If y
 
 In order:
 
-- [ ] **Roster is loaded.** Settings → Developers shows every active developer with a display name, GitHub login, and email. Inactive developers from your HRIS are marked `is_active = false`.
+- [ ] **Roster is loaded.** Settings → Developers shows every active developer with a display name, GitHub or Bitbucket login, and email. Inactive developers from your HRIS are marked `is_active = false`.
 - [ ] **Teams are defined.** Settings → Teams has at least one team per organizational unit. Departments are populated for grouping.
 - [ ] **Default Department is set.** Settings → General → "Default Department". This pre-selects the right view for first-time visitors.
 - [ ] **PTO sync is on.** `WHOS_OUT_ICAL_URL` is set to your BambooHR iCal feed. The sync runs every 6 hours.
@@ -445,7 +445,7 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 
 | Sync | Source | Interval | Owns |
 | --- | --- | --- | --- |
-| **GitHub sync** | GitHub PAT | Every few minutes | PRs, direct commits, reviews |
+| **Git provider sync** | GitHub PAT or Bitbucket API token | Every few minutes | PRs, direct commits, reviews |
 | **AI events sync** | Snowflake OTEL export (Claude / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
 | **Cursor sync** | Cursor API | Every 5 min, with 12 h safety lag | Cursor adoption |
 | **CFR sync** | Jira | Every hour | Customer bugs, CFR %, MTTR |
@@ -475,7 +475,7 @@ Same pattern: Jira `accountId`s that don't tie to a known developer email. Map t
 The single biggest cause of "this number looks weird" tickets is roster drift. Check these monthly:
 
 * `is_active = true` **should be a current employee.** Offboarded developers should be flipped to `false`, not deleted. Deletion loses historical attribution.
-* **GitHub login is set and matches their actual handle.** This is the authoritative join key for PR and commit data.
+* **GitHub or Bitbucket login is set and matches their actual handle.** This is the authoritative join key for PR and commit data.
 * **Team membership is current.** Reorgs happen quietly; your developer table will reflect the old structure until you update it.
 * **Email aliases are mapped.** If a developer has multiple work emails (e.g. from an acquisition), add aliases in their profile so P90 cohorts don't double-count.
 
@@ -499,7 +499,7 @@ A short triage flow:
 1. **Is the date range right?** Most "this is missing" tickets are sub-7-day windows where rate-normalized metrics widen the benchmark scope or fall back to defaults.
 2. **Is the user being filtered?** Inactive developers, alias-only developers, and on-PTO developers don't show in all views.
 3. **Is the sync stale?** Open /ai-adoption/data-explorer, filter by event type, check the most recent timestamp.
-4. **Is the developer mapped?** Settings → Developers → check `is_active` and GitHub login.
+4. **Is the developer mapped?** Settings → Developers → check `is_active` and GitHub or Bitbucket login.
 5. **Are aliases set?** A developer with multiple emails will appear split across rows in P90 cohorts until aliases are mapped.
 
 If none of those resolve it, file a support ticket with: the page URL, the date range, the team filter, and a screenshot.

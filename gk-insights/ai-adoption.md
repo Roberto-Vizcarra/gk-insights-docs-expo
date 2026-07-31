@@ -1,5 +1,5 @@
 ---
-title: AI Adoption in GitKraken Insights
+title: GitKraken Insights - AI Adoption
 description: Learn how GitKraken Insights measures AI adoption across your organization, including Adoption & Agentic metrics, AI Impact & Cost metrics, playbooks, and settings.
 product: GitKraken Insights
 content_type: reference
@@ -17,7 +17,6 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 > **Plan:** GitKraken Insights
 > **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
 > **Role:** Lead, Admin, or Owner
-> **Prerequisite:** Connected GitHub or Bitbucket and at least one AI provider (Claude Code, Codex, or Cursor). See [Connect Your Data](/gk-insights/ai-adoption-connect-your-data).
 
 ---
 
@@ -48,8 +47,3 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 * Adjacent surfaces in the same nav family: **/ai-adoption/board-metrics**, **/ai-adoption/data-connections**, **/ai-adoption/data-explorer**, **/ai-adoption/settings/\***.
 
 ---
-
-## Related pages
-
-* [Getting Started with GitKraken Insights](/gk-insights/gk-insights) — request access, connect repositories, and connect an AI provider.
-* [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics) — code quality and acceptance-rate metrics from connected AI providers (Duplicated Code, Prompt Acceptance Rate, and more).

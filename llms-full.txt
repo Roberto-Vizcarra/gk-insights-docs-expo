@@ -1972,7 +1972,7 @@ You can change all of these at any time. For what each setting affects, see the 
 
 ## Step 5 — Map developer identities
 
-This is the step that makes or breaks clean data. The same person often shows up under several identities — a GitHub or Bitbucket login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
+This is the step that makes or breaks clean data. The same person often shows up under several identities — a git-provider login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
 
 1. After your git provider has been processing for a bit (allow ~12 hours), open **Settings → Developers**.
 2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them.
@@ -2006,6 +2006,7 @@ Give the rest of your stakeholders access so they can read the dashboards.
 - **AI tool data:** starts flowing on each developer's next Claude Code / Codex / Cursor session — there's no backfill before the connection was made. Devin data arrives through its API once the connection is live.
 - **Time off:** BambooHR changes can take up to 24 hours to reach the iCal feed, so recent PTO may lag.
 - **Sync status:** each connection on the Data Connections page shows a health status. If a connection looks degraded or errored, that's the first place to check — and let your account team know.
+- **A degraded status during the first sync is usually normal.** Large organizations hit their git provider's API rate limits while the initial backfill pulls a year of history, and the connection reports degraded while it waits. The credentials are fine and the data is still coming. Contact your account team before disconnecting and reconnecting.
 
 ---
 
@@ -2022,7 +2023,8 @@ Give the rest of your stakeholders access so they can read the dashboards.
 | **Can't create the Cursor key / no usage data** | Key isn't team-level admin, or your Cursor role is too low | Have a Cursor team admin create a **team-level admin** key |
 | **Can't change Claude Code org settings** | You're an admin, not the org Owner | Only the Anthropic org **Owner** can apply the telemetry snippet |
 | **Claude Code settings applied but no telemetry** | Clients pick up OTel config on a full restart; or an on-disk `managed-settings.json` is being ignored | Have developers restart Claude Code — and keep the config in one source, since claude.ai managed settings override the file entirely |
-| **No Codex telemetry** | The snippet is in the wrong path, or Notepad saved it as `config.toml.txt` | Verify the per-OS `config.toml` path and the file extension |
+| **No Codex telemetry** | The snippet is in the wrong path, Notepad saved it as `config.toml.txt`, or the developer is running a pre-release build of the Codex desktop app | Verify the per-OS `config.toml` path and the file extension, and have developers run a stable Codex build — pre-release and alpha builds can drop OTel events |
+| **A connection shows "degraded" during the first sync** | Usually your git provider's API rate limits throttling the initial backfill, not a broken connection | Let it finish. If it doesn't clear, contact your account team before disconnecting and reconnecting |
 | **A connection sits at "Not yet synced"** | Expected right after connecting — and for Claude Code / Codex it stays that way until the first developer session sends telemetry | Wait for the first sync; for Claude Code / Codex, confirm the snippet is applied and have someone start a fresh session |
 | **Copilot connects but no metrics appear** | The **Copilot usage metrics** policy is off, the token owner can't view Copilot metrics, or the team had fewer than five active Copilot licenses | Enable the policy in org **Settings → Copilot → Policies**, use an org owner or a role with **View Organization Copilot Metrics**, and check the license count |
 | **Copilot token rejected** | A fine-grained token was used, or SAML SSO isn't authorized | Create a **classic** token with `read:org`, then **Configure SSO** on it |
@@ -2052,12 +2054,12 @@ product: GitKraken Insights
 content_type: how-to
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 <!-- NOTE: The Confluence Glossary page was intentionally not migrated. All terms it defines are documented in their dedicated metric pages; the cross-cutting terms (active developer, window, P90, Maturity Factor) are summarized in the "Glossary refresher" section below. -->
 
@@ -2067,7 +2069,7 @@ GitKraken Insights is the dashboard your engineering organization uses to see �
 
 ## What this product does, in one sentence
 
-It connects your GitHub or Bitbucket, your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
+It connects your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted GitHub Enterprise Server or Azure DevOps Server), your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
 
 ## What this product does _not_ do
 
@@ -2476,9 +2478,11 @@ Setup, integrations, and the small list of things that keep the data clean. If y
 
 ### First-week setup checklist
 
+New organizations get a **Setup** checklist in the sidebar that tracks the setup steps still outstanding. Each step's **Open step** button takes you to the Settings page where you complete it. The checklist is on by default the first time you open Insights, and if you close it you can switch it back on in [Settings → General](https://gitkraken.dev/ai-adoption/settings/general).
+
 In order:
 
-- [ ] **Roster is loaded.** Settings → Developers shows every active developer with a display name, GitHub or Bitbucket login, and email. Inactive developers from your HRIS are marked `is_active = false`.
+- [ ] **Roster is loaded.** Settings → Developers shows every active developer with a display name, git-provider login, and email. Inactive developers from your HRIS are marked `is_active = false`.
 - [ ] **Teams are defined.** Settings → Teams has at least one team per organizational unit. Departments are populated for grouping.
 - [ ] **Default Department is set.** Settings → General → "Default Department". This pre-selects the right view for first-time visitors.
 - [ ] **PTO sync is on.** `WHOS_OUT_ICAL_URL` is set to your BambooHR iCal feed. The sync runs every 6 hours.
@@ -2492,7 +2496,7 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 
 | Sync | Source | Interval | Owns |
 | --- | --- | --- | --- |
-| **Git provider sync** | GitHub PAT or Bitbucket API token | Every few minutes | PRs, direct commits, reviews |
+| **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server and Azure DevOps Server connections | Every few minutes | PRs, direct commits, reviews |
 | **AI events sync** | Snowflake OTEL export (Claude / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
 | **Cursor sync** | Cursor API | Every 5 min, with 12 h safety lag | Cursor adoption |
 | **CFR sync** | Jira | Every hour | Customer bugs, CFR %, MTTR |
@@ -2522,7 +2526,7 @@ Same pattern: Jira `accountId`s that don't tie to a known developer email. Map t
 The single biggest cause of "this number looks weird" tickets is roster drift. Check these monthly:
 
 * `is_active = true` **should be a current employee.** Offboarded developers should be flipped to `false`, not deleted. Deletion loses historical attribution.
-* **GitHub or Bitbucket login is set and matches their actual handle.** This is the authoritative join key for PR and commit data.
+* **git-provider login is set and matches their actual handle.** This is the authoritative join key for PR and commit data.
 * **Team membership is current.** Reorgs happen quietly; your developer table will reflect the old structure until you update it.
 * **Email aliases are mapped.** If a developer has multiple work emails (e.g. from an acquisition), add aliases in their profile so P90 cohorts don't double-count.
 
@@ -2546,7 +2550,7 @@ A short triage flow:
 1. **Is the date range right?** Most "this is missing" tickets are sub-7-day windows where rate-normalized metrics widen the benchmark scope or fall back to defaults.
 2. **Is the user being filtered?** Inactive developers, alias-only developers, and on-PTO developers don't show in all views.
 3. **Is the sync stale?** Open /ai-adoption/data-explorer, filter by event type, check the most recent timestamp.
-4. **Is the developer mapped?** Settings → Developers → check `is_active` and GitHub or Bitbucket login.
+4. **Is the developer mapped?** Settings → Developers → check `is_active` and git-provider login.
 5. **Are aliases set?** A developer with multiple emails will appear split across rows in P90 cohorts until aliases are mapped.
 
 If none of those resolve it, file a support ticket with: the page URL, the date range, the team filter, and a screenshot.
@@ -3240,12 +3244,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket, Azure DevOps]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 
 This family answers: **what is your team shipping, and how much of it is substantive work?**
@@ -3505,7 +3509,7 @@ Drafts and bot-authored PRs are excluded.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author GitHub login matches a bot pattern (e.g. `*[bot]`) are excluded.
+**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded.
 
 **Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is PRs per active dev per week — the comparison-ready rate.
 
@@ -3662,7 +3666,7 @@ Don't read direct commits in isolation — read them as part of the Output Score
 A: Most direct commits are smaller and less-reviewed than typical PRs. The 0.5 default reflects that. If your team's direct-commit work is substantive, raise the weight.
 
 **Q: A developer's commits aren't showing up. Why?**
-A: Most likely their `is_active` is false, or their GitHub login on the roster doesn't match the actual commit author. Check Settings → Developers.
+A: Most likely their `is_active` is false, or their git-provider login on the roster doesn't match the actual commit author. Check Settings → Developers.
 
 **Q: Do reverts count as direct commits?**
 A: Yes — they are commits pushed to the default branch, so they appear in the count. The Effort Score classifier usually labels them low-effort.
@@ -3768,12 +3772,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket, Azure DevOps, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 This family answers: **how fast does work move through your system, and where does it get stuck?**
 
@@ -4242,12 +4246,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket, Azure DevOps, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/gk-insights/gk-insights-dora-metrics).
 
@@ -4586,6 +4590,7 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 ### Limitations and gotchas
 
+* **Jira only.** CFR reads customer bugs from Jira. Organizations that track customer bugs in Azure DevOps work items instead can't populate CFR.
 * **Depends on Jira workflow discipline.** If your team marks customer bugs inconsistently, CFR is noisy. The fix is upstream — get Jira workflow consistent.
 * **No automatic severity assessment.** Severity comes from the Jira field directly. If your assignees set severity inconsistently (everyone's bug is "High"), the Critical & High view is misleading.
 * **Customer-only.** Internal bugs caught in QA don't count. This is deliberate — but it means CFR doesn't measure all quality, just user-visible quality.
@@ -4705,7 +4710,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics).
 
@@ -4928,7 +4933,7 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Where it appears
 
-* **/ai-adoption/ai-impact** — AI-Assisted Changes % card in the Productivity hero. Also shows up in the AI Insight banner narrative.
+* **/ai-adoption/ai-impact** — AI-Assisted Changes % card in the Productivity hero, which shows AI-assisted changed lines alongside total changed lines so you can see the ratio the percentage comes from. Also shows up in the AI Insight banner narrative.
 * **/ai-adoption/executive** — AI-Assisted % is one of the headline KPIs.
 * **PR drill-down tables** — each PR shows its AI-Assisted status with the reason (`co_author` or `ai_events`).
 
@@ -5648,7 +5653,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 Every admin-configurable setting that affects AI Adoption scores in GitKraken Insights, organized by where it lives in the product, plus a one-line "what it changes."
 
@@ -5835,19 +5840,6 @@ _In Settings UI: yes._
 **When to set it.** Use this to anchor the dashboard to the largest, most-watched department in your org. Engineering leadership usually picks "Engineering" or the equivalent rolled-up group.
 
 **Affects:** Initial view on /teams, /developers, /executive, and every page with a team filter.
-
----
-
-## What's not configurable (yet)
-
-These behaviors are deliberately fixed in code. If you need them tunable, ask your account manager — they're candidates for a future setting.
-
-* **Tier band values** (Emerging < 25, Explorer 25–54, Regular 55–79, Power User ≥ 80). These are the standard bands a score maps to. You don't shift tier population by moving the bands — you move the score ceiling with the [Maturity Factor](#maturity-factor) (above), which _is_ configurable.
-* **Small-cohort fallback** (5 developers; synthetic P90 of 5.0 effort/week).
-* **Agentic threshold** (10 tools in a session to count as "agentic").
-* **Cursor secondary boost** (25% — set via `SCORE_SECONDARY_BOOST` env var if needed).
-* **Provider weight structures** (the four-factor blend per provider). Tunable via `SCORE_WEIGHT_*` env vars.
-* **Sync safety lag** (12h default per provider; `SNOWFLAKE_SYNC_SAFETY_LAG_HOURS`, `CODEX_SYNC_SAFETY_LAG_HOURS`, `CURSOR_SYNC_SAFETY_LAG_HOURS`).
 
 ---
 

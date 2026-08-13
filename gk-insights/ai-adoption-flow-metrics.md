@@ -5,12 +5,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket, Azure DevOps, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 This family answers: **how fast does work move through your system, and where does it get stuck?**
 

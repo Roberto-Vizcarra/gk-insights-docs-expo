@@ -492,7 +492,7 @@ You can change all of these at any time. For what each setting affects, see the 
 
 ## Step 5 — Map developer identities
 
-This is the step that makes or breaks clean data. The same person often shows up under several identities — a GitHub or Bitbucket login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
+This is the step that makes or breaks clean data. The same person often shows up under several identities — a git-provider login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
 
 1. After your git provider has been processing for a bit (allow ~12 hours), open **Settings → Developers**.
 2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them.
@@ -526,6 +526,7 @@ Give the rest of your stakeholders access so they can read the dashboards.
 - **AI tool data:** starts flowing on each developer's next Claude Code / Codex / Cursor session — there's no backfill before the connection was made. Devin data arrives through its API once the connection is live.
 - **Time off:** BambooHR changes can take up to 24 hours to reach the iCal feed, so recent PTO may lag.
 - **Sync status:** each connection on the Data Connections page shows a health status. If a connection looks degraded or errored, that's the first place to check — and let your account team know.
+- **A degraded status during the first sync is usually normal.** Large organizations hit their git provider's API rate limits while the initial backfill pulls a year of history, and the connection reports degraded while it waits. The credentials are fine and the data is still coming. Contact your account team before disconnecting and reconnecting.
 
 ---
 
@@ -542,7 +543,8 @@ Give the rest of your stakeholders access so they can read the dashboards.
 | **Can't create the Cursor key / no usage data** | Key isn't team-level admin, or your Cursor role is too low | Have a Cursor team admin create a **team-level admin** key |
 | **Can't change Claude Code org settings** | You're an admin, not the org Owner | Only the Anthropic org **Owner** can apply the telemetry snippet |
 | **Claude Code settings applied but no telemetry** | Clients pick up OTel config on a full restart; or an on-disk `managed-settings.json` is being ignored | Have developers restart Claude Code — and keep the config in one source, since claude.ai managed settings override the file entirely |
-| **No Codex telemetry** | The snippet is in the wrong path, or Notepad saved it as `config.toml.txt` | Verify the per-OS `config.toml` path and the file extension |
+| **No Codex telemetry** | The snippet is in the wrong path, Notepad saved it as `config.toml.txt`, or the developer is running a pre-release build of the Codex desktop app | Verify the per-OS `config.toml` path and the file extension, and have developers run a stable Codex build — pre-release and alpha builds can drop OTel events |
+| **A connection shows "degraded" during the first sync** | Usually your git provider's API rate limits throttling the initial backfill, not a broken connection | Let it finish. If it doesn't clear, contact your account team before disconnecting and reconnecting |
 | **A connection sits at "Not yet synced"** | Expected right after connecting — and for Claude Code / Codex it stays that way until the first developer session sends telemetry | Wait for the first sync; for Claude Code / Codex, confirm the snippet is applied and have someone start a fresh session |
 | **Copilot connects but no metrics appear** | The **Copilot usage metrics** policy is off, the token owner can't view Copilot metrics, or the team had fewer than five active Copilot licenses | Enable the policy in org **Settings → Copilot → Policies**, use an org owner or a role with **View Organization Copilot Metrics**, and check the license count |
 | **Copilot token rejected** | A fine-grained token was used, or SAML SSO isn't authorized | Create a **classic** token with `read:org`, then **Configure SSO** on it |

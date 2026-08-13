@@ -5,12 +5,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket, Azure DevOps, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/gk-insights/gk-insights-dora-metrics).
 
@@ -349,6 +349,7 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 ### Limitations and gotchas
 
+* **Jira only.** CFR reads customer bugs from Jira. Organizations that track customer bugs in Azure DevOps work items instead can't populate CFR.
 * **Depends on Jira workflow discipline.** If your team marks customer bugs inconsistently, CFR is noisy. The fix is upstream — get Jira workflow consistent.
 * **No automatic severity assessment.** Severity comes from the Jira field directly. If your assignees set severity inconsistently (everyone's bug is "High"), the Critical & High view is misleading.
 * **Customer-only.** Internal bugs caught in QA don't count. This is deliberate — but it means CFR doesn't measure all quality, just user-visible quality.

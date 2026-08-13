@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics).
 
@@ -233,7 +233,7 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Where it appears
 
-* **/ai-adoption/ai-impact** — AI-Assisted Changes % card in the Productivity hero. Also shows up in the AI Insight banner narrative.
+* **/ai-adoption/ai-impact** — AI-Assisted Changes % card in the Productivity hero, which shows AI-assisted changed lines alongside total changed lines so you can see the ratio the percentage comes from. Also shows up in the AI Insight banner narrative.
 * **/ai-adoption/executive** — AI-Assisted % is one of the headline KPIs.
 * **PR drill-down tables** — each PR shows its AI-Assisted status with the reason (`co_author` or `ai_events`).
 

@@ -429,6 +429,8 @@ Setup, integrations, and the small list of things that keep the data clean. If y
 
 ### First-week setup checklist
 
+New organizations get a **Setup** checklist in the sidebar that tracks the setup steps still outstanding. Each step's **Open step** button takes you to the Settings page where you complete it. The checklist is on by default the first time you open Insights, and if you close it you can switch it back on in [Settings → General](https://gitkraken.dev/ai-adoption/settings/general).
+
 In order:
 
 - [ ] **Roster is loaded.** Settings → Developers shows every active developer with a display name, git-provider login, and email. Inactive developers from your HRIS are marked `is_active = false`.

@@ -200,19 +200,6 @@ _In Settings UI: yes._
 
 ---
 
-## What's not configurable (yet)
-
-These behaviors are deliberately fixed in code. If you need them tunable, ask your account manager — they're candidates for a future setting.
-
-* **Tier band values** (Emerging < 25, Explorer 25–54, Regular 55–79, Power User ≥ 80). These are the standard bands a score maps to. You don't shift tier population by moving the bands — you move the score ceiling with the [Maturity Factor](#maturity-factor) (above), which _is_ configurable.
-* **Small-cohort fallback** (5 developers; synthetic P90 of 5.0 effort/week).
-* **Agentic threshold** (10 tools in a session to count as "agentic").
-* **Cursor secondary boost** (25% — set via `SCORE_SECONDARY_BOOST` env var if needed).
-* **Provider weight structures** (the four-factor blend per provider). Tunable via `SCORE_WEIGHT_*` env vars.
-* **Sync safety lag** (12h default per provider; `SNOWFLAKE_SYNC_SAFETY_LAG_HOURS`, `CODEX_SYNC_SAFETY_LAG_HOURS`, `CURSOR_SYNC_SAFETY_LAG_HOURS`).
-
----
-
 ## Related reading
 
 * [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbooks#set-tier-weights-for-your-orgs-maturity)

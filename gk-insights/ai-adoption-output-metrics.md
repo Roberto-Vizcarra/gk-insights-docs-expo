@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket, Azure DevOps]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server]
 status: GA
 taxonomy:
     category: gk-insights

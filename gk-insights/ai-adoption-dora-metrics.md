@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/gk-insights/gk-insights-dora-metrics).
 

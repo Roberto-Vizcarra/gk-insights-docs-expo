@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics).
 

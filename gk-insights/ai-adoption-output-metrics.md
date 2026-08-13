@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 
 This family answers: **what is your team shipping, and how much of it is substantive work?**
@@ -270,7 +270,7 @@ Drafts and bot-authored PRs are excluded.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author GitHub login matches a bot pattern (e.g. `*[bot]`) are excluded.
+**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded.
 
 **Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is PRs per active dev per week — the comparison-ready rate.
 
@@ -427,7 +427,7 @@ Don't read direct commits in isolation — read them as part of the Output Score
 A: Most direct commits are smaller and less-reviewed than typical PRs. The 0.5 default reflects that. If your team's direct-commit work is substantive, raise the weight.
 
 **Q: A developer's commits aren't showing up. Why?**
-A: Most likely their `is_active` is false, or their GitHub login on the roster doesn't match the actual commit author. Check Settings → Developers.
+A: Most likely their `is_active` is false, or their git-provider login on the roster doesn't match the actual commit author. Check Settings → Developers.
 
 **Q: Do reverts count as direct commits?**
 A: Yes — they are commits pushed to the default branch, so they appear in the count. The Effort Score classifier usually labels them low-effort.

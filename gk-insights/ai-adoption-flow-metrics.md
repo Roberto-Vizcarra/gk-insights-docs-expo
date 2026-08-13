@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 This family answers: **how fast does work move through your system, and where does it get stuck?**
 

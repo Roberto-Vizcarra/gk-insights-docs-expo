@@ -5,12 +5,12 @@ product: GitKraken Insights
 content_type: how-to
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: July 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 <!-- NOTE: The Confluence Glossary page was intentionally not migrated. All terms it defines are documented in their dedicated metric pages; the cross-cutting terms (active developer, window, P90, Maturity Factor) are summarized in the "Glossary refresher" section below. -->
 

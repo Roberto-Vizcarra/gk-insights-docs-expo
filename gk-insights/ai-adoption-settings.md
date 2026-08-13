@@ -10,7 +10,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 Every admin-configurable setting that affects AI Adoption scores in GitKraken Insights, organized by where it lives in the product, plus a one-line "what it changes."
 

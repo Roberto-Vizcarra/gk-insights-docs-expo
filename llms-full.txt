@@ -2054,12 +2054,12 @@ product: GitKraken Insights
 content_type: how-to
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 <!-- NOTE: The Confluence Glossary page was intentionally not migrated. All terms it defines are documented in their dedicated metric pages; the cross-cutting terms (active developer, window, P90, Maturity Factor) are summarized in the "Glossary refresher" section below. -->
 
@@ -3249,7 +3249,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 
 This family answers: **what is your team shipping, and how much of it is substantive work?**
@@ -3509,7 +3509,7 @@ Drafts and bot-authored PRs are excluded.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author GitHub login matches a bot pattern (e.g. `*[bot]`) are excluded.
+**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded.
 
 **Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is PRs per active dev per week — the comparison-ready rate.
 
@@ -3666,7 +3666,7 @@ Don't read direct commits in isolation — read them as part of the Output Score
 A: Most direct commits are smaller and less-reviewed than typical PRs. The 0.5 default reflects that. If your team's direct-commit work is substantive, raise the weight.
 
 **Q: A developer's commits aren't showing up. Why?**
-A: Most likely their `is_active` is false, or their GitHub login on the roster doesn't match the actual commit author. Check Settings → Developers.
+A: Most likely their `is_active` is false, or their git-provider login on the roster doesn't match the actual commit author. Check Settings → Developers.
 
 **Q: Do reverts count as direct commits?**
 A: Yes — they are commits pushed to the default branch, so they appear in the count. The Effort Score classifier usually labels them low-effort.
@@ -3777,7 +3777,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 This family answers: **how fast does work move through your system, and where does it get stuck?**
 
@@ -4251,7 +4251,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/gk-insights/gk-insights-dora-metrics).
 
@@ -4710,7 +4710,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 > **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics).
 
@@ -5653,7 +5653,7 @@ status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 Every admin-configurable setting that affects AI Adoption scores in GitKraken Insights, organized by where it lives in the product, plus a one-line "what it changes."
 

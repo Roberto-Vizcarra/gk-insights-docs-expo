@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure DevOps Server, GitLab, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
+integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
 status: GA
 taxonomy:
     category: gk-insights
@@ -35,8 +35,8 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | **GitHub** *(if you use GitHub)* | An org admin (to create an org-level token) | Generate the GitHub access token |
 | **Bitbucket** *(if you use Bitbucket)* | An admin of your Bitbucket workspace | Generate a Bitbucket-specific Atlassian API token |
 | **Azure DevOps** *(if you use Azure DevOps)* | An account that can see every project you want to sync | Create a PAT with **Code (Read)** |
-| **GitLab** *(if you use GitLab)* | An account with access to the groups you want to sync | Create a PAT with the `read_api` scope |
-| **A self-hosted server** *(GitHub Enterprise Server or Azure DevOps Server)* | Whoever runs it | Confirm it's reachable over `https` with a publicly-trusted certificate |
+| **GitLab** *(if you use GitLab, cloud or self-managed)* | An account with access to the groups you want to sync | Create a PAT with the `read_api` scope |
+| **A self-hosted server** *(GitHub Enterprise Server, Azure DevOps Server, or GitLab Self-Managed)* | Whoever runs it | Confirm it's reachable over `https` with a publicly-trusted certificate |
 | **Claude Code / Codex** | The **Owner** of your Anthropic (Claude Code) organization — *admins cannot do this* | Paste the telemetry snippet into org-managed settings |
 | **Cursor** | A Cursor **team admin** | Create a team-level admin API key |
 | **GitHub Copilot** (optional) | A GitHub organization or enterprise admin | Enable the Copilot usage metrics policy, create a classic PAT |
@@ -58,7 +58,7 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 - **Add data source** lists everything you can connect. Click the **+** next to a source to open its connection modal.
 
 <figure>
-  <img src="/wp-content/uploads/settings-data-connections.png" class="help-center-img img-bordered" alt="The Data Connections tab of Insights Settings, showing a Connected table with Bitbucket, Claude Code and Codex, and Jira rows alongside their sync status, and an Add data source grid listing Cursor, Devin, BambooHR, GitHub, Bitbucket, Azure DevOps, GitLab, Azure DevOps Server, GitHub Enterprise Server, and GitHub Copilot" />
+  <img src="/wp-content/uploads/settings-data-connections-aug-2026.png" class="help-center-img img-bordered" alt="The Data Connections tab of Insights Settings, showing a Connected table with Claude Code and Codex, GitHub, and Jira rows alongside their sync status, and an Add data source grid listing Cursor, Devin, BambooHR, GitHub, Bitbucket, Azure DevOps, GitLab, Azure DevOps Server, GitHub Enterprise Server, GitLab Self-Managed, Bitbucket Data Center, and GitHub Copilot" />
   <figcaption style="text-align: center; color: #888">Settings → Data Connections — existing connections on top, available data sources below.</figcaption>
 </figure>
 
@@ -68,7 +68,7 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 
 ## Step 1 — Connect your git provider
 
-Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect whichever hosts your repositories: **GitHub**, **Bitbucket**, **Azure DevOps**, or **GitLab** in the cloud, or a self-hosted **GitHub Enterprise Server** or **Azure DevOps Server**.
+Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect whichever hosts your repositories: **GitHub**, **Bitbucket**, **Azure DevOps**, or **GitLab** in the cloud, or a self-hosted **GitHub Enterprise Server**, **Azure DevOps Server**, or **GitLab Self-Managed**.
 
 ### GitHub
 
@@ -200,6 +200,21 @@ Connect GitLab to pull activity for your GitLab groups. It connects with a **per
 3. Paste the **GitLab personal access token** and click **Validate**, then **Connect**.
 
 GitLab personal access tokens start with `glpat-…`. The connection only sees the groups and projects the token's account can access.
+
+### GitLab Self-Managed
+
+Connect GitLab Self-Managed to sync activity from a GitLab instance you run yourself.
+
+**Requirements:**
+
+- The server must be reachable from GitKraken over `https` with a **publicly-trusted certificate**.
+- A personal access token with the **`read_api`** scope.
+
+1. In **Data Connections**, click **+** next to **GitLab Self-Managed**.
+2. Optionally name the connection, then enter the **Server URL** — for example `https://gitlab.yourcompany.com`.
+3. Paste the **GitLab personal access token** and click **Validate**, then **Connect**.
+
+As with GitLab cloud, the connection only sees the groups and projects the token's account can access.
 
 ---
 
@@ -433,6 +448,8 @@ CFR needs two pieces of configuration. Until both are set, those cards show zero
 
 Set it to the custom Jira field your team uses to flag customer-reported defects — for example `customfield_10042`. If you have more than one Jira instance, set it on each one.
 
+> **You can keep more than one CFR configuration.** Set up a separate Change Failure Rate configuration for each Jira instance you run, or for each definition of a failed change your org uses.
+
 *[Screenshot needed: Jira connection modal → Advanced → "Customer bug field ID" field.]*
 
 > **Finding the field ID:** In Jira, go to **Settings → Issues → Custom fields**, locate your "Customer Bug" field, and open **⋯ → Edit details** — the ID appears as `customfield_NNNNN` in the page URL. Admins can also list every field at `https://<your-site>.atlassian.net/rest/api/3/field` and match by name.
@@ -447,6 +464,8 @@ Set it to the custom Jira field your team uses to flag customer-reported defects
 - **Skip** — don't track releases for that repo.
 
 Once syncing completes, confirm the **# Releases** column shows a non-zero count.
+
+**Push releases from your own tooling.** If your deployments don't produce a signal Insights can detect — an external CI/CD system, a platform GitKraken doesn't read, or a pipeline that doesn't tag releases — you can send releases to Insights yourself with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api). Create an API key in the **Security** tab of your [gitkraken.dev account](https://gitkraken.dev/account), then POST each release. Manual releases are tracked alongside detected ones, and you can backfill historical releases the same way.
 
 **What counts as a failure:** a customer bug (matching the field above) at **High** or **Highest / Critical** priority that's attributed to a release. Severity comes directly from the Jira **priority** field, so keep priorities consistent.
 
@@ -495,14 +514,14 @@ You can change all of these at any time. For what each setting affects, see the 
 This is the step that makes or breaks clean data. The same person often shows up under several identities — a git-provider login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
 
 1. After your git provider has been processing for a bit (allow ~12 hours), open **Settings → Developers**.
-2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them.
+2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them — including two accounts on the same git provider, such as a developer with two GitHub logins.
 3. Where an identity is missing an email, add it — this helps tie commit data back to the right person.
 
 Insights auto-suggests matches using email, git handle, and name, but you should confirm them and clean up anything it couldn't resolve. **Treat this like an inbox and keep it empty** — see the [For admins](/gk-insights/ai-adoption-getting-started#for-admins) page for ongoing roster hygiene.
 
 ### Excluding review bots
 
-AI code-review bots — such as **GitHub Copilot review** or Atlassian **Rovo** — leave activity on pull requests, so Insights detects them as contributors. If you'd rather they not appear as developers in your metrics, you can exclude them from the roster in **Settings → Developers**.
+AI code-review bots — such as **GitHub Copilot review** or Atlassian **Rovo** — leave activity on pull requests, so Insights detects them as contributors. If you'd rather they not appear as developers in your metrics, you can exclude them from the roster in **Settings → Developers**. Excluded developers also stay out of the developer dropdowns across the dashboards.
 
 <!-- FLAG FOR HUMAN REVIEW: screenshot of Settings → Developers identity merge / exclude flow needed. -->
 
@@ -562,5 +581,6 @@ If a problem persists, contact your GitKraken account team with the page URL, wh
 
 - [Getting Started with AI Adoption](/gk-insights/ai-adoption-getting-started) — orient yourself in the dashboards once data is flowing.
 - [For admins](/gk-insights/ai-adoption-getting-started#for-admins) — ongoing roster hygiene, data freshness, and troubleshooting.
+- [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api) — push releases to Insights from deployment tooling it can't read.
 - [AI Adoption Settings reference](/gk-insights/ai-adoption-settings) — what each setting changes.
 - [Getting Started with GitKraken Insights](/gk-insights/gk-insights) — request access and the classic repository connection flow.

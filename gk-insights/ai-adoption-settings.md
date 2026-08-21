@@ -1,6 +1,6 @@
 ---
 title: AI Adoption Settings in GitKraken Insights
-description: Reference for the admin settings that affect AI Adoption scores in GitKraken Insights, including Maturity Factor, Tier Weights, Developer Hourly Rate, and Baseline Period.
+description: Reference for the admin settings that affect AI Adoption scores in GitKraken Insights, including Maturity Factor, Tier Weights, AI-to-Commit Correlation Window, Developer Hourly Rate, and Baseline Period.
 product: GitKraken Insights
 content_type: reference
 audience: admin
@@ -143,6 +143,25 @@ _In Settings UI: yes._ App-settings key: `output_score_exclude_chore`.
 **When to turn off.** Rarely. The default reflects most orgs' definition of "real output". Turn off if you've explicitly decided chores are part of how you measure delivery — e.g. for an SRE team where dependency upgrades _are_ the job.
 
 **Affects:** [Output Score](/gk-insights/ai-adoption-output-metrics#output-score), and downstream [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier).
+
+---
+
+### AI-to-Commit Correlation Window
+
+_In Settings UI: yes._
+
+|  |  |
+| --- | --- |
+| **Default** | 60 minutes |
+| **Type** | Duration |
+
+**What it does.** Sets how close in time a developer's AI activity has to be to a change for that change to count as AI-assisted. A PR or direct commit is flagged AI-assisted when the developer had AI events within this window of the change's lifecycle. Co-author-trailer detection is separate and isn't affected by this setting.
+
+**Why you'd raise or lower it.** - **Narrower (under 60 minutes):** Your team finds the default over-attributes — developers who happened to have an AI session open get credited for changes they wrote without AI. - **Default (60 minutes):** A practical middle ground for most teams. - **Wider (over 60 minutes):** Your developers typically prompt AI well before they commit, and the default is missing that work.
+
+**Changing it re-runs the association on existing data**, so previously-computed AI-assisted flags — and the AI-Assisted % values built on them — shift to match the new window.
+
+**Affects:** [AI-Assisted Percentage](/gk-insights/ai-adoption-impact-cost-metrics#ai-assisted-percentage), and the AI-Assisted status shown in PR drill-down tables.
 
 ---
 

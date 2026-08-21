@@ -32,6 +32,7 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 | [DORA & Quality Metrics](/gk-insights/ai-adoption-dora-metrics) | The four DORA metrics: Deployment Frequency, Lead Time for Changes, Change Failure Rate (CFR), and Mean Time to Recovery (MTTR). |
 | [AI Impact & Cost Metrics](/gk-insights/ai-adoption-impact-cost-metrics) | What AI is actually delivering, in time and dollars: Productivity Uplift, AI-Assisted Percentage, CapEx / OpEx Split, and Spend by Tier. |
 | [AI Adoption Playbooks](/gk-insights/ai-adoption-playbooks) | Action-first guides: set tier weights, roll out AI tooling, investigate a slow cycle time, and interpret a high CFR week. |
+| [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api) | Record releases your git provider doesn't capture: generate an API key, then create or delete manual releases. |
 | [AI Adoption Settings](/gk-insights/ai-adoption-settings) | Configuration reference — what each setting changes, and which metrics depend on it. |
 
 ---

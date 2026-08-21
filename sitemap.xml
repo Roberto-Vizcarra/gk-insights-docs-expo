@@ -73,20 +73,20 @@
 
   <url>
     <loc>https://help.gitkraken.com/gk-insights/ai-adoption-connect-your-data/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://help.gitkraken.com/gk-insights/ai-adoption-getting-started/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://help.gitkraken.com/gk-insights/ai-adoption-agentic-metrics/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -107,14 +107,14 @@
 
   <url>
     <loc>https://help.gitkraken.com/gk-insights/ai-adoption-dora-metrics/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://help.gitkraken.com/gk-insights/ai-adoption-impact-cost-metrics/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -127,8 +127,15 @@
   </url>
 
   <url>
+    <loc>https://help.gitkraken.com/gk-insights/ai-adoption-manual-releases-api/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://help.gitkraken.com/gk-insights/ai-adoption-settings/</loc>
-    <lastmod>2026-06-23</lastmod>
+    <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

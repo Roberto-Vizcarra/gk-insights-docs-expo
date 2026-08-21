@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor]
+integrations: [Claude Code, Codex, Cursor, GitHub Copilot]
 status: GA
 taxonomy:
     category: gk-insights
@@ -196,7 +196,8 @@ The metric is line-weighted, so a 2,000-line AI-assisted refactor counts more th
 AI-Assisted % = (lines changed in AI-assisted PRs + commits) / (total lines changed) × 100%
 
   where AI-assisted = has AI co-author trailer OR
-                      developer had AI events within ±1h of the change's lifecycle
+                      developer had AI events within the correlation window
+                      of the change's lifecycle (default 60 minutes)
 ```
 
 ### How GitKraken Insights calculates it
@@ -204,7 +205,7 @@ AI-Assisted % = (lines changed in AI-assisted PRs + commits) / (total lines chan
 **Per-item detection.** For each merged PR and direct commit, the backend computes `is_ai_assisted = true` if either:
 
 1. **The commit has an AI co-author trailer** (reason: `co_author`), or
-2. **The developer had AI events within ±1 hour of the change's lifecycle window** (reason: `ai_events`). For PRs, the window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, ±1 hour around the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
+2. **The developer had AI events within the AI-to-commit correlation window of the change's lifecycle window** (reason: `ai_events`). The window defaults to 60 minutes and is configurable per org — see [AI-to-Commit Correlation Window](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window). For PRs, the lifecycle window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, the correlation window applies on either side of the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
 
 The materialized flag (`pull_requests.is_ai_assisted` / `direct_commits.is_ai_assisted`) is computed by a continuous classifier worker. A live `EXISTS` fallback fires when the materialized flag is still NULL (typically for very recent items).
 
@@ -239,7 +240,7 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Settings that affect it
 
-* The ±1 hour temporal window is fixed in code and not currently configurable.
+* [**AI-to-Commit Correlation Window**](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window) — how close AI activity must be to a change for that change to count as AI-assisted. Default 60 minutes. Changing it re-runs the association on existing data, so past percentages shift with it.
 * The AI co-author trailer detection is fixed.
 
 ### Related metrics
@@ -255,11 +256,11 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 * **Run a brown-bag on "show me how you actually use AI."** Many teams have devs using AI for _adjacent_ work (research, learning) but not for the work they ship. Demos help.
 * **Pair Power Users with low-AI-Assisted devs.** Same intervention as for Adoption, but specifically targeting work-level integration.
 * **Audit the gap.** Identify devs with high Adoption but low AI-Assisted %. Those are the ones to coach — they have the habit but aren't translating it.
-* **Don't conflate AI-Assisted with "using AI co-author tags."** Many devs use AI without tagging. The ±1 hour temporal heuristic catches them; teams that primarily rely on tagging may show low AI-Assisted artificially.
+* **Don't conflate AI-Assisted with "using AI co-author tags."** Many devs use AI without tagging. The temporal heuristic catches them; teams that primarily rely on tagging may show low AI-Assisted artificially.
 
 ### Limitations and gotchas
 
-* **The ±1 hour temporal heuristic produces false positives and false negatives.** A dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag. Conversely, a dev who used AI 2 hours before committing doesn't. The heuristic is the best practical balance, not a measurement.
+* **The temporal heuristic produces false positives and false negatives.** At the default 60-minute window, a dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag, and a dev who used AI two hours before committing doesn't. The heuristic is the best practical balance, not a measurement. If it over-attributes for your team, tighten the [correlation window](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window).
 * **Materialized flag lags by minutes to hours.** The classifier worker catches up continuously.
 * **Co-author trailer detection requires the trailer.** Devs using AI without the `Co-authored-by` trailer rely entirely on the temporal heuristic.
 * **Line-weighted means one big PR can dominate the metric.** A team's 50% AI-Assisted week might be one 3,000-line non-AI-assisted migration plus many smaller AI-assisted PRs. Look at distribution, not just the headline.
@@ -267,10 +268,10 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 ### FAQ
 
 **Q: How is "AI-assisted" detected if the dev doesn't tag the commit?**
-A: The backend looks for AI events (Claude / Codex / Cursor prompts, tool results, API requests) by that developer within ±1 hour of the change's lifecycle. If they prompted Claude an hour before committing, the commit is marked AI-assisted with reason `ai_events`.
+A: The backend looks for AI events (Claude / Codex / Cursor prompts, tool results, API requests) by that developer within the correlation window of the change's lifecycle — 60 minutes by default. If they prompted Claude within that window of committing, the commit is marked AI-assisted with reason `ai_events`.
 
 **Q: A PR shows AI-Assisted = false but I know the dev used Claude. Why?**
-A: Three usual causes: (1) the AI events happened more than 1 hour outside the PR's lifecycle window, (2) the developer's email or login doesn't match between the AI events and the PR, (3) the materialized flag hasn't been computed yet.
+A: Three usual causes: (1) the AI events happened outside the PR's lifecycle window by more than the correlation window allows, (2) the developer's email or login doesn't match between the AI events and the PR, (3) the materialized flag hasn't been computed yet.
 
 **Q: Why line-weighted rather than count-weighted?**
 A: Line weighting tracks "how much of the work shipped with AI help." Count weighting can be skewed by a flood of trivial PRs. Line weighting is the more honest "share of substantive output" answer.
@@ -420,7 +421,7 @@ Spend per Tier = SUM(api_cost) over developers in that tier
 **Two modes.**
 
 1. **License-based.** Each developer with an active AI tool license contributes the license cost (say $20/seat/month for Claude Code Pro). Sum across developers, grouped by tier.
-2. **Usage-based.** For tools billed on consumption (API tokens, e.g.), we sum the actual `cost_usd` from `api_request` events grouped by developer, then group by tier.
+2. **Usage-based.** For tools billed on consumption (API tokens, e.g.), we sum the actual `cost_usd` from `api_request` events grouped by developer, then group by tier. For GitHub Copilot, the rollup includes AI credits consumed, so orgs on Copilot usage-based billing see that spend alongside their seat costs.
 
 In practice, most orgs see both. Claude / Codex / Cursor licenses are seat-based; some API usage charges are consumption-based. The dashboard rolls them up together.
 
@@ -473,7 +474,7 @@ The total dollar number is also informative: divide by total developers and you 
 ### Limitations and gotchas
 
 * **License cost is whatever's configured.** We don't know your actual contract terms. If you're paying a different rate, the absolute dollar values will be off — but the _distribution across tiers_ is still accurate.
-* **Usage-based costs depend on event coverage.** API costs from Claude / Codex come through OTEL events. Cursor's API doesn't expose costs at the same granularity, so Cursor spend is license-based only.
+* **Usage-based costs depend on event coverage.** API costs from Claude / Codex come through OTEL events, and Copilot AI-credit consumption comes from the Copilot connection. Cursor's API doesn't expose costs at the same granularity, so Cursor spend is license-based only.
 * **Emerging doesn't mean "didn't use AI ever."** A developer can be Emerging in this window but a Regular last quarter. License seats are usually paid annually — even if their utilization is bad this window, they have the seat. The decision is about future renewal, not retroactive credit.
 
 ### FAQ

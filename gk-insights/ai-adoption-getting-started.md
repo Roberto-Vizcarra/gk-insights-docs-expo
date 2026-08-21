@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: how-to
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
@@ -20,7 +20,7 @@ GitKraken Insights is the dashboard your engineering organization uses to see �
 
 ## What this product does, in one sentence
 
-It connects your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted GitHub Enterprise Server or Azure DevOps Server), your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
+It connects your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted GitHub Enterprise Server, Azure DevOps Server, or GitLab Self-Managed instance), your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
 
 ## What this product does _not_ do
 
@@ -447,11 +447,11 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 
 | Sync | Source | Interval | Owns |
 | --- | --- | --- | --- |
-| **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server and Azure DevOps Server connections | Every few minutes | PRs, direct commits, reviews |
+| **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server, Azure DevOps Server, and GitLab Self-Managed connections | Every few minutes | PRs, direct commits, reviews |
 | **AI events sync** | Snowflake OTEL export (Claude / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
 | **Cursor sync** | Cursor API | Every 5 min, with 12 h safety lag | Cursor adoption |
 | **CFR sync** | Jira | Every hour | Customer bugs, CFR %, MTTR |
-| **Release sync** | GitHub Releases / configured release event | Every few minutes | Deployment Frequency, Lead Time |
+| **Release sync** | GitHub Releases / configured release event / releases pushed with the manual releases API | Every few minutes | Deployment Frequency, Lead Time |
 | **PTO sync** | BambooHR iCal | Every 6 hours | On-PTO tier, effective weekdays |
 | **PR classifier** | Internal LLM | Continuous worker | Category, auto-category, CapEx / OpEx, Effort Score |
 | **AI-assisted classifier** | Internal worker | Continuous, with 24 h refresh sweep | `is_ai_assisted` materialization |
@@ -477,7 +477,7 @@ Same pattern: Jira `accountId`s that don't tie to a known developer email. Map t
 The single biggest cause of "this number looks weird" tickets is roster drift. Check these monthly:
 
 * `is_active = true` **should be a current employee.** Offboarded developers should be flipped to `false`, not deleted. Deletion loses historical attribution.
-* **git-provider login is set and matches their actual handle.** This is the authoritative join key for PR and commit data.
+* **git-provider login is set and matches their actual handle.** This is the authoritative join key for PR and commit data. If someone has two accounts on the same provider, merge both identities into one person in Settings → Developers.
 * **Team membership is current.** Reorgs happen quietly; your developer table will reflect the old structure until you update it.
 * **Email aliases are mapped.** If a developer has multiple work emails (e.g. from an acquisition), add aliases in their profile so P90 cohorts don't double-count.
 

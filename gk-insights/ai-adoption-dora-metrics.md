@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
@@ -68,8 +68,8 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 
 ## Required integrations
 
-* **CFR & MTTR** require the Jira integration with the Customer Bug custom field configured (`JIRA_CUSTOMER_BUG_FIELD_ID` env var). Without it, both metrics show an empty state.
-* **Lead Time and Deployment Frequency** require release detection configured per repo (tagged releases, GitHub Releases, or a configured release event). Without it, both metrics show an empty state.
+* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/gk-insights/ai-adoption-connect-your-data#configure-change-failure-rate-cfr).
+* **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (tagged releases, GitHub Releases, or a configured release event) or through releases you push with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api). Without either, both metrics show an empty state.
 
 ---
 
@@ -100,7 +100,7 @@ Expressed as deploys per day, week, or month depending on cadence and team activ
 
 **Source.** The backend reads release events from `analytics.github_releases` (the canonical metric name is `release_count`). A repo must have release detection configured for its deployments to appear; without it the metric shows an empty state for that repo.
 
-**What counts as a release.** A tagged release, a GitHub Release, or any other release event the writer captures for the repo. Pre-releases are excluded.
+**What counts as a release.** A tagged release, a GitHub Release, any other release event the writer captures for the repo, or a release pushed to Insights with the manual releases API. Pre-releases are excluded.
 
 **Aggregation.** For a team, we count all releases across the team's repos. For an org, all releases across all repos in the filter.
 
@@ -134,6 +134,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 ### Settings that affect it
 
 * **Release detection** — repo-level configuration. Your admin needs to wire up tagged releases or a configured release event for each repo you want to track.
+* **[Manual Releases API](/gk-insights/ai-adoption-manual-releases-api)** — for deployments Insights can't detect, your admin can push releases directly with an API key. Manual releases count toward Deployment Frequency alongside detected ones.
 
 ### Related metrics
 
@@ -160,7 +161,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 ### FAQ
 
 **Q: We deploy on merge automatically. Will every merge show as a release?**
-A: Only if each deploy also produces a release artifact the backend can read. If your pipeline auto-tags every deploy, yes. If it deploys without tagging, no — work with your admin to wire up release detection.
+A: Only if each deploy also produces a release artifact the backend can read. If your pipeline auto-tags every deploy, yes. If it deploys without tagging, no — work with your admin to wire up release detection, or to push each deploy to Insights with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api).
 
 **Q: A revert is a deploy. Does that count?**
 A: Yes — the revert ships and is captured as a release event. Some teams find this over-counts; the metric keeps it because reverts genuinely are deploys (they go through the same pipeline).
@@ -291,7 +292,7 @@ CFR = count(releases with ≥1 customer bug) / count(releases in window) × 100%
 
 **The Customer Bug field.** A background worker (the CFR syncer) queries Jira hourly for issues where your configured Customer Bug field is set to "Yes." The bugs are stored in the `jira_incidents` table along with severity, assignee, and create/resolve timestamps.
 
-**The integration requires** `JIRA_CUSTOMER_BUG_FIELD_ID` **env var.** Without it, CFR sync is skipped and the UI shows an empty state.
+**The integration requires the Customer bug field ID.** Set it on the Jira connection in Settings → Data Connections. Without it, CFR sync is skipped and the UI shows an empty state.
 
 **Matching bugs to releases.** Each customer bug is matched to the release it shipped in. A release "fails" if it had at least one customer bug attributed to it.
 
@@ -326,8 +327,9 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 ### Settings that affect it
 
-* `JIRA_CUSTOMER_BUG_FIELD_ID` env var — the Jira custom field ID for "Customer Bug = Yes." Required for CFR to populate at all.
-* `JIRA_INSTANCE_N_CUSTOMER_BUG_FIELD_ID` — per-instance override if you have multiple Jira instances.
+* **Customer bug field ID** (Settings → Data Connections → the Jira connection → Edit → Advanced) — the Jira custom field for "Customer Bug = Yes." Required for CFR to populate at all.
+* **Multiple CFR configurations** — you can keep more than one Change Failure Rate configuration, one per Jira instance or per definition of a failed change.
+* **Release tracking** (Settings → Releases, or the manual releases API) — CFR is failing releases ÷ total releases, so it needs releases to divide by.
 * **Unmatched Jira assignees** (Settings → Developers) — assignees the sync couldn't match to a roster developer. CFR by-assignee dimension will under-count until these are resolved.
 
 ### Related metrics

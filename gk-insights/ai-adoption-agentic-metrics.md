@@ -5,12 +5,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor]
+integrations: [Claude Code, Codex, Cursor, Devin, GitHub Copilot]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 
 This family answers a single question: **how much is your team actually using AI, and how deeply?**
@@ -79,7 +79,7 @@ See [How to think about developer scores](/gk-insights/ai-adoption-getting-start
 
 * **/ai-adoption/developers** — primary surface. Each row has Adoption, Agentic, Tier, and a heatmap.
 * **/ai-adoption/teams** — team averages and tier mix bars.
-* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users).
+* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users). **Devin** is its own cohort here, scored on adoption and autonomy alongside Copilot, Cursor, and Claude rather than blended into another tool's cohort.
 * **/ai-adoption/executive** — hero KPI ("AI Adoption %") and trend lines.
 * **/ai-adoption/ai-impact** — autonomy deep dive and Business Impact / ROI.
 * Adjacent surfaces in the same nav family: **/ai-adoption/board-metrics**, **/ai-adoption/capex**, **/ai-adoption/data-connections**, **/ai-adoption/data-explorer**, **/ai-adoption/settings/\***.

@@ -1455,6 +1455,7 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 | [DORA & Quality Metrics](/gk-insights/ai-adoption-dora-metrics) | The four DORA metrics: Deployment Frequency, Lead Time for Changes, Change Failure Rate (CFR), and Mean Time to Recovery (MTTR). |
 | [AI Impact & Cost Metrics](/gk-insights/ai-adoption-impact-cost-metrics) | What AI is actually delivering, in time and dollars: Productivity Uplift, AI-Assisted Percentage, CapEx / OpEx Split, and Spend by Tier. |
 | [AI Adoption Playbooks](/gk-insights/ai-adoption-playbooks) | Action-first guides: set tier weights, roll out AI tooling, investigate a slow cycle time, and interpret a high CFR week. |
+| [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api) | Record releases your git provider doesn't capture: generate an API key, then create or delete manual releases. |
 | [AI Adoption Settings](/gk-insights/ai-adoption-settings) | Configuration reference — what each setting changes, and which metrics depend on it. |
 
 ---
@@ -1485,7 +1486,7 @@ product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure DevOps Server, GitLab, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
+integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
 status: GA
 taxonomy:
     category: gk-insights
@@ -1515,8 +1516,8 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | **GitHub** *(if you use GitHub)* | An org admin (to create an org-level token) | Generate the GitHub access token |
 | **Bitbucket** *(if you use Bitbucket)* | An admin of your Bitbucket workspace | Generate a Bitbucket-specific Atlassian API token |
 | **Azure DevOps** *(if you use Azure DevOps)* | An account that can see every project you want to sync | Create a PAT with **Code (Read)** |
-| **GitLab** *(if you use GitLab)* | An account with access to the groups you want to sync | Create a PAT with the `read_api` scope |
-| **A self-hosted server** *(GitHub Enterprise Server or Azure DevOps Server)* | Whoever runs it | Confirm it's reachable over `https` with a publicly-trusted certificate |
+| **GitLab** *(if you use GitLab, cloud or self-managed)* | An account with access to the groups you want to sync | Create a PAT with the `read_api` scope |
+| **A self-hosted server** *(GitHub Enterprise Server, Azure DevOps Server, or GitLab Self-Managed)* | Whoever runs it | Confirm it's reachable over `https` with a publicly-trusted certificate |
 | **Claude Code / Codex** | The **Owner** of your Anthropic (Claude Code) organization — *admins cannot do this* | Paste the telemetry snippet into org-managed settings |
 | **Cursor** | A Cursor **team admin** | Create a team-level admin API key |
 | **GitHub Copilot** (optional) | A GitHub organization or enterprise admin | Enable the Copilot usage metrics policy, create a classic PAT |
@@ -1538,7 +1539,7 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 - **Add data source** lists everything you can connect. Click the **+** next to a source to open its connection modal.
 
 <figure>
-  <img src="/wp-content/uploads/settings-data-connections.png" class="help-center-img img-bordered" alt="The Data Connections tab of Insights Settings, showing a Connected table with Bitbucket, Claude Code and Codex, and Jira rows alongside their sync status, and an Add data source grid listing Cursor, Devin, BambooHR, GitHub, Bitbucket, Azure DevOps, GitLab, Azure DevOps Server, GitHub Enterprise Server, and GitHub Copilot" />
+  <img src="/wp-content/uploads/settings-data-connections-aug-2026.png" class="help-center-img img-bordered" alt="The Data Connections tab of Insights Settings, showing a Connected table with Claude Code and Codex, GitHub, and Jira rows alongside their sync status, and an Add data source grid listing Cursor, Devin, BambooHR, GitHub, Bitbucket, Azure DevOps, GitLab, Azure DevOps Server, GitHub Enterprise Server, GitLab Self-Managed, Bitbucket Data Center, and GitHub Copilot" />
   <figcaption style="text-align: center; color: #888">Settings → Data Connections — existing connections on top, available data sources below.</figcaption>
 </figure>
 
@@ -1548,7 +1549,7 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 
 ## Step 1 — Connect your git provider
 
-Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect whichever hosts your repositories: **GitHub**, **Bitbucket**, **Azure DevOps**, or **GitLab** in the cloud, or a self-hosted **GitHub Enterprise Server** or **Azure DevOps Server**.
+Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect whichever hosts your repositories: **GitHub**, **Bitbucket**, **Azure DevOps**, or **GitLab** in the cloud, or a self-hosted **GitHub Enterprise Server**, **Azure DevOps Server**, or **GitLab Self-Managed**.
 
 ### GitHub
 
@@ -1680,6 +1681,21 @@ Connect GitLab to pull activity for your GitLab groups. It connects with a **per
 3. Paste the **GitLab personal access token** and click **Validate**, then **Connect**.
 
 GitLab personal access tokens start with `glpat-…`. The connection only sees the groups and projects the token's account can access.
+
+### GitLab Self-Managed
+
+Connect GitLab Self-Managed to sync activity from a GitLab instance you run yourself.
+
+**Requirements:**
+
+- The server must be reachable from GitKraken over `https` with a **publicly-trusted certificate**.
+- A personal access token with the **`read_api`** scope.
+
+1. In **Data Connections**, click **+** next to **GitLab Self-Managed**.
+2. Optionally name the connection, then enter the **Server URL** — for example `https://gitlab.yourcompany.com`.
+3. Paste the **GitLab personal access token** and click **Validate**, then **Connect**.
+
+As with GitLab cloud, the connection only sees the groups and projects the token's account can access.
 
 ---
 
@@ -1913,6 +1929,8 @@ CFR needs two pieces of configuration. Until both are set, those cards show zero
 
 Set it to the custom Jira field your team uses to flag customer-reported defects — for example `customfield_10042`. If you have more than one Jira instance, set it on each one.
 
+> **You can keep more than one CFR configuration.** Set up a separate Change Failure Rate configuration for each Jira instance you run, or for each definition of a failed change your org uses.
+
 *[Screenshot needed: Jira connection modal → Advanced → "Customer bug field ID" field.]*
 
 > **Finding the field ID:** In Jira, go to **Settings → Issues → Custom fields**, locate your "Customer Bug" field, and open **⋯ → Edit details** — the ID appears as `customfield_NNNNN` in the page URL. Admins can also list every field at `https://<your-site>.atlassian.net/rest/api/3/field` and match by name.
@@ -1927,6 +1945,8 @@ Set it to the custom Jira field your team uses to flag customer-reported defects
 - **Skip** — don't track releases for that repo.
 
 Once syncing completes, confirm the **# Releases** column shows a non-zero count.
+
+**Push releases from your own tooling.** If your deployments don't produce a signal Insights can detect — an external CI/CD system, a platform GitKraken doesn't read, or a pipeline that doesn't tag releases — you can send releases to Insights yourself with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api). Create an API key in the **Security** tab of your [gitkraken.dev account](https://gitkraken.dev/account), then POST each release. Manual releases are tracked alongside detected ones, and you can backfill historical releases the same way.
 
 **What counts as a failure:** a customer bug (matching the field above) at **High** or **Highest / Critical** priority that's attributed to a release. Severity comes directly from the Jira **priority** field, so keep priorities consistent.
 
@@ -1975,14 +1995,14 @@ You can change all of these at any time. For what each setting affects, see the 
 This is the step that makes or breaks clean data. The same person often shows up under several identities — a git-provider login, one or more commit emails, a Jira account. Until those are merged, your leaderboards and adoption metrics double-count, and you end up with "parallel universes" of the same developer.
 
 1. After your git provider has been processing for a bit (allow ~12 hours), open **Settings → Developers**.
-2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them.
+2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them — including two accounts on the same git provider, such as a developer with two GitHub logins.
 3. Where an identity is missing an email, add it — this helps tie commit data back to the right person.
 
 Insights auto-suggests matches using email, git handle, and name, but you should confirm them and clean up anything it couldn't resolve. **Treat this like an inbox and keep it empty** — see the [For admins](/gk-insights/ai-adoption-getting-started#for-admins) page for ongoing roster hygiene.
 
 ### Excluding review bots
 
-AI code-review bots — such as **GitHub Copilot review** or Atlassian **Rovo** — leave activity on pull requests, so Insights detects them as contributors. If you'd rather they not appear as developers in your metrics, you can exclude them from the roster in **Settings → Developers**.
+AI code-review bots — such as **GitHub Copilot review** or Atlassian **Rovo** — leave activity on pull requests, so Insights detects them as contributors. If you'd rather they not appear as developers in your metrics, you can exclude them from the roster in **Settings → Developers**. Excluded developers also stay out of the developer dropdowns across the dashboards.
 
 <!-- FLAG FOR HUMAN REVIEW: screenshot of Settings → Developers identity merge / exclude flow needed. -->
 
@@ -2042,8 +2062,178 @@ If a problem persists, contact your GitKraken account team with the page URL, wh
 
 - [Getting Started with AI Adoption](/gk-insights/ai-adoption-getting-started) — orient yourself in the dashboards once data is flowing.
 - [For admins](/gk-insights/ai-adoption-getting-started#for-admins) — ongoing roster hygiene, data freshness, and troubleshooting.
+- [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api) — push releases to Insights from deployment tooling it can't read.
 - [AI Adoption Settings reference](/gk-insights/ai-adoption-settings) — what each setting changes.
 - [Getting Started with GitKraken Insights](/gk-insights/gk-insights) — request access and the classic repository connection flow.
+
+---
+
+---
+title: Manual Releases API for GitKraken Insights
+description: Record releases in GitKraken Insights that your git provider doesn't capture — generate an API key, authenticate, and create or delete manual releases with the Manual Releases API.
+product: GitKraken Insights
+content_type: reference
+audience: admin
+plan_required: GitKraken Insights
+integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed]
+status: GA
+taxonomy:
+    category: gk-insights
+---
+<kbd>Last updated: August 2026</kbd>
+
+The Manual Releases API lets you record releases in GitKraken Insights that aren't captured automatically from your git provider — for example, releases cut by an external CI/CD system, deploys to a platform GitKraken doesn't read, or historical releases you want to backfill.
+
+Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/gk-insights/ai-adoption-dora-metrics#deployment-frequency).
+
+> **Plan:** GitKraken Insights
+> **Role:** An account that can create API keys for your organization
+> **Base URL:** `https://api.gitkraken.dev`
+
+---
+
+## Generate an API key
+
+1. Go to your account on gitkraken.dev: [https://gitkraken.dev/account](https://gitkraken.dev/account).
+2. Open the **Security** settings tab.
+3. Under **API keys**, click **Create API key**.
+4. Give the key a name, choose the organization it applies to, and set an expiration.
+5. Click **Create API key**.
+6. Copy the key and store it somewhere secure — GitKraken shows it only once.
+
+Your key looks like `gk_tkn_…`.
+
+> **Treat the key as a password.** Never commit it to source control, paste it into a shared document, or send it over chat. If a key is exposed, delete it in the Security tab and create a replacement.
+
+---
+
+## Authenticate
+
+Send the key as a bearer token on every request:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+In the examples below, set the key as an environment variable so it never appears in your shell history or scripts:
+
+```bash
+export GK_API_KEY="YOUR_API_KEY"
+```
+
+---
+
+## Create a manual release
+
+```
+POST /v1/insights/analytics/releases
+```
+
+Records a manual release. The `id` must be unique within the repository — reusing an existing `id` returns `400`.
+
+### Request body
+
+Content type: `application/json`
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | Release identifier, unique within the repository. |
+| `repo` | string | Yes | Repository name in `owner/name` form. |
+| `gitProvider` | string | Yes | Git provider, e.g. `github`. |
+| `releasedAt` | string (date-time) | Yes | Release time in RFC 3339 format, e.g. `2026-07-09T14:30:00Z`. |
+| `tagName` | string | No | Release tag. |
+| `headBranch` | string | No | Branch the release was cut from. |
+
+### Example request
+
+```bash
+curl -i -X POST https://api.gitkraken.dev/v1/insights/analytics/releases \
+  -H "Authorization: Bearer $GK_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "release-2026-07-09-01",
+    "repo": "your-org/your-repo",
+    "gitProvider": "github",
+    "releasedAt": "2026-07-09T14:30:00Z",
+    "tagName": "v1.4.0",
+    "headBranch": "main"
+  }'
+```
+
+### Responses
+
+| Status | Meaning |
+| --- | --- |
+| `201` | Release created. The response body is empty. |
+| `400` | Bad request — a required field is missing or malformed, or the `id` already exists in this repository. |
+| `401` | Unauthenticated — the API key is missing, malformed, or expired. |
+| `403` | Unauthorized — the key lacks Insights write permission for this organization. |
+| `500` | Internal server error. |
+
+---
+
+## Delete a manual release
+
+```
+DELETE /v1/insights/analytics/releases/{id}
+```
+
+Deletes a manual release. Only manual releases can be deleted — releases detected automatically from your git provider are not removable through this endpoint.
+
+### Path parameters
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | string | Yes | The release identifier. |
+
+### Query parameters
+
+Both are required to identify the release, since `id` is only unique within a repository.
+
+| Parameter | Type | Required | Description |
+| --- | --- | --- | --- |
+| `repo` | string | Yes | Repository name in `owner/name` form. URL-encode the `/` as `%2F`. |
+| `gitProvider` | string | Yes | Git provider, e.g. `github`. |
+
+### Example request
+
+```bash
+curl -i -X DELETE \
+  "https://api.gitkraken.dev/v1/insights/analytics/releases/release-2026-07-09-01?gitProvider=github&repo=your-org%2Fyour-repo" \
+  -H "Authorization: Bearer $GK_API_KEY"
+```
+
+### Responses
+
+| Status | Meaning |
+| --- | --- |
+| `204` | Release deleted. The response body is empty. |
+| `400` | Bad request — `repo` or `gitProvider` is missing or malformed. |
+| `401` | Unauthenticated — the API key is missing, malformed, or expired. |
+| `403` | Unauthorized — the key lacks Insights write permission for this organization. |
+| `404` | Not found — no manual release with that `id` exists in the given repository. |
+| `500` | Internal server error. |
+
+---
+
+## Error format
+
+Error responses (`400`, `401`, `403`, `404`, `500`) return a JSON body:
+
+```json
+{
+  "error": {
+    "message": "A description of what went wrong"
+  }
+}
+```
+
+---
+
+## Related pages
+
+- [Connect Your Data — Setting Up AI Adoption](/gk-insights/ai-adoption-connect-your-data#configure-change-failure-rate-cfr) — where release tracking is configured for repositories Insights reads directly.
+- [DORA & Quality Metrics](/gk-insights/ai-adoption-dora-metrics) — the metrics releases feed: Deployment Frequency, Lead Time for Changes, and Change Failure Rate.
 
 ---
 
@@ -2054,7 +2244,7 @@ product: GitKraken Insights
 content_type: how-to
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
@@ -2069,7 +2259,7 @@ GitKraken Insights is the dashboard your engineering organization uses to see �
 
 ## What this product does, in one sentence
 
-It connects your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted GitHub Enterprise Server or Azure DevOps Server), your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
+It connects your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted GitHub Enterprise Server, Azure DevOps Server, or GitLab Self-Managed instance), your AI coding tool telemetry (Claude Code, Codex, Cursor), your Jira customer bugs, and your BambooHR PTO calendar, and produces a small set of trustworthy numbers for engineering leadership.
 
 ## What this product does _not_ do
 
@@ -2496,11 +2686,11 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 
 | Sync | Source | Interval | Owns |
 | --- | --- | --- | --- |
-| **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server and Azure DevOps Server connections | Every few minutes | PRs, direct commits, reviews |
+| **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server, Azure DevOps Server, and GitLab Self-Managed connections | Every few minutes | PRs, direct commits, reviews |
 | **AI events sync** | Snowflake OTEL export (Claude / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
 | **Cursor sync** | Cursor API | Every 5 min, with 12 h safety lag | Cursor adoption |
 | **CFR sync** | Jira | Every hour | Customer bugs, CFR %, MTTR |
-| **Release sync** | GitHub Releases / configured release event | Every few minutes | Deployment Frequency, Lead Time |
+| **Release sync** | GitHub Releases / configured release event / releases pushed with the manual releases API | Every few minutes | Deployment Frequency, Lead Time |
 | **PTO sync** | BambooHR iCal | Every 6 hours | On-PTO tier, effective weekdays |
 | **PR classifier** | Internal LLM | Continuous worker | Category, auto-category, CapEx / OpEx, Effort Score |
 | **AI-assisted classifier** | Internal worker | Continuous, with 24 h refresh sweep | `is_ai_assisted` materialization |
@@ -2526,7 +2716,7 @@ Same pattern: Jira `accountId`s that don't tie to a known developer email. Map t
 The single biggest cause of "this number looks weird" tickets is roster drift. Check these monthly:
 
 * `is_active = true` **should be a current employee.** Offboarded developers should be flipped to `false`, not deleted. Deletion loses historical attribution.
-* **git-provider login is set and matches their actual handle.** This is the authoritative join key for PR and commit data.
+* **git-provider login is set and matches their actual handle.** This is the authoritative join key for PR and commit data. If someone has two accounts on the same provider, merge both identities into one person in Settings → Developers.
 * **Team membership is current.** Reorgs happen quietly; your developer table will reflect the old structure until you update it.
 * **Email aliases are mapped.** If a developer has multiple work emails (e.g. from an acquisition), add aliases in their profile so P90 cohorts don't double-count.
 
@@ -2585,12 +2775,12 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor]
+integrations: [Claude Code, Codex, Cursor, Devin, GitHub Copilot]
 status: GA
 taxonomy:
     category: gk-insights
 ---
-<kbd>Last updated: June 2026</kbd>
+<kbd>Last updated: August 2026</kbd>
 
 
 This family answers a single question: **how much is your team actually using AI, and how deeply?**
@@ -2659,7 +2849,7 @@ See [How to think about developer scores](/gk-insights/ai-adoption-getting-start
 
 * **/ai-adoption/developers** — primary surface. Each row has Adoption, Agentic, Tier, and a heatmap.
 * **/ai-adoption/teams** — team averages and tier mix bars.
-* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users).
+* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users). **Devin** is its own cohort here, scored on adoption and autonomy alongside Copilot, Cursor, and Claude rather than blended into another tool's cohort.
 * **/ai-adoption/executive** — hero KPI ("AI Adoption %") and trend lines.
 * **/ai-adoption/ai-impact** — autonomy deep dive and Business Impact / ROI.
 * Adjacent surfaces in the same nav family: **/ai-adoption/board-metrics**, **/ai-adoption/capex**, **/ai-adoption/data-connections**, **/ai-adoption/data-explorer**, **/ai-adoption/settings/\***.
@@ -4246,7 +4436,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Azure DevOps, Azure DevOps Server, Jira Cloud]
 status: GA
 taxonomy:
     category: gk-insights
@@ -4309,8 +4499,8 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 
 ## Required integrations
 
-* **CFR & MTTR** require the Jira integration with the Customer Bug custom field configured (`JIRA_CUSTOMER_BUG_FIELD_ID` env var). Without it, both metrics show an empty state.
-* **Lead Time and Deployment Frequency** require release detection configured per repo (tagged releases, GitHub Releases, or a configured release event). Without it, both metrics show an empty state.
+* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/gk-insights/ai-adoption-connect-your-data#configure-change-failure-rate-cfr).
+* **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (tagged releases, GitHub Releases, or a configured release event) or through releases you push with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api). Without either, both metrics show an empty state.
 
 ---
 
@@ -4341,7 +4531,7 @@ Expressed as deploys per day, week, or month depending on cadence and team activ
 
 **Source.** The backend reads release events from `analytics.github_releases` (the canonical metric name is `release_count`). A repo must have release detection configured for its deployments to appear; without it the metric shows an empty state for that repo.
 
-**What counts as a release.** A tagged release, a GitHub Release, or any other release event the writer captures for the repo. Pre-releases are excluded.
+**What counts as a release.** A tagged release, a GitHub Release, any other release event the writer captures for the repo, or a release pushed to Insights with the manual releases API. Pre-releases are excluded.
 
 **Aggregation.** For a team, we count all releases across the team's repos. For an org, all releases across all repos in the filter.
 
@@ -4375,6 +4565,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 ### Settings that affect it
 
 * **Release detection** — repo-level configuration. Your admin needs to wire up tagged releases or a configured release event for each repo you want to track.
+* **[Manual Releases API](/gk-insights/ai-adoption-manual-releases-api)** — for deployments Insights can't detect, your admin can push releases directly with an API key. Manual releases count toward Deployment Frequency alongside detected ones.
 
 ### Related metrics
 
@@ -4401,7 +4592,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 ### FAQ
 
 **Q: We deploy on merge automatically. Will every merge show as a release?**
-A: Only if each deploy also produces a release artifact the backend can read. If your pipeline auto-tags every deploy, yes. If it deploys without tagging, no — work with your admin to wire up release detection.
+A: Only if each deploy also produces a release artifact the backend can read. If your pipeline auto-tags every deploy, yes. If it deploys without tagging, no — work with your admin to wire up release detection, or to push each deploy to Insights with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api).
 
 **Q: A revert is a deploy. Does that count?**
 A: Yes — the revert ships and is captured as a release event. Some teams find this over-counts; the metric keeps it because reverts genuinely are deploys (they go through the same pipeline).
@@ -4532,7 +4723,7 @@ CFR = count(releases with ≥1 customer bug) / count(releases in window) × 100%
 
 **The Customer Bug field.** A background worker (the CFR syncer) queries Jira hourly for issues where your configured Customer Bug field is set to "Yes." The bugs are stored in the `jira_incidents` table along with severity, assignee, and create/resolve timestamps.
 
-**The integration requires** `JIRA_CUSTOMER_BUG_FIELD_ID` **env var.** Without it, CFR sync is skipped and the UI shows an empty state.
+**The integration requires the Customer bug field ID.** Set it on the Jira connection in Settings → Data Connections. Without it, CFR sync is skipped and the UI shows an empty state.
 
 **Matching bugs to releases.** Each customer bug is matched to the release it shipped in. A release "fails" if it had at least one customer bug attributed to it.
 
@@ -4567,8 +4758,9 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 ### Settings that affect it
 
-* `JIRA_CUSTOMER_BUG_FIELD_ID` env var — the Jira custom field ID for "Customer Bug = Yes." Required for CFR to populate at all.
-* `JIRA_INSTANCE_N_CUSTOMER_BUG_FIELD_ID` — per-instance override if you have multiple Jira instances.
+* **Customer bug field ID** (Settings → Data Connections → the Jira connection → Edit → Advanced) — the Jira custom field for "Customer Bug = Yes." Required for CFR to populate at all.
+* **Multiple CFR configurations** — you can keep more than one Change Failure Rate configuration, one per Jira instance or per definition of a failed change.
+* **Release tracking** (Settings → Releases, or the manual releases API) — CFR is failing releases ÷ total releases, so it needs releases to divide by.
 * **Unmatched Jira assignees** (Settings → Developers) — assignees the sync couldn't match to a roster developer. CFR by-assignee dimension will under-count until these are resolved.
 
 ### Related metrics
@@ -4705,7 +4897,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor]
+integrations: [Claude Code, Codex, Cursor, GitHub Copilot]
 status: GA
 taxonomy:
     category: gk-insights
@@ -4896,7 +5088,8 @@ The metric is line-weighted, so a 2,000-line AI-assisted refactor counts more th
 AI-Assisted % = (lines changed in AI-assisted PRs + commits) / (total lines changed) × 100%
 
   where AI-assisted = has AI co-author trailer OR
-                      developer had AI events within ±1h of the change's lifecycle
+                      developer had AI events within the correlation window
+                      of the change's lifecycle (default 60 minutes)
 ```
 
 ### How GitKraken Insights calculates it
@@ -4904,7 +5097,7 @@ AI-Assisted % = (lines changed in AI-assisted PRs + commits) / (total lines chan
 **Per-item detection.** For each merged PR and direct commit, the backend computes `is_ai_assisted = true` if either:
 
 1. **The commit has an AI co-author trailer** (reason: `co_author`), or
-2. **The developer had AI events within ±1 hour of the change's lifecycle window** (reason: `ai_events`). For PRs, the window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, ±1 hour around the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
+2. **The developer had AI events within the AI-to-commit correlation window of the change's lifecycle window** (reason: `ai_events`). The window defaults to 60 minutes and is configurable per org — see [AI-to-Commit Correlation Window](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window). For PRs, the lifecycle window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, the correlation window applies on either side of the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
 
 The materialized flag (`pull_requests.is_ai_assisted` / `direct_commits.is_ai_assisted`) is computed by a continuous classifier worker. A live `EXISTS` fallback fires when the materialized flag is still NULL (typically for very recent items).
 
@@ -4939,7 +5132,7 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Settings that affect it
 
-* The ±1 hour temporal window is fixed in code and not currently configurable.
+* [**AI-to-Commit Correlation Window**](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window) — how close AI activity must be to a change for that change to count as AI-assisted. Default 60 minutes. Changing it re-runs the association on existing data, so past percentages shift with it.
 * The AI co-author trailer detection is fixed.
 
 ### Related metrics
@@ -4955,11 +5148,11 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 * **Run a brown-bag on "show me how you actually use AI."** Many teams have devs using AI for _adjacent_ work (research, learning) but not for the work they ship. Demos help.
 * **Pair Power Users with low-AI-Assisted devs.** Same intervention as for Adoption, but specifically targeting work-level integration.
 * **Audit the gap.** Identify devs with high Adoption but low AI-Assisted %. Those are the ones to coach — they have the habit but aren't translating it.
-* **Don't conflate AI-Assisted with "using AI co-author tags."** Many devs use AI without tagging. The ±1 hour temporal heuristic catches them; teams that primarily rely on tagging may show low AI-Assisted artificially.
+* **Don't conflate AI-Assisted with "using AI co-author tags."** Many devs use AI without tagging. The temporal heuristic catches them; teams that primarily rely on tagging may show low AI-Assisted artificially.
 
 ### Limitations and gotchas
 
-* **The ±1 hour temporal heuristic produces false positives and false negatives.** A dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag. Conversely, a dev who used AI 2 hours before committing doesn't. The heuristic is the best practical balance, not a measurement.
+* **The temporal heuristic produces false positives and false negatives.** At the default 60-minute window, a dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag, and a dev who used AI two hours before committing doesn't. The heuristic is the best practical balance, not a measurement. If it over-attributes for your team, tighten the [correlation window](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window).
 * **Materialized flag lags by minutes to hours.** The classifier worker catches up continuously.
 * **Co-author trailer detection requires the trailer.** Devs using AI without the `Co-authored-by` trailer rely entirely on the temporal heuristic.
 * **Line-weighted means one big PR can dominate the metric.** A team's 50% AI-Assisted week might be one 3,000-line non-AI-assisted migration plus many smaller AI-assisted PRs. Look at distribution, not just the headline.
@@ -4967,10 +5160,10 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 ### FAQ
 
 **Q: How is "AI-assisted" detected if the dev doesn't tag the commit?**
-A: The backend looks for AI events (Claude / Codex / Cursor prompts, tool results, API requests) by that developer within ±1 hour of the change's lifecycle. If they prompted Claude an hour before committing, the commit is marked AI-assisted with reason `ai_events`.
+A: The backend looks for AI events (Claude / Codex / Cursor prompts, tool results, API requests) by that developer within the correlation window of the change's lifecycle — 60 minutes by default. If they prompted Claude within that window of committing, the commit is marked AI-assisted with reason `ai_events`.
 
 **Q: A PR shows AI-Assisted = false but I know the dev used Claude. Why?**
-A: Three usual causes: (1) the AI events happened more than 1 hour outside the PR's lifecycle window, (2) the developer's email or login doesn't match between the AI events and the PR, (3) the materialized flag hasn't been computed yet.
+A: Three usual causes: (1) the AI events happened outside the PR's lifecycle window by more than the correlation window allows, (2) the developer's email or login doesn't match between the AI events and the PR, (3) the materialized flag hasn't been computed yet.
 
 **Q: Why line-weighted rather than count-weighted?**
 A: Line weighting tracks "how much of the work shipped with AI help." Count weighting can be skewed by a flood of trivial PRs. Line weighting is the more honest "share of substantive output" answer.
@@ -5120,7 +5313,7 @@ Spend per Tier = SUM(api_cost) over developers in that tier
 **Two modes.**
 
 1. **License-based.** Each developer with an active AI tool license contributes the license cost (say $20/seat/month for Claude Code Pro). Sum across developers, grouped by tier.
-2. **Usage-based.** For tools billed on consumption (API tokens, e.g.), we sum the actual `cost_usd` from `api_request` events grouped by developer, then group by tier.
+2. **Usage-based.** For tools billed on consumption (API tokens, e.g.), we sum the actual `cost_usd` from `api_request` events grouped by developer, then group by tier. For GitHub Copilot, the rollup includes AI credits consumed, so orgs on Copilot usage-based billing see that spend alongside their seat costs.
 
 In practice, most orgs see both. Claude / Codex / Cursor licenses are seat-based; some API usage charges are consumption-based. The dashboard rolls them up together.
 
@@ -5173,7 +5366,7 @@ The total dollar number is also informative: divide by total developers and you 
 ### Limitations and gotchas
 
 * **License cost is whatever's configured.** We don't know your actual contract terms. If you're paying a different rate, the absolute dollar values will be off — but the _distribution across tiers_ is still accurate.
-* **Usage-based costs depend on event coverage.** API costs from Claude / Codex come through OTEL events. Cursor's API doesn't expose costs at the same granularity, so Cursor spend is license-based only.
+* **Usage-based costs depend on event coverage.** API costs from Claude / Codex come through OTEL events, and Copilot AI-credit consumption comes from the Copilot connection. Cursor's API doesn't expose costs at the same granularity, so Cursor spend is license-based only.
 * **Emerging doesn't mean "didn't use AI ever."** A developer can be Emerging in this window but a Regular last quarter. License seats are usually paid annually — even if their utilization is bad this window, they have the seat. The decision is about future renewal, not retroactive credit.
 
 ### FAQ
@@ -5643,7 +5836,7 @@ A reasonable expectation after intervening on a real CFR climb:
 
 ---
 title: AI Adoption Settings in GitKraken Insights
-description: Reference for the admin settings that affect AI Adoption scores in GitKraken Insights, including Maturity Factor, Tier Weights, Developer Hourly Rate, and Baseline Period.
+description: Reference for the admin settings that affect AI Adoption scores in GitKraken Insights, including Maturity Factor, Tier Weights, AI-to-Commit Correlation Window, Developer Hourly Rate, and Baseline Period.
 product: GitKraken Insights
 content_type: reference
 audience: admin
@@ -5786,6 +5979,25 @@ _In Settings UI: yes._ App-settings key: `output_score_exclude_chore`.
 **When to turn off.** Rarely. The default reflects most orgs' definition of "real output". Turn off if you've explicitly decided chores are part of how you measure delivery — e.g. for an SRE team where dependency upgrades _are_ the job.
 
 **Affects:** [Output Score](/gk-insights/ai-adoption-output-metrics#output-score), and downstream [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier).
+
+---
+
+### AI-to-Commit Correlation Window
+
+_In Settings UI: yes._
+
+|  |  |
+| --- | --- |
+| **Default** | 60 minutes |
+| **Type** | Duration |
+
+**What it does.** Sets how close in time a developer's AI activity has to be to a change for that change to count as AI-assisted. A PR or direct commit is flagged AI-assisted when the developer had AI events within this window of the change's lifecycle. Co-author-trailer detection is separate and isn't affected by this setting.
+
+**Why you'd raise or lower it.** - **Narrower (under 60 minutes):** Your team finds the default over-attributes — developers who happened to have an AI session open get credited for changes they wrote without AI. - **Default (60 minutes):** A practical middle ground for most teams. - **Wider (over 60 minutes):** Your developers typically prompt AI well before they commit, and the default is missing that work.
+
+**Changing it re-runs the association on existing data**, so previously-computed AI-assisted flags — and the AI-Assisted % values built on them — shift to match the new window.
+
+**Affects:** [AI-Assisted Percentage](/gk-insights/ai-adoption-impact-cost-metrics#ai-assisted-percentage), and the AI-Assisted status shown in PR drill-down tables.
 
 ---
 

@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
+integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
 status: GA
 taxonomy:
     category: gk-insights
@@ -36,7 +36,7 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | **Bitbucket** *(if you use Bitbucket)* | An admin of your Bitbucket workspace | Generate a Bitbucket-specific Atlassian API token |
 | **Azure DevOps** *(if you use Azure DevOps)* | An account that can see every project you want to sync | Create a PAT with **Code (Read)** |
 | **GitLab** *(if you use GitLab, cloud or self-managed)* | An account with access to the groups you want to sync | Create a PAT with the `read_api` scope |
-| **A self-hosted server** *(GitHub Enterprise Server, Azure DevOps Server, or GitLab Self-Managed)* | Whoever runs it | Confirm it's reachable over `https` with a publicly-trusted certificate |
+| **A self-hosted server** *(GitHub Enterprise Server, Bitbucket Data Center, Azure DevOps Server, or GitLab Self-Managed)* | Whoever runs it | Confirm it's reachable over `https` with a publicly-trusted certificate |
 | **Claude Code / Codex** | The **Owner** of your Anthropic (Claude Code) organization — *admins cannot do this* | Paste the telemetry snippet into org-managed settings |
 | **Cursor** | A Cursor **team admin** | Create a team-level admin API key |
 | **GitHub Copilot** (optional) | A GitHub organization or enterprise admin | Enable the Copilot usage metrics policy, create a classic PAT |
@@ -68,7 +68,7 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 
 ## Step 1 — Connect your git provider
 
-Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect whichever hosts your repositories: **GitHub**, **Bitbucket**, **Azure DevOps**, or **GitLab** in the cloud, or a self-hosted **GitHub Enterprise Server**, **Azure DevOps Server**, or **GitLab Self-Managed**.
+Your git provider is the foundation. It powers every PR, commit, contributor, and cycle-time metric — without it, the dashboards stay empty. Connect whichever hosts your repositories: **GitHub**, **Bitbucket**, **Azure DevOps**, or **GitLab** in the cloud, or a self-hosted **GitHub Enterprise Server**, **Bitbucket Data Center**, **Azure DevOps Server**, or **GitLab Self-Managed**.
 
 ### GitHub
 
@@ -152,6 +152,21 @@ Copy the token immediately — Atlassian shows it only once. Scoped Bitbucket to
 > **A workspace missing after Validate** means the token's Atlassian account can't access it. Check that account's Bitbucket permissions.
 
 Once connected, Bitbucket data begins syncing in the background and continues over the next several hours. Reference: [Atlassian — Manage API tokens](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/).
+
+### Bitbucket Data Center
+
+Connect Bitbucket Data Center to sync activity from a Bitbucket instance you run yourself.
+
+**Requirements:**
+
+- The server must be reachable from GitKraken over `https` with a **publicly-trusted certificate**.
+- An HTTP access token with read access to the projects and repositories you want to sync. 
+
+1. In **Data Connections**, click **+** next to **Bitbucket Data Center**.
+2. Optionally name the connection, then enter the **Server URL** — for example `https://bitbucket.yourcompany.com`.
+3. Paste the **Bitbucket access token** and click **Validate**, then **Connect**.
+
+As with Bitbucket cloud, the connection only sees the projects and repositories the token's account can access.
 
 ### Azure DevOps
 

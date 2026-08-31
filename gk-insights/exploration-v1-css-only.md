@@ -84,7 +84,8 @@ h2 {
   margin-top: var(--gap-xl);
   margin-bottom: var(--gap-md);
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--gk-green);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gk-green), var(--gk-teal)) 1;
   color: var(--gk-dark);
 }
 h3 {
@@ -255,16 +256,18 @@ tr:hover td {
   font-size: var(--font-size-sm);
   color: var(--color-text-dim);
   margin-bottom: var(--gap-lg);
-  padding: var(--gap-xs) 0;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-lt);
   font-family: var(--font-body);
 }
 .breadcrumb-nav a {
-  color: var(--color-text-sec);
+  color: var(--gk-teal);
   text-decoration: none;
   border-bottom: none;
+  font-weight: 500;
 }
 .breadcrumb-nav a:hover {
-  color: var(--gk-teal);
+  color: var(--gk-green);
 }
 .breadcrumb-nav .sep {
   margin: 0 0.4rem;
@@ -276,15 +279,17 @@ tr:hover td {
 }
 /* --- Related Pages Card Grid --------------------------------------------- */
 .related-pages {
-  margin-top: var(--gap-xl);
-  padding-top: var(--gap-lg);
+  margin: var(--gap-lg) 0;
+  padding: var(--gap-lg) 0;
   border-top: 2px solid var(--gk-green);
+  border-bottom: 1px solid var(--color-border-lt);
 }
 .related-pages h2 {
   border-bottom: none;
   margin-top: 0;
   padding-bottom: 0;
   font-size: 1.35rem;
+  letter-spacing: -0.01em;
 }
 .related-grid {
   display: grid;
@@ -299,13 +304,28 @@ tr:hover td {
   padding: var(--gap-md);
   text-decoration: none;
   color: var(--color-text);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, background 0.2s ease;
   display: block;
+  position: relative;
+}
+.related-card::after {
+  content: "\2192";
+  position: absolute;
+  top: 1.1rem;
+  right: 1rem;
+  font-size: 1rem;
+  color: var(--color-text-dim);
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 .related-card:hover {
   border-color: var(--gk-green);
-  box-shadow: 0 2px 8px rgba(0, 208, 132, 0.12);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 208, 132, 0.18), 0 2px 4px rgba(0,0,0,0.2);
+  transform: translateY(-3px);
+  background: #282830;
+}
+.related-card:hover::after {
+  color: var(--gk-green);
+  transform: translateX(3px);
 }
 .related-card .card-title {
   font-weight: 600;
@@ -313,6 +333,7 @@ tr:hover td {
   color: var(--gk-dark);
   margin-bottom: 0.35rem;
   display: block;
+  padding-right: 1.5rem;
 }
 .related-card .card-desc {
   font-size: var(--font-size-sm);
@@ -371,17 +392,6 @@ GitKraken Insights turns raw Git data into clear, useful metrics for developers 
 
 Instead of surface-level stats, GitKraken Insights shows how work connects to team goals and points out ways to improve flow and productivity.
 
-> **Plan:** GitKraken Insights (available by request)
-> **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
-> **Role:** Lead, Admin, or Owner (for access). The **User** role does not grant access to GitKraken Insights but tells Insights to begin tracking that user for metrics.
-> **Integrations:** GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud
-> **AI providers:** Claude Code, Cursor, GitHub Copilot (optional)
-
-<figure>
-  <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
-  <figcaption style="text-align: center; color: #888">Overview of GitKraken Insights</figcaption>
-</figure>
-
 <div class="related-pages">
 <h2>Explore GitKraken Insights</h2>
 <div class="related-grid">
@@ -420,6 +430,16 @@ Instead of surface-level stats, GitKraken Insights shows how work connects to te
 </div>
 </div>
 
+> **Plan:** GitKraken Insights (available by request)
+> **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
+> **Role:** Lead, Admin, or Owner (for access). The **User** role does not grant access to GitKraken Insights but tells Insights to begin tracking that user for metrics.
+> **Integrations:** GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud
+> **AI providers:** Claude Code, Cursor, GitHub Copilot (optional)
+
+<figure>
+  <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
+  <figcaption style="text-align: center; color: #888">Overview of GitKraken Insights</figcaption>
+</figure>
 
 ---
 

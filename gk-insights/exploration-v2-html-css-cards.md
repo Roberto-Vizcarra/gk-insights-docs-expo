@@ -68,7 +68,8 @@ taxonomy:
   color: var(--gki-text-muted);
   margin-bottom: 1.75rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--gki-border);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-accent), transparent) 1;
 }
 .gki-breadcrumb a {
   color: var(--gki-accent);
@@ -201,7 +202,8 @@ taxonomy:
   color: var(--gki-text);
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--gki-accent);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-accent), #6366f1) 1;
   display: inline-block;
 }
 .gki-subsection-title {
@@ -339,13 +341,18 @@ taxonomy:
 }
 /* ---------- Related pages card grid ---------- */
 .gki-related {
-  margin-top: 3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 .gki-related-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--gki-text);
   margin: 0 0 1.25rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-accent), #6366f1) 1;
+  display: inline-block;
 }
 .gki-card-grid {
   display: grid;
@@ -377,8 +384,9 @@ taxonomy:
 }
 .gki-card:hover {
   border-color: var(--gki-accent);
-  box-shadow: var(--gki-shadow-md);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 16px -2px rgba(13,148,136,0.25), 0 2px 4px -2px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
+  background: var(--gki-bg-offset);
 }
 .gki-card-title {
   font-size: 0.95rem;
@@ -430,43 +438,6 @@ taxonomy:
 <p class="gki-intro">
   GitKraken Insights turns raw Git data into clear, useful metrics for developers and leaders. It pulls code activity, pull requests, issues, and CI/CD results into a single view that fits directly into existing workflows. Instead of surface-level stats, GitKraken Insights shows how work connects to team goals and points out ways to improve flow and productivity.
 </p>
-<!-- Requirements card -->
-<div class="gki-requirements">
-  <div class="gki-requirements-title">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM7 7h2v4.5H7V7z" fill="currentColor"/></svg>
-    Requirements
-  </div>
-  <div class="gki-req-grid">
-    <div class="gki-req-item">
-      <span class="gki-req-label">Plan:</span>
-      <span class="gki-req-value">GitKraken Insights (available by request)</span>
-    </div>
-    <div class="gki-req-item">
-      <span class="gki-req-label">Platform:</span>
-      <span class="gki-req-value">Browser only via <a href="https://gitkraken.dev">gitkraken.dev</a></span>
-    </div>
-    <div class="gki-req-item">
-      <span class="gki-req-label">Role:</span>
-      <span class="gki-req-value">Lead, Admin, or Owner</span>
-    </div>
-    <div class="gki-req-item">
-      <span class="gki-req-label">Integrations:</span>
-      <span class="gki-req-value">GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud</span>
-    </div>
-    <div class="gki-req-item" style="grid-column: 1 / -1;">
-      <span class="gki-req-label">AI providers:</span>
-      <span class="gki-req-value">Claude Code, Cursor, GitHub Copilot (optional)</span>
-    </div>
-  </div>
-</div>
-<!-- Hero screenshot -->
-<figure class="gki-hero-figure">
-  <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
-  <figcaption>Overview of GitKraken Insights</figcaption>
-</figure>
-<!-- ============================================================
-     Related Pages
-     ============================================================ -->
 <section class="gki-related">
   <h2 class="gki-related-title">Explore GitKraken Insights</h2>
   <div class="gki-card-grid">
@@ -544,6 +515,40 @@ taxonomy:
     </a>
   </div>
 </section>
+<!-- Requirements card -->
+<div class="gki-requirements">
+  <div class="gki-requirements-title">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM7 7h2v4.5H7V7z" fill="currentColor"/></svg>
+    Requirements
+  </div>
+  <div class="gki-req-grid">
+    <div class="gki-req-item">
+      <span class="gki-req-label">Plan:</span>
+      <span class="gki-req-value">GitKraken Insights (available by request)</span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Platform:</span>
+      <span class="gki-req-value">Browser only via <a href="https://gitkraken.dev">gitkraken.dev</a></span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Role:</span>
+      <span class="gki-req-value">Lead, Admin, or Owner</span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Integrations:</span>
+      <span class="gki-req-value">GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud</span>
+    </div>
+    <div class="gki-req-item" style="grid-column: 1 / -1;">
+      <span class="gki-req-label">AI providers:</span>
+      <span class="gki-req-value">Claude Code, Cursor, GitHub Copilot (optional)</span>
+    </div>
+  </div>
+</div>
+<!-- Hero screenshot -->
+<figure class="gki-hero-figure">
+  <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
+  <figcaption>Overview of GitKraken Insights</figcaption>
+</figure>
 <!-- ============================================================
      Request Access
      ============================================================ -->

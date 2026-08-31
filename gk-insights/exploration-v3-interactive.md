@@ -45,90 +45,16 @@ taxonomy:
   --gki-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --gki-font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
 }
-/* ---------- Layout: two-column with sticky TOC ---------- */
+/* ---------- Layout: single column ---------- */
 .gki-page * { box-sizing: border-box; }
 .gki-page {
   font-family: var(--gki-font);
   color: var(--gki-text);
   line-height: 1.7;
-  max-width: 1100px;
+  max-width: 780px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 220px;
-  gap: 2.5rem;
-  align-items: start;
 }
-.gki-content {
-  min-width: 0;
-}
-/* ---------- Sticky TOC sidebar ---------- */
-.gki-toc {
-  position: sticky;
-  top: 2rem;
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-  padding: 1rem 0;
-  border-left: 1px solid var(--gki-border);
-  padding-left: 1rem;
-}
-.gki-toc-title {
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--gki-text-muted);
-  margin: 0 0 0.75rem 0;
-}
-.gki-toc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.gki-toc-list li {
-  margin-bottom: 0.15rem;
-}
-.gki-toc-list a {
-  display: block;
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: var(--gki-text-muted);
-  text-decoration: none;
-  padding: 0.2rem 0 0.2rem 0.6rem;
-  border-left: 2px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
-}
-.gki-toc-list a:hover {
-  color: var(--gki-text-secondary);
-}
-.gki-toc-list a.gki-toc-active {
-  color: var(--gki-accent);
-  border-left-color: var(--gki-accent);
-  font-weight: 500;
-}
-.gki-toc-list a[data-depth="3"] {
-  padding-left: 1.2rem;
-  font-size: 0.77rem;
-}
-/* Hide TOC on narrow screens */
-@media (max-width: 860px) {
-  .gki-page {
-    grid-template-columns: 1fr;
-  }
-  .gki-toc {
-    display: none;
-  }
-}
-/* ---------- Progress bar ---------- */
-.gki-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 3px;
-  background: var(--gki-accent);
-  z-index: 9999;
-  transition: width 0.1s linear;
-}
+
 /* ---------- Breadcrumb ---------- */
 .gki-breadcrumb {
   display: flex;
@@ -262,53 +188,47 @@ taxonomy:
   margin: 2rem 0 0.75rem 0;
   scroll-margin-top: 1.5rem;
 }
-/* ---------- Collapsible sections ---------- */
-.gki-collapsible {
+/* ---------- Collapsible details/summary (no JS required) ---------- */
+.gki-details {
   border: 1px solid var(--gki-border);
   border-radius: var(--gki-radius);
   margin: 1.25rem 0;
   overflow: hidden;
 }
-.gki-collapsible-toggle {
+.gki-summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   padding: 0.85rem 1.15rem;
   background: var(--gki-bg-offset);
-  border: none;
   cursor: pointer;
   font-family: var(--gki-font);
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--gki-text);
-  text-align: left;
-  gap: 0.75rem;
+  list-style: none;
   transition: background 0.15s ease;
 }
-.gki-collapsible-toggle:hover {
-  background: var(--gki-border);
-}
-.gki-collapsible-toggle:focus-visible {
-  outline: 2px solid var(--gki-accent);
-  outline-offset: -2px;
-}
-.gki-collapsible-chevron {
-  flex-shrink: 0;
-  width: 16px;
-  height: 16px;
-  color: var(--gki-text-muted);
+.gki-summary::-webkit-details-marker { display: none; }
+.gki-summary::marker { display: none; content: ""; }
+.gki-summary::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--gki-text-muted);
   transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
-.gki-collapsible.gki-open .gki-collapsible-chevron {
+.gki-details[open] .gki-summary::after {
   transform: rotate(180deg);
 }
-.gki-collapsible-body {
-  display: none;
-  padding: 1rem 1.15rem;
+.gki-summary:hover {
+  background: var(--gki-border);
 }
-.gki-collapsible.gki-open .gki-collapsible-body {
-  display: block;
+.gki-details-body {
+  padding: 1rem 1.15rem;
 }
 /* ---------- Callout boxes ---------- */
 .gki-callout {
@@ -427,39 +347,15 @@ taxonomy:
 }
 .gki-list li strong { color: var(--gki-text); }
 /* ---------- Card grid with search ---------- */
-.gki-related { margin-top: 3rem; }
-.gki-related-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.25rem;
-}
+.gki-related { margin-top: 1.5rem; margin-bottom: 2.5rem; }
+
 .gki-related-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--gki-text);
   margin: 0;
 }
-.gki-card-search {
-  font-family: var(--gki-font);
-  font-size: 0.85rem;
-  padding: 0.4rem 0.75rem 0.4rem 2rem;
-  border: 1px solid var(--gki-border);
-  border-radius: 6px;
-  background: var(--gki-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23A8A29E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 0.65rem center;
-  color: var(--gki-text);
-  outline: none;
-  width: 180px;
-  transition: border-color 0.15s ease;
-}
-.gki-card-search:focus {
-  border-color: var(--gki-accent);
-}
-.gki-card-search::placeholder {
-  color: var(--gki-text-muted);
-}
+
 .gki-card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -486,12 +382,10 @@ taxonomy:
 }
 .gki-card:hover {
   border-color: var(--gki-accent);
-  box-shadow: var(--gki-shadow-md);
-  transform: translateY(-2px);
+  box-shadow: 0 4px 12px -2px rgba(13,148,136,0.25), 0 2px 4px -2px rgba(0,0,0,0.3);
+  transform: translateY(-3px);
 }
-.gki-card.gki-card-hidden {
-  display: none;
-}
+
 .gki-card-title {
   font-size: 0.95rem;
   font-weight: 600;
@@ -517,53 +411,10 @@ taxonomy:
   line-height: 1.5;
   margin: 0;
 }
-/* ---------- No results message ---------- */
-.gki-no-results {
-  display: none;
-  grid-column: 1 / -1;
-  text-align: center;
-  color: var(--gki-text-muted);
-  font-size: 0.9rem;
-  padding: 2rem 0;
-}
-.gki-no-results.gki-visible {
-  display: block;
-}
-/* ---------- Back to top ---------- */
-.gki-back-top {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 40px;
-  height: 40px;
-  background: var(--gki-accent);
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--gki-shadow-md);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 100;
-}
-.gki-back-top:hover {
-  transform: scale(1.1);
-}
-.gki-back-top:focus-visible {
-  outline: 2px solid var(--gki-accent);
-  outline-offset: 2px;
-}
-.gki-back-top.gki-visible {
-  opacity: 1;
-  pointer-events: auto;
-}
+
 /* ---------- Fix WP/Parsedown empty paragraphs ---------- */
 .gki-page p:empty { display: none !important; margin: 0 !important; padding: 0 !important; line-height: 0 !important; }
-.gki-page { max-width: none; }
+.gki-page { max-width: none !important; display: block !important; }
 .gki-card-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
 .gki-card-grid > br, .gki-card-grid > p { display: none !important; margin: 0 !important; padding: 0 !important; height: 0 !important; }
 .gki-card { display: flex !important; background: var(--gki-bg-subtle) !important; border: 1px solid var(--gki-border) !important; border-radius: var(--gki-radius) !important; padding: 1.15rem 1.25rem !important; }
@@ -576,14 +427,7 @@ taxonomy:
 .gki-callout { display: flex !important; }
 </style>
 
-<!-- Progress bar -->
-<div class="gki-progress" id="gkiProgress"></div>
-
 <div class="gki-page">
-<!-- ============================================================
-     Main content column
-     ============================================================ -->
-<div class="gki-content">
 <!-- Breadcrumb -->
 <nav class="gki-breadcrumb" aria-label="Breadcrumb"><a href="/gk-insights/">GitKraken Insights</a><span class="gki-crumb-sep" aria-hidden="true">/</span><span class="gki-crumb-current" aria-current="page">Getting Started</span></nav>
 <!-- Page title -->
@@ -593,48 +437,8 @@ taxonomy:
 <p class="gki-intro">
   GitKraken Insights turns raw Git data into clear, useful metrics for developers and leaders. It pulls code activity, pull requests, issues, and CI/CD results into a single view that fits directly into existing workflows. Instead of surface-level stats, GitKraken Insights shows how work connects to team goals and points out ways to improve flow and productivity.
 </p>
-<!-- Requirements card -->
-<div class="gki-requirements">
-  <div class="gki-requirements-title">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM7 7h2v4.5H7V7z" fill="currentColor"/></svg>
-    Requirements
-  </div>
-  <div class="gki-req-grid">
-    <div class="gki-req-item">
-      <span class="gki-req-label">Plan:</span>
-      <span class="gki-req-value">GitKraken Insights (available by request)</span>
-    </div>
-    <div class="gki-req-item">
-      <span class="gki-req-label">Platform:</span>
-      <span class="gki-req-value">Browser only via <a href="https://gitkraken.dev">gitkraken.dev</a></span>
-    </div>
-    <div class="gki-req-item">
-      <span class="gki-req-label">Role:</span>
-      <span class="gki-req-value">Lead, Admin, or Owner</span>
-    </div>
-    <div class="gki-req-item">
-      <span class="gki-req-label">Integrations:</span>
-      <span class="gki-req-value">GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud</span>
-    </div>
-    <div class="gki-req-item" style="grid-column: 1 / -1;">
-      <span class="gki-req-label">AI providers:</span>
-      <span class="gki-req-value">Claude Code, Cursor, GitHub Copilot (optional)</span>
-    </div>
-  </div>
-</div>
-<!-- Hero screenshot -->
-<figure class="gki-hero-figure">
-  <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
-  <figcaption>Overview of GitKraken Insights</figcaption>
-</figure>
-<!-- ============================================================
-     Related Pages with Search
-     ============================================================ -->
 <section class="gki-related" id="explore">
-  <div class="gki-related-header">
-    <h2 class="gki-related-title">Explore GitKraken Insights</h2>
-    <input type="text" class="gki-card-search" id="gkiCardSearch" placeholder="Filter pages..." aria-label="Filter related pages">
-  </div>
+  <h2 class="gki-related-title">Explore GitKraken Insights</h2>
   <div class="gki-card-grid" id="gkiCardGrid">
     <a href="/gk-insights/gk-insights-dora-metrics" class="gki-card" data-search="dora deploy frequency change lead time mean time repair defect rate">
       <div>
@@ -708,9 +512,45 @@ taxonomy:
         <p class="gki-card-desc">Common questions about setup, data sources, metrics, and troubleshooting.</p>
       </div>
     </a>
-    <div class="gki-no-results" id="gkiNoResults">No matching pages found.</div>
   </div>
 </section>
+<!-- Requirements card -->
+<div class="gki-requirements">
+  <div class="gki-requirements-title">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM7 7h2v4.5H7V7z" fill="currentColor"/></svg>
+    Requirements
+  </div>
+  <div class="gki-req-grid">
+    <div class="gki-req-item">
+      <span class="gki-req-label">Plan:</span>
+      <span class="gki-req-value">GitKraken Insights (available by request)</span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Platform:</span>
+      <span class="gki-req-value">Browser only via <a href="https://gitkraken.dev">gitkraken.dev</a></span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Role:</span>
+      <span class="gki-req-value">Lead, Admin, or Owner</span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Integrations:</span>
+      <span class="gki-req-value">GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud</span>
+    </div>
+    <div class="gki-req-item" style="grid-column: 1 / -1;">
+      <span class="gki-req-label">AI providers:</span>
+      <span class="gki-req-value">Claude Code, Cursor, GitHub Copilot (optional)</span>
+    </div>
+  </div>
+</div>
+<!-- Hero screenshot -->
+<figure class="gki-hero-figure">
+  <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
+  <figcaption>Overview of GitKraken Insights</figcaption>
+</figure>
+<!-- ============================================================
+     Related Pages with Search
+     ============================================================ -->
 <!-- ============================================================
      Request Access
      ============================================================ -->
@@ -769,12 +609,9 @@ taxonomy:
     <figcaption>Select which repos to import. You can always import more later.</figcaption>
   </figure>
   <!-- Collapsible: API rate limits -->
-  <div class="gki-collapsible" id="rate-limits">
-    <button class="gki-collapsible-toggle" aria-expanded="false">
-      <span>Avoiding GitHub API Rate Limits</span>
-      <svg class="gki-collapsible-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <div class="gki-collapsible-body">
+  <details class="gki-details" id="rate-limits">
+    <summary class="gki-summary">Avoiding GitHub API Rate Limits</summary>
+    <div class="gki-details-body">
       <div class="gki-callout gki-callout--warn">
         <svg class="gki-callout-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
         <div>
@@ -784,7 +621,7 @@ taxonomy:
         </div>
       </div>
     </div>
-  </div>
+  </details>
   <!-- Connect AI provider -->
   <h3 class="gki-subsection-title" id="connect-ai">Connect an AI Provider (Optional)</h3>
   <p>As of February 2026, GitKraken Insights only supports connections with Claude Code, Cursor and GitHub Copilot to enable AI insights.</p>
@@ -832,139 +669,20 @@ taxonomy:
     <figcaption>Monitor import progress while Insights processes your data</figcaption>
   </figure>
 </section>
-</div><!-- /.gki-content -->
-<!-- ============================================================
-     TOC sidebar (populated by JS)
-     ============================================================ -->
-<aside class="gki-toc" aria-label="Table of contents">
-  <div class="gki-toc-title">On this page</div>
-  <ul class="gki-toc-list" id="gkiTocList">
-    <!-- JS-generated -->
-  </ul>
-</aside>
+
 </div><!-- /.gki-page -->
-<!-- Back to top button -->
-<button class="gki-back-top" id="gkiBackTop" aria-label="Back to top">
-  <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M8 12V4m0 0L4 8m4-4l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-<!-- ============================================================
-     JavaScript: TOC, scroll tracking, collapsible, search, back-to-top
-     ============================================================ -->
-<script>
-(function() {
-  'use strict';
-  // --- Build TOC from section/subsection headings ---
-  var tocList = document.getElementById('gkiTocList');
-  var headings = document.querySelectorAll('.gki-content .gki-section-title, .gki-content .gki-subsection-title');
-  var tocItems = [];
-  headings.forEach(function(h) {
-    var id = h.id || h.closest('[id]')?.id;
-    if (!id) {
-      id = h.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-      h.id = id;
-    }
-    var depth = h.classList.contains('gki-subsection-title') ? 3 : 2;
-    var li = document.createElement('li');
-    var a = document.createElement('a');
-    a.href = '#' + id;
-    a.textContent = h.textContent.trim();
-    a.setAttribute('data-depth', depth);
-    a.addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    li.appendChild(a);
-    tocList.appendChild(li);
-    tocItems.push({ id: id, el: h, link: a });
-  });
-  // --- Active TOC highlight on scroll ---
-  function updateActiveToc() {
-    var scrollY = window.scrollY || window.pageYOffset;
-    var active = null;
-    for (var i = tocItems.length - 1; i >= 0; i--) {
-      if (tocItems[i].el.getBoundingClientRect().top <= 80) {
-        active = tocItems[i];
-        break;
-      }
-    }
-    tocItems.forEach(function(item) {
-      item.link.classList.toggle('gki-toc-active', item === active);
-    });
-  }
-  // --- Progress bar ---
-  var progressBar = document.getElementById('gkiProgress');
-  function updateProgress() {
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    var scrolled = window.scrollY || window.pageYOffset;
-    var pct = docHeight > 0 ? (scrolled / docHeight) * 100 : 0;
-    progressBar.style.width = pct + '%';
-  }
-  // --- Back to top ---
-  var backTopBtn = document.getElementById('gkiBackTop');
-  function updateBackTop() {
-    var scrolled = window.scrollY || window.pageYOffset;
-    backTopBtn.classList.toggle('gki-visible', scrolled > 400);
-  }
-  backTopBtn.addEventListener('click', function() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-  // --- Scroll listener (debounced) ---
-  var scrollTicking = false;
-  window.addEventListener('scroll', function() {
-    if (!scrollTicking) {
-      window.requestAnimationFrame(function() {
-        updateActiveToc();
-        updateProgress();
-        updateBackTop();
-        scrollTicking = false;
-      });
-      scrollTicking = true;
-    }
-  }, { passive: true });
-  // Initial call
-  updateActiveToc();
-  updateProgress();
-  // --- Collapsible sections ---
-  document.querySelectorAll('.gki-collapsible-toggle').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var parent = btn.closest('.gki-collapsible');
-      var isOpen = parent.classList.toggle('gki-open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-  });
-  // --- Card search/filter ---
-  var searchInput = document.getElementById('gkiCardSearch');
-  var cardGrid = document.getElementById('gkiCardGrid');
-  var cards = cardGrid.querySelectorAll('.gki-card');
-  var noResults = document.getElementById('gkiNoResults');
-  searchInput.addEventListener('input', function() {
-    var q = this.value.toLowerCase().trim();
-    var visibleCount = 0;
-    cards.forEach(function(card) {
-      var searchText = (card.getAttribute('data-search') || '') + ' ' +
-                       (card.textContent || '');
-      var match = !q || searchText.toLowerCase().indexOf(q) !== -1;
-      card.classList.toggle('gki-card-hidden', !match);
-      if (match) visibleCount++;
-    });
-    noResults.classList.toggle('gki-visible', visibleCount === 0 && q.length > 0);
-  });
-})();
-</script>
+
 <div class="exploration-notes" style="margin-top:3rem; padding:1.5rem; background:#2a2a30; border:1px solid #3a3a40; color:#a8a5a0; border-radius:8px;">
-<h2 style="font-size:1.1rem; margin-top:0; color:#e4e3e0;">Exploration Notes: Version 3 — Interactive HTML/CSS/JS</h2>
-<p><strong>Approach:</strong> Builds on V2's HTML/CSS card layout and adds embedded JavaScript for interactive features: an auto-generated sticky table of contents with active-section highlighting, a reading progress bar, collapsible info sections, a search/filter for the card grid, smooth scroll navigation, and a back-to-top button.</p>
-<p><strong>What this tests:</strong> The absolute ceiling of what a single .md file processed through Git It Write can deliver inside WordPress. This is everything you can do without touching the WP theme or deploying a separate frontend. If this level of interactivity works in your WP setup, it tells you how far the "enhanced Markdown" approach can stretch.</p>
-<p><strong>New features over V2:</strong></p>
+<h2 style="font-size:1.1rem; margin-top:0; color:#e4e3e0;">Exploration Notes: Version 3 — Enhanced HTML/CSS</h2>
+<p><strong>Approach:</strong> Builds on V2's HTML/CSS card layout with additional visual polish and native HTML5 collapsible sections (<code>&lt;details&gt;/&lt;summary&gt;</code>). Originally included embedded JavaScript for a sticky TOC, search/filter, progress bar, and back-to-top button.</p>
+<p><strong>Key finding — JS is stripped:</strong> WordPress strips inline <code>&lt;script&gt;</code> tags from post content imported via Git It Write. All JS-dependent features (TOC, search, progress bar, back-to-top) were non-functional. This version has been updated to use only CSS and native HTML — the collapsible section now uses <code>&lt;details&gt;/&lt;summary&gt;</code> which works without JS.</p>
+<p><strong>What this proves:</strong> The ceiling for the Git It Write + Parsedown approach is HTML + CSS only. No JavaScript. Interactivity is limited to what native HTML elements provide (details/summary, anchor links, CSS hover states). Features like search/filter, dynamic TOC, or scroll-tracking require either a WP plugin, a theme customization, or a different platform entirely.</p>
+<p><strong>Features over V2:</strong></p>
 <ul style="margin:0.25rem 0 0.75rem 1.25rem; font-size:0.93rem; line-height:1.65;">
-  <li><strong>Sticky TOC sidebar</strong> — auto-generated from headings, highlights current section as you scroll, disappears on mobile</li>
-  <li><strong>Reading progress bar</strong> — thin teal bar at the top of the viewport showing scroll position</li>
-  <li><strong>Collapsible sections</strong> — the API Rate Limits warning is collapsed by default (click to expand). Useful for secondary info that shouldn't clutter the main flow</li>
-  <li><strong>Card search/filter</strong> — type in the search box above the card grid to filter related pages by keyword. "No results" message if nothing matches</li>
-  <li><strong>Smooth scroll</strong> — clicking TOC links scrolls smoothly to the target section</li>
-  <li><strong>Back to top button</strong> — appears after scrolling past the fold</li>
+  <li><strong>Native collapsible sections</strong> — the API Rate Limits warning uses <code>&lt;details&gt;/&lt;summary&gt;</code> (click to expand, no JS required)</li>
+  <li><strong>Enhanced card hover effects</strong> — teal glow, lift animation on card hover</li>
+  <li><strong>Refined typography and spacing</strong> — tighter visual hierarchy</li>
 </ul>
-<p><strong>Limitations:</strong> Same as V2 — the WP page template still controls header/footer/sidebar. Additionally: the two-column layout (content + TOC) may conflict with the WP theme's own sidebar if one exists — test in your theme. JavaScript must execute within the WP post content area, which some security plugins or caching layers may strip. Progress bar uses <code>position: fixed</code> which works relative to the viewport, not the WP post area — may overlap WP admin bar if logged in.</p>
-<p><strong>Maintenance:</strong> High. This is effectively a single-page app embedded in a Markdown file. Changes to the layout, interactivity, or component styles require editing HTML + CSS + JS. Shared JS/CSS would need to live in a WP plugin or theme customization. Each docs page would need its own copy of this code (or a shared script/style loaded via WP).</p>
-<p><strong>Key question this version answers:</strong> Is the result good enough to justify the maintenance burden, or does it make a stronger case for moving to a platform where these features are built in?</p>
+<p><strong>What was removed (non-functional in WP):</strong> Sticky TOC sidebar, reading progress bar, card search/filter, smooth scroll navigation, back-to-top button — all required JavaScript that WordPress strips from post content.</p>
+<p><strong>Implications for platform decision:</strong> If interactive features (search, TOC, scroll tracking) are required, they cannot be delivered through the current Git It Write + WordPress pipeline without server-side changes. A purpose-built docs platform (Starlight, Mintlify) or a headless WP approach would be needed.</p>
 </div>

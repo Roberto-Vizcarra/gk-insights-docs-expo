@@ -1,0 +1,536 @@
+/* ============================================================
+   GKI Docs Helper — Shared Stylesheet (Light Mode)
+   Brand: GitKraken Celestial — Inter, Major Third 1.250
+   Scoped to .gki-docs-page (body class added by plugin)
+   ============================================================ */
+
+/* ---------- Custom Properties (Light Mode) ------------------- */
+:root {
+  /* Brand primaries */
+  --gki-purple: #7900C9;
+  --gki-purple-hover: #5627D8;
+  --gki-blue: #3F36BA;
+  --gki-teal: #15777E;
+
+  /* Accent — purple is the primary action/link color */
+  --gki-accent: #7900C9;
+  --gki-accent-hover: #5627D8;
+
+  /* Text — from brand dark palette, inverted for light bg */
+  --gki-text: #1C1C1C;
+  --gki-text-secondary: #414141;
+  --gki-text-muted: #636568;
+  --gki-text-dim: #797b80;
+
+  /* Backgrounds */
+  --gki-bg: #FFFFFF;
+  --gki-bg-subtle: #F5F6F8;
+  --gki-bg-offset: #EDEEF1;
+
+  /* Borders — from brand palette */
+  --gki-border: #C1C2C3;
+  --gki-border-light: #E0E1E3;
+  --gki-border-strong: #ADB8C2;
+
+  /* Callout colors */
+  --gki-info-bg: #EEF2FF;
+  --gki-info-border: #C7D2FE;
+  --gki-info-text: #3F36BA;
+  --gki-info-icon: #3F36BA;
+  --gki-warn-bg: #FEF9EE;
+  --gki-warn-border: #F0DDB8;
+  --gki-warn-text: #8B6914;
+  --gki-warn-icon: #B8860B;
+  --gki-tip-bg: #EDFCF9;
+  --gki-tip-border: #B0E6DB;
+  --gki-tip-text: #0E5C63;
+  --gki-tip-icon: #15777E;
+  --gki-danger-bg: #FEF1F4;
+  --gki-danger-border: #F5C2CE;
+  --gki-danger-text: #9E2040;
+
+  /* Spacing & shape */
+  --gki-radius: 8px;
+  --gki-radius-lg: 12px;
+  --gki-shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+  --gki-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --gki-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -2px rgba(0,0,0,0.04);
+
+  /* Typography — Inter, Major Third */
+  --gki-font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --gki-font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
+}
+
+/* ---------- Reset scope -------------------------------------- */
+.gki-page * {
+  box-sizing: border-box;
+}
+.gki-page {
+  font-family: var(--gki-font);
+  color: var(--gki-text);
+  line-height: 1.7;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ---------- Parsedown cleanup -------------------------------- */
+.gki-page p:empty {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+}
+
+/* ---------- Breadcrumb --------------------------------------- */
+.gki-breadcrumb {
+  display: flex !important;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--gki-text-muted);
+  margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+}
+.gki-breadcrumb a {
+  color: var(--gki-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.gki-breadcrumb a:hover {
+  text-decoration: underline;
+}
+.gki-breadcrumb .gki-crumb-sep {
+  color: var(--gki-border-strong);
+  user-select: none;
+}
+.gki-breadcrumb .gki-crumb-current {
+  color: var(--gki-text-secondary);
+  font-weight: 500;
+}
+
+/* ---------- Page title (Major Third scale) ------------------- */
+.gki-page-title {
+  font-size: 2.441rem; /* H1 per Major Third */
+  font-weight: 700;
+  color: var(--gki-text);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.gki-page-updated {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--gki-text-muted);
+  background: var(--gki-bg-subtle);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+/* ---------- Intro text --------------------------------------- */
+.gki-intro {
+  font-size: 1.08rem;
+  color: var(--gki-text-secondary);
+  line-height: 1.75;
+  margin-bottom: 2rem;
+}
+
+/* ---------- Requirements card -------------------------------- */
+.gki-requirements {
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  border-left: 4px solid var(--gki-purple);
+  border-radius: var(--gki-radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.gki-requirements-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gki-purple);
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.gki-requirements-title svg {
+  flex-shrink: 0;
+}
+.gki-req-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0.5rem 2rem;
+}
+@media (max-width: 600px) {
+  .gki-req-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+.gki-req-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  padding: 0.25rem 0;
+}
+.gki-req-label {
+  font-weight: 600;
+  color: var(--gki-text);
+  white-space: nowrap;
+}
+.gki-req-value {
+  color: var(--gki-text-secondary);
+}
+.gki-req-value a {
+  color: var(--gki-accent);
+  text-decoration: none;
+}
+.gki-req-value a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Hero figure -------------------------------------- */
+.gki-hero-figure {
+  margin: 0 0 2.5rem 0;
+  padding: 0;
+}
+.gki-hero-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  box-shadow: var(--gki-shadow-md);
+}
+.gki-hero-figure figcaption {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--gki-text-muted);
+  margin-top: 0.6rem;
+}
+
+/* ---------- Sections ----------------------------------------- */
+.gki-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+.gki-section:last-of-type {
+  border-bottom: none;
+}
+.gki-section-title {
+  font-size: 1.563rem; /* H3 per Major Third */
+  font-weight: 700;
+  color: var(--gki-text);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  display: inline-block;
+}
+.gki-subsection-title {
+  font-size: 1.25rem; /* H4 per Major Third */
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 2rem 0 0.75rem 0;
+}
+
+/* ---------- Callout boxes ------------------------------------ */
+.gki-callout {
+  border-radius: var(--gki-radius);
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  font-size: 0.93rem;
+  line-height: 1.6;
+  display: flex !important;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+.gki-callout p {
+  margin: 0;
+}
+.gki-callout p + p {
+  margin-top: 0.5rem;
+}
+.gki-callout-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.15rem;
+}
+.gki-callout--tip {
+  background: var(--gki-tip-bg);
+  border: 1px solid var(--gki-tip-border);
+  color: var(--gki-tip-text);
+}
+.gki-callout--info {
+  background: var(--gki-info-bg);
+  border: 1px solid var(--gki-info-border);
+  color: var(--gki-info-text);
+}
+.gki-callout--warn {
+  background: var(--gki-warn-bg);
+  border: 1px solid var(--gki-warn-border);
+  color: var(--gki-warn-text);
+}
+.gki-callout a {
+  font-weight: 600;
+  text-decoration: underline;
+}
+.gki-callout--tip a  { color: var(--gki-teal); }
+.gki-callout--info a { color: var(--gki-blue); }
+.gki-callout--warn a { color: var(--gki-warn-text); }
+
+/* ---------- Step flow ---------------------------------------- */
+.gki-steps {
+  counter-reset: gki-step;
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 1.25rem 0;
+}
+.gki-step {
+  counter-increment: gki-step;
+  display: flex !important;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  align-items: flex-start;
+}
+.gki-step + .gki-step {
+  border-top: 1px dashed var(--gki-border-light);
+}
+.gki-step::before {
+  content: counter(gki-step) !important;
+  flex-shrink: 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  background: var(--gki-purple) !important;
+  color: #fff !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  border-radius: 50% !important;
+  margin-top: 0.1rem;
+}
+.gki-step-content {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+.gki-step-content strong {
+  color: var(--gki-text);
+}
+.gki-step-content code {
+  background: var(--gki-bg-offset);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--gki-font-mono);
+  font-size: 0.88em;
+  color: var(--gki-purple);
+}
+
+/* ---------- Screenshot figures ------------------------------- */
+.gki-figure {
+  margin: 1.5rem 0;
+  padding: 0;
+}
+.gki-figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius);
+  box-shadow: var(--gki-shadow-sm);
+}
+.gki-figure figcaption {
+  text-align: center;
+  font-size: 0.83rem;
+  color: var(--gki-text-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* ---------- Inline lists ------------------------------------- */
+.gki-list {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+  line-height: 1.75;
+}
+.gki-list li {
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+.gki-list li strong {
+  color: var(--gki-text);
+}
+
+/* ---------- Collapsible details/summary ---------------------- */
+.gki-details {
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius);
+  margin: 1.25rem 0;
+  overflow: hidden;
+}
+.gki-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.15rem;
+  background: var(--gki-bg-subtle);
+  cursor: pointer;
+  font-family: var(--gki-font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  list-style: none;
+  transition: background 0.15s ease;
+}
+.gki-summary::-webkit-details-marker {
+  display: none;
+}
+.gki-summary::marker {
+  display: none;
+  content: "";
+}
+.gki-summary::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--gki-text-muted);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+.gki-details[open] .gki-summary::after {
+  transform: rotate(180deg);
+}
+.gki-summary:hover {
+  background: var(--gki-bg-offset);
+}
+.gki-details-body {
+  padding: 1rem 1.15rem;
+}
+
+/* ---------- Related pages card grid -------------------------- */
+.gki-related {
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.gki-related-title {
+  font-size: 1.563rem;
+  font-weight: 700;
+  color: var(--gki-text);
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  display: inline-block;
+}
+.gki-card-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 1rem !important;
+}
+@media (max-width: 768px) {
+  .gki-card-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* Hide Parsedown-injected junk */
+.gki-card-grid > br,
+.gki-card-grid > p {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+.gki-card {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--gki-bg) !important;
+  border: 1px solid var(--gki-border-light) !important;
+  border-radius: var(--gki-radius) !important;
+  padding: 1.15rem 1.25rem !important;
+  text-decoration: none;
+  color: var(--gki-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  box-shadow: var(--gki-shadow-sm);
+}
+.gki-card > br {
+  display: none !important;
+}
+.gki-card:hover {
+  border-color: var(--gki-purple) !important;
+  box-shadow: 0 4px 16px -2px rgba(121,0,201,0.15), 0 2px 4px -2px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+  background: var(--gki-bg-subtle) !important;
+}
+.gki-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 0 0 0.3rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.gki-card-arrow {
+  flex-shrink: 0;
+  color: var(--gki-text-dim);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.gki-card:hover .gki-card-arrow {
+  color: var(--gki-purple);
+  transform: translateX(2px);
+}
+.gki-card-desc {
+  font-size: 0.83rem;
+  color: var(--gki-text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ---------- Links (global in gki-page) ----------------------- */
+.gki-page a {
+  color: var(--gki-accent);
+}
+.gki-page a:hover {
+  color: var(--gki-accent-hover);
+}
+
+/* ---------- Exploration notes -------------------------------- */
+.exploration-notes {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  color: var(--gki-text-secondary);
+  border-radius: var(--gki-radius);
+}
+.exploration-notes h2 {
+  font-size: 1.1rem;
+  margin-top: 0;
+  color: var(--gki-text);
+}
+
+/* ---------- Elementor overrides ------------------------------ */
+.gki-docs-page .gki-page {
+  max-width: none;
+}
+
+/* ---------- Force light background on content area ----------- */
+.gki-docs-page .elementor-widget-theme-post-content .elementor-widget-container {
+  background: var(--gki-bg);
+  padding: 2rem;
+  border-radius: var(--gki-radius-lg);
+}

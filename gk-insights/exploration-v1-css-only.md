@@ -23,19 +23,19 @@ taxonomy:
 :root {
   /* Brand */
   --gk-green:        #00d084;
-  --gk-green-light:  #e6faf1;
+  --gk-green-light:  #162a22;
   --gk-green-dark:   #00a868;
   --gk-teal:         #0099cc;
-  --gk-teal-light:   #e6f5fb;
-  --gk-dark:         #1b2028;
+  --gk-teal-light:   #162a32;
+  --gk-dark:         #e4e3e0;
   /* Neutral palette */
-  --color-bg:        #ffffff;
-  --color-surface:   #f8f9fb;
-  --color-border:    #e2e5ea;
-  --color-border-lt: #eef0f3;
-  --color-text:      #2c3038;
-  --color-text-sec:  #5f6672;
-  --color-text-dim:  #888e99;
+  --color-bg:        #1b1b1f;
+  --color-surface:   #232328;
+  --color-border:    #3a3a40;
+  --color-border-lt: #2e2e35;
+  --color-text:      #e4e3e0;
+  --color-text-sec:  #a8a5a0;
+  --color-text-dim:  #6b6860;
   /* Typography */
   --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono:     'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', Consolas, monospace;
@@ -324,8 +324,8 @@ tr:hover td {
 .exploration-notes {
   margin-top: var(--gap-xl);
   padding: var(--gap-lg);
-  background: #fefbf0;
-  border: 1px dashed #d4a843;
+  background: #2a2820;
+  border: 1px dashed #5a4a20;
   border-radius: var(--radius-lg);
   font-size: var(--font-size-sm);
   line-height: 1.7;
@@ -333,8 +333,8 @@ tr:hover td {
 }
 .exploration-notes h2 {
   font-size: 1.15rem;
-  color: #8a6d20;
-  border-bottom: 1px solid #e8d89c;
+  color: #d4a843;
+  border-bottom: 1px solid #4a4020;
   margin-top: 0;
   padding-bottom: 0.4rem;
   margin-bottom: var(--gap-sm);
@@ -346,17 +346,20 @@ tr:hover td {
   margin-bottom: 0;
 }
 .exploration-notes code {
-  background: #fef6dc;
-  border-color: #e8d89c;
+  background: #3a3418;
+  border-color: #5a4a20;
   font-size: 0.85em;
 }
+/* ---------- Fix WP/Parsedown empty paragraphs ---------- */
+.entry-content p:empty,
+.post-content p:empty,
+.elementor-widget-container p:empty { display: none !important; margin: 0 !important; padding: 0 !important; }
+.related-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+.related-card { display: block !important; background: var(--color-surface) !important; border: 1px solid var(--color-border) !important; border-radius: var(--radius) !important; padding: 1.5rem !important; }
+.breadcrumb-nav { display: flex !important; align-items: center !important; gap: 0.35rem !important; }
 </style>
 
-<div class="breadcrumb-nav">
-  <a href="/gk-insights/">GitKraken Insights</a>
-  <span class="sep">/</span>
-  <span class="current">Getting Started</span>
-</div>
+<div class="breadcrumb-nav"><a href="/gk-insights/">GitKraken Insights</a><span class="sep">/</span><span class="current">Getting Started</span></div>
 
 # Getting Started with GitKraken Insights
 
@@ -376,6 +379,45 @@ Instead of surface-level stats, GitKraken Insights shows how work connects to te
   <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
   <figcaption style="text-align: center; color: #888">Overview of GitKraken Insights</figcaption>
 </figure>
+
+<div class="related-pages">
+<h2>Explore GitKraken Insights</h2>
+<div class="related-grid">
+  <a href="/gk-insights/gk-insights-dora-metrics/" class="related-card">
+    <span class="card-title">DORA Metrics</span>
+    <span class="card-desc">Deploy frequency, change lead time, mean time to recover, and defect rate.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-pr-metrics/" class="related-card">
+    <span class="card-title">Pull Request Metrics</span>
+    <span class="card-desc">Cycle time, review count, open time, PR size, and code review hours.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-ai-impact-metrics/" class="related-card">
+    <span class="card-title">AI Impact Metrics</span>
+    <span class="card-desc">Prompt acceptance rate, duplicated code, code rework, and active users.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-code-quality-metrics/" class="related-card">
+    <span class="card-title">Code Quality Metrics</span>
+    <span class="card-desc">Bug work percent, documentation and test percent, and code change rate.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-velocity-metrics/" class="related-card">
+    <span class="card-title">Velocity Metrics</span>
+    <span class="card-desc">Commit count and estimated coding hours.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-dashboard-management/" class="related-card">
+    <span class="card-title">Dashboard Management</span>
+    <span class="card-desc">Configure filters, group views, and chart display options.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-metric-settings/" class="related-card">
+    <span class="card-title">Metric Settings</span>
+    <span class="card-desc">Adjust thresholds, targets, and metric calculation parameters.</span>
+  </a>
+  <a href="/gk-insights/gk-insights-faq/" class="related-card">
+    <span class="card-title">FAQ</span>
+    <span class="card-desc">Common questions about data, accuracy, access, and configuration.</span>
+  </a>
+</div>
+</div>
+
 
 ---
 
@@ -477,43 +519,7 @@ Once setup is complete, GitKraken Insights will begin importing your repository 
 
 ---
 
-<div class="related-pages">
-<h2>Explore GitKraken Insights</h2>
-<div class="related-grid">
-  <a href="/gk-insights/gk-insights-dora-metrics/" class="related-card">
-    <span class="card-title">DORA Metrics</span>
-    <span class="card-desc">Deploy frequency, change lead time, mean time to recover, and defect rate.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-pr-metrics/" class="related-card">
-    <span class="card-title">Pull Request Metrics</span>
-    <span class="card-desc">Cycle time, review count, open time, PR size, and code review hours.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-ai-impact-metrics/" class="related-card">
-    <span class="card-title">AI Impact Metrics</span>
-    <span class="card-desc">Prompt acceptance rate, duplicated code, code rework, and active users.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-code-quality-metrics/" class="related-card">
-    <span class="card-title">Code Quality Metrics</span>
-    <span class="card-desc">Bug work percent, documentation and test percent, and code change rate.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-velocity-metrics/" class="related-card">
-    <span class="card-title">Velocity Metrics</span>
-    <span class="card-desc">Commit count and estimated coding hours.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-dashboard-management/" class="related-card">
-    <span class="card-title">Dashboard Management</span>
-    <span class="card-desc">Configure filters, group views, and chart display options.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-metric-settings/" class="related-card">
-    <span class="card-title">Metric Settings</span>
-    <span class="card-desc">Adjust thresholds, targets, and metric calculation parameters.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-faq/" class="related-card">
-    <span class="card-title">FAQ</span>
-    <span class="card-desc">Common questions about data, accuracy, access, and configuration.</span>
-  </a>
-</div>
-</div>
+
 
 ---
 

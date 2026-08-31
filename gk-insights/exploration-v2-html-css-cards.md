@@ -409,7 +409,9 @@ taxonomy:
 .gki-page p:empty { display: none !important; margin: 0 !important; padding: 0 !important; line-height: 0 !important; }
 .gki-page { max-width: none; }
 .gki-card-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+.gki-card-grid > br, .gki-card-grid > p { display: none !important; margin: 0 !important; padding: 0 !important; height: 0 !important; }
 .gki-card { display: flex !important; background: var(--gki-bg-subtle) !important; border: 1px solid var(--gki-border) !important; border-radius: var(--gki-radius) !important; padding: 1.15rem 1.25rem !important; }
+.gki-card > br { display: none !important; }
 .gki-breadcrumb { display: flex !important; }
 .gki-req-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; }
 .gki-steps { list-style: none !important; padding: 0 !important; counter-reset: gki-step !important; }

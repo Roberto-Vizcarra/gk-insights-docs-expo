@@ -355,7 +355,9 @@ tr:hover td {
 .post-content p:empty,
 .elementor-widget-container p:empty { display: none !important; margin: 0 !important; padding: 0 !important; }
 .related-grid { display: grid !important; grid-template-columns: repeat(2, 1fr) !important; gap: 1rem !important; }
+.related-grid > br, .related-grid > p { display: none !important; margin: 0 !important; padding: 0 !important; height: 0 !important; }
 .related-card { display: block !important; background: var(--color-surface) !important; border: 1px solid var(--color-border) !important; border-radius: var(--radius) !important; padding: 1.5rem !important; }
+.related-card > br { display: none !important; }
 .breadcrumb-nav { display: flex !important; align-items: center !important; gap: 0.35rem !important; }
 </style>
 

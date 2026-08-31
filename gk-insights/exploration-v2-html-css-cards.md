@@ -663,7 +663,6 @@ taxonomy:
     <figcaption>Monitor import progress while Insights processes your data</figcaption>
   </figure>
 </section>
-</div><!-- /.gki-page -->
 <div class="exploration-notes" style="margin-top:3rem; padding:1.5rem; background:#2a2a30; border:1px solid #3a3a40; color:#a8a5a0; border-radius:8px;">
 <h2 style="font-size:1.1rem; margin-top:0; color:#e4e3e0;">Exploration Notes: Version 2 — Full HTML/CSS Card Layout</h2>
 <p><strong>Approach:</strong> Replaced Markdown content with semantic HTML and embedded CSS. Added breadcrumb navigation, card grid for related pages, styled info boxes, and refined visual hierarchy.</p>
@@ -671,3 +670,4 @@ taxonomy:
 <p><strong>Limitations:</strong> The WordPress page template still controls the header, footer, and sidebar — this only styles the post content area. Every page needs its own copy of the CSS (or it needs to be extracted to WP's custom CSS). No JavaScript interactivity (that's V3). The file is no longer readable as Markdown — it's effectively an HTML file with a .md extension.</p>
 <p><strong>Maintenance:</strong> Medium-high. HTML content is harder to edit than Markdown. CSS is duplicated per file unless extracted. Layout changes require updating every file. A shared CSS approach (WordPress Customizer or a small plugin) would reduce duplication.</p>
 </div>
+</div><!-- /.gki-page -->

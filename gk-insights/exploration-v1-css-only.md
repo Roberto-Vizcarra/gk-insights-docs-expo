@@ -309,7 +309,7 @@ tr:hover td {
   position: relative;
 }
 .related-card::after {
-  content: "\2192";
+  content: "→";
   position: absolute;
   top: 1.1rem;
   right: 1rem;

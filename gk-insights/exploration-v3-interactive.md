@@ -64,7 +64,8 @@ taxonomy:
   color: var(--gki-text-muted);
   margin-bottom: 1.75rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--gki-border);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-accent), transparent) 1;
 }
 .gki-breadcrumb a {
   color: var(--gki-accent);
@@ -177,7 +178,8 @@ taxonomy:
   color: var(--gki-text);
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--gki-accent);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-accent), #6366f1) 1;
   display: inline-block;
   scroll-margin-top: 1.5rem;
 }
@@ -353,7 +355,11 @@ taxonomy:
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--gki-text);
-  margin: 0;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-accent), #6366f1) 1;
+  display: inline-block;
 }
 
 .gki-card-grid {
@@ -382,8 +388,9 @@ taxonomy:
 }
 .gki-card:hover {
   border-color: var(--gki-accent);
-  box-shadow: 0 4px 12px -2px rgba(13,148,136,0.25), 0 2px 4px -2px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 16px -2px rgba(13,148,136,0.25), 0 2px 4px -2px rgba(0,0,0,0.3);
   transform: translateY(-3px);
+  background: var(--gki-bg-offset);
 }
 
 .gki-card-title {
@@ -670,8 +677,6 @@ taxonomy:
   </figure>
 </section>
 
-</div><!-- /.gki-page -->
-
 <div class="exploration-notes" style="margin-top:3rem; padding:1.5rem; background:#2a2a30; border:1px solid #3a3a40; color:#a8a5a0; border-radius:8px;">
 <h2 style="font-size:1.1rem; margin-top:0; color:#e4e3e0;">Exploration Notes: Version 3 — Enhanced HTML/CSS</h2>
 <p><strong>Approach:</strong> Builds on V2's HTML/CSS card layout with additional visual polish and native HTML5 collapsible sections (<code>&lt;details&gt;/&lt;summary&gt;</code>). Originally included embedded JavaScript for a sticky TOC, search/filter, progress bar, and back-to-top button.</p>
@@ -686,3 +691,4 @@ taxonomy:
 <p><strong>What was removed (non-functional in WP):</strong> Sticky TOC sidebar, reading progress bar, card search/filter, smooth scroll navigation, back-to-top button — all required JavaScript that WordPress strips from post content.</p>
 <p><strong>Implications for platform decision:</strong> If interactive features (search, TOC, scroll tracking) are required, they cannot be delivered through the current Git It Write + WordPress pipeline without server-side changes. A purpose-built docs platform (Starlight, Mintlify) or a headless WP approach would be needed.</p>
 </div>
+</div><!-- /.gki-page -->

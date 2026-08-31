@@ -13,9 +13,8 @@ taxonomy:
 
 <style>
 /* ============================================================
-   GitKraken Insights — V2 Full HTML/CSS Card Layout
+   GitKraken Insights - V2 Full HTML/CSS Card Layout
    ============================================================ */
-
 :root {
   --gki-accent: #0D9488;
   --gki-accent-hover: #0F766E;
@@ -49,12 +48,10 @@ taxonomy:
   --gki-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --gki-font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
 }
-
 /* ---------- Reset scope ---------- */
 .gki-page * {
   box-sizing: border-box;
 }
-
 .gki-page {
   font-family: var(--gki-font);
   color: var(--gki-text);
@@ -62,7 +59,6 @@ taxonomy:
   max-width: 860px;
   margin: 0 auto;
 }
-
 /* ---------- Breadcrumb ---------- */
 .gki-breadcrumb {
   display: flex;
@@ -74,27 +70,22 @@ taxonomy:
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--gki-border);
 }
-
 .gki-breadcrumb a {
   color: var(--gki-accent);
   text-decoration: none;
   font-weight: 500;
 }
-
 .gki-breadcrumb a:hover {
   text-decoration: underline;
 }
-
 .gki-breadcrumb .gki-crumb-sep {
   color: var(--gki-border-strong);
   user-select: none;
 }
-
 .gki-breadcrumb .gki-crumb-current {
   color: var(--gki-text-secondary);
   font-weight: 500;
 }
-
 /* ---------- Page title ---------- */
 .gki-page-title {
   font-size: 2rem;
@@ -104,7 +95,6 @@ taxonomy:
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
-
 .gki-page-updated {
   display: inline-block;
   font-size: 0.8rem;
@@ -114,7 +104,6 @@ taxonomy:
   border-radius: 4px;
   margin-bottom: 1.5rem;
 }
-
 /* ---------- Intro text ---------- */
 .gki-intro {
   font-size: 1.08rem;
@@ -122,7 +111,6 @@ taxonomy:
   line-height: 1.75;
   margin-bottom: 2rem;
 }
-
 /* ---------- Requirements card ---------- */
 .gki-requirements {
   background: var(--gki-bg-subtle);
@@ -132,7 +120,6 @@ taxonomy:
   padding: 1.25rem 1.5rem;
   margin-bottom: 2.5rem;
 }
-
 .gki-requirements-title {
   font-size: 0.85rem;
   font-weight: 600;
@@ -144,23 +131,19 @@ taxonomy:
   align-items: center;
   gap: 0.4rem;
 }
-
 .gki-requirements-title svg {
   flex-shrink: 0;
 }
-
 .gki-req-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem 2rem;
 }
-
 @media (max-width: 600px) {
   .gki-req-grid {
     grid-template-columns: 1fr;
   }
 }
-
 .gki-req-item {
   display: flex;
   align-items: baseline;
@@ -169,32 +152,26 @@ taxonomy:
   line-height: 1.55;
   padding: 0.25rem 0;
 }
-
 .gki-req-label {
   font-weight: 600;
   color: var(--gki-text);
   white-space: nowrap;
 }
-
 .gki-req-value {
   color: var(--gki-text-secondary);
 }
-
 .gki-req-value a {
   color: var(--gki-accent);
   text-decoration: none;
 }
-
 .gki-req-value a:hover {
   text-decoration: underline;
 }
-
 /* ---------- Hero figure ---------- */
 .gki-hero-figure {
   margin: 0 0 2.5rem 0;
   padding: 0;
 }
-
 .gki-hero-figure img {
   display: block;
   width: 100%;
@@ -203,25 +180,21 @@ taxonomy:
   border-radius: var(--gki-radius-lg);
   box-shadow: var(--gki-shadow-md);
 }
-
 .gki-hero-figure figcaption {
   text-align: center;
   font-size: 0.85rem;
   color: var(--gki-text-muted);
   margin-top: 0.6rem;
 }
-
 /* ---------- Section ---------- */
 .gki-section {
   margin-bottom: 2.5rem;
   padding-bottom: 2.5rem;
   border-bottom: 1px solid var(--gki-border);
 }
-
 .gki-section:last-of-type {
   border-bottom: none;
 }
-
 .gki-section-title {
   font-size: 1.5rem;
   font-weight: 700;
@@ -231,14 +204,12 @@ taxonomy:
   border-bottom: 2px solid var(--gki-accent);
   display: inline-block;
 }
-
 .gki-subsection-title {
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--gki-text);
   margin: 2rem 0 0.75rem 0;
 }
-
 /* ---------- Callout boxes ---------- */
 .gki-callout {
   border-radius: var(--gki-radius);
@@ -250,49 +221,40 @@ taxonomy:
   gap: 0.75rem;
   align-items: flex-start;
 }
-
 .gki-callout p {
   margin: 0;
 }
-
 .gki-callout p + p {
   margin-top: 0.5rem;
 }
-
 .gki-callout-icon {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
   margin-top: 0.15rem;
 }
-
 .gki-callout--tip {
   background: var(--gki-tip-bg);
   border: 1px solid var(--gki-tip-border);
   color: var(--gki-tip-text);
 }
-
 .gki-callout--info {
   background: var(--gki-info-bg);
   border: 1px solid var(--gki-info-border);
   color: var(--gki-info-text);
 }
-
 .gki-callout--warn {
   background: var(--gki-warn-bg);
   border: 1px solid var(--gki-warn-border);
   color: var(--gki-warn-text);
 }
-
 .gki-callout a {
   font-weight: 600;
   text-decoration: underline;
 }
-
 .gki-callout--tip a  { color: var(--gki-accent-hover); }
 .gki-callout--info a { color: var(--gki-info-text); }
 .gki-callout--warn a { color: var(--gki-warn-text); }
-
 /* ---------- Step flow ---------- */
 .gki-steps {
   counter-reset: gki-step;
@@ -300,7 +262,6 @@ taxonomy:
   padding: 0;
   margin: 1.25rem 0;
 }
-
 .gki-step {
   counter-increment: gki-step;
   display: flex;
@@ -308,11 +269,9 @@ taxonomy:
   padding: 0.75rem 0;
   align-items: flex-start;
 }
-
 .gki-step + .gki-step {
   border-top: 1px dashed var(--gki-border);
 }
-
 .gki-step::before {
   content: counter(gki-step);
   flex-shrink: 0;
@@ -328,17 +287,14 @@ taxonomy:
   border-radius: 50%;
   margin-top: 0.1rem;
 }
-
 .gki-step-content {
   flex: 1;
   font-size: 0.95rem;
   line-height: 1.65;
 }
-
 .gki-step-content strong {
   color: var(--gki-text);
 }
-
 .gki-step-content code {
   background: var(--gki-bg-offset);
   padding: 0.15rem 0.4rem;
@@ -347,13 +303,11 @@ taxonomy:
   font-size: 0.88em;
   color: var(--gki-accent-hover);
 }
-
 /* ---------- Screenshot figures ---------- */
 .gki-figure {
   margin: 1.5rem 0;
   padding: 0;
 }
-
 .gki-figure img {
   display: block;
   width: 100%;
@@ -363,7 +317,6 @@ taxonomy:
   border-radius: var(--gki-radius);
   box-shadow: var(--gki-shadow-sm);
 }
-
 .gki-figure figcaption {
   text-align: center;
   font-size: 0.83rem;
@@ -371,53 +324,44 @@ taxonomy:
   margin-top: 0.5rem;
   font-style: italic;
 }
-
 /* ---------- Inline list ---------- */
 .gki-list {
   margin: 0.75rem 0;
   padding-left: 1.25rem;
   line-height: 1.75;
 }
-
 .gki-list li {
   margin-bottom: 0.3rem;
   font-size: 0.95rem;
 }
-
 .gki-list li strong {
   color: var(--gki-text);
 }
-
 /* ---------- Related pages card grid ---------- */
 .gki-related {
   margin-top: 3rem;
 }
-
 .gki-related-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--gki-text);
   margin: 0 0 1.25rem 0;
 }
-
 .gki-card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
-
 @media (max-width: 768px) {
   .gki-card-grid {
     grid-template-columns: 1fr;
   }
 }
-
 @media (min-width: 769px) and (max-width: 960px) {
   .gki-card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 .gki-card {
   display: flex;
   flex-direction: column;
@@ -431,13 +375,11 @@ taxonomy:
   transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
   box-shadow: var(--gki-shadow-sm);
 }
-
 .gki-card:hover {
   border-color: var(--gki-accent);
   box-shadow: var(--gki-shadow-md);
   transform: translateY(-2px);
 }
-
 .gki-card-title {
   font-size: 0.95rem;
   font-weight: 600;
@@ -448,18 +390,15 @@ taxonomy:
   justify-content: space-between;
   gap: 0.5rem;
 }
-
 .gki-card-arrow {
   flex-shrink: 0;
   color: var(--gki-text-muted);
   transition: color 0.15s ease, transform 0.15s ease;
 }
-
 .gki-card:hover .gki-card-arrow {
   color: var(--gki-accent);
   transform: translateX(2px);
 }
-
 .gki-card-desc {
   font-size: 0.83rem;
   color: var(--gki-text-secondary);

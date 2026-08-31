@@ -13,13 +13,12 @@ taxonomy:
 
 <style>
 /* ==========================================================================
-   V1 CSS-Only Enhancement — GitKraken Insights Help Center Exploration
+   V1 CSS-Only Enhancement - GitKraken Insights Help Center Exploration
    ========================================================================== 
    This style block targets standard HTML elements that WordPress generates
    from Markdown via the Git It Write plugin. All content below remains in
    Markdown; only presentation changes live here.
    ========================================================================== */
-
 /* --- Custom Properties --------------------------------------------------- */
 :root {
   /* Brand */
@@ -29,7 +28,6 @@ taxonomy:
   --gk-teal:         #0099cc;
   --gk-teal-light:   #e6f5fb;
   --gk-dark:         #1b2028;
-
   /* Neutral palette */
   --color-bg:        #ffffff;
   --color-surface:   #f8f9fb;
@@ -38,7 +36,6 @@ taxonomy:
   --color-text:      #2c3038;
   --color-text-sec:  #5f6672;
   --color-text-dim:  #888e99;
-
   /* Typography */
   --font-body:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   --font-mono:     'JetBrains Mono', 'Fira Code', 'SF Mono', 'Cascadia Code', Consolas, monospace;
@@ -46,7 +43,6 @@ taxonomy:
   --font-size-base: 1rem;
   --font-size-lg:  1.125rem;
   --line-height:   1.7;
-
   /* Layout */
   --content-width: 720px;
   --gap-xs:  0.5rem;
@@ -57,7 +53,6 @@ taxonomy:
   --radius:  8px;
   --radius-lg: 12px;
 }
-
 /* --- Base & Content Wrapper ----------------------------------------------- */
 .entry-content,
 .post-content,
@@ -71,7 +66,6 @@ article .content {
   line-height: var(--line-height);
   color: var(--color-text);
 }
-
 /* --- Typography ---------------------------------------------------------- */
 h1 {
   font-size: 2.25rem;
@@ -82,7 +76,6 @@ h1 {
   margin-bottom: var(--gap-sm);
   color: var(--gk-dark);
 }
-
 h2 {
   font-size: 1.5rem;
   font-weight: 650;
@@ -94,7 +87,6 @@ h2 {
   border-bottom: 2px solid var(--gk-green);
   color: var(--gk-dark);
 }
-
 h3 {
   font-size: 1.2rem;
   font-weight: 600;
@@ -103,7 +95,6 @@ h3 {
   margin-bottom: var(--gap-sm);
   color: var(--color-text);
 }
-
 h4 {
   font-size: 1.05rem;
   font-weight: 600;
@@ -112,28 +103,23 @@ h4 {
   margin-bottom: var(--gap-xs);
   color: var(--color-text-sec);
 }
-
 p {
   margin-bottom: var(--gap-md);
 }
-
 a {
   color: var(--gk-teal);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease, color 0.2s ease;
 }
-
 a:hover {
   color: var(--gk-green-dark);
   border-bottom-color: var(--gk-green-dark);
 }
-
 strong {
   font-weight: 600;
   color: var(--gk-dark);
 }
-
 /* --- Blockquote as Callout Box ------------------------------------------- */
 blockquote {
   background: var(--color-surface);
@@ -146,47 +132,38 @@ blockquote {
   line-height: 1.8;
   color: var(--color-text-sec);
 }
-
 blockquote p {
   margin-bottom: var(--gap-xs);
 }
-
 blockquote strong {
   color: var(--gk-dark);
   font-weight: 600;
 }
-
 /* --- Lists --------------------------------------------------------------- */
 ul, ol {
   margin-bottom: var(--gap-md);
   padding-left: 1.5rem;
 }
-
 li {
   margin-bottom: 0.4rem;
   line-height: var(--line-height);
 }
-
 li + li {
   margin-top: 0.25rem;
 }
-
 ol li {
   padding-left: 0.25rem;
 }
-
 ol li::marker {
   font-weight: 600;
   color: var(--gk-green-dark);
 }
-
 /* --- Images & Figures ---------------------------------------------------- */
 figure {
   margin: var(--gap-lg) 0;
   padding: 0;
   text-align: center;
 }
-
 figure img,
 .help-center-img {
   max-width: 100%;
@@ -195,23 +172,19 @@ figure img,
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--color-border-lt);
   transition: box-shadow 0.25s ease;
 }
-
 figure img:hover,
 .help-center-img:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--color-border);
 }
-
 figure img.img-bordered {
   border: 1px solid var(--color-border);
 }
-
 figcaption {
   font-size: var(--font-size-sm);
   color: var(--color-text-dim) !important;
   margin-top: var(--gap-sm);
   font-style: italic;
 }
-
 /* --- Horizontal Rules ---------------------------------------------------- */
 hr {
   border: none;
@@ -225,7 +198,6 @@ hr {
   );
   margin: var(--gap-xl) 0;
 }
-
 /* --- Code & Kbd ---------------------------------------------------------- */
 code {
   font-family: var(--font-mono);
@@ -236,7 +208,6 @@ code {
   border-radius: 4px;
   border: 1px solid var(--color-border-lt);
 }
-
 kbd {
   font-family: var(--font-body);
   font-size: var(--font-size-sm);
@@ -247,7 +218,6 @@ kbd {
   display: inline-block;
   margin-bottom: var(--gap-sm);
 }
-
 /* --- Tables -------------------------------------------------------------- */
 table {
   width: 100%;
@@ -259,11 +229,9 @@ table {
   overflow: hidden;
   font-size: var(--font-size-sm);
 }
-
 thead {
   background: var(--color-surface);
 }
-
 th {
   font-weight: 600;
   color: var(--gk-dark);
@@ -271,21 +239,17 @@ th {
   padding: 0.75rem 1rem;
   border-bottom: 2px solid var(--color-border);
 }
-
 td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--color-border-lt);
   color: var(--color-text);
 }
-
 tr:last-child td {
   border-bottom: none;
 }
-
 tr:hover td {
   background: var(--gk-green-light);
 }
-
 /* --- Breadcrumb Navigation ----------------------------------------------- */
 .breadcrumb-nav {
   font-size: var(--font-size-sm);
@@ -294,48 +258,40 @@ tr:hover td {
   padding: var(--gap-xs) 0;
   font-family: var(--font-body);
 }
-
 .breadcrumb-nav a {
   color: var(--color-text-sec);
   text-decoration: none;
   border-bottom: none;
 }
-
 .breadcrumb-nav a:hover {
   color: var(--gk-teal);
 }
-
 .breadcrumb-nav .sep {
   margin: 0 0.4rem;
   color: var(--color-border);
 }
-
 .breadcrumb-nav .current {
   color: var(--color-text);
   font-weight: 500;
 }
-
 /* --- Related Pages Card Grid --------------------------------------------- */
 .related-pages {
   margin-top: var(--gap-xl);
   padding-top: var(--gap-lg);
   border-top: 2px solid var(--gk-green);
 }
-
 .related-pages h2 {
   border-bottom: none;
   margin-top: 0;
   padding-bottom: 0;
   font-size: 1.35rem;
 }
-
 .related-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--gap-sm);
   margin-top: var(--gap-md);
 }
-
 .related-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -346,13 +302,11 @@ tr:hover td {
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
   display: block;
 }
-
 .related-card:hover {
   border-color: var(--gk-green);
   box-shadow: 0 2px 8px rgba(0, 208, 132, 0.12);
   transform: translateY(-1px);
 }
-
 .related-card .card-title {
   font-weight: 600;
   font-size: var(--font-size-base);
@@ -360,14 +314,12 @@ tr:hover td {
   margin-bottom: 0.35rem;
   display: block;
 }
-
 .related-card .card-desc {
   font-size: var(--font-size-sm);
   color: var(--color-text-sec);
   line-height: 1.5;
   display: block;
 }
-
 /* --- Exploration Notes --------------------------------------------------- */
 .exploration-notes {
   margin-top: var(--gap-xl);
@@ -379,7 +331,6 @@ tr:hover td {
   line-height: 1.7;
   color: var(--color-text-sec);
 }
-
 .exploration-notes h2 {
   font-size: 1.15rem;
   color: #8a6d20;
@@ -388,15 +339,12 @@ tr:hover td {
   padding-bottom: 0.4rem;
   margin-bottom: var(--gap-sm);
 }
-
 .exploration-notes p {
   margin-bottom: var(--gap-sm);
 }
-
 .exploration-notes p:last-child {
   margin-bottom: 0;
 }
-
 .exploration-notes code {
   background: #fef6dc;
   border-color: #e8d89c;

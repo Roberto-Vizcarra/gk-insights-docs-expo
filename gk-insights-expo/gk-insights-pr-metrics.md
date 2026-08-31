@@ -8,7 +8,7 @@ plan_required: GitKraken Insights
 integrations: [GitHub, GitLab, GitLab Self-Hosted, Bitbucket]
 status: GA
 taxonomy:
-    category: gk-insights
+    category: insights-expo
 ---
 <kbd>Last updated: March 2026</kbd>
 

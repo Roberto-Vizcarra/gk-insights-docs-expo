@@ -8,7 +8,7 @@ plan_required: GitKraken Insights
 integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
 status: GA
 taxonomy:
-    category: gk-insights
+    category: insights-expo
 ---
 <kbd>Last updated: August 2026</kbd>
 

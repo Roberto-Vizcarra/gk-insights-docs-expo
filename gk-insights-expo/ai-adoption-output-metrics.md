@@ -8,7 +8,7 @@ plan_required: GitKraken Insights
 integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps, Azure DevOps Server]
 status: GA
 taxonomy:
-    category: gk-insights
+    category: insights-expo
 ---
 <kbd>Last updated: August 2026</kbd>
 

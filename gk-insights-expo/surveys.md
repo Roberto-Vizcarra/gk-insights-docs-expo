@@ -2,7 +2,7 @@
 title: Voice of the Developer Surveys
 description: Learn how to send pre-built surveys to your team and collect qualitative data alongside your Git metrics in GitKraken Insights.
 taxonomy:
-    category: gk-insights
+    category: insights-expo
 ---
 <kbd>Last updated: March 2026</kbd>
 

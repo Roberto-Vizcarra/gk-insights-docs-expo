@@ -8,7 +8,7 @@ plan_required: GitKraken Insights
 integrations: [Claude Code, Codex, Cursor]
 status: GA
 taxonomy:
-    category: gk-insights
+    category: insights-expo
 ---
 <kbd>Last updated: June 2026</kbd>
 

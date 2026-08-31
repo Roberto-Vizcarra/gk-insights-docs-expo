@@ -534,3 +534,346 @@
   padding: 2rem;
   border-radius: var(--gki-radius-lg);
 }
+
+/* ============================================================
+   LAYOUT — 3-Column Custom Template
+   ============================================================ */
+
+.gki-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 220px;
+  gap: 0 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: var(--gki-font);
+  color: var(--gki-text);
+  background: var(--gki-bg);
+}
+
+/* --- Left sidebar --- */
+.gki-sidebar--left {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gki-border-light) transparent;
+}
+
+.gki-nav-title {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gki-purple);
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+}
+.gki-nav-title:hover {
+  color: var(--gki-purple-hover);
+}
+
+.gki-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gki-nav-item {
+  margin: 0;
+}
+
+.gki-nav-item a {
+  display: block;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.87rem;
+  color: var(--gki-text-secondary);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  border-radius: 0 4px 4px 0;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  line-height: 1.4;
+}
+
+.gki-nav-item a:hover {
+  color: var(--gki-text);
+  background: var(--gki-bg-subtle);
+}
+
+.gki-nav-item--active a {
+  color: var(--gki-purple);
+  font-weight: 600;
+  background: rgba(121, 0, 201, 0.06);
+  border-left-color: var(--gki-purple);
+}
+
+/* WP menu sub-menu compatibility */
+.gki-nav-list .sub-menu {
+  list-style: none;
+  padding-left: 1rem;
+  margin: 0;
+}
+.gki-nav-list .current-menu-item > a {
+  color: var(--gki-purple);
+  font-weight: 600;
+  background: rgba(121, 0, 201, 0.06);
+  border-left-color: var(--gki-purple);
+}
+
+/* --- Content area --- */
+.gki-content-main {
+  min-width: 0;
+  background: var(--gki-bg);
+}
+
+/* In template mode, .gki-page width is controlled by the grid */
+.gki-content-main .gki-page {
+  max-width: none;
+}
+
+/* --- Right sidebar --- */
+.gki-sidebar--right {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gki-border-light) transparent;
+}
+
+/* Sidebar TOC styling */
+.gki-sidebar-toc .gki-toc {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.gki-sidebar-toc .gki-toc-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gki-text-muted);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+}
+
+.gki-sidebar-toc .gki-toc-link {
+  font-size: 0.83rem;
+  line-height: 1.35;
+  padding: 0.3rem 0 0.3rem 0.75rem;
+}
+
+.gki-sidebar-toc .gki-toc-link.gki-toc-active {
+  color: var(--gki-purple);
+  border-left-color: var(--gki-purple);
+  font-weight: 500;
+}
+
+/* --- Responsive layout --- */
+@media (max-width: 1100px) {
+  .gki-layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+    padding: 1.5rem;
+  }
+  .gki-sidebar--right {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .gki-layout {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .gki-sidebar--left {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    border-bottom: 1px solid var(--gki-border-light);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  /* Show nav as horizontal scroll on mobile */
+  .gki-nav-list {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+  }
+  .gki-nav-item a {
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 4px 4px 0 0;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.82rem;
+  }
+  .gki-nav-item--active a {
+    border-bottom-color: var(--gki-purple);
+    border-left: none;
+  }
+}
+
+/* ============================================================
+   MARKDOWN ELEMENT STYLING (V1 / Markdown-based content)
+   ============================================================ */
+
+/* Headings rendered from Markdown ## / ### */
+.gki-page > h2:not([class]),
+.gki-page > h3:not([class]),
+.gki-page > h4:not([class]) {
+  font-family: var(--gki-font);
+}
+.gki-page > h2:not([class]) {
+  font-size: 1.563rem;
+  font-weight: 700;
+  color: var(--gki-text);
+  margin: 2rem 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  display: inline-block;
+}
+.gki-page > h3:not([class]) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 1.5rem 0 0.75rem 0;
+}
+.gki-page > h4:not([class]) {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 1.25rem 0 0.5rem 0;
+}
+
+/* Paragraphs from Markdown */
+.gki-page > p:not([class]):not(:empty) {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--gki-text-secondary);
+  margin-bottom: 1rem;
+}
+
+/* Blockquotes → styled info boxes */
+.gki-page > blockquote {
+  background: var(--gki-bg-subtle);
+  border-left: 4px solid var(--gki-purple);
+  border-radius: 0 var(--gki-radius) var(--gki-radius) 0;
+  padding: 1rem 1.25rem;
+  margin: 1.25rem 0;
+  font-size: 0.93rem;
+  color: var(--gki-text-secondary);
+}
+.gki-page > blockquote p {
+  margin: 0 0 0.25rem 0;
+}
+
+/* Ordered lists from Markdown → numbered step circles */
+.gki-page > ol:not([class]) {
+  counter-reset: gki-md-step;
+  list-style: none;
+  padding: 0;
+  margin: 1.25rem 0;
+}
+.gki-page > ol:not([class]) > li {
+  counter-increment: gki-md-step;
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  border-top: 1px dashed var(--gki-border-light);
+}
+.gki-page > ol:not([class]) > li:first-child {
+  border-top: none;
+}
+.gki-page > ol:not([class]) > li::before {
+  content: counter(gki-md-step);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--gki-purple);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 50%;
+  margin-top: 0.1rem;
+}
+
+/* Unordered lists from Markdown */
+.gki-page > ul:not([class]) {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+  line-height: 1.75;
+}
+.gki-page > ul:not([class]) > li {
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+/* Horizontal rules */
+.gki-page > hr {
+  border: none;
+  height: 1px;
+  background: var(--gki-border-light);
+  margin: 2rem 0;
+}
+
+/* Inline code from Markdown */
+.gki-page code:not([class]) {
+  background: var(--gki-bg-offset);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--gki-font-mono);
+  font-size: 0.88em;
+  color: var(--gki-purple);
+}
+
+/* Kbd elements (V1 uses for "Last updated") */
+.gki-page kbd {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--gki-text-muted);
+  background: var(--gki-bg-subtle);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-family: var(--gki-font);
+  margin-bottom: 1.5rem;
+}
+
+/* Figures from Markdown (without gki-figure class) */
+.gki-page > figure:not([class]) {
+  margin: 1.5rem 0;
+  padding: 0;
+}
+.gki-page > figure:not([class]) img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius);
+  box-shadow: var(--gki-shadow-sm);
+}
+.gki-page > figure:not([class]) figcaption {
+  text-align: center;
+  font-size: 0.83rem;
+  color: var(--gki-text-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+}

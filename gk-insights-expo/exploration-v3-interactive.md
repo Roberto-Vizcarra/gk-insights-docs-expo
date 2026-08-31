@@ -14,7 +14,7 @@ taxonomy:
 
 <div class="gki-page">
 <!-- Breadcrumb -->
-<nav class="gki-breadcrumb" aria-label="Breadcrumb"><a href="/gk-insights/">GitKraken Insights</a><span class="gki-crumb-sep" aria-hidden="true">/</span><span class="gki-crumb-current" aria-current="page">Getting Started</span></nav>
+<nav class="gki-breadcrumb" aria-label="Breadcrumb"><a href="/gk-insights-expo/">GitKraken Insights</a><span class="gki-crumb-sep" aria-hidden="true">/</span><span class="gki-crumb-current" aria-current="page">Getting Started</span></nav>
 <!-- Page title -->
 <h1 class="gki-page-title">Getting Started with GitKraken Insights</h1>
 <span class="gki-page-updated">Last updated: March 2026</span>
@@ -25,7 +25,7 @@ taxonomy:
 <section class="gki-related" id="explore">
   <h2 class="gki-related-title">Explore GitKraken Insights</h2>
   <div class="gki-card-grid" id="gkiCardGrid">
-    <a href="/gk-insights/gk-insights-dora-metrics" class="gki-card" data-search="dora deploy frequency change lead time mean time repair defect rate">
+    <a href="/gk-insights-expo/gk-insights-dora-metrics" class="gki-card" data-search="dora deploy frequency change lead time mean time repair defect rate">
       <div>
         <div class="gki-card-title">
           DORA Metrics
@@ -34,7 +34,7 @@ taxonomy:
         <p class="gki-card-desc">Deploy Frequency, Change Lead Time, Mean Time to Repair, and Defect Rate.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-pr-metrics" class="gki-card" data-search="pull request cycle time first response open time pr size review comments merged abandoned">
+    <a href="/gk-insights-expo/gk-insights-pr-metrics" class="gki-card" data-search="pull request cycle time first response open time pr size review comments merged abandoned">
       <div>
         <div class="gki-card-title">
           Pull Request Metrics
@@ -43,7 +43,7 @@ taxonomy:
         <p class="gki-card-desc">Cycle Time, First Response Time, Open Time, PR Size, and review activity.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-ai-impact-metrics" class="gki-card" data-search="ai impact prompt acceptance tab duplicated code rework active users suggestions copilot cursor claude">
+    <a href="/gk-insights-expo/gk-insights-ai-impact-metrics" class="gki-card" data-search="ai impact prompt acceptance tab duplicated code rework active users suggestions copilot cursor claude">
       <div>
         <div class="gki-card-title">
           AI Impact Metrics
@@ -52,7 +52,7 @@ taxonomy:
         <p class="gki-card-desc">Prompt Acceptance Rate, Duplicated Code, Code Rework, and AI usage.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-code-quality-metrics" class="gki-card" data-search="code quality bug work percent documentation test change rate operation">
+    <a href="/gk-insights-expo/gk-insights-code-quality-metrics" class="gki-card" data-search="code quality bug work percent documentation test change rate operation">
       <div>
         <div class="gki-card-title">
           Code Quality Metrics
@@ -61,7 +61,7 @@ taxonomy:
         <p class="gki-card-desc">Bug Work Percent, Documentation and Test Percent, and Code Change Rate.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-velocity-metrics" class="gki-card" data-search="velocity delivery consistency commit count estimated coding hours">
+    <a href="/gk-insights-expo/gk-insights-velocity-metrics" class="gki-card" data-search="velocity delivery consistency commit count estimated coding hours">
       <div>
         <div class="gki-card-title">
           Velocity Metrics
@@ -70,7 +70,7 @@ taxonomy:
         <p class="gki-card-desc">Commit Count and Estimated Coding Hours for delivery consistency.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-dashboard-management" class="gki-card" data-search="dashboard configure filters layout views team management">
+    <a href="/gk-insights-expo/gk-insights-dashboard-management" class="gki-card" data-search="dashboard configure filters layout views team management">
       <div>
         <div class="gki-card-title">
           Dashboard Management
@@ -79,7 +79,7 @@ taxonomy:
         <p class="gki-card-desc">Configure filters, layouts, and dashboard views for your team.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-metric-settings" class="gki-card" data-search="metric settings thresholds date ranges calculation release tracking">
+    <a href="/gk-insights-expo/gk-insights-metric-settings" class="gki-card" data-search="metric settings thresholds date ranges calculation release tracking">
       <div>
         <div class="gki-card-title">
           Metric Settings
@@ -88,7 +88,7 @@ taxonomy:
         <p class="gki-card-desc">Customize thresholds, date ranges, and metric calculation settings.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-faq" class="gki-card" data-search="faq frequently asked questions troubleshooting help setup data sources">
+    <a href="/gk-insights-expo/gk-insights-faq" class="gki-card" data-search="faq frequently asked questions troubleshooting help setup data sources">
       <div>
         <div class="gki-card-title">
           FAQ
@@ -143,7 +143,7 @@ taxonomy:
   <h2 class="gki-section-title">Request Access</h2>
   <p>
     GitKraken Insights is available by request only. To get started,
-    <a href="https://www.gitkraken.com/insights#form" style="color:var(--gki-accent);font-weight:600;">request a guided tour</a>.
+    <a href="https://www.gitkraken.com/insights#form">request a guided tour</a>.
     A member of the GitKraken team will contact you right away to walk you through GitKraken Insights and explain how to enable access for your organization.
   </p>
   <div class="gki-callout gki-callout--tip">
@@ -213,7 +213,7 @@ taxonomy:
   <p>To enable AI Impact insights, connect your preferred AI provider:</p>
   <ol class="gki-steps">
     <li class="gki-step">
-      <div class="gki-step-content">In GitKraken.dev, go to <a href="https://gitkraken.dev/insights/data-connections" style="color:var(--gki-accent);font-weight:600;">Insights &gt; Data Connection</a>.</div>
+      <div class="gki-step-content">In GitKraken.dev, go to <a href="https://gitkraken.dev/insights/data-connections">Insights &gt; Data Connection</a>.</div>
     </li>
     <li class="gki-step">
       <div class="gki-step-content">Click to <code>Manage</code> with Claude Code, Cursor or GitHub Copilot.</div>
@@ -256,17 +256,16 @@ taxonomy:
 </section>
 
 <div class="exploration-notes">
-<h2>Exploration Notes: Version 3 — Enhanced HTML/CSS</h2>
-<p><strong>Approach:</strong> Builds on V2's HTML/CSS card layout with additional visual polish and native HTML5 collapsible sections (<code>&lt;details&gt;/&lt;summary&gt;</code>). Originally included embedded JavaScript for a sticky TOC, search/filter, progress bar, and back-to-top button.</p>
-<p><strong>Key finding — JS is stripped:</strong> WordPress strips inline <code>&lt;script&gt;</code> tags from post content imported via Git It Write. All JS-dependent features (TOC, search, progress bar, back-to-top) were non-functional. This version has been updated to use only CSS and native HTML — the collapsible section now uses <code>&lt;details&gt;/&lt;summary&gt;</code> which works without JS.</p>
-<p><strong>What this proves:</strong> The ceiling for the Git It Write + Parsedown approach is HTML + CSS only. No JavaScript. Interactivity is limited to what native HTML elements provide (details/summary, anchor links, CSS hover states). Features like search/filter, dynamic TOC, or scroll-tracking require either a WP plugin, a theme customization, or a different platform entirely.</p>
-<p><strong>Features over V2:</strong></p>
+<h2>Exploration Notes: Version 3 — Interactive with Plugin JS</h2>
+<p><strong>Approach:</strong> Builds on V2's semantic HTML with <code>gki-</code> classes, adding interactive elements that leverage the plugin's externally-loaded JavaScript. Native HTML5 <code>&lt;details&gt;/&lt;summary&gt;</code> provides collapsible sections without JS. The GKI Docs Helper plugin provides all styling, JS features, and the 3-column page template.</p>
+<p><strong>Key discovery — plugin solves JS limitation:</strong> WordPress strips inline <code>&lt;script&gt;</code> tags from post content imported via Git It Write. The GKI Docs Helper plugin bypasses this entirely by loading JS externally via <code>wp_enqueue_scripts</code>. All interactive features are now fully functional.</p>
+<p><strong>Plugin features active:</strong> Auto-generated "On this page" TOC (right sidebar with scroll spy), card search/filter (type to filter the card grid), reading progress bar (gradient top bar), back-to-top button, smooth anchor scrolling, Parsedown cleanup, and the 3-column layout with category navigation.</p>
+<p><strong>V3-specific features:</strong></p>
 <ul>
-  <li><strong>Native collapsible sections</strong> — the API Rate Limits warning uses <code>&lt;details&gt;/&lt;summary&gt;</code> (click to expand, no JS required)</li>
-  <li><strong>Enhanced card hover effects</strong> — teal glow, lift animation on card hover</li>
-  <li><strong>Refined typography and spacing</strong> — tighter visual hierarchy</li>
+  <li><strong>Native collapsible sections</strong> — the API Rate Limits warning uses <code>&lt;details&gt;/&lt;summary&gt;</code> (no JS required)</li>
+  <li><strong>Searchable card grid</strong> — cards have <code>data-search</code> attributes; the plugin adds a filter input above the grid</li>
+  <li><strong>Scroll-aware TOC</strong> — highlights the active section as you scroll, auto-scrolls the sidebar to keep it visible</li>
 </ul>
-<p><strong>What was removed (non-functional in WP):</strong> Sticky TOC sidebar, reading progress bar, card search/filter, smooth scroll navigation, back-to-top button — all required JavaScript that WordPress strips from post content.</p>
-<p><strong>Implications for platform decision:</strong> If interactive features (search, TOC, scroll tracking) are required, they cannot be delivered through the current Git It Write + WordPress pipeline without server-side changes. A purpose-built docs platform (Starlight, Mintlify) or a headless WP approach would be needed.</p>
+<p><strong>Maintenance:</strong> Medium. Same as V2 (full HTML), but interactive features are zero-maintenance — they come from the plugin JS automatically. Adding headings to the page updates the TOC. Adding cards with <code>data-search</code> makes them searchable. No per-file JS needed.</p>
 </div>
 </div><!-- /.gki-page -->

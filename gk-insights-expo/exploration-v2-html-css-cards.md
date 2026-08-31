@@ -14,7 +14,7 @@ taxonomy:
 
 <div class="gki-page">
 <!-- Breadcrumb navigation -->
-<nav class="gki-breadcrumb" aria-label="Breadcrumb"><a href="/gk-insights/">GitKraken Insights</a><span class="gki-crumb-sep" aria-hidden="true">/</span><span class="gki-crumb-current" aria-current="page">Getting Started</span></nav>
+<nav class="gki-breadcrumb" aria-label="Breadcrumb"><a href="/gk-insights-expo/">GitKraken Insights</a><span class="gki-crumb-sep" aria-hidden="true">/</span><span class="gki-crumb-current" aria-current="page">Getting Started</span></nav>
 <!-- Page title -->
 <h1 class="gki-page-title">Getting Started with GitKraken Insights</h1>
 <span class="gki-page-updated">Last updated: March 2026</span>
@@ -25,7 +25,7 @@ taxonomy:
 <section class="gki-related">
   <h2 class="gki-related-title">Explore GitKraken Insights</h2>
   <div class="gki-card-grid">
-    <a href="/gk-insights/gk-insights-dora-metrics" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-dora-metrics" class="gki-card">
       <div>
         <div class="gki-card-title">
           DORA Metrics
@@ -34,7 +34,7 @@ taxonomy:
         <p class="gki-card-desc">Deploy Frequency, Change Lead Time, Mean Time to Repair, and Defect Rate.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-pr-metrics" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-pr-metrics" class="gki-card">
       <div>
         <div class="gki-card-title">
           Pull Request Metrics
@@ -43,7 +43,7 @@ taxonomy:
         <p class="gki-card-desc">Cycle Time, First Response Time, Open Time, PR Size, and review activity.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-ai-impact-metrics" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-ai-impact-metrics" class="gki-card">
       <div>
         <div class="gki-card-title">
           AI Impact Metrics
@@ -52,7 +52,7 @@ taxonomy:
         <p class="gki-card-desc">Prompt Acceptance Rate, Duplicated Code, Code Rework, and AI usage.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-code-quality-metrics" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-code-quality-metrics" class="gki-card">
       <div>
         <div class="gki-card-title">
           Code Quality Metrics
@@ -61,7 +61,7 @@ taxonomy:
         <p class="gki-card-desc">Bug Work Percent, Documentation and Test Percent, and Code Change Rate.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-velocity-metrics" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-velocity-metrics" class="gki-card">
       <div>
         <div class="gki-card-title">
           Velocity Metrics
@@ -70,7 +70,7 @@ taxonomy:
         <p class="gki-card-desc">Commit Count and Estimated Coding Hours for delivery consistency.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-dashboard-management" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-dashboard-management" class="gki-card">
       <div>
         <div class="gki-card-title">
           Dashboard Management
@@ -79,7 +79,7 @@ taxonomy:
         <p class="gki-card-desc">Configure filters, layouts, and dashboard views for your team.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-metric-settings" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-metric-settings" class="gki-card">
       <div>
         <div class="gki-card-title">
           Metric Settings
@@ -88,7 +88,7 @@ taxonomy:
         <p class="gki-card-desc">Customize thresholds, date ranges, and metric calculation settings.</p>
       </div>
     </a>
-    <a href="/gk-insights/gk-insights-faq" class="gki-card">
+    <a href="/gk-insights-expo/gk-insights-faq" class="gki-card">
       <div>
         <div class="gki-card-title">
           FAQ
@@ -140,7 +140,7 @@ taxonomy:
   <h2 class="gki-section-title">Request Access</h2>
   <p>
     GitKraken Insights is available by request only. To get started,
-    <a href="https://www.gitkraken.com/insights#form" style="color:var(--gki-accent);font-weight:600;">request a guided tour</a>.
+    <a href="https://www.gitkraken.com/insights#form">request a guided tour</a>.
     A member of the GitKraken team will contact you right away to walk you through GitKraken Insights and explain how to enable access for your organization.
   </p>
   <div class="gki-callout gki-callout--tip">
@@ -191,7 +191,7 @@ taxonomy:
     <figcaption>Select which repos to import. You can always import more later.</figcaption>
   </figure>
   <!-- ---- API rate limits ---- -->
-  <h4 class="gki-subsection-title" style="font-size:1.05rem;">Avoiding GitHub API Rate Limits</h4>
+  <h4 class="gki-subsection-title">Avoiding GitHub API Rate Limits</h4>
   <div class="gki-callout gki-callout--warn">
     <svg class="gki-callout-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 10-2 0 1 1 0 002 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
     <div>
@@ -206,7 +206,7 @@ taxonomy:
   <p>To enable AI Impact insights, connect your preferred AI provider:</p>
   <ol class="gki-steps">
     <li class="gki-step">
-      <div class="gki-step-content">In GitKraken.dev, go to <a href="https://gitkraken.dev/insights/data-connections" style="color:var(--gki-accent);font-weight:600;">Insights &gt; Data Connection</a>.</div>
+      <div class="gki-step-content">In GitKraken.dev, go to <a href="https://gitkraken.dev/insights/data-connections">Insights &gt; Data Connection</a>.</div>
     </li>
     <li class="gki-step">
       <div class="gki-step-content">Click to <code>Manage</code> with Claude Code, Cursor or GitHub Copilot.</div>
@@ -248,10 +248,11 @@ taxonomy:
   </figure>
 </section>
 <div class="exploration-notes">
-<h2>Exploration Notes: Version 2 — Full HTML/CSS Card Layout</h2>
-<p><strong>Approach:</strong> Replaced Markdown content with semantic HTML and embedded CSS. Added breadcrumb navigation, card grid for related pages, styled info boxes, and refined visual hierarchy.</p>
-<p><strong>What this tests:</strong> Whether fully-authored HTML inside .md files, processed through Git It Write, can deliver a modern card-based docs experience within WordPress. This is the ceiling of what the "better HTML/CSS in the repo" approach can achieve.</p>
-<p><strong>Limitations:</strong> The WordPress page template still controls the header, footer, and sidebar — this only styles the post content area. Every page needs its own copy of the CSS (or it needs to be extracted to WP's custom CSS). No JavaScript interactivity (that's V3). The file is no longer readable as Markdown — it's effectively an HTML file with a .md extension.</p>
-<p><strong>Maintenance:</strong> Medium-high. HTML content is harder to edit than Markdown. CSS is duplicated per file unless extracted. Layout changes require updating every file. A shared CSS approach (WordPress Customizer or a small plugin) would reduce duplication.</p>
+<h2>Exploration Notes: Version 2 — Full HTML with Plugin Styling</h2>
+<p><strong>Approach:</strong> Content uses semantic HTML with <code>gki-</code> prefixed classes throughout. The GKI Docs Helper plugin provides the shared stylesheet, JS interactivity, Parsedown cleanup, and the 3-column page template externally. No embedded <code>&lt;style&gt;</code> blocks needed.</p>
+<p><strong>What this tests:</strong> Whether fully-authored HTML inside .md files, combined with plugin-provided styling, can deliver a modern card-based documentation experience within WordPress. This is the "maximum visual control" approach.</p>
+<p><strong>Plugin features active:</strong> Auto-generated "On this page" TOC (right sidebar), reading progress bar, back-to-top button, smooth scrolling, Parsedown artifact cleanup, and the 3-column layout with category navigation.</p>
+<p><strong>Visual features:</strong> Gradient breadcrumb underline, gradient section title borders, card hover with purple glow and lift, numbered step flow with purple circles, styled callout boxes (tip/warn), structured requirements card, and responsive card grid.</p>
+<p><strong>Maintenance:</strong> Medium. HTML content is harder to edit than Markdown but offers full control over visual structure. All styling comes from the plugin — no per-file CSS duplication. Layout changes propagate via the plugin stylesheet.</p>
 </div>
 </div><!-- /.gki-page -->

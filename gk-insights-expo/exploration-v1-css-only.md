@@ -12,63 +12,127 @@ taxonomy:
 ---
 
 
-<div class="breadcrumb-nav"><a href="/gk-insights/">GitKraken Insights</a><span class="sep">/</span><span class="current">Getting Started</span></div>
+<div class="gki-page">
 
-# Getting Started with GitKraken Insights
+<nav class="gki-breadcrumb" aria-label="Breadcrumb"><a href="/gk-insights-expo/">GitKraken Insights</a><span class="gki-crumb-sep" aria-hidden="true">/</span><span class="gki-crumb-current" aria-current="page">Getting Started</span></nav>
 
-<kbd>Last updated: March 2026</kbd>
+<h1 class="gki-page-title">Getting Started with GitKraken Insights</h1>
+<span class="gki-page-updated">Last updated: March 2026</span>
 
 GitKraken Insights turns raw Git data into clear, useful metrics for developers and leaders. GitKraken Insights pulls code activity, pull requests, issues, and CI/CD results into a single view that fits directly into existing workflows.
 
 Instead of surface-level stats, GitKraken Insights shows how work connects to team goals and points out ways to improve flow and productivity.
 
-<div class="related-pages">
-<h2>Explore GitKraken Insights</h2>
-<div class="related-grid">
-  <a href="/gk-insights/gk-insights-dora-metrics/" class="related-card">
-    <span class="card-title">DORA Metrics</span>
-    <span class="card-desc">Deploy frequency, change lead time, mean time to recover, and defect rate.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-pr-metrics/" class="related-card">
-    <span class="card-title">Pull Request Metrics</span>
-    <span class="card-desc">Cycle time, review count, open time, PR size, and code review hours.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-ai-impact-metrics/" class="related-card">
-    <span class="card-title">AI Impact Metrics</span>
-    <span class="card-desc">Prompt acceptance rate, duplicated code, code rework, and active users.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-code-quality-metrics/" class="related-card">
-    <span class="card-title">Code Quality Metrics</span>
-    <span class="card-desc">Bug work percent, documentation and test percent, and code change rate.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-velocity-metrics/" class="related-card">
-    <span class="card-title">Velocity Metrics</span>
-    <span class="card-desc">Commit count and estimated coding hours.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-dashboard-management/" class="related-card">
-    <span class="card-title">Dashboard Management</span>
-    <span class="card-desc">Configure filters, group views, and chart display options.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-metric-settings/" class="related-card">
-    <span class="card-title">Metric Settings</span>
-    <span class="card-desc">Adjust thresholds, targets, and metric calculation parameters.</span>
-  </a>
-  <a href="/gk-insights/gk-insights-faq/" class="related-card">
-    <span class="card-title">FAQ</span>
-    <span class="card-desc">Common questions about data, accuracy, access, and configuration.</span>
-  </a>
-</div>
-</div>
+<section class="gki-related">
+  <h2 class="gki-related-title">Explore GitKraken Insights</h2>
+  <div class="gki-card-grid">
+    <a href="/gk-insights-expo/gk-insights-dora-metrics/" class="gki-card" data-search="dora deploy frequency change lead time mean time repair defect rate">
+      <div>
+        <div class="gki-card-title">
+          DORA Metrics
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Deploy frequency, change lead time, mean time to recover, and defect rate.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-pr-metrics/" class="gki-card" data-search="pull request cycle time first response open time pr size review comments merged abandoned">
+      <div>
+        <div class="gki-card-title">
+          Pull Request Metrics
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Cycle time, review count, open time, PR size, and code review hours.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-ai-impact-metrics/" class="gki-card" data-search="ai impact prompt acceptance tab duplicated code rework active users suggestions copilot cursor claude">
+      <div>
+        <div class="gki-card-title">
+          AI Impact Metrics
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Prompt acceptance rate, duplicated code, code rework, and active users.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-code-quality-metrics/" class="gki-card" data-search="code quality bug work percent documentation test change rate operation">
+      <div>
+        <div class="gki-card-title">
+          Code Quality Metrics
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Bug work percent, documentation and test percent, and code change rate.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-velocity-metrics/" class="gki-card" data-search="velocity delivery consistency commit count estimated coding hours">
+      <div>
+        <div class="gki-card-title">
+          Velocity Metrics
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Commit count and estimated coding hours.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-dashboard-management/" class="gki-card" data-search="dashboard configure filters layout views team management">
+      <div>
+        <div class="gki-card-title">
+          Dashboard Management
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Configure filters, group views, and chart display options.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-metric-settings/" class="gki-card" data-search="metric settings thresholds date ranges calculation release tracking">
+      <div>
+        <div class="gki-card-title">
+          Metric Settings
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Adjust thresholds, targets, and metric calculation parameters.</p>
+      </div>
+    </a>
+    <a href="/gk-insights-expo/gk-insights-faq/" class="gki-card" data-search="faq frequently asked questions troubleshooting help setup data sources">
+      <div>
+        <div class="gki-card-title">
+          FAQ
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <p class="gki-card-desc">Common questions about data, accuracy, access, and configuration.</p>
+      </div>
+    </a>
+  </div>
+</section>
 
-> **Plan:** GitKraken Insights (available by request)
-> **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
-> **Role:** Lead, Admin, or Owner (for access). The **User** role does not grant access to GitKraken Insights but tells Insights to begin tracking that user for metrics.
-> **Integrations:** GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud
-> **AI providers:** Claude Code, Cursor, GitHub Copilot (optional)
+<div class="gki-requirements">
+  <div class="gki-requirements-title">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM7.25 5a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM7 7h2v4.5H7V7z" fill="currentColor"/></svg>
+    Requirements
+  </div>
+  <div class="gki-req-grid">
+    <div class="gki-req-item">
+      <span class="gki-req-label">Plan:</span>
+      <span class="gki-req-value">GitKraken Insights (available by request)</span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Platform:</span>
+      <span class="gki-req-value">Browser only via <a href="https://gitkraken.dev">gitkraken.dev</a></span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Role:</span>
+      <span class="gki-req-value">Lead, Admin, or Owner (for access). The <strong>User</strong> role does not grant access to GitKraken Insights but tells Insights to begin tracking that user for metrics.</span>
+    </div>
+    <div class="gki-req-item">
+      <span class="gki-req-label">Integrations:</span>
+      <span class="gki-req-value">GitHub, GitLab, Bitbucket, Azure DevOps, Jira Cloud</span>
+    </div>
+    <div class="gki-req-item" style="grid-column: 1 / -1;">
+      <span class="gki-req-label">AI providers:</span>
+      <span class="gki-req-value">Claude Code, Cursor, GitHub Copilot (optional)</span>
+    </div>
+  </div>
+</div>
 
 <figure>
   <img src="/wp-content/uploads/insights-dashboard-oct-2025.png" srcset="/wp-content/uploads/insights-dashboard-oct-2025@2x.png" class="help-center-img img-bordered" alt="Dashboard view of GitKraken Insights metrics and charts for development activity" />
-  <figcaption style="text-align: center; color: #888">Overview of GitKraken Insights</figcaption>
+  <figcaption>Overview of GitKraken Insights</figcaption>
 </figure>
 
 ---
@@ -102,18 +166,18 @@ In addition, you can connect AI providers to enable AI Impact insights (like Dup
 
 <figure>
   <img src="/wp-content/uploads/data-connection-dec-2025.png" srcset="/wp-content/uploads/data-connection-dec-2025@2x.png" class="help-center-img img-bordered" alt="Screenshot of Data Connection page to connect GitHub, GitLab, or Jira for Insights" />
-  <figcaption style="text-align: center; color: #888">Connect GitHub, GitLab, or Jira to enable Insights</figcaption>
+  <figcaption>Connect GitHub, GitLab, or Jira to enable Insights</figcaption>
 </figure>
 
 <figure>
   <img src="/wp-content/uploads/authorize-gitclear.png" srcset="/wp-content/uploads/authorize-gitclear@2x.png" class="help-center-img img-bordered" alt="Screenshot authorizing GitHub access for GitKraken Insights" />
-  <figcaption style="text-align: center; color: #888">Authorize GitHub access for GitKraken Insights</figcaption>
+  <figcaption>Authorize GitHub access for GitKraken Insights</figcaption>
 </figure>
 
 <!-- FLAG FOR HUMAN REVIEW: import-repos.png is not present in the _images/ directory. Verify the correct filename. -->
 <figure>
   <img src="/wp-content/uploads/import-repos.png" srcset="/wp-content/uploads/import-repos@2x.png" class="help-center-img img-bordered" alt="Screenshot of repository selection to choose which repositories to import into Insights" />
-  <figcaption style="text-align: center; color: #888">Select which repos to import. You can always import more later.</figcaption>
+  <figcaption>Select which repos to import. You can always import more later.</figcaption>
 </figure>
 
 #### Avoiding GitHub API rate limits
@@ -138,7 +202,7 @@ To enable AI Impact insights, connect your preferred AI provider:
 
 <figure>
   <img src="/wp-content/uploads/gk-dev-ai-provider-connection@2x.png" class="help-center-img img-bordered" alt="Screenshot of AI provider connection" />
-  <figcaption style="text-align: center; color: #888">Connect your AI provider to enable AI Impact insights</figcaption>
+  <figcaption>Connect your AI provider to enable AI Impact insights</figcaption>
 </figure>
 
 ### 2. Confirm your profile details
@@ -151,7 +215,7 @@ After connecting repositories, confirm your personal details:
 
 <figure>
   <img src="/wp-content/uploads/set-role-oct-2025.png" srcset="/wp-content/uploads/set-role-oct-2025@2x.png" class="help-center-img img-bordered" alt="Screenshot of profile form to confirm name, time zone, and job role before continuing" />
-  <figcaption style="text-align: center; color: #888">Confirm your details before continuing</figcaption>
+  <figcaption>Confirm your details before continuing</figcaption>
 </figure>
 
 ---
@@ -166,19 +230,17 @@ Once setup is complete, GitKraken Insights will begin importing your repository 
 
 <figure>
   <img src="/wp-content/uploads/import-progress.png" srcset="/wp-content/uploads/import-progress@2x.png" class="help-center-img img-bordered" alt="Dashboard view showing import progress while Insights processes your repository data" />
-  <figcaption style="text-align: center; color: #888">Monitor import progress while Insights processes your data</figcaption>
+  <figcaption>Monitor import progress while Insights processes your data</figcaption>
 </figure>
 
 ---
 
-
-
----
-
 <div class="exploration-notes">
-<h2>Exploration Notes: Version 1 — CSS-Only Enhancement</h2>
-<p><strong>Approach:</strong> Added a <code>&lt;style&gt;</code> block at the top of the Markdown file. All content remains in standard Markdown. CSS targets the HTML elements that WordPress generates from Markdown rendering.</p>
-<p><strong>What this tests:</strong> Whether CSS-only changes inside the .md file, processed through Git It Write, can meaningfully improve the visual presentation without changing the content structure.</p>
-<p><strong>Limitations:</strong> No control over the WordPress page template, header, footer, or sidebar. CSS can only style what's inside the post content area. Three-column layout, sticky TOC, and modal search are not possible with this approach. Breadcrumbs and card navigation require inline HTML additions.</p>
-<p><strong>Maintenance:</strong> Low — CSS block at the top of each file, content stays as Markdown. Could extract shared CSS to a WordPress custom CSS area to avoid duplication across files.</p>
+<h2>Exploration Notes: Version 1 — Markdown with Plugin Styling</h2>
+<p><strong>Approach:</strong> Content stays as standard Markdown wherever possible. The GKI Docs Helper plugin provides all visual styling, JS interactivity, and the 3-column page template externally. Only the page header (breadcrumb, title, card grid, requirements) uses custom HTML with <code>gki-</code> classes — everything else is Markdown.</p>
+<p><strong>What this tests:</strong> Whether Markdown content can look polished when paired with a dedicated WordPress plugin. This is the lowest-maintenance approach — content editors work with familiar Markdown syntax while the plugin handles visual presentation.</p>
+<p><strong>Plugin features active:</strong> Auto-generated "On this page" TOC (right sidebar), reading progress bar, back-to-top button, smooth scrolling, card search/filter, Parsedown artifact cleanup, and the 3-column layout with category navigation.</p>
+<p><strong>Maintenance:</strong> Low. Content is standard Markdown, easy to edit. Visual changes happen in the plugin CSS/JS, not in individual files. Adding a new page to the category automatically updates the left nav.</p>
 </div>
+
+</div><!-- /.gki-page -->

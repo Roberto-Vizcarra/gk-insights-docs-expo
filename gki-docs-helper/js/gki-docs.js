@@ -3,7 +3,7 @@
  * Loaded only on insights-expo category posts.
  *
  * Features:
- *  1. Auto-generated sticky Table of Contents
+ *  1. Auto-generated Table of Contents (sidebar or inline)
  *  2. Card search/filter
  *  3. Back-to-top button
  *  4. Reading progress bar
@@ -13,40 +13,62 @@
 (function () {
   'use strict';
 
-  const page = document.querySelector('.gki-page');
+  var page = document.querySelector('.gki-page');
   if (!page) return;
 
   /* ================================================================
      1. TABLE OF CONTENTS
+     Populates the right sidebar (#gki-sidebar-toc) when the custom
+     template is active. Falls back to inline TOC otherwise.
      ================================================================ */
   function buildTOC() {
-    const headings = page.querySelectorAll('.gki-section-title, .gki-subsection-title');
-    if (headings.length < 3) return; // skip TOC for very short pages
+    // Collect headings: custom-classed first, fall back to standard h2/h3
+    var customHeadings = page.querySelectorAll('.gki-section-title, .gki-subsection-title');
+    var tocHeadings;
 
-    const nav = document.createElement('nav');
+    if (customHeadings.length >= 3) {
+      tocHeadings = Array.prototype.slice.call(customHeadings);
+    } else {
+      // Markdown content: grab standard headings, filter out non-content ones
+      var all = page.querySelectorAll('h2, h3');
+      tocHeadings = [];
+      for (var i = 0; i < all.length; i++) {
+        var h = all[i];
+        if (h.closest('.exploration-notes')) continue;
+        if (h.classList.contains('gki-page-title')) continue;
+        if (h.classList.contains('gki-related-title')) continue;
+        tocHeadings.push(h);
+      }
+    }
+
+    if (tocHeadings.length < 3) return;
+
+    // Check for sidebar container (custom template)
+    var sidebarToc = document.getElementById('gki-sidebar-toc');
+
+    var nav = document.createElement('nav');
     nav.className = 'gki-toc';
     nav.setAttribute('aria-label', 'Table of contents');
 
-    const title = document.createElement('div');
+    var title = document.createElement('div');
     title.className = 'gki-toc-title';
     title.textContent = 'On this page';
     nav.appendChild(title);
 
-    const list = document.createElement('ul');
+    var list = document.createElement('ul');
     list.className = 'gki-toc-list';
 
-    headings.forEach(function (h, i) {
-      // Ensure heading has an ID for anchor linking
+    tocHeadings.forEach(function (h, idx) {
       if (!h.id) {
-        h.id = 'section-' + i;
+        h.id = 'section-' + idx;
       }
 
-      const li = document.createElement('li');
-      li.className = h.classList.contains('gki-subsection-title')
-        ? 'gki-toc-item gki-toc-sub'
-        : 'gki-toc-item';
+      var li = document.createElement('li');
+      var isSub = h.classList.contains('gki-subsection-title') ||
+                  h.tagName === 'H3';
+      li.className = isSub ? 'gki-toc-item gki-toc-sub' : 'gki-toc-item';
 
-      const a = document.createElement('a');
+      var a = document.createElement('a');
       a.href = '#' + h.id;
       a.textContent = h.textContent;
       a.className = 'gki-toc-link';
@@ -57,30 +79,42 @@
 
     nav.appendChild(list);
 
-    // Insert TOC after the card grid or intro, before first section
-    const firstSection = page.querySelector('.gki-section');
-    if (firstSection) {
-      firstSection.parentNode.insertBefore(nav, firstSection);
+    if (sidebarToc) {
+      // Sidebar mode: populate the right sidebar
+      sidebarToc.appendChild(nav);
+    } else {
+      // Inline fallback: insert before first section
+      var firstSection = page.querySelector('.gki-section');
+      if (firstSection) {
+        firstSection.parentNode.insertBefore(nav, firstSection);
+      }
     }
 
-    // Highlight active section on scroll
-    let ticking = false;
-    const tocLinks = list.querySelectorAll('.gki-toc-link');
+    // Scroll spy: highlight active heading
+    var ticking = false;
+    var tocLinks = list.querySelectorAll('.gki-toc-link');
 
     window.addEventListener('scroll', function () {
       if (!ticking) {
         requestAnimationFrame(function () {
-          let current = '';
-          headings.forEach(function (h) {
-            if (h.getBoundingClientRect().top <= 100) {
+          var current = '';
+          tocHeadings.forEach(function (h) {
+            if (h.getBoundingClientRect().top <= 120) {
               current = h.id;
             }
           });
           tocLinks.forEach(function (link) {
-            link.classList.toggle(
-              'gki-toc-active',
-              link.getAttribute('href') === '#' + current
-            );
+            var isActive = link.getAttribute('href') === '#' + current;
+            link.classList.toggle('gki-toc-active', isActive);
+
+            // Auto-scroll sidebar TOC to keep active item visible
+            if (isActive && sidebarToc) {
+              var linkRect = link.getBoundingClientRect();
+              var sidebarRect = sidebarToc.getBoundingClientRect();
+              if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
+                link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+              }
+            }
           });
           ticking = false;
         });
@@ -93,31 +127,29 @@
      2. CARD SEARCH / FILTER
      ================================================================ */
   function buildSearch() {
-    const grid = page.querySelector('.gki-card-grid');
+    var grid = page.querySelector('.gki-card-grid');
     if (!grid) return;
 
-    const cards = grid.querySelectorAll('.gki-card');
-    if (cards.length < 4) return; // not worth filtering a few cards
+    var cards = grid.querySelectorAll('.gki-card');
+    if (cards.length < 4) return;
 
-    const wrapper = document.createElement('div');
+    var wrapper = document.createElement('div');
     wrapper.className = 'gki-search-wrap';
 
-    const input = document.createElement('input');
+    var input = document.createElement('input');
     input.type = 'text';
     input.className = 'gki-search-input';
     input.placeholder = 'Filter pages…';
     input.setAttribute('aria-label', 'Filter related pages');
 
     wrapper.appendChild(input);
-
-    // Insert before the grid
     grid.parentNode.insertBefore(wrapper, grid);
 
     input.addEventListener('input', function () {
       var q = this.value.toLowerCase().trim();
       cards.forEach(function (card) {
         var text = (card.getAttribute('data-search') || card.textContent).toLowerCase();
-        card.style.display = text.includes(q) ? '' : 'none';
+        card.style.display = text.indexOf(q) !== -1 ? '' : 'none';
       });
     });
   }
@@ -129,7 +161,7 @@
     var btn = document.createElement('button');
     btn.className = 'gki-back-to-top';
     btn.setAttribute('aria-label', 'Back to top');
-    btn.innerHTML = '&#8593;'; // up arrow
+    btn.innerHTML = '&#8593;';
     btn.style.display = 'none';
     document.body.appendChild(btn);
 
@@ -162,7 +194,7 @@
      5. SMOOTH SCROLL FOR ANCHOR LINKS
      ================================================================ */
   function enableSmoothScroll() {
-    page.addEventListener('click', function (e) {
+    document.addEventListener('click', function (e) {
       var link = e.target.closest('a[href^="#"]');
       if (!link) return;
 
@@ -170,6 +202,9 @@
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (history.pushState) {
+          history.pushState(null, null, link.getAttribute('href'));
+        }
       }
     });
   }
@@ -180,7 +215,7 @@
   function injectStyles() {
     var style = document.createElement('style');
     style.textContent = [
-      /* TOC */
+      /* Inline TOC (fallback when no sidebar template) */
       '.gki-toc {',
       '  background: var(--gki-bg-subtle);',
       '  border: 1px solid var(--gki-border);',

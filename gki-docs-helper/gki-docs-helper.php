@@ -209,7 +209,47 @@ function gki_docs_body_class( $classes ) {
 }
 
 /* =========================================================================
-   5. HELPER FUNCTIONS
+   5. CUSTOM PAGE TEMPLATE FOR INSIGHTS PAGES
+   ========================================================================= */
+
+add_filter( 'template_include', 'gki_docs_custom_template' );
+
+/**
+ * Override the single post template for insights-expo posts.
+ * Provides a 3-column layout: left nav, content, right TOC.
+ */
+function gki_docs_custom_template( $template ) {
+    if ( ! gki_docs_is_target_post() ) {
+        return $template;
+    }
+
+    $custom = GKI_DOCS_PATH . 'templates/single-gki.php';
+    if ( file_exists( $custom ) ) {
+        return $custom;
+    }
+
+    return $template;
+}
+
+/* =========================================================================
+   6. REGISTER OPTIONAL NAV MENU LOCATION
+   ========================================================================= */
+
+add_action( 'after_setup_theme', 'gki_docs_register_menus' );
+
+/**
+ * Register a menu location for the Insights sidebar nav.
+ * If a menu is assigned here, it replaces the auto-generated nav.
+ * Set up via Appearance → Menus → Manage Locations.
+ */
+function gki_docs_register_menus() {
+    register_nav_menus( array(
+        'gki-insights-nav' => __( 'GKI Insights Sidebar Navigation', 'gki-docs-helper' ),
+    ) );
+}
+
+/* =========================================================================
+   7. HELPER FUNCTIONS
    ========================================================================= */
 
 /**

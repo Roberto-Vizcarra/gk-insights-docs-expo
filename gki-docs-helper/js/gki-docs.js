@@ -13,8 +13,10 @@
 (function () {
   'use strict';
 
-  var page = document.querySelector('.gki-page');
+  var page = document.querySelector('.gki-page') || document.querySelector('.gki-content-main');
   if (!page) return;
+
+  var isIndexPage = document.body.classList.contains('gki-index-page');
 
   /* ================================================================
      1. TABLE OF CONTENTS
@@ -131,7 +133,7 @@
     if (!grid) return;
 
     var cards = grid.querySelectorAll('.gki-card');
-    if (cards.length < 4) return;
+    if (cards.length < 2) return;
 
     var wrapper = document.createElement('div');
     wrapper.className = 'gki-search-wrap';
@@ -319,12 +321,59 @@
   }
 
   /* ================================================================
+     6. IMAGE LIGHTBOX — click to expand/zoom
+     ================================================================ */
+  function buildLightbox() {
+    var imgs = page.querySelectorAll('img');
+    if (!imgs.length) return;
+
+    for (var i = 0; i < imgs.length; i++) {
+      (function (img) {
+        img.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var overlay = document.createElement('div');
+          overlay.className = 'gki-lightbox';
+
+          var clone = document.createElement('img');
+          clone.src = img.src;
+          clone.alt = img.alt;
+          overlay.appendChild(clone);
+
+          function close() {
+            overlay.style.opacity = '0';
+            setTimeout(function () {
+              if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+            }, 200);
+          }
+
+          overlay.addEventListener('click', close);
+
+          function onKey(evt) {
+            if (evt.key === 'Escape') {
+              close();
+              document.removeEventListener('keydown', onKey);
+            }
+          }
+          document.addEventListener('keydown', onKey);
+
+          document.body.appendChild(overlay);
+        });
+      })(imgs[i]);
+    }
+  }
+
+  /* ================================================================
      INIT
      ================================================================ */
   injectStyles();
-  buildTOC();
+  if (!isIndexPage) {
+    buildTOC();
+    buildProgressBar();
+  }
   buildSearch();
   buildBackToTop();
-  buildProgressBar();
   enableSmoothScroll();
+  buildLightbox();
 })();

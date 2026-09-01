@@ -32,6 +32,18 @@
   --gki-border-light: #E0E1E3;
   --gki-border-strong: #ADB8C2;
 
+  /* Icon tinted backgrounds (for index card icons) */
+  --gki-icon-purple-bg: rgba(121, 0, 201, 0.08);
+  --gki-icon-purple-fg: #7900C9;
+  --gki-icon-blue-bg: rgba(63, 54, 186, 0.08);
+  --gki-icon-blue-fg: #3F36BA;
+  --gki-icon-green-bg: rgba(21, 119, 126, 0.08);
+  --gki-icon-green-fg: #15777E;
+  --gki-icon-amber-bg: rgba(139, 105, 20, 0.08);
+  --gki-icon-amber-fg: #8B6914;
+  --gki-icon-red-bg: rgba(158, 32, 64, 0.08);
+  --gki-icon-red-fg: #9E2040;
+
   /* Callout colors */
   --gki-info-bg: #EEF2FF;
   --gki-info-border: #C7D2FE;
@@ -90,8 +102,7 @@
   color: var(--gki-text-muted);
   margin-bottom: 1.75rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  border-bottom: 1px solid var(--gki-border-light);
 }
 .gki-breadcrumb a {
   color: var(--gki-accent);
@@ -229,8 +240,7 @@
   color: var(--gki-text);
   margin: 0 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  border-bottom: 2px solid var(--gki-border-light);
   display: inline-block;
 }
 .gki-subsection-title {
@@ -430,16 +440,20 @@
   color: var(--gki-text);
   margin: 0 0 1.25rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  border-bottom: 2px solid var(--gki-border-light);
   display: inline-block;
 }
 .gki-card-grid {
   display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
+  grid-template-columns: repeat(3, 1fr) !important;
   gap: 1rem !important;
 }
 @media (max-width: 768px) {
+  .gki-card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 500px) {
   .gki-card-grid {
     grid-template-columns: 1fr !important;
   }
@@ -459,7 +473,9 @@
   background: var(--gki-bg) !important;
   border: 1px solid var(--gki-border-light) !important;
   border-radius: var(--gki-radius) !important;
-  padding: 1.15rem 1.25rem !important;
+  padding: 1.25rem !important;
+  min-height: 140px;
+  aspect-ratio: 1.15 / 1;
   text-decoration: none;
   color: var(--gki-text);
   transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
@@ -500,6 +516,50 @@
   margin: 0;
 }
 
+/* ---------- Card icon (tinted background) -------------------- */
+.gki-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--gki-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 0.25rem;
+}
+.gki-card-icon i {
+  font-size: 18px;
+  line-height: 1;
+}
+.gki-card-icon--purple {
+  background: var(--gki-icon-purple-bg);
+  color: var(--gki-icon-purple-fg);
+}
+.gki-card-icon--blue {
+  background: var(--gki-icon-blue-bg);
+  color: var(--gki-icon-blue-fg);
+}
+.gki-card-icon--green {
+  background: var(--gki-icon-green-bg);
+  color: var(--gki-icon-green-fg);
+}
+.gki-card-icon--amber {
+  background: var(--gki-icon-amber-bg);
+  color: var(--gki-icon-amber-fg);
+}
+.gki-card-icon--red {
+  background: var(--gki-icon-red-bg);
+  color: var(--gki-icon-red-fg);
+}
+
+/* ---------- Card article count ------------------------------- */
+.gki-card-count {
+  font-size: 0.75rem;
+  color: var(--gki-text-muted);
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
 /* ---------- Links (global in gki-page) ----------------------- */
 .gki-page a {
   color: var(--gki-accent);
@@ -523,16 +583,173 @@
   color: var(--gki-text);
 }
 
-/* ---------- Elementor overrides ------------------------------ */
-.gki-docs-page .gki-page {
-  max-width: none;
+/* ============================================================
+   ELEMENTOR / THEME OVERRIDES
+   These rules use high-specificity selectors + !important to
+   beat Elementor and theme CSS that fades headings or breaks
+   our layout.
+   ============================================================ */
+
+/* Kill the dark theme background — Elementor kit paints body dark */
+body.gki-docs-page {
+  background: #FFFFFF !important;
+  color: #1C1C1C !important;
 }
 
-/* ---------- Force light background on content area ----------- */
+/* Force all heading colors — Elementor themes override h1-h4 */
+.gki-docs-page .gki-page h1,
+.gki-docs-page .gki-page h2,
+.gki-docs-page .gki-page h3,
+.gki-docs-page .gki-page h4 {
+  color: #1C1C1C !important;
+  font-family: var(--gki-font) !important;
+}
+
+/* Named heading classes — extra specificity to be safe */
+.gki-docs-page .gki-page-title {
+  color: #1C1C1C !important;
+}
+.gki-docs-page .gki-section-title {
+  color: #1C1C1C !important;
+}
+.gki-docs-page .gki-subsection-title {
+  color: #1C1C1C !important;
+}
+.gki-docs-page .gki-related-title {
+  color: #1C1C1C !important;
+}
+
+/* Force body text readable */
+.gki-docs-page .gki-page p {
+  color: #414141 !important;
+}
+.gki-docs-page .gki-intro {
+  color: #414141 !important;
+}
+
+/* Force link colors */
+.gki-docs-page .gki-page a {
+  color: var(--gki-accent) !important;
+}
+.gki-docs-page .gki-page a:hover {
+  color: var(--gki-accent-hover) !important;
+}
+
+/* Content area background */
 .gki-docs-page .elementor-widget-theme-post-content .elementor-widget-container {
   background: var(--gki-bg);
   padding: 2rem;
   border-radius: var(--gki-radius-lg);
+}
+
+/* Force ALL links in sidebars dark — Elementor kit paints links pink */
+body.gki-docs-page .gki-sidebar a,
+body.gki-docs-page .gki-sidebar a:link,
+body.gki-docs-page .gki-sidebar a:visited,
+body.gki-docs-page .gki-nav-item a,
+body.gki-docs-page .gki-nav-item a:link,
+body.gki-docs-page .gki-nav-item a:visited,
+body.gki-docs-page .gki-nav-list a,
+body.gki-docs-page .gki-nav-list a:link,
+body.gki-docs-page .gki-nav-list a:visited {
+  color: #414141 !important;
+}
+body.gki-docs-page .gki-sidebar a:hover,
+body.gki-docs-page .gki-nav-item a:hover,
+body.gki-docs-page .gki-nav-list a:hover {
+  color: #1C1C1C !important;
+}
+body.gki-docs-page .gki-nav-item--active a,
+body.gki-docs-page .gki-nav-item--active a:link,
+body.gki-docs-page .gki-nav-item--active a:visited,
+body.gki-docs-page .gki-nav-list .current-menu-item > a {
+  color: #1C1C1C !important;
+}
+
+/* Force nav section/child links dark */
+body.gki-docs-page .gki-nav-section-link,
+body.gki-docs-page .gki-nav-section-link:link,
+body.gki-docs-page .gki-nav-section-link:visited,
+body.gki-docs-page .gki-nav-child a,
+body.gki-docs-page .gki-nav-child a:link,
+body.gki-docs-page .gki-nav-child a:visited {
+  color: #414141 !important;
+}
+body.gki-docs-page .gki-nav-section-link:hover,
+body.gki-docs-page .gki-nav-child a:hover {
+  color: #1C1C1C !important;
+}
+body.gki-docs-page .gki-nav-section--active > .gki-nav-section-link,
+body.gki-docs-page .gki-nav-child--active a,
+body.gki-docs-page .gki-nav-child--active a:link,
+body.gki-docs-page .gki-nav-child--active a:visited {
+  color: #1C1C1C !important;
+}
+
+/* Force card icon colors through Elementor */
+body.gki-docs-page .gki-card-icon i {
+  color: inherit !important;
+}
+
+/* Force TOC links dark */
+body.gki-docs-page .gki-toc-link,
+body.gki-docs-page .gki-toc-link:link,
+body.gki-docs-page .gki-toc-link:visited {
+  color: #414141 !important;
+}
+body.gki-docs-page .gki-toc-link:hover {
+  color: #1C1C1C !important;
+}
+body.gki-docs-page .gki-toc-link.gki-toc-active {
+  color: #1C1C1C !important;
+}
+
+/* Force nav title dark */
+body.gki-docs-page .gki-nav-title,
+body.gki-docs-page .gki-nav-title:link,
+body.gki-docs-page .gki-nav-title:visited {
+  color: #1C1C1C !important;
+}
+
+/* Footer in our template context */
+body.gki-docs-page #site-footer {
+  background: #FFFFFF !important;
+}
+
+/* Image zoom/expand on click */
+.gki-page img {
+  cursor: zoom-in;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.gki-page img:hover {
+  box-shadow: var(--gki-shadow-md);
+}
+.gki-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  cursor: zoom-out;
+  padding: 2rem;
+  animation: gki-fade-in 0.2s ease;
+}
+.gki-lightbox img {
+  max-width: 95%;
+  max-height: 95vh;
+  border-radius: var(--gki-radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  cursor: zoom-out;
+  object-fit: contain;
+}
+@keyframes gki-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ============================================================
@@ -541,14 +758,17 @@
 
 .gki-layout {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) 220px;
-  gap: 0 2rem;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  grid-template-columns: 240px minmax(0, 860px) 220px;
+  justify-content: center;
+  gap: 0 2.5rem;
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 2rem 2rem;
   font-family: var(--gki-font);
   color: var(--gki-text);
   background: var(--gki-bg);
+  min-height: calc(100vh - 80px);
 }
 
 /* --- Left sidebar --- */
@@ -568,15 +788,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--gki-purple);
+  color: var(--gki-text);
   text-decoration: none;
   padding: 0.5rem 0.75rem;
   margin-bottom: 0.5rem;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  border-bottom: 1px solid var(--gki-border-light);
 }
 .gki-nav-title:hover {
-  color: var(--gki-purple-hover);
+  color: var(--gki-accent);
 }
 
 .gki-nav-list {
@@ -607,10 +826,54 @@
 }
 
 .gki-nav-item--active a {
-  color: var(--gki-purple);
+  color: var(--gki-text);
   font-weight: 600;
-  background: rgba(121, 0, 201, 0.06);
+  background: var(--gki-bg-subtle);
   border-left-color: var(--gki-purple);
+}
+
+/* Nav section headings (parent items with children) */
+.gki-nav-section > .gki-nav-section-link {
+  display: block;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: var(--gki-text-secondary);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  border-radius: 0 4px 4px 0;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  line-height: 1.4;
+}
+.gki-nav-section > .gki-nav-section-link:hover {
+  color: var(--gki-text);
+  background: var(--gki-bg-subtle);
+}
+.gki-nav-section--active > .gki-nav-section-link {
+  color: var(--gki-text);
+  font-weight: 600;
+  border-left-color: var(--gki-purple);
+}
+.gki-nav-children {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.gki-nav-child a {
+  display: block;
+  padding: 0.3rem 0.75rem 0.3rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--gki-text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  line-height: 1.4;
+}
+.gki-nav-child a:hover {
+  color: var(--gki-text);
+}
+.gki-nav-child--active a {
+  color: var(--gki-text);
+  font-weight: 600;
 }
 
 /* WP menu sub-menu compatibility */
@@ -620,9 +883,9 @@
   margin: 0;
 }
 .gki-nav-list .current-menu-item > a {
-  color: var(--gki-purple);
+  color: var(--gki-text);
   font-weight: 600;
-  background: rgba(121, 0, 201, 0.06);
+  background: var(--gki-bg-subtle);
   border-left-color: var(--gki-purple);
 }
 
@@ -664,8 +927,7 @@
   color: var(--gki-text-muted);
   margin-bottom: 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  border-bottom: 1px solid var(--gki-border-light);
 }
 
 .gki-sidebar-toc .gki-toc-link {
@@ -675,7 +937,7 @@
 }
 
 .gki-sidebar-toc .gki-toc-link.gki-toc-active {
-  color: var(--gki-purple);
+  color: var(--gki-text);
   border-left-color: var(--gki-purple);
   font-weight: 500;
 }
@@ -684,7 +946,7 @@
 @media (max-width: 1100px) {
   .gki-layout {
     grid-template-columns: 220px minmax(0, 1fr);
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
   }
   .gki-sidebar--right {
     display: none;
@@ -694,7 +956,7 @@
 @media (max-width: 768px) {
   .gki-layout {
     grid-template-columns: 1fr;
-    padding: 1rem;
+    padding: 1rem 1.5rem;
   }
   .gki-sidebar--left {
     position: static;
@@ -720,8 +982,25 @@
     font-size: 0.82rem;
   }
   .gki-nav-item--active a {
+    color: var(--gki-text);
     border-bottom-color: var(--gki-purple);
     border-left: none;
+  }
+}
+
+/* ============================================================
+   INDEX PAGE LAYOUT — hide right TOC, allow wider content
+   ============================================================ */
+
+body.gki-index-page .gki-layout {
+  grid-template-columns: 240px minmax(0, 1fr);
+}
+body.gki-index-page .gki-sidebar--right {
+  display: none;
+}
+@media (max-width: 768px) {
+  body.gki-index-page .gki-layout {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -741,8 +1020,7 @@
   color: var(--gki-text);
   margin: 2rem 0 1rem 0;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, var(--gki-purple), var(--gki-blue)) 1;
+  border-bottom: 2px solid var(--gki-border-light);
   display: inline-block;
 }
 .gki-page > h3:not([class]) {

@@ -2,126 +2,96 @@
 
 **Last updated:** 2026-09-01
 **Owner:** roberto.vizcarra@gitkraken.com
-**Repos:**
-- `gk-insights-docs-expo` — plugin + exploration content (this repo)
-- `gk-insights-docs` — production Help Center content (restructured pages per CLAUDE.md)
+**Plugin version:** 1.7.0
+**Live URL:** `help.gitkraken.com/insights-expo/expo-ai-adoption-home`
 
 ## Architecture
 
 ```
-WordPress (gitkraken.com/…)
+WordPress (help.gitkraken.com)
   ├── Elementor Pro Theme Builder (dark kit — fights us)
   ├── Git It Write plugin (syncs repo Markdown → WP posts)
   │     └── Category: insights-expo → gk-insights-expo/ directory
-  └── GKI Docs Helper plugin (our custom plugin)
+  │     └── YAML custom_fields: → stored as WP post meta
+  └── GKI Docs Helper plugin v1.7.0 (our custom plugin)
         ├── template override (priority 9999)
         ├── Parsedown cleanup (the_content filter)
-        ├── CSS (brand tokens + Elementor overrides)
-        └── JS (TOC, search, lightbox, etc.)
+        ├── gki_docs_render_card_grid() — reusable card grid renderer
+        ├── gki_docs_get_nav_structure() — frontmatter-based nav builder
+        ├── gki_docs_get_child_pages() — child page query for index cards
+        ├── CSS (brand tokens + Elementor overrides + table styles)
+        └── JS (TOC, card filter, lightbox, back-to-top, progress bar)
 ```
 
-### How Content Gets to WordPress
+## Phase History
 
-1. Markdown files in `gk-insights-expo/` are committed to the repo.
-2. Git It Write reads the repo, converts Markdown via Parsedown v1, and creates/updates WP posts in the `insights-expo` category.
-3. GKI Docs Helper detects posts in that category, applies the custom template, enqueues CSS/JS, and cleans up Parsedown artifacts.
+### Phase 1 — Audit (Complete)
+Audited the original monolithic Dashboard Management page. Identified 21 metrics across 5 families, plus config/settings content. Recommended breakout into standalone pages.
 
-## Current State (v1.5.0)
+### Phase 2 — Plugin & Visual Design (Complete, v1.5.0)
+Built GKI Docs Helper plugin: 3-column template, CSS design system (Inter, Major Third scale, brand tokens), Elementor overrides, card grid design, hierarchical nav, TOC, lightbox, progress bar. Exploration v3 defined the visual language: tinted icon cards, 3-wide grid, purple as accent only.
 
-### Working
-- Custom 3-column template overrides Elementor
-- Light background forced over dark Elementor kit
-- Heading colors forced to dark (#1C1C1C)
-- Body text readable (#414141)
-- Purple limited to accent role (borders, links, step circles)
-- Image lightbox (click to expand, Escape to close)
-- **Frontmatter-based hierarchical nav** (nav_category, nav_order, nav_label)
-- Alphabetical nav fallback when no frontmatter is present
-- Right sidebar TOC with scroll spy (hidden on index pages)
-- Reading progress bar (hidden on index pages), back-to-top button
-- Smooth-scroll anchor links
-- **3-wide card grid** with tinted icon backgrounds and hover effects
-- **Index page detection** via `page_type` frontmatter (main-index, index, content)
-- **Auto-rendered card grids** on index pages from child page frontmatter
-- **Breadcrumb navigation** (Home > Section > Page)
-- **Tabler Icons webfont** loaded from jsDelivr CDN for card icons
-- Responsive: 3-col → 2-col → 1-col at breakpoints
-- `filemtime()` cache busting (no manual version bumps for CSS/JS)
+### Phase 3 — Content Breakout (Complete, v1.7.0)
+Split content into 29 standalone pages. Key fixes along the way:
+- Moved frontmatter plugin fields under `custom_fields:` (Git It Write requirement)
+- Rewrote all internal links from `/gk-insights/` to `/insights-expo/`
+- Created clean landing page (`expo-ai-adoption-home.md`) separate from Getting Started
+- Converted old hub page to hidden redirect
+- Removed static HTML tables from index pages (card grids auto-render)
+- Fixed heading color CSS specificity (added `gki-page` class to template article)
+- Fixed card filter (removed `display: flex !important` that blocked JS hide)
+- Added table styling for Markdown tables
+- Template splits main-index content at first `<hr>` to insert cards after intro
+- Added `gki_docs_render_card_grid()` helper function
 
-### Needs Verification After Upload
-- **v1.4.0 items still pending** — Nav link colors, card aspect-ratio tuning, search filter threshold.
-- **Tabler Icons CDN** — Confirm `cdn.jsdelivr.net` is not blocked by any WAF or CSP on gitkraken.com.
-- **Frontmatter nav** — Requires content pages to have `nav_category`, `nav_order`, `nav_label`, `page_type` custom fields. Git It Write must store these from YAML frontmatter as post meta.
-- **Index card grid** — Card icons, colors, and descriptions all read from frontmatter (`card_icon`, `card_color`, `card_description`). Verify rendering once content pages have frontmatter.
-- **Breadcrumb** — Requires `page_type: main-index` on exactly one page. Falls back gracefully (no breadcrumb shown) if missing.
+### Phase 4 — UI/UX Refinement (Next)
+See `PHASE-4-HANDOFF.md` for the complete punch list.
 
-### Known Issues
-1. **Parsedown v1 doesn't parse Markdown inside HTML blocks.** This is a fundamental Parsedown limitation. Content must use raw HTML for anything inside `<div class="gki-page">`. No fix possible without replacing Parsedown or the entire Git It Write pipeline.
-2. **Elementor specificity is fragile.** Our CSS uses `!important` with `body.gki-docs-page` selectors. If Elementor kit updates change selectors or add inline styles, overrides may break. After any theme update, check: heading colors, link colors in nav/TOC, body background.
-3. **No auto-update mechanism.** Plugin must be manually uploaded via WP Admin after each change. Webhook-based auto-update was discussed but tabled because the repo is public.
+## Content Map (29 files)
 
-## Elementor Override Reference
+| File | Page Type | Nav Category | Nav Label |
+|---|---|---|---|
+| expo-ai-adoption-home.md | main-index | home | Home |
+| expo-ai-adoption-getting-started.md | index | getting-started | Getting Started |
+| expo-ai-adoption-first-dashboard.md | content | getting-started | First Dashboard |
+| expo-ai-adoption-for-executives.md | content | getting-started | For Executives |
+| expo-ai-adoption-for-engineering-leaders.md | content | getting-started | For Engineering Leaders |
+| expo-ai-adoption-for-team-leads.md | content | getting-started | For Team Leads |
+| expo-ai-adoption-for-admins.md | content | getting-started | For Admins |
+| expo-ai-adoption-connect-your-data.md | index | connect-your-data | Connect Your Data |
+| expo-ai-adoption-connect-github.md | content | connect-your-data | GitHub |
+| expo-ai-adoption-connect-bitbucket.md | content | connect-your-data | Bitbucket |
+| expo-ai-adoption-connect-azure-devops.md | content | connect-your-data | Azure DevOps |
+| expo-ai-adoption-connect-gitlab.md | content | connect-your-data | GitLab |
+| expo-ai-adoption-connect-ai-tools.md | content | connect-your-data | AI Coding Tools |
+| expo-ai-adoption-connect-jira-bamboohr.md | content | connect-your-data | Jira & BambooHR |
+| expo-ai-adoption-metrics.md | index | metrics | Metrics |
+| expo-ai-adoption-dora-metrics.md | content | metrics | DORA & Quality |
+| expo-ai-adoption-flow-metrics.md | content | metrics | Flow & Cycle Time |
+| expo-ai-adoption-output-metrics.md | content | metrics | Output & Throughput |
+| expo-ai-adoption-agentic-metrics.md | content | metrics | Adoption & Agentic |
+| expo-ai-adoption-impact-cost-metrics.md | content | metrics | AI Impact & Cost |
+| expo-ai-adoption-playbooks.md | index | playbooks | Playbooks |
+| expo-ai-adoption-playbook-tier-weights.md | content | playbooks | Set Tier Weights |
+| expo-ai-adoption-playbook-ai-rollout.md | content | playbooks | AI Rollout |
+| expo-ai-adoption-playbook-slow-cycle-time.md | content | playbooks | Slow Cycle Time |
+| expo-ai-adoption-playbook-high-cfr.md | content | playbooks | High CFR |
+| expo-ai-adoption-admin.md | index | admin | Admin & API |
+| expo-ai-adoption-settings.md | content | admin | Settings |
+| expo-ai-adoption-manual-releases-api.md | content | admin | Releases API |
+| expo-ai-adoption.md | content | hidden | (Redirect) |
 
-These are the specific Elementor/kit rules that cause problems:
+## Known Issues
 
-| Elementor Rule | Effect | Our Override |
-|---|---|---|
-| `.elementor-kit-5 h1 { color: rgb(241,241,241) }` | Headings near-white | `.gki-docs-page .gki-page h1 { color: #1C1C1C !important }` |
-| `.elementor-kit-5 a { color: rgb(248,171,255) }` | Links hot pink | `body.gki-docs-page .gki-nav-item a:link { color: #414141 !important }` |
-| Kit body background (dark) | Dark page background | `body.gki-docs-page { background: #FFFFFF !important }` |
-| Elementor Theme Builder `template_include` | Overrides WP template | Plugin hooks at priority 9999 + `template_id` filter returns 0 |
+1. **Parsedown v1** doesn't parse Markdown inside HTML blocks — fundamental limitation.
+2. **Elementor specificity is fragile** — theme updates can break overrides. After any theme update, verify heading colors, link colors, body background.
+3. **No auto-update** — plugin zip must be manually uploaded after each version.
+4. **Git It Write doesn't delete posts** — when source files are removed, WP posts persist and must be manually deleted.
+5. **Tabler Icons CDN** — icons load from `cdn.jsdelivr.net`. If CDN is blocked by WAF/CSP, card icons will be invisible.
 
-## CSS Custom Properties
+## Long-term Considerations
 
-All brand tokens are defined in `:root` in `gki-docs.css`:
-
-| Token | Value | Usage |
-|---|---|---|
-| `--gki-purple` | `#7900C9` | Accent borders, links, step circles |
-| `--gki-blue` | `#3F36BA` | Info callout, progress gradient |
-| `--gki-teal` | `#15777E` | Tip callouts |
-| `--gki-text` | `#1C1C1C` | Primary text, headings |
-| `--gki-text-secondary` | `#414141` | Body text, descriptions |
-| `--gki-text-muted` | `#636568` | Captions, timestamps |
-| `--gki-bg` | `#FFFFFF` | Page background |
-| `--gki-bg-subtle` | `#F5F6F8` | Card backgrounds, hover states |
-| `--gki-border-light` | `#E0E1E3` | Most borders |
-| `--gki-font` | `Inter` + system fallback | All text |
-
-## Content Structure (gk-insights-docs repo)
-
-The `gk-insights-docs` repo follows the CLAUDE.md directive to split the monolithic Dashboard Management page into category-based pages:
-
-1. **DORA Metrics** — Deploy Frequency, Change Lead Time, MTTR, Defect Rate
-2. **Pull Request Metrics** — First Response, Cycle Time, Lead Time, Reviews, Open Time, Abandoned, Merged Without Review, Comments, Size/Effort, Code Review Hours
-3. **AI Impact Metrics** — Copy/paste %, Duplicated code, Rework %, Post-PR work, Active Users, Suggestions, Prompt Acceptance, Tab Acceptance
-4. **Code Quality Metrics** — Bug Work %, Doc & Test %, Code Change Rate, Code Change by Operation
-5. **Velocity / Delivery Consistency** — Commit Count, Estimated Coding Hours
-6. **Dashboard Configuration** — filter/config UI
-7. **Metric Settings** — metric-level settings
-
-## Remaining Work
-
-### Short-term
-- Verify v1.5.0 plugin upload (Tabler CDN, card rendering, nav hierarchy)
-- Tune card aspect-ratio and responsive breakpoints on real devices
-- Verify all 28 content pages render correctly after Git It Write sync
-
-### Completed (Phase 3 — Content Breakout, 2026-09-01)
-- Frontmatter added to all 28 content pages (nav_category, nav_order, nav_label, page_type, card_icon, card_color, card_description)
-- Getting Started split into 6 pages (overview + first-dashboard, for-executives, for-engineering-leaders, for-team-leads, for-admins)
-- Connect Your Data split into 7 pages (overview + github, bitbucket, azure-devops, gitlab, ai-tools, jira-bamboohr)
-- Playbooks split into 5 pages (index + tier-weights, ai-rollout, slow-cycle-time, high-cfr)
-- Metrics index page and Admin & API index page created
-- All cross-file links rewritten to point to new standalone pages (12 link rewrites across 6 files)
-- Technical writing standards pass (heading clarity fixes)
-- All kbd tags updated to September 2026
-- Final verification: 10 unique images, zero stale links, complete frontmatter on all 28 pages
-
-### Medium-term
-- Add dark mode support (currently light-only; would need a second set of token values)
-
-### Long-term
+- Dark mode support (second set of token values)
 - Auto-update mechanism (webhook or GitHub Actions → WP REST API)
-- Replace Git It Write + Parsedown with a pipeline that handles Markdown-in-HTML-blocks
-- Consider migrating to a dedicated docs platform if WP/Elementor friction continues
+- Replace Git It Write + Parsedown with a better Markdown pipeline
+- Consider dedicated docs platform if WP/Elementor friction continues

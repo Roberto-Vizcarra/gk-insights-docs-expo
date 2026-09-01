@@ -100,18 +100,6 @@ The `gk-insights-docs` repo follows the CLAUDE.md directive to split the monolit
 6. **Dashboard Configuration** — filter/config UI
 7. **Metric Settings** — metric-level settings
 
-## Exploration Files
-
-Three design explorations in `gk-insights-expo/` demonstrate different approaches:
-
-| File | Approach | Notes |
-|---|---|---|
-| `exploration-v1-css-only.md` | Pure CSS enhancement of Markdown | Minimal HTML, relies on Markdown rendering |
-| `exploration-v2-html-css-cards.md` | Full HTML with card grid | Better visual design, no JS needed |
-| `exploration-v3-interactive.md` | HTML + CSS + embedded JS | TOC, search, collapsible sections |
-
-The plugin's shared CSS supports all three approaches. The custom template (single-gki.php) provides the 3-column layout for any of them.
-
 ## Remaining Work
 
 ### Short-term

@@ -44,7 +44,7 @@ Always copy the real snippet from the connection page rather than retyping the e
 <!-- FLAG FOR HUMAN REVIEW: the Collector endpoint in claude-code-codex-setup.png reads otel-devex-dev.gitkraken.com, because the capture was taken against the dev collector. The secrets are masked, so only that hostname differs from production. Retake against production if that matters. -->
 <figure>
   <img src="/wp-content/uploads/claude-code-codex-setup.png" class="help-center-img img-bordered" alt="The Claude Code and Codex setup page in GitKraken Insights, showing the shared org auth token with its Collector endpoint and masked Authentication token, followed by a masked Claude Code config field and a masked OpenAI Codex config field, each with reveal and copy buttons" />
-  <figcaption style="text-align: center; color: #888">The Claude Code &amp; Codex setup page — one org auth token, plus a ready-to-copy config for each tool.</figcaption>
+  <figcaption>The Claude Code &amp; Codex setup page — one org auth token, plus a ready-to-copy config for each tool.</figcaption>
 </figure>
 
 ### Claude Code — organization-managed settings
@@ -223,7 +223,7 @@ References: [GitHub — REST API endpoints for Copilot metrics](https://docs.git
 
 <figure>
   <img src="/wp-content/uploads/connect-copilot-modal-aug-2026.png" class="help-center-img img-bordered" alt="Connect GitHub Copilot modal in GitKraken Insights showing an optional connection name field, a Required scopes panel with Organization and Enterprise tabs listing the read:org scope and the token-owner and usage-metrics-policy prerequisites, a GitHub personal access token field with a Create a classic token link, and a GitHub Organization name field" />
-  <figcaption style="text-align: center; color: #888">The Connect GitHub Copilot modal — the required scope and prerequisites, a shortcut for creating the classic token, and the organization name.</figcaption>
+  <figcaption>The Connect GitHub Copilot modal — the required scope and prerequisites, a shortcut for creating the classic token, and the organization name.</figcaption>
 </figure>
 
 ---

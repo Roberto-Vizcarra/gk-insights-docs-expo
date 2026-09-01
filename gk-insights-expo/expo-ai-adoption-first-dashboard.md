@@ -26,7 +26,7 @@ A guided 10-minute walkthrough of `/teams`, the page you land on when you log in
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="Flow and Delivery view in GitKraken Insights with the team-pulse KPI strip, cycle time by phase trend, and average changes per developer chart" />
-  <figcaption style="text-align: center; color: #888">Flow & Delivery — hero KPI strip with team-pulse cards, plus the Flow tab's cycle-time-by-phase and changes-by-type charts.</figcaption>
+  <figcaption>Flow & Delivery — hero KPI strip with team-pulse cards, plus the Flow tab's cycle-time-by-phase and changes-by-type charts.</figcaption>
 </figure>
 
 ### Set the scope first

@@ -37,7 +37,7 @@ Connect Azure DevOps if your repositories live in an Azure DevOps organization. 
 
 <figure>
   <img src="/wp-content/uploads/azure-devops-pat-tokens-menu.png" class="help-center-img img-bordered" alt="Azure DevOps user settings menu open in the top-right corner, listing Preview features, Profile, Time and Locale, Permissions, Notifications, Theme, Usage, Personal access tokens, and SSH public keys" />
-  <figcaption style="text-align: center; color: #888">The Azure DevOps user settings menu — Personal access tokens is near the bottom.</figcaption>
+  <figcaption>The Azure DevOps user settings menu — Personal access tokens is near the bottom.</figcaption>
 </figure>
 
 > Legacy `https://yourOrgName.visualstudio.com` URLs are also accepted as the host domain.

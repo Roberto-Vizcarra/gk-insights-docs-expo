@@ -35,7 +35,7 @@ Connect Bitbucket if your repositories live in a Bitbucket workspace. Like GitHu
 
 <figure>
   <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights showing an optional connection name field, the list of scoped Atlassian API token scopes required, and the Atlassian account email and Bitbucket API token fields" />
-  <figcaption style="text-align: center; color: #888">The Connect Bitbucket modal — an optional connection name, the required token scopes, and the Atlassian account email and Bitbucket API token fields.</figcaption>
+  <figcaption>The Connect Bitbucket modal — an optional connection name, the required token scopes, and the Atlassian account email and Bitbucket API token fields.</figcaption>
 </figure>
 
 ### Required token scopes

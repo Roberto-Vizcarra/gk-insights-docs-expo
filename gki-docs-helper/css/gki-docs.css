@@ -1136,11 +1136,11 @@ body.gki-index-page .gki-sidebar--right {
 }
 
 /* Figures from Markdown (without gki-figure class) */
-.gki-page > figure:not([class]) {
+.gki-page figure:not([class]) {
   margin: 1.5rem 0;
   padding: 0;
 }
-.gki-page > figure:not([class]) img {
+.gki-page figure:not([class]) img {
   display: block;
   width: 100%;
   height: auto;
@@ -1148,7 +1148,7 @@ body.gki-index-page .gki-sidebar--right {
   border-radius: var(--gki-radius);
   box-shadow: var(--gki-shadow-sm);
 }
-.gki-page > figure:not([class]) figcaption {
+.gki-page figure:not([class]) figcaption {
   text-align: center;
   font-size: 0.83rem;
   color: var(--gki-text-muted);

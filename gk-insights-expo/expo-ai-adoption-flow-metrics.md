@@ -152,7 +152,7 @@ Median industry numbers for typical web and services engineering teams:
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="Flow view in GitKraken Insights showing the cycle time trend broken down by phase next to the average changes per developer chart" />
-  <figcaption style="text-align: center; color: #888">Cycle Time and PR Volume trends with phase breakdown.</figcaption>
+  <figcaption>Cycle Time and PR Volume trends with phase breakdown.</figcaption>
 </figure>
 
 ### Settings that affect it
@@ -437,7 +437,7 @@ For org-level WIP, watch the _trend_. Sudden spikes always tell a story. Slow dr
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-wip-trend.png" class="help-center-img img-bordered" alt="Flow & Delivery board in GitKraken Insights showing KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR, and AI Adoption, with the WIP card displaying the count of open PRs and how many are older than three days" />
-  <figcaption style="text-align: center; color: #888">WIP alongside other PR flow charts.</figcaption>
+  <figcaption>WIP alongside other PR flow charts.</figcaption>
 </figure>
 
 ### Settings that affect it

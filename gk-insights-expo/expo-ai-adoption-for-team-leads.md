@@ -24,7 +24,7 @@ You run one team day-to-day. You want a pulse on flow, blockers, and review heal
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="Team Lead Insights view in GitKraken Insights with flow KPI cards, cycle time by phase trend, and average changes per developer chart" />
-  <figcaption style="text-align: center; color: #888">Team-pulse view — cycle-time-by-phase, changes-by-type, and adoption trend together.</figcaption>
+  <figcaption>Team-pulse view — cycle-time-by-phase, changes-by-type, and adoption trend together.</figcaption>
 </figure>
 
 ### Your weekly home: `/ai-adoption/teams`

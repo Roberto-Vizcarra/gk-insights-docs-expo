@@ -66,7 +66,7 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 
 <figure>
   <img src="/wp-content/uploads/settings-data-connections-aug-2026.png" class="help-center-img img-bordered" alt="The Data Connections tab of Insights Settings, showing a Connected table with Claude Code and Codex, GitHub, and Jira rows alongside their sync status, and an Add data source grid listing Cursor, Devin, BambooHR, GitHub, Bitbucket, Azure DevOps, GitLab, Azure DevOps Server, GitHub Enterprise Server, GitLab Self-Managed, Bitbucket Data Center, and GitHub Copilot" />
-  <figcaption style="text-align: center; color: #888">Settings → Data Connections — existing connections on top, available data sources below.</figcaption>
+  <figcaption>Settings → Data Connections — existing connections on top, available data sources below.</figcaption>
 </figure>
 
 > **These are org-level credentials.** GitHub and Jira are also available per-user under **Integrations**, but AI adoption analytics need their own org-level connections made here.

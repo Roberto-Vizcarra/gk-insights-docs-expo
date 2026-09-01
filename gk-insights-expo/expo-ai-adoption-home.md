@@ -22,9 +22,15 @@ custom_fields:
 
 GitKraken Insights gives engineering leaders a single view of how AI tools, code delivery, and team capacity work together. The AI Adoption section measures how much your team is actually using AI, how autonomously, and what AI is actually delivering — in time and dollars.
 
-> **Plan:** GitKraken Insights
-> **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
-> **Role:** Lead, Admin, or Owner
+---
+
+## Requirements
+
+| | |
+| --- | --- |
+| **Plan** | GitKraken Insights |
+| **Platform** | Browser only via [gitkraken.dev](https://gitkraken.dev) |
+| **Role** | Lead, Admin, or Owner |
 
 ---
 

@@ -149,10 +149,25 @@
 
     input.addEventListener('input', function () {
       var q = this.value.toLowerCase().trim();
+      var visibleCount = 0;
       cards.forEach(function (card) {
         var text = (card.getAttribute('data-search') || card.textContent).toLowerCase();
-        card.style.display = text.indexOf(q) !== -1 ? '' : 'none';
+        var match = !q || text.indexOf(q) !== -1;
+        card.classList.toggle('gki-hidden', !match);
+        if (match) visibleCount++;
       });
+      // Show "no results" message
+      var noResults = grid.querySelector('.gki-no-results');
+      if (visibleCount === 0 && q) {
+        if (!noResults) {
+          noResults = document.createElement('div');
+          noResults.className = 'gki-no-results';
+          noResults.textContent = 'No pages match "' + q + '"';
+          grid.appendChild(noResults);
+        }
+      } else if (noResults) {
+        noResults.parentNode.removeChild(noResults);
+      }
     });
   }
 
@@ -282,6 +297,13 @@
       '}',
       '.gki-search-input::placeholder {',
       '  color: var(--gki-text-muted);',
+      '}',
+      '.gki-no-results {',
+      '  grid-column: 1 / -1;',
+      '  text-align: center;',
+      '  padding: 2rem 1rem;',
+      '  color: var(--gki-text-muted);',
+      '  font-size: 0.9rem;',
       '}',
       /* Back to top */
       '.gki-back-to-top {',

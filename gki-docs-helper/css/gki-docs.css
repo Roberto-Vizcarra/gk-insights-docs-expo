@@ -467,7 +467,7 @@
   height: 0 !important;
 }
 .gki-card {
-  display: flex !important;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   background: var(--gki-bg) !important;
@@ -552,6 +552,18 @@
   color: var(--gki-icon-red-fg);
 }
 
+/* ---------- Card filter hidden state ------------------------- */
+.gki-card.gki-hidden {
+  display: none !important;
+}
+
+/* ---------- Below-cards section (main-index detail content) -- */
+.gki-below-cards {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--gki-border-light);
+}
+
 /* ---------- Card article count ------------------------------- */
 .gki-card-count {
   font-size: 0.75rem;
@@ -621,6 +633,18 @@ body.gki-docs-page {
 }
 .gki-docs-page .gki-related-title {
   color: #1C1C1C !important;
+}
+
+/* Force table styles through Elementor */
+.gki-docs-page .gki-page table {
+  border-collapse: collapse !important;
+}
+.gki-docs-page .gki-page thead th {
+  background: var(--gki-bg-subtle) !important;
+  color: #1C1C1C !important;
+}
+.gki-docs-page .gki-page tbody td {
+  color: #414141 !important;
 }
 
 /* Force body text readable */
@@ -993,19 +1017,14 @@ body.gki-docs-page #site-footer {
 }
 
 /* ============================================================
-   INDEX PAGE LAYOUT — hide right TOC, allow wider content
+   INDEX PAGE LAYOUT — hide TOC content, keep column for spacing
    ============================================================ */
 
-body.gki-index-page .gki-layout {
-  grid-template-columns: 240px minmax(0, 1fr);
-}
 body.gki-index-page .gki-sidebar--right {
-  display: none;
+  visibility: hidden;
 }
-@media (max-width: 768px) {
-  body.gki-index-page .gki-layout {
-    grid-template-columns: 1fr;
-  }
+body.gki-index-page .gki-content-main {
+  max-width: 860px;
 }
 
 /* ============================================================
@@ -1125,6 +1144,39 @@ body.gki-index-page .gki-sidebar--right {
   font-family: var(--gki-font-mono);
   font-size: 0.88em;
   color: var(--gki-purple);
+}
+
+/* Tables from Markdown */
+.gki-page table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.gki-page thead th {
+  background: var(--gki-bg-subtle);
+  font-weight: 600;
+  color: var(--gki-text);
+  text-align: left;
+  padding: 0.65rem 0.85rem;
+  border-bottom: 2px solid var(--gki-border-light);
+  white-space: nowrap;
+}
+.gki-page tbody td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--gki-border-light);
+  color: var(--gki-text-secondary);
+  vertical-align: top;
+}
+.gki-page tbody tr:last-child td {
+  border-bottom: none;
+}
+.gki-page tbody tr:hover {
+  background: var(--gki-bg-subtle);
+}
+.gki-page td strong {
+  color: var(--gki-text);
 }
 
 /* Kbd elements (V1 uses for "Last updated") */

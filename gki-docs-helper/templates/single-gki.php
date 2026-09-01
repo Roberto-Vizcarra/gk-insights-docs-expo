@@ -169,38 +169,42 @@ get_header();
     <?php endif; ?>
 
     <?php
-    // Post content
+    // Post content — on main-index, insert card grid after the intro (first <hr>)
     while ( have_posts() ) :
         the_post();
-        the_content();
+
+        if ( 'main-index' === $page_type && ! empty( $child_cards ) ) :
+            // Buffer content so we can split it
+            ob_start();
+            the_content();
+            $full_content = ob_get_clean();
+
+            // Split at first <hr> — intro above, details below
+            $hr_pos = strpos( $full_content, '<hr' );
+            if ( $hr_pos !== false ) {
+                $intro  = substr( $full_content, 0, $hr_pos );
+                $rest   = substr( $full_content, $hr_pos );
+            } else {
+                $intro  = $full_content;
+                $rest   = '';
+            }
+
+            echo $intro;
+            // Card grid right after intro
+            gki_docs_render_card_grid( $child_cards );
+            // Remaining content below cards
+            if ( $rest ) {
+                echo '<div class="gki-below-cards">' . $rest . '</div>';
+            }
+        else :
+            the_content();
+        endif;
     endwhile;
 
-    // Card grid for index pages
-    if ( $is_index && ! empty( $child_cards ) ) :
-    ?>
-    <div class="gki-card-grid">
-      <?php foreach ( $child_cards as $card ) :
-          $color_class = 'gki-card-icon--' . esc_attr( $card['color'] );
-      ?>
-      <a href="<?php echo esc_url( $card['url'] ); ?>" class="gki-card" data-search="<?php echo esc_attr( $card['title'] . ' ' . $card['desc'] ); ?>">
-        <?php if ( $card['icon'] ) : ?>
-          <div class="gki-card-icon <?php echo esc_attr( $color_class ); ?>">
-            <i class="ti ti-<?php echo esc_attr( $card['icon'] ); ?>" aria-hidden="true"></i>
-          </div>
-        <?php endif; ?>
-        <div class="gki-card-title">
-          <?php echo esc_html( $card['title'] ); ?>
-          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <?php if ( $card['desc'] ) : ?>
-          <div class="gki-card-desc"><?php echo esc_html( $card['desc'] ); ?></div>
-        <?php endif; ?>
-      </a>
-      <?php endforeach; ?>
-    </div>
-    <?php endif; ?>
+    // Card grid for regular index pages (not main-index)
+    if ( 'main-index' !== $page_type && $is_index && ! empty( $child_cards ) ) :
+        gki_docs_render_card_grid( $child_cards );
+    endif; ?>
   </article>
 
   <!-- Right sidebar: on-this-page TOC (JS-populated, hidden on index pages via CSS) -->

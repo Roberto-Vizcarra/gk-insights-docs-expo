@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.6.0
+ * Version:     1.7.0
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.6.0' );
+define( 'GKI_DOCS_VERSION', '1.7.0' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -584,6 +584,38 @@ function gki_docs_get_child_pages() {
     } );
 
     return $cards;
+}
+
+/**
+ * Render the card grid HTML for a set of child page cards.
+ * Extracted so it can be called from the template in multiple places.
+ */
+function gki_docs_render_card_grid( $child_cards ) {
+    if ( empty( $child_cards ) ) return;
+    ?>
+    <div class="gki-card-grid">
+      <?php foreach ( $child_cards as $card ) :
+          $color_class = 'gki-card-icon--' . esc_attr( $card['color'] );
+      ?>
+      <a href="<?php echo esc_url( $card['url'] ); ?>" class="gki-card" data-search="<?php echo esc_attr( $card['title'] . ' ' . $card['desc'] ); ?>">
+        <?php if ( $card['icon'] ) : ?>
+          <div class="gki-card-icon <?php echo esc_attr( $color_class ); ?>">
+            <i class="ti ti-<?php echo esc_attr( $card['icon'] ); ?>" aria-hidden="true"></i>
+          </div>
+        <?php endif; ?>
+        <div class="gki-card-title">
+          <?php echo esc_html( $card['title'] ); ?>
+          <svg class="gki-card-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <?php if ( $card['desc'] ) : ?>
+          <div class="gki-card-desc"><?php echo esc_html( $card['desc'] ); ?></div>
+        <?php endif; ?>
+      </a>
+      <?php endforeach; ?>
+    </div>
+    <?php
 }
 
 /**

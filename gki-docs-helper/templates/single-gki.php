@@ -170,10 +170,10 @@ get_header();
 
     <?php
     // Post content — on main-index, insert card grid after the intro (first <hr>)
-    while ( have_posts() ) :
+    while ( have_posts() ) {
         the_post();
 
-        if ( 'main-index' === $page_type && ! empty( $child_cards ) ) :
+        if ( 'main-index' === $page_type && ! empty( $child_cards ) ) {
             // Buffer content so we can split it
             ob_start();
             the_content();
@@ -182,11 +182,11 @@ get_header();
             // Split at first <hr> — intro above, details below
             $hr_pos = strpos( $full_content, '<hr' );
             if ( $hr_pos !== false ) {
-                $intro  = substr( $full_content, 0, $hr_pos );
-                $rest   = substr( $full_content, $hr_pos );
+                $intro = substr( $full_content, 0, $hr_pos );
+                $rest  = substr( $full_content, $hr_pos );
             } else {
-                $intro  = $full_content;
-                $rest   = '';
+                $intro = $full_content;
+                $rest  = '';
             }
 
             echo $intro;
@@ -196,15 +196,15 @@ get_header();
             if ( $rest ) {
                 echo '<div class="gki-below-cards">' . $rest . '</div>';
             }
-        else :
+        } else {
             the_content();
-        endif;
-    endwhile;
+        }
+    }
 
     // Card grid for regular index pages (not main-index)
-    if ( 'main-index' !== $page_type && $is_index && ! empty( $child_cards ) ) :
+    if ( 'main-index' !== $page_type && $is_index && ! empty( $child_cards ) ) {
         gki_docs_render_card_grid( $child_cards );
-    endif; ?>
+    } ?>
   </article>
 
   <!-- Right sidebar: on-this-page TOC (JS-populated, hidden on index pages via CSS) -->

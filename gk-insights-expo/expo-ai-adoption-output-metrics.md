@@ -9,8 +9,15 @@ integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps
 status: GA
 taxonomy:
     category: insights-expo
+page_type: content
+nav_category: metrics
+nav_order: 20
+nav_label: Output & Throughput
+card_icon: package
+card_color: green
+card_description: Output Score, Throughput, Direct Commits, Effort Score
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 
 This family answers: **what is your team shipping, and how much of it is substantive work?**

@@ -9,8 +9,15 @@ integrations: [Claude Code, Codex, Cursor, GitHub Copilot]
 status: GA
 taxonomy:
     category: insights-expo
+page_type: content
+nav_category: metrics
+nav_order: 50
+nav_label: AI Impact & Cost
+card_icon: currency-dollar
+card_color: green
+card_description: Productivity Uplift, AI-Assisted %, CapEx/OpEx, Spend by Tier
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 > **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics).
 
@@ -94,13 +101,13 @@ PotentialUpliftPct     = additional org-wide changes if all developers moved to 
 
 **Step 1 — Establish the baseline.** The baseline period is set in Settings → General (default November 1 of the previous year through the start of the current month). The current window is compared against a same-length window from the baseline period.
 
-**Step 2 — Compute the volume speedup.** We measure changes-per-developer-per-week in both windows. If the baseline rate is at least 1 change per dev per week (a guard against divide-by-near-zero — see NG-152 below), the ratio gives the volume speedup factor. A factor of 1.5 means the team is shipping 50% more changes per dev per week than baseline.
+**Step 2 — Compute the volume speedup.** We measure changes-per-developer-per-week in both windows. If the baseline rate is at least 1 change per dev per week (a guard against divide-by-near-zero — see the minimum-baseline guard below), the ratio gives the volume speedup factor. A factor of 1.5 means the team is shipping 50% more changes per dev per week than baseline.
 
 **Step 3 — Estimate hours and dollars saved.** Multiply `(VolumeSpeedupFactor − 1)` by a 40-hour standard work week to get hours saved per dev per week. Multiply that by Developer Hourly Rate and developer count to get the dollar figure.
 
 **Step 4 — Compute the within-window comparisons.** Independently of the baseline comparison, we compute uplift percentages within the current window: active developers vs. other developers, and Power Users vs. the rest. These don't require baseline data and answer slightly different questions.
 
-**The NG-152 guard.** When the baseline rate is below 1 change per dev per week, the dashboard refuses to compute a speedup factor. This guard exists because tiny baseline denominators (sparse teams, new connections, or many seeded developers with few historical changes) used to produce nonsense headline numbers like "+12,665% productivity, $5.3M/week saved." Below the floor, we leave the volume-speedup and hours-saved fields at zero, and the AI Impact view shows an empty state instead of an inflated number.
+**The minimum-baseline guard.** When the baseline rate is below 1 change per dev per week, the dashboard refuses to compute a speedup factor. This guard exists because tiny baseline denominators (sparse teams, new connections, or many seeded developers with few historical changes) used to produce nonsense headline numbers like "+12,665% productivity, $5.3M/week saved." Below the floor, we leave the volume-speedup and hours-saved fields at zero, and the AI Impact view shows an empty state instead of an inflated number.
 
 ### Why it matters
 
@@ -118,7 +125,7 @@ For the volume-speedup percentage:
 | **15–29%** | Solid — typical for orgs 6–12 months into active rollout. |
 | **5–14%** | Early — adoption exists but value is still ramping. Expect this to grow. |
 | **< 5%** | Limited — either rollout is shallow or measurement is masking real gains. |
-| **Empty state** | Baseline rate is below the NG-152 floor (1 change per dev per week). Pick a different baseline period or wait for more data. |
+| **Empty state** | Baseline rate is below the minimum-baseline floor (1 change per dev per week). Pick a different baseline period or wait for more data. |
 
 Don't quote the dollar value to two decimal places. "About $50K per week in annualized productivity gain" is defensible. "$2.43M per year" is not — the math doesn't support that precision.
 
@@ -147,7 +154,7 @@ Don't quote the dollar value to two decimal places. "About $50K per week in annu
 The honest answer: improve the inputs.
 
 * **Raise changes per dev per week** by following the [Output Score improvement guidance](/gk-insights/ai-adoption-output-metrics#output-score).
-* **Raise AI-Assisted %** by deepening adoption in the cohort that is already using AI lightly — see the [Agent Adoption Score playbook](/gk-insights/ai-adoption-playbooks#roll-out-ai-tooling-with-the-adoption-score).
+* **Raise AI-Assisted %** by deepening adoption in the cohort that is already using AI lightly — see the [Agent Adoption Score playbook](/gk-insights/ai-adoption-playbook-ai-rollout).
 * **Lower Cycle Time** via review process and PR-size discipline ([Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time)).
 * **Don't try to improve uplift directly.** It is a derived metric. Optimizing the inputs is the only way to move it honestly.
 
@@ -157,7 +164,7 @@ The honest answer: improve the inputs.
 * **Baseline period choice matters a lot.** Comparing against a baseline that itself had unusual circumstances can produce misleading uplift numbers in either direction.
 * **Doesn't isolate AI from other process changes.** If you adopted AI _and_ started doing weekly retros _and_ hired three senior ICs, all of those contribute to your speedup. The number doesn't surgically attribute.
 * **Dollar figure depends on hourly rate.** A team with $50/hour rate sees half the dollar figure of a team with $100/hour rate, same productivity gain. The percentage is the more invariant number.
-* **Below-floor baselines produce an empty state, not a number.** See the NG-152 guard above.
+* **Below-floor baselines produce an empty state, not a number.** See the minimum-baseline guard above.
 
 ### FAQ
 
@@ -171,7 +178,7 @@ A: Possibly. Common causes: (1) adoption is broad but shallow, (2) the baseline 
 A: Yes — filter the /ai-adoption/ai-impact page by team, and the Productivity hero cards recompute for that scope.
 
 **Q: Will these metrics work if my org just installed Insights?**
-A: Only weakly. The baseline period defaults to November 1 last year, so you need at least a few months of historical data to compute meaningful deltas. If the baseline rate is below the NG-152 floor, the dashboard shows an empty state rather than an inflated number.
+A: Only weakly. The baseline period defaults to November 1 last year, so you need at least a few months of historical data to compute meaningful deltas. If the baseline rate is below the minimum-baseline floor, the dashboard shows an empty state rather than an inflated number.
 
 **Q: How do I explain this to my CFO?**
 A: "This is our directional estimate of productivity gain attributable to AI adoption. The percentage is reliable for trend reading. The dollar figure is order-of-magnitude — don't book it as financial guidance, but it is defensible for narrative."

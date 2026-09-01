@@ -1,6 +1,6 @@
 # GKI Help Center Redesign — Project Status
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-01
 **Owner:** roberto.vizcarra@gitkraken.com
 **Repos:**
 - `gk-insights-docs-expo` — plugin + exploration content (this repo)
@@ -116,9 +116,19 @@ The plugin's shared CSS supports all three approaches. The custom template (sing
 
 ### Short-term
 - Verify v1.5.0 plugin upload (Tabler CDN, card rendering, nav hierarchy)
-- Add frontmatter to all content pages (nav_category, nav_order, nav_label, page_type, card_icon, card_color, card_description)
-- Execute content breakout per BREAKOUT-PLAN.md (split Getting Started, Connect Your Data, Playbooks)
 - Tune card aspect-ratio and responsive breakpoints on real devices
+- Verify all 28 content pages render correctly after Git It Write sync
+
+### Completed (Phase 3 — Content Breakout, 2026-09-01)
+- Frontmatter added to all 28 content pages (nav_category, nav_order, nav_label, page_type, card_icon, card_color, card_description)
+- Getting Started split into 6 pages (overview + first-dashboard, for-executives, for-engineering-leaders, for-team-leads, for-admins)
+- Connect Your Data split into 7 pages (overview + github, bitbucket, azure-devops, gitlab, ai-tools, jira-bamboohr)
+- Playbooks split into 5 pages (index + tier-weights, ai-rollout, slow-cycle-time, high-cfr)
+- Metrics index page and Admin & API index page created
+- All cross-file links rewritten to point to new standalone pages (12 link rewrites across 6 files)
+- Technical writing standards pass (heading clarity fixes)
+- All kbd tags updated to September 2026
+- Final verification: 10 unique images, zero stale links, complete frontmatter on all 28 pages
 
 ### Medium-term
 - Add dark mode support (currently light-only; would need a second set of token values)

@@ -9,8 +9,15 @@ integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bi
 status: GA
 taxonomy:
     category: insights-expo
+page_type: content
+nav_category: metrics
+nav_order: 40
+nav_label: DORA & Quality
+card_icon: shield-check
+card_color: green
+card_description: Deploy Frequency, Lead Time, CFR, and MTTR
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 > **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/gk-insights/gk-insights-dora-metrics).
 
@@ -68,7 +75,7 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 
 ## Required integrations
 
-* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/gk-insights/ai-adoption-connect-your-data#configure-change-failure-rate-cfr).
+* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/gk-insights/ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr).
 * **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (tagged releases, GitHub Releases, or a configured release event) or through releases you push with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api). Without either, both metrics show an empty state.
 
 ---

@@ -9,8 +9,15 @@ integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps
 status: GA
 taxonomy:
     category: insights-expo
+page_type: content
+nav_category: metrics
+nav_order: 30
+nav_label: Flow & Cycle Time
+card_icon: clock
+card_color: green
+card_description: Cycle Time, Review Cycles, First-Pass Rate, WIP
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 This family answers: **how fast does work move through your system, and where does it get stuck?**
 

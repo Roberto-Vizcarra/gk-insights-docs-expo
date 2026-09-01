@@ -9,12 +9,19 @@ integrations: [Claude Code, Codex, Cursor]
 status: GA
 taxonomy:
     category: insights-expo
+page_type: content
+nav_category: admin
+nav_order: 10
+nav_label: Settings
+card_icon: adjustments
+card_color: red
+card_description: Configuration reference for all AI Adoption settings
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 Every admin-configurable setting that affects AI Adoption scores in GitKraken Insights, organized by where it lives in the product, plus a one-line "what it changes."
 
-This page covers only the settings that affect AI Adoption scores. For product-wide administration — loading the developer roster, defining teams, wiring up Jira for CFR, syncing BambooHR PTO, and Demo Mode — see the [For admins](/gk-insights/ai-adoption-getting-started#for-admins) section of the Getting Started guide.
+This page covers only the settings that affect AI Adoption scores. For product-wide administration — loading the developer roster, defining teams, wiring up Jira for CFR, syncing BambooHR PTO, and Demo Mode — see the [For Admins](/gk-insights/ai-adoption-for-admins) section of the Getting Started guide.
 
 If you came from a metric page to look up a specific setting, jump to the anchor of the same name.
 
@@ -71,7 +78,7 @@ Three positive numbers that say how much Adoption, Agentic, and Output each coun
 
 **Affects:** [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier) — and through it, the developer table sorting, the Top 10 widget, the executive ranking, and every breakdown chart that buckets by AI Tier.
 
-→ See also: [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbooks#set-tier-weights-for-your-orgs-maturity)
+→ See also: [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbook-tier-weights)
 
 ---
 
@@ -221,5 +228,5 @@ _In Settings UI: yes._
 
 ## Related reading
 
-* [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbooks#set-tier-weights-for-your-orgs-maturity)
-* [Playbook — Roll out AI tooling with the Adoption Score](/gk-insights/ai-adoption-playbooks#roll-out-ai-tooling-with-the-adoption-score)
+* [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbook-tier-weights)
+* [Playbook — Roll out AI tooling with the Adoption Score](/gk-insights/ai-adoption-playbook-ai-rollout)

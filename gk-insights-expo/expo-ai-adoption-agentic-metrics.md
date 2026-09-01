@@ -9,8 +9,15 @@ integrations: [Claude Code, Codex, Cursor, Devin, GitHub Copilot]
 status: GA
 taxonomy:
     category: insights-expo
+page_type: content
+nav_category: metrics
+nav_order: 10
+nav_label: Adoption & Agentic
+card_icon: user-check
+card_color: green
+card_description: Adoption Score, Autonomy, AI Tier, Maturity Factor, Cursor Boost
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 
 This family answers a single question: **how much is your team actually using AI, and how deeply?**
@@ -425,7 +432,7 @@ If **On PTO % is unusually high** (>15%), check whether your PTO sync is working
 
 ### How to improve it
 
-* **To move developers from Emerging → Explorer**, focus on Adoption. See [Playbook — Roll out AI tooling with the Adoption Score](/gk-insights/ai-adoption-playbooks#roll-out-ai-tooling-with-the-adoption-score).
+* **To move developers from Emerging → Explorer**, focus on Adoption. See [Playbook — Roll out AI tooling with the Adoption Score](/gk-insights/ai-adoption-playbook-ai-rollout).
 * **To move developers from Regular → Power User**, focus on Agentic _and_ Output together. The top tier requires both depth of AI use and shipping at the org's top rate.
 * **To shift the org-level tier mix without retraining anyone**, tune the Tier Weights. Moving the weights toward Output emphasizes shippers; moving them toward Adoption emphasizes consistent users. (Editable in Settings → General.)
 * **To grade fairly across teams of different sizes**, look at _tier mix percentage_ rather than absolute counts.

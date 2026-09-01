@@ -9,8 +9,15 @@ integrations: [Claude Code, Codex, Cursor]
 status: GA
 taxonomy:
     category: insights-expo
+page_type: main-index
+nav_category: home
+nav_order: 0
+nav_label: Home
+card_icon: home
+card_color: purple
+card_description: GitKraken Insights AI Adoption documentation
 ---
-<kbd>Last updated: August 2026</kbd>
+<kbd>Last updated: September 2026</kbd>
 
 GitKraken Insights gives engineering leaders a single view of how AI tools, code delivery, and team capacity work together. The AI Adoption section measures how much your team is actually using AI, how autonomously, and what AI is actually delivering — in time and dollars.
 

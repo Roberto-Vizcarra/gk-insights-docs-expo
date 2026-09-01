@@ -7,15 +7,16 @@ audience: admin
 plan_required: GitKraken Insights
 integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, Jira Cloud, BambooHR]
 status: GA
-page_type: index
-nav_category: connect-your-data
-nav_order: 0
-nav_label: Connect Your Data
-card_icon: plug
-card_color: blue
-card_description: Link git providers, AI coding tools, and project trackers
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: blue
+    card_description: Link git providers, AI coding tools, and project trackers
+    card_icon: plug
+    nav_category: connect-your-data
+    nav_label: Connect Your Data
+    nav_order: 0
+    page_type: index
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -77,9 +78,9 @@ Every step below happens on the same page: **Insights → Settings → Data Conn
 
 Each data source has its own setup page with provider-specific instructions, token scopes, and troubleshooting. Choose the pages that match your stack:
 
-- **Git providers:** [GitHub](/gk-insights/ai-adoption-connect-github), [Bitbucket](/gk-insights/ai-adoption-connect-bitbucket), [Azure DevOps](/gk-insights/ai-adoption-connect-azure-devops), [GitLab](/gk-insights/ai-adoption-connect-gitlab)
-- **AI coding tools:** [Claude Code, Codex, Cursor, Copilot, and Devin](/gk-insights/ai-adoption-connect-ai-tools)
-- **Project tracking and PTO:** [Jira & BambooHR](/gk-insights/ai-adoption-connect-jira-bamboohr)
+- **Git providers:** [GitHub](/insights-expo/expo-ai-adoption-connect-github), [Bitbucket](/insights-expo/expo-ai-adoption-connect-bitbucket), [Azure DevOps](/insights-expo/expo-ai-adoption-connect-azure-devops), [GitLab](/insights-expo/expo-ai-adoption-connect-gitlab)
+- **AI coding tools:** [Claude Code, Codex, Cursor, Copilot, and Devin](/insights-expo/expo-ai-adoption-connect-ai-tools)
+- **Project tracking and PTO:** [Jira & BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr)
 
 Your git provider is the foundation — it powers every PR, commit, contributor, and cycle-time metric, so connect that first. Then connect at least one AI coding tool so Insights can measure adoption. Jira and BambooHR are optional but sharpen the data.
 
@@ -94,7 +95,7 @@ A few business inputs let Insights translate engineering activity into ROI and t
 - **Maturity Factor** (Company AI Readiness %) — an org-wide scaling knob; the 0.75 default suits most orgs.
 - **Default Department** — pre-selects the right view for first-time visitors.
 
-You can change all of these at any time. For what each setting affects, see the [AI Adoption Settings reference](/gk-insights/ai-adoption-settings).
+You can change all of these at any time. For what each setting affects, see the [AI Adoption Settings reference](/insights-expo/expo-ai-adoption-settings).
 
 ---
 
@@ -106,7 +107,7 @@ This is the step that makes or breaks clean data. The same person often shows up
 2. Review the detected identities. Where you recognize duplicates of the same person, use **Merge** to combine them — including two accounts on the same git provider, such as a developer with two GitHub logins.
 3. Where an identity is missing an email, add it — this helps tie commit data back to the right person.
 
-Insights auto-suggests matches using email, git handle, and name, but you should confirm them and clean up anything it couldn't resolve. **Treat this like an inbox and keep it empty** — see the [For Admins](/gk-insights/ai-adoption-for-admins) page for ongoing roster hygiene.
+Insights auto-suggests matches using email, git handle, and name, but you should confirm them and clean up anything it couldn't resolve. **Treat this like an inbox and keep it empty** — see the [For Admins](/insights-expo/expo-ai-adoption-for-admins) page for ongoing roster hygiene.
 
 ### Excluding review bots
 
@@ -148,7 +149,7 @@ Give the rest of your stakeholders access so they can read the dashboards.
 | **A developer appears twice** | Multiple identities not yet merged | Merge them in Settings → Developers — see [Map developer identities](#map-developer-identities) |
 | **Setup email flagged by your IT as suspicious** | Some corporate filters flag new domains | Navigate directly to [gitkraken.dev](https://gitkraken.dev) instead of clicking the email link; tell your account team |
 
-For provider-specific troubleshooting, see the individual connection pages: [GitHub](/gk-insights/ai-adoption-connect-github#troubleshooting), [Bitbucket](/gk-insights/ai-adoption-connect-bitbucket#troubleshooting), [Azure DevOps](/gk-insights/ai-adoption-connect-azure-devops#troubleshooting), [GitLab](/gk-insights/ai-adoption-connect-gitlab#troubleshooting), [AI Coding Tools](/gk-insights/ai-adoption-connect-ai-tools#troubleshooting), [Jira & BambooHR](/gk-insights/ai-adoption-connect-jira-bamboohr#troubleshooting).
+For provider-specific troubleshooting, see the individual connection pages: [GitHub](/insights-expo/expo-ai-adoption-connect-github#troubleshooting), [Bitbucket](/insights-expo/expo-ai-adoption-connect-bitbucket#troubleshooting), [Azure DevOps](/insights-expo/expo-ai-adoption-connect-azure-devops#troubleshooting), [GitLab](/insights-expo/expo-ai-adoption-connect-gitlab#troubleshooting), [AI Coding Tools](/insights-expo/expo-ai-adoption-connect-ai-tools#troubleshooting), [Jira & BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#troubleshooting).
 
 If a problem persists, contact your GitKraken account team with the page URL, what you were connecting, and a screenshot of any error.
 
@@ -156,8 +157,8 @@ If a problem persists, contact your GitKraken account team with the page URL, wh
 
 ## Related pages
 
-- [Getting Started with AI Adoption](/gk-insights/ai-adoption-getting-started) — orient yourself in the dashboards once data is flowing.
-- [For Admins](/gk-insights/ai-adoption-for-admins) — ongoing roster hygiene, data freshness, and troubleshooting.
-- [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api) — push releases to Insights from deployment tooling it can't read.
-- [AI Adoption Settings reference](/gk-insights/ai-adoption-settings) — what each setting changes.
+- [Getting Started with AI Adoption](/insights-expo/expo-ai-adoption-getting-started) — orient yourself in the dashboards once data is flowing.
+- [For Admins](/insights-expo/expo-ai-adoption-for-admins) — ongoing roster hygiene, data freshness, and troubleshooting.
+- [Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api) — push releases to Insights from deployment tooling it can't read.
+- [AI Adoption Settings reference](/insights-expo/expo-ai-adoption-settings) — what each setting changes.
 - [Getting Started with GitKraken Insights](/gk-insights/gk-insights) — request access and the classic repository connection flow.

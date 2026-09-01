@@ -9,19 +9,20 @@ integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Azure DevOps, Azure 
 status: GA
 taxonomy:
     category: insights-expo
-page_type: content
-nav_category: admin
-nav_order: 20
-nav_label: Releases API
-card_icon: terminal-2
-card_color: red
-card_description: Record releases via API when your git provider does not capture them
+custom_fields:
+    card_color: red
+    card_description: Record releases via API when your git provider does not capture them
+    card_icon: terminal-2
+    nav_category: admin
+    nav_label: Releases API
+    nav_order: 20
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
 The Manual Releases API lets you record releases in GitKraken Insights that aren't captured automatically from your git provider — for example, releases cut by an external CI/CD system, deploys to a platform GitKraken doesn't read, or historical releases you want to backfill.
 
-Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/gk-insights/ai-adoption-dora-metrics#deployment-frequency).
+Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-metrics#deployment-frequency).
 
 > **Plan:** GitKraken Insights
 > **Role:** An account that can create API keys for your organization
@@ -169,5 +170,5 @@ Error responses (`400`, `401`, `403`, `404`, `500`) return a JSON body:
 
 ## Related pages
 
-- [Connect Jira & BambooHR — Configure Change Failure Rate](/gk-insights/ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr) — where release tracking is configured for repositories Insights reads directly.
-- [DORA & Quality Metrics](/gk-insights/ai-adoption-dora-metrics) — the metrics releases feed: Deployment Frequency, Lead Time for Changes, and Change Failure Rate.
+- [Connect Jira & BambooHR — Configure Change Failure Rate](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr) — where release tracking is configured for repositories Insights reads directly.
+- [DORA & Quality Metrics](/insights-expo/expo-ai-adoption-dora-metrics) — the metrics releases feed: Deployment Frequency, Lead Time for Changes, and Change Failure Rate.

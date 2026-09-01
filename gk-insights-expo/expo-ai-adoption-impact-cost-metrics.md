@@ -9,17 +9,18 @@ integrations: [Claude Code, Codex, Cursor, GitHub Copilot]
 status: GA
 taxonomy:
     category: insights-expo
-page_type: content
-nav_category: metrics
-nav_order: 50
-nav_label: AI Impact & Cost
-card_icon: currency-dollar
-card_color: green
-card_description: Productivity Uplift, AI-Assisted %, CapEx/OpEx, Spend by Tier
+custom_fields:
+    card_color: green
+    card_description: Productivity Uplift, AI-Assisted %, CapEx/OpEx, Spend by Tier
+    card_icon: currency-dollar
+    nav_category: metrics
+    nav_label: AI Impact & Cost
+    nav_order: 50
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
-> **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/gk-insights/gk-insights-ai-impact-metrics).
+> **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/insights-expo/expo-ai-adoption-impact-cost-metrics).
 
 This family answers: **is AI actually paying off?**
 
@@ -136,26 +137,26 @@ Don't quote the dollar value to two decimal places. "About $50K per week in annu
 
 ### Settings that affect it
 
-* [**Baseline Period**](/gk-insights/ai-adoption-settings#baseline-period) — sets the historical comparison window. Move it when you have launched a new tool and want to anchor uplift to a specific pre-launch month.
-* [**Developer Hourly Rate**](/gk-insights/ai-adoption-settings#developer-hourly-rate) — translates additional hours into additional dollars.
-* [**Maturity Factor**](/gk-insights/ai-adoption-settings#maturity-factor) — indirectly, by shifting the underlying Adoption / Output baselines that feed the active vs. other comparison.
+* [**Baseline Period**](/insights-expo/expo-ai-adoption-settings#baseline-period) — sets the historical comparison window. Move it when you have launched a new tool and want to anchor uplift to a specific pre-launch month.
+* [**Developer Hourly Rate**](/insights-expo/expo-ai-adoption-settings#developer-hourly-rate) — translates additional hours into additional dollars.
+* [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — indirectly, by shifting the underlying Adoption / Output baselines that feed the active vs. other comparison.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](/gk-insights/ai-adoption-output-metrics#output-score) | The shipping-rate signal that underpins changes-per-dev-per-week. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) | The shipping-rate signal that underpins changes-per-dev-per-week. |
 | [AI-Assisted Percentage](#ai-assisted-percentage) | Confirms that the output gain came from AI-touched work. |
-| [Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time) | Lower Cycle Time generally accompanies the speedup story. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) | Lower Cycle Time generally accompanies the speedup story. |
 | [Spend by Tier](#spend-by-tier) | Pairs with uplift for ROI math. |
 
 ### How to improve it
 
 The honest answer: improve the inputs.
 
-* **Raise changes per dev per week** by following the [Output Score improvement guidance](/gk-insights/ai-adoption-output-metrics#output-score).
-* **Raise AI-Assisted %** by deepening adoption in the cohort that is already using AI lightly — see the [Agent Adoption Score playbook](/gk-insights/ai-adoption-playbook-ai-rollout).
-* **Lower Cycle Time** via review process and PR-size discipline ([Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time)).
+* **Raise changes per dev per week** by following the [Output Score improvement guidance](/insights-expo/expo-ai-adoption-output-metrics#output-score).
+* **Raise AI-Assisted %** by deepening adoption in the cohort that is already using AI lightly — see the [Agent Adoption Score playbook](/insights-expo/expo-ai-adoption-playbook-ai-rollout).
+* **Lower Cycle Time** via review process and PR-size discipline ([Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time)).
 * **Don't try to improve uplift directly.** It is a derived metric. Optimizing the inputs is the only way to move it honestly.
 
 ### Limitations and gotchas
@@ -193,7 +194,7 @@ A: "This is our directional estimate of productivity gain attributable to AI ado
 
 ### At a glance
 
-AI-Assisted % is the behavioral counterpart to [Agent Adoption Score](/gk-insights/ai-adoption-agentic-metrics#agent-adoption-score). Where Adoption asks "is this developer using AI?", AI-Assisted % asks "did this developer use AI _on this specific change_?" The two diverge surprisingly often. A developer can be a heavy daily Claude user (high Adoption) and ship most of this week's PRs without touching it (low AI-Assisted on those changes).
+AI-Assisted % is the behavioral counterpart to [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score). Where Adoption asks "is this developer using AI?", AI-Assisted % asks "did this developer use AI _on this specific change_?" The two diverge surprisingly often. A developer can be a heavy daily Claude user (high Adoption) and ship most of this week's PRs without touching it (low AI-Assisted on those changes).
 
 The metric is line-weighted, so a 2,000-line AI-assisted refactor counts more than a 30-line AI-assisted typo fix.
 
@@ -212,7 +213,7 @@ AI-Assisted % = (lines changed in AI-assisted PRs + commits) / (total lines chan
 **Per-item detection.** For each merged PR and direct commit, the backend computes `is_ai_assisted = true` if either:
 
 1. **The commit has an AI co-author trailer** (reason: `co_author`), or
-2. **The developer had AI events within the AI-to-commit correlation window of the change's lifecycle window** (reason: `ai_events`). The window defaults to 60 minutes and is configurable per org — see [AI-to-Commit Correlation Window](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window). For PRs, the lifecycle window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, the correlation window applies on either side of the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
+2. **The developer had AI events within the AI-to-commit correlation window of the change's lifecycle window** (reason: `ai_events`). The window defaults to 60 minutes and is configurable per org — see [AI-to-Commit Correlation Window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window). For PRs, the lifecycle window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, the correlation window applies on either side of the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
 
 The materialized flag (`pull_requests.is_ai_assisted` / `direct_commits.is_ai_assisted`) is computed by a continuous classifier worker. A live `EXISTS` fallback fires when the materialized flag is still NULL (typically for very recent items).
 
@@ -247,16 +248,16 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Settings that affect it
 
-* [**AI-to-Commit Correlation Window**](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window) — how close AI activity must be to a change for that change to count as AI-assisted. Default 60 minutes. Changing it re-runs the association on existing data, so past percentages shift with it.
+* [**AI-to-Commit Correlation Window**](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window) — how close AI activity must be to a change for that change to count as AI-assisted. Default 60 minutes. Changing it re-runs the association on existing data, so past percentages shift with it.
 * The AI co-author trailer detection is fixed.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Agent Adoption Score](/gk-insights/ai-adoption-agentic-metrics#agent-adoption-score) | The user-level adoption measure. AI-Assisted % is the work-level counterpart. |
+| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score) | The user-level adoption measure. AI-Assisted % is the work-level counterpart. |
 | [Productivity Uplift](#productivity-uplift) | AI-Assisted % is a confirming signal — higher AI-Assisted → stronger uplift narrative. |
-| [Output Score](/gk-insights/ai-adoption-output-metrics#output-score) | Independent — Output Score doesn't filter by AI-assisted status. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) | Independent — Output Score doesn't filter by AI-assisted status. |
 
 ### How to improve it
 
@@ -267,7 +268,7 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Limitations and gotchas
 
-* **The temporal heuristic produces false positives and false negatives.** At the default 60-minute window, a dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag, and a dev who used AI two hours before committing doesn't. The heuristic is the best practical balance, not a measurement. If it over-attributes for your team, tighten the [correlation window](/gk-insights/ai-adoption-settings#ai-to-commit-correlation-window).
+* **The temporal heuristic produces false positives and false negatives.** At the default 60-minute window, a dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag, and a dev who used AI two hours before committing doesn't. The heuristic is the best practical balance, not a measurement. If it over-attributes for your team, tighten the [correlation window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window).
 * **Materialized flag lags by minutes to hours.** The classifier worker catches up continuously.
 * **Co-author trailer detection requires the trailer.** Devs using AI without the `Co-authored-by` trailer rely entirely on the temporal heuristic.
 * **Line-weighted means one big PR can dominate the metric.** A team's 50% AI-Assisted week might be one 3,000-line non-AI-assisted migration plus many smaller AI-assisted PRs. Look at distribution, not just the headline.
@@ -361,15 +362,15 @@ The ratio shifts predictably with team type. SRE teams are mostly OpEx by design
 
 ### Settings that affect it
 
-* [**Developer Hourly Rate**](/gk-insights/ai-adoption-settings#developer-hourly-rate) — translates hours into capitalized and expensed dollars in the cost rollup.
+* [**Developer Hourly Rate**](/insights-expo/expo-ai-adoption-settings#developer-hourly-rate) — translates hours into capitalized and expensed dollars in the cost rollup.
 * Manual `capex_opex` override per PR or commit — settable from /ai-adoption/data-explorer when the auto-classification produces the wrong answer.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Effort Score](/gk-insights/ai-adoption-output-metrics#effort-score-complexity) | Effort feeds into the hours estimate. |
-| [Output Score](/gk-insights/ai-adoption-output-metrics#output-score) | Same shipped work, different aggregation. |
+| [Effort Score](/insights-expo/expo-ai-adoption-output-metrics#effort-score-complexity) | Effort feeds into the hours estimate. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) | Same shipped work, different aggregation. |
 
 ### How to use it
 
@@ -469,7 +470,7 @@ The total dollar number is also informative: divide by total developers and you 
 
 | Metric | Relationship |
 | --- | --- |
-| [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier) | The grouping dimension. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) | The grouping dimension. |
 | [Productivity Uplift](#productivity-uplift) | Spend / Uplift = ROI. Most healthy rollouts have uplift >> spend by an order of magnitude. |
 
 ### How to use it

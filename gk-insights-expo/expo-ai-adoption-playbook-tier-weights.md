@@ -6,15 +6,16 @@ content_type: how-to
 audience: engineering-leader
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: playbooks
-nav_order: 10
-nav_label: Set Tier Weights
-card_icon: adjustments-horizontal
-card_color: amber
-card_description: Calibrate weights as your org matures
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: amber
+    card_description: Calibrate weights as your org matures
+    card_icon: adjustments-horizontal
+    nav_category: playbooks
+    nav_label: Set Tier Weights
+    nav_order: 10
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -123,6 +124,6 @@ After a weight change:
 
 ## Related pages
 
-* [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier)
-* [Maturity Factor](/gk-insights/ai-adoption-agentic-metrics#maturity-factor)
-* [Settings reference](/gk-insights/ai-adoption-settings)
+* [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier)
+* [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-metrics#maturity-factor)
+* [Settings reference](/insights-expo/expo-ai-adoption-settings)

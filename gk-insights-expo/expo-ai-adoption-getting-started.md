@@ -7,15 +7,16 @@ audience: all
 plan_required: GitKraken Insights
 integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
 status: GA
-page_type: index
-nav_category: getting-started
-nav_order: 0
-nav_label: Getting Started
-card_icon: compass
-card_color: purple
-card_description: Orientation, first dashboard, and role-specific quickstarts
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: purple
+    card_description: Orientation, first dashboard, and role-specific quickstarts
+    card_icon: compass
+    nav_category: getting-started
+    nav_label: Getting Started
+    nav_order: 0
+    page_type: index
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -53,14 +54,14 @@ The other pages (/impact, /ai-impact, /comparison, /flow-delivery, /capex, /data
 
 Quickstarts for the four roles we built this for. Each takes 5–10 minutes.
 
-* [**For executives**](/gk-insights/ai-adoption-for-executives) — the four numbers that tell the story; how to read a monthly summary in 60 seconds.
-* [**For engineering leaders**](/gk-insights/ai-adoption-for-engineering-leaders) — running a quarterly review using AI Tier, Output Score, and Cycle Time together.
-* [**For team leads**](/gk-insights/ai-adoption-for-team-leads) — your weekly pulse using the Flow + Team + Review tabs on /flow-delivery.
-* [**For admins**](/gk-insights/ai-adoption-for-admins) — settings, roster, integrations, and how to keep the data clean.
+* [**For executives**](/insights-expo/expo-ai-adoption-for-executives) — the four numbers that tell the story; how to read a monthly summary in 60 seconds.
+* [**For engineering leaders**](/insights-expo/expo-ai-adoption-for-engineering-leaders) — running a quarterly review using AI Tier, Output Score, and Cycle Time together.
+* [**For team leads**](/insights-expo/expo-ai-adoption-for-team-leads) — your weekly pulse using the Flow + Team + Review tabs on /flow-delivery.
+* [**For admins**](/insights-expo/expo-ai-adoption-for-admins) — settings, roster, integrations, and how to keep the data clean.
 
 Or jump straight into product:
 
-* [**Reading your first dashboard**](/gk-insights/ai-adoption-first-dashboard) — a guided walkthrough of /teams.
+* [**Reading your first dashboard**](/insights-expo/expo-ai-adoption-first-dashboard) — a guided walkthrough of /teams.
 
 ---
 
@@ -99,6 +100,6 @@ You'll see ranges throughout the help center labeled "Strong / Fair / Needs atte
 
 ## Next steps
 
-* New here? → [Reading your first dashboard](/gk-insights/ai-adoption-first-dashboard)
-* Have a specific question already? → [AI Adoption metric pages](/gk-insights/ai-adoption)
-* Need to set things up? → [For admins](/gk-insights/ai-adoption-for-admins) and the [Settings reference](/gk-insights/ai-adoption-settings)
+* New here? → [Reading your first dashboard](/insights-expo/expo-ai-adoption-first-dashboard)
+* Have a specific question already? → [AI Adoption home](/insights-expo/expo-ai-adoption-home)
+* Need to set things up? → [For admins](/insights-expo/expo-ai-adoption-for-admins) and the [Settings reference](/insights-expo/expo-ai-adoption-settings)

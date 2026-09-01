@@ -6,15 +6,16 @@ content_type: how-to
 audience: engineering-leader
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: playbooks
-nav_order: 20
-nav_label: AI Rollout
-card_icon: rocket
-card_color: amber
-card_description: Phased rollout plan tracked by Adoption Score
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: amber
+    card_description: Phased rollout plan tracked by Adoption Score
+    card_icon: rocket
+    nav_category: playbooks
+    nav_label: AI Rollout
+    nav_order: 20
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -76,7 +77,7 @@ Three operational views — each has a different cadence:
 **Goal:** Make AI tools the default, not the opt-in.
 
 1. **All new developers get licenses on day 1.** Built into onboarding. New hires landing in Emerging after 8 weeks is a process flag.
-2. **Watch the Maturing-team cohort.** Some teams will plateau at "everyone's an Explorer, no one's a Power User." That's the "broad but shallow" pattern — start working on the [Agent Autonomy Score](/gk-insights/ai-adoption-agentic-metrics#agent-autonomy-score) by running agentic-pattern workshops.
+2. **Watch the Maturing-team cohort.** Some teams will plateau at "everyone's an Explorer, no one's a Power User." That's the "broad but shallow" pattern — start working on the [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-autonomy-score) by running agentic-pattern workshops.
 
 ### Month 6 — Strategic review
 
@@ -108,14 +109,14 @@ If your trajectory has _Adoption climbing but Uplift flat at month 4+_, your rol
 
 * **Org-wide on day 1.** Spreads adoption too thin to track. Pilot, prove, then expand.
 * **Ignoring the trajectory in favor of the snapshot.** Adoption % at 30% is a great number if it was 5% three months ago. It's a bad number if it's been 30% for six months.
-* **Treating tier as a performance metric.** Read [How to think about developer scores](/gk-insights/ai-adoption-getting-started#how-to-think-about-developer-scores) before any 1:1 about a developer's tier.
+* **Treating tier as a performance metric.** Read [How to think about developer scores](/insights-expo/expo-ai-adoption-getting-started#how-to-think-about-developer-scores) before any 1:1 about a developer's tier.
 * **Not adjusting Maturity Factor with the rollout.** Default 0.75 is calibrated for active rollout. In month 1, lower it. In month 12, raise it. It's a knob for a reason.
 * **Picking AI adoption as the only metric to watch.** Pair it with Cycle Time and CFR. If you ship faster but break more things, you haven't won.
 
 ## Related pages
 
-* [Agent Adoption Score](/gk-insights/ai-adoption-agentic-metrics#agent-adoption-score)
-* [Agent Autonomy Score](/gk-insights/ai-adoption-agentic-metrics#agent-autonomy-score)
-* [Maturity Factor](/gk-insights/ai-adoption-agentic-metrics#maturity-factor)
-* [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbook-tier-weights)
-* [For Engineering Leaders](/gk-insights/ai-adoption-for-engineering-leaders)
+* [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score)
+* [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-autonomy-score)
+* [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-metrics#maturity-factor)
+* [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
+* [For Engineering Leaders](/insights-expo/expo-ai-adoption-for-engineering-leaders)

@@ -6,19 +6,20 @@ content_type: how-to
 audience: team-lead
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: playbooks
-nav_order: 30
-nav_label: Slow Cycle Time
-card_icon: clock-pause
-card_color: amber
-card_description: Triage guide for cycle time bottlenecks
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: amber
+    card_description: Triage guide for cycle time bottlenecks
+    card_icon: clock-pause
+    nav_category: playbooks
+    nav_label: Slow Cycle Time
+    nav_order: 30
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
-> _Your team's [Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time) just crept past your tolerance. This playbook walks you from "something's wrong" to "I know which lever to pull" in about 30 minutes._
+> _Your team's [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) just crept past your tolerance. This playbook walks you from "something's wrong" to "I know which lever to pull" in about 30 minutes._
 
 ## The problem
 
@@ -110,7 +111,7 @@ A reasonable expectation, having intervened on the dominant phase:
 
 ## Related metric pages
 
-* [Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time)
-* [Review Cycles](/gk-insights/ai-adoption-flow-metrics#review-cycles)
-* [WIP](/gk-insights/ai-adoption-flow-metrics#work-in-progress-wip)
-* [First-Pass Rate](/gk-insights/ai-adoption-flow-metrics#first-pass-rate)
+* [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time)
+* [Review Cycles](/insights-expo/expo-ai-adoption-flow-metrics#review-cycles)
+* [WIP](/insights-expo/expo-ai-adoption-flow-metrics#work-in-progress-wip)
+* [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-metrics#first-pass-rate)

@@ -9,13 +9,14 @@ integrations: [GitHub, GitHub Enterprise Server, GitLab, Bitbucket, Azure DevOps
 status: GA
 taxonomy:
     category: insights-expo
-page_type: content
-nav_category: metrics
-nav_order: 30
-nav_label: Flow & Cycle Time
-card_icon: clock
-card_color: green
-card_description: Cycle Time, Review Cycles, First-Pass Rate, WIP
+custom_fields:
+    card_color: green
+    card_description: Cycle Time, Review Cycles, First-Pass Rate, WIP
+    card_icon: clock
+    nav_category: metrics
+    nav_label: Flow & Cycle Time
+    nav_order: 30
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -170,8 +171,8 @@ No other admin settings affect Cycle Time. It is a measurement.
 | [Review Cycles](#review-cycles) | The cause of long Review phase. Read together. |
 | [First-Pass Rate](#first-pass-rate) | Inversely correlated with Review phase length. |
 | [WIP](#work-in-progress-wip) | High WIP often causes high Pickup (reviewers overloaded). |
-| [Throughput](/gk-insights/ai-adoption-output-metrics#throughput) | Outflow rate vs. how-long-each-takes. |
-| [Lead Time for Changes](/gk-insights/ai-adoption-dora-metrics#lead-time-for-changes) | DORA's first-commit-to-deploy version. Similar but production-scoped. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | Outflow rate vs. how-long-each-takes. |
+| [Lead Time for Changes](/insights-expo/expo-ai-adoption-dora-metrics#lead-time-for-changes) | DORA's first-commit-to-deploy version. Similar but production-scoped. |
 
 ### How to improve it
 
@@ -203,7 +204,7 @@ A: Pre-release weeks accumulate PRs that were held back for the release. They me
 A: Median tells you "what is typical." Mean tells you "what is the headline number including outliers." For leadership reports, lead with median; mention mean as a tail signal.
 
 **Q: How is Cycle Time different from Lead Time?**
-A: Cycle Time is first commit → merge. [Lead Time](/gk-insights/ai-adoption-dora-metrics#lead-time-for-changes) (DORA) is first commit → production deploy.
+A: Cycle Time is first commit → merge. [Lead Time](/insights-expo/expo-ai-adoption-dora-metrics#lead-time-for-changes) (DORA) is first commit → production deploy.
 
 ---
 
@@ -274,7 +275,7 @@ None. Review Cycles is a measurement.
 | --- | --- |
 | [First-Pass Rate](#first-pass-rate) | The "0 cycles" percentage, expressed as a positive metric. |
 | [Cycle Time](#cycle-time) | Long Review phase is usually high Review Cycles. |
-| [Effort Score](/gk-insights/ai-adoption-output-metrics#effort-score-complexity) | High-effort PRs tend to have more review cycles. Track together. |
+| [Effort Score](/insights-expo/expo-ai-adoption-output-metrics#effort-score-complexity) | High-effort PRs tend to have more review cycles. Track together. |
 
 ### How to improve it
 
@@ -340,7 +341,7 @@ It is especially valuable as a leading indicator for AI adoption ROI. When teams
 | **35 – 54%** | Fair — every other PR needs a revision round. Investigate PR size and spec clarity. |
 | **< 35%** | Needs attention — review is doing the heavy lifting of design or spec work. |
 
-**One nuance:** rates above \~85% can also signal _rubber-stamping_. If a team's First-Pass Rate is 95% _and_ CFR is rising, your reviewers may not be looking hard enough. Read First-Pass Rate alongside [CFR](/gk-insights/ai-adoption-dora-metrics#change-failure-rate-cfr).
+**One nuance:** rates above \~85% can also signal _rubber-stamping_. If a team's First-Pass Rate is 95% _and_ CFR is rising, your reviewers may not be looking hard enough. Read First-Pass Rate alongside [CFR](/insights-expo/expo-ai-adoption-dora-metrics#change-failure-rate-cfr).
 
 ### Where it appears
 
@@ -356,7 +357,7 @@ None. First-Pass Rate is a measurement.
 | --- | --- |
 | [Review Cycles](#review-cycles) | First-Pass Rate is "the % at 0 cycles" — same data, different framing. |
 | [Cycle Time](#cycle-time) | High First-Pass Rate tightens the Review phase. |
-| [CFR](/gk-insights/ai-adoption-dora-metrics#change-failure-rate-cfr) | Always read together. High First-Pass + high CFR = rubber-stamping. |
+| [CFR](/insights-expo/expo-ai-adoption-dora-metrics#change-failure-rate-cfr) | Always read together. High First-Pass + high CFR = rubber-stamping. |
 
 ### How to improve it
 
@@ -449,7 +450,7 @@ None. WIP is a raw count.
 | Metric | Relationship |
 | --- | --- |
 | [Cycle Time](#cycle-time) | High WIP often causes a long Pickup phase (reviewers overloaded). |
-| [Throughput](/gk-insights/ai-adoption-output-metrics#throughput) | Outflow rate. WIP / Throughput ≈ average days a PR sits open. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | Outflow rate. WIP / Throughput ≈ average days a PR sits open. |
 | [Review Cycles](#review-cycles) | Indirectly — PRs with many cycles contribute to higher WIP. |
 
 ### How to improve it

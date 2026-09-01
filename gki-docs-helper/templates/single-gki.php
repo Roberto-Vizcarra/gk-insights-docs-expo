@@ -148,7 +148,7 @@ get_header();
   </aside>
 
   <!-- Center: post content -->
-  <article class="gki-content-main">
+  <article class="gki-content-main gki-page">
     <?php
     // Breadcrumb (not shown on main index)
     if ( ! empty( $crumbs ) && count( $crumbs ) > 1 ) :

@@ -9,17 +9,18 @@ integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bi
 status: GA
 taxonomy:
     category: insights-expo
-page_type: content
-nav_category: metrics
-nav_order: 40
-nav_label: DORA & Quality
-card_icon: shield-check
-card_color: green
-card_description: Deploy Frequency, Lead Time, CFR, and MTTR
+custom_fields:
+    card_color: green
+    card_description: Deploy Frequency, Lead Time, CFR, and MTTR
+    card_icon: shield-check
+    nav_category: metrics
+    nav_label: DORA & Quality
+    nav_order: 40
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
-> **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/gk-insights/gk-insights-dora-metrics).
+> **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/insights-expo/expo-ai-adoption-dora-metrics).
 
 This family covers the industry-standard four DORA metrics — Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery — plus the customer-bug volume that powers CFR and MTTR.
 
@@ -75,8 +76,8 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 
 ## Required integrations
 
-* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/gk-insights/ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr).
-* **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (tagged releases, GitHub Releases, or a configured release event) or through releases you push with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api). Without either, both metrics show an empty state.
+* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr).
+* **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (tagged releases, GitHub Releases, or a configured release event) or through releases you push with the [Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api). Without either, both metrics show an empty state.
 
 ---
 
@@ -141,7 +142,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 ### Settings that affect it
 
 * **Release detection** — repo-level configuration. Your admin needs to wire up tagged releases or a configured release event for each repo you want to track.
-* **[Manual Releases API](/gk-insights/ai-adoption-manual-releases-api)** — for deployments Insights can't detect, your admin can push releases directly with an API key. Manual releases count toward Deployment Frequency alongside detected ones.
+* **[Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api)** — for deployments Insights can't detect, your admin can push releases directly with an API key. Manual releases count toward Deployment Frequency alongside detected ones.
 
 ### Related metrics
 
@@ -149,7 +150,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 | --- | --- |
 | [Lead Time for Changes](#lead-time-for-changes) | The other DORA velocity metric. Velocity = "fast and often" needs both. |
 | [CFR](#change-failure-rate-cfr) | Stability counterweight. High Deployment Frequency with low CFR is the goal. |
-| [Throughput](/gk-insights/ai-adoption-output-metrics#throughput) | The merged-PR count metric. Often correlated with Deployment Frequency but measures merges, not releases. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | The merged-PR count metric. Often correlated with Deployment Frequency but measures merges, not releases. |
 
 ### How to improve it
 
@@ -168,7 +169,7 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 ### FAQ
 
 **Q: We deploy on merge automatically. Will every merge show as a release?**
-A: Only if each deploy also produces a release artifact the backend can read. If your pipeline auto-tags every deploy, yes. If it deploys without tagging, no — work with your admin to wire up release detection, or to push each deploy to Insights with the [Manual Releases API](/gk-insights/ai-adoption-manual-releases-api).
+A: Only if each deploy also produces a release artifact the backend can read. If your pipeline auto-tags every deploy, yes. If it deploys without tagging, no — work with your admin to wire up release detection, or to push each deploy to Insights with the [Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api).
 
 **Q: A revert is a deploy. Does that count?**
 A: Yes — the revert ships and is captured as a release event. Some teams find this over-counts; the metric keeps it because reverts genuinely are deploys (they go through the same pipeline).
@@ -186,7 +187,7 @@ A: /ai-adoption/board-metrics with team filter applied, or /ai-adoption/executiv
 
 ### At a glance
 
-Lead Time for Changes is "how long does it take a change to go from first keystroke to live in production?" It is the end-to-end sibling of [Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time). Cycle Time stops at merge; Lead Time keeps counting until the change is actually in production.
+Lead Time for Changes is "how long does it take a change to go from first keystroke to live in production?" It is the end-to-end sibling of [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time). Cycle Time stops at merge; Lead Time keeps counting until the change is actually in production.
 
 It is the DORA metric most often confused with Cycle Time. The difference matters: shipping fast (low Cycle Time) without actually deploying (high Lead Time) is the classic "engineering ships, ops sits on it" anti-pattern.
 
@@ -249,7 +250,7 @@ For most product engineering teams, High is the target. Elite requires fully-aut
 
 | Metric | Relationship |
 | --- | --- |
-| [Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time) | The first-commit-to-merge portion. Lead Time extends to the delivering release. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) | The first-commit-to-merge portion. Lead Time extends to the delivering release. |
 | [Deployment Frequency](#deployment-frequency) | The other DORA velocity metric. |
 
 ### How to improve it
@@ -345,8 +346,8 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 | --- | --- |
 | [Deployment Frequency](#deployment-frequency) | The DORA velocity pair. CFR is the stability counterweight. |
 | [MTTR](#mean-time-to-recovery-mttr) | The other stability metric — how fast you recover when CFR strikes. |
-| [First-Pass Rate](/gk-insights/ai-adoption-flow-metrics#first-pass-rate) | High First-Pass + rising CFR = rubber-stamping risk. |
-| [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier) | The CFR-by-Tier breakdown on /ai-adoption/ai-impact tells you whether AI adoption changes stability. |
+| [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-metrics#first-pass-rate) | High First-Pass + rising CFR = rubber-stamping risk. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) | The CFR-by-Tier breakdown on /ai-adoption/ai-impact tells you whether AI adoption changes stability. |
 
 ### How to improve it
 

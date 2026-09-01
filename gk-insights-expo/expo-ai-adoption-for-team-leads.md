@@ -6,15 +6,16 @@ content_type: how-to
 audience: team-lead
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: getting-started
-nav_order: 40
-nav_label: For Team Leads
-card_icon: users
-card_color: purple
-card_description: Weekly pulse on flow, blockers, and review health
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: purple
+    card_description: Weekly pulse on flow, blockers, and review health
+    card_icon: users
+    nav_category: getting-started
+    nav_label: For Team Leads
+    nav_order: 40
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -89,6 +90,6 @@ These are starting points, not laws. Your team's context can move the bar.
 
 ### Where to drill further
 
-* **A specific cycle time problem** → [Playbook — Investigate a slow cycle time](/gk-insights/ai-adoption-playbook-slow-cycle-time)
-* **A spike in customer bugs** → [Playbook — Interpret a high CFR week](/gk-insights/ai-adoption-playbook-high-cfr)
+* **A specific cycle time problem** → [Playbook — Investigate a slow cycle time](/insights-expo/expo-ai-adoption-playbook-slow-cycle-time)
+* **A spike in customer bugs** → [Playbook — Interpret a high CFR week](/insights-expo/expo-ai-adoption-playbook-high-cfr)
 * **A developer struggling with adoption** → `/ai-adoption/developers`, filter to that person, expand the heatmap.

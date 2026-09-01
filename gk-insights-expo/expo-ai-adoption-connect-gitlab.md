@@ -6,21 +6,22 @@ content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: connect-your-data
-nav_order: 40
-nav_label: GitLab
-card_icon: brand-gitlab
-card_color: blue
-card_description: Cloud and Self-Managed
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: blue
+    card_description: Cloud and Self-Managed
+    card_icon: brand-gitlab
+    nav_category: connect-your-data
+    nav_label: GitLab
+    nav_order: 40
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
 Connect GitLab Cloud or GitLab Self-Managed to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
-> **Before you start:** make sure you have the right access. See the [prerequisites table](/gk-insights/ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
+> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
 
 ---
 
@@ -59,14 +60,14 @@ As with GitLab cloud, the connection only sees the groups and projects the token
 | --- | --- | --- |
 | **GitLab Self-Managed won't validate** | GitKraken can't reach it, or its certificate isn't publicly trusted | Confirm the **Server URL** is reachable over `https` from outside your network with a publicly-trusted certificate — self-signed and internal CAs won't work |
 
-For general connection troubleshooting, see [Troubleshooting setup](/gk-insights/ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
+For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
 
 ---
 
 ## After connecting
 
-Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/gk-insights/ai-adoption-connect-your-data) overview:
+Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data) overview:
 
-- [Set your benchmarks](/gk-insights/ai-adoption-connect-your-data#set-your-benchmarks)
-- [Map developer identities](/gk-insights/ai-adoption-connect-your-data#map-developer-identities)
-- [Invite your team](/gk-insights/ai-adoption-connect-your-data#invite-your-team)
+- [Set your benchmarks](/insights-expo/expo-ai-adoption-connect-your-data#set-your-benchmarks)
+- [Map developer identities](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities)
+- [Invite your team](/insights-expo/expo-ai-adoption-connect-your-data#invite-your-team)

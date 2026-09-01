@@ -6,15 +6,16 @@ content_type: how-to
 audience: all
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: getting-started
-nav_order: 10
-nav_label: First Dashboard
-card_icon: layout-dashboard
-card_color: purple
-card_description: Guided walkthrough of the /teams page
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: purple
+    card_description: Guided walkthrough of the /teams page
+    card_icon: layout-dashboard
+    nav_category: getting-started
+    nav_label: First Dashboard
+    nav_order: 10
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -50,7 +51,7 @@ A composite "is this team set up to succeed with AI?" rating. Combines repositor
 
 The mean Agent Adoption Score across the team's active developers. A team average of 50 means a healthy mix; 80+ means a high-adoption team.
 
-→ [Agent Adoption Score](/gk-insights/ai-adoption-agentic-metrics#agent-adoption-score)
+→ [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score)
 
 #### Tier mix
 
@@ -58,13 +59,13 @@ Bars showing the team's distribution across Power User / Regular / Explorer / Em
 
 #### Cycle Time
 
-Average hours from a PR's first commit to merge. Lower is generally better, but not always — see the [Cycle Time](/gk-insights/ai-adoption-flow-metrics#cycle-time) section for nuance.
+Average hours from a PR's first commit to merge. Lower is generally better, but not always — see the [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) section for nuance.
 
 #### Output Score (per active dev)
 
 Effort-weighted shipping rate, divided by the number of active developers on the team. A team that ships fewer but bigger PRs can have the same Output Score as a team that ships many small ones. Read this alongside the PR/DC count breakdown to know which pattern you're seeing.
 
-→ [Output Score](/gk-insights/ai-adoption-output-metrics#output-score)
+→ [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score)
 
 #### Power User %
 

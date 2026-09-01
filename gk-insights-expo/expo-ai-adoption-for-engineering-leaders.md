@@ -6,15 +6,16 @@ content_type: how-to
 audience: engineering-leader
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: getting-started
-nav_order: 30
-nav_label: For Engineering Leaders
-card_icon: code
-card_color: purple
-card_description: Weekly scans, quarterly reviews, and settings checks
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: purple
+    card_description: Weekly scans, quarterly reviews, and settings checks
+    card_icon: code
+    nav_category: getting-started
+    nav_label: For Engineering Leaders
+    nav_order: 30
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -66,7 +67,7 @@ Open `/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ save
 
 ### How to read scores fairly
 
-The most common mistake leaders make with this dashboard is reading individual developer scores as a performance review proxy. Read [How to think about developer scores](/gk-insights/ai-adoption-getting-started#how-to-think-about-developer-scores) before you go anywhere near a 1:1 talking about a score.
+The most common mistake leaders make with this dashboard is reading individual developer scores as a performance review proxy. Read [How to think about developer scores](/insights-expo/expo-ai-adoption-getting-started#how-to-think-about-developer-scores) before you go anywhere near a 1:1 talking about a score.
 
 What scores _are_ good for: **Cohort comparison** ("Our backend team has 80% Power Users, our mobile team has 20%. Why?"), **Onboarding signal** ("New hires are landing in Emerging after 8 weeks instead of Explorer. Something's wrong with our onboarding."), **Tooling signal** ("Three teams using Cursor + Claude Code together hit Power User faster than teams on Claude Code alone.").
 
@@ -82,10 +83,10 @@ These three settings drift over time and need a quarterly check:
 | **Tier Weights** | Default 0.5 / 0.2 / 0.3. If your org has moved from "rolling out" to "extracting value", consider shifting weight toward Output. _(Editable in Settings → General.)_ |
 | **Baseline Period** | Default Nov 1 last year. If you launched a new AI tool mid-year, anchor the baseline to a month _before_ that launch so uplift math is meaningful. |
 
-→ [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbook-tier-weights)
+→ [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
 
 ### Where to drill further
 
-* **Investigating a slow team** → [Playbook — Investigate a slow cycle time](/gk-insights/ai-adoption-playbook-slow-cycle-time)
-* **Planning a new tool rollout** → [Playbook — Roll out AI tooling with the Adoption Score](/gk-insights/ai-adoption-playbook-ai-rollout)
-* **Quality regression** → [Playbook — Interpret a high CFR week](/gk-insights/ai-adoption-playbook-high-cfr)
+* **Investigating a slow team** → [Playbook — Investigate a slow cycle time](/insights-expo/expo-ai-adoption-playbook-slow-cycle-time)
+* **Planning a new tool rollout** → [Playbook — Roll out AI tooling with the Adoption Score](/insights-expo/expo-ai-adoption-playbook-ai-rollout)
+* **Quality regression** → [Playbook — Interpret a high CFR week](/insights-expo/expo-ai-adoption-playbook-high-cfr)

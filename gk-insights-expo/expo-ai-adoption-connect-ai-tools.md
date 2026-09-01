@@ -7,21 +7,22 @@ audience: admin
 plan_required: GitKraken Insights
 integrations: [Claude Code, Codex, Cursor, Devin, GitHub Copilot]
 status: GA
-page_type: content
-nav_category: connect-your-data
-nav_order: 50
-nav_label: AI Coding Tools
-card_icon: robot
-card_color: blue
-card_description: Claude Code, Codex, Cursor, Copilot, and Devin
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: blue
+    card_description: Claude Code, Codex, Cursor, Copilot, and Devin
+    card_icon: robot
+    nav_category: connect-your-data
+    nav_label: AI Coding Tools
+    nav_order: 50
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
 Connect **at least one** AI provider — this is what lets Insights *measure* adoption instead of guessing at it. Connect as many as your team uses.
 
-> **Before you start:** make sure you have the right access. See the [prerequisites table](/gk-insights/ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
+> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
 
 ---
 
@@ -239,14 +240,14 @@ References: [GitHub — REST API endpoints for Copilot metrics](https://docs.git
 | **Copilot connects but no metrics appear** | The **Copilot usage metrics** policy is off, the token owner can't view Copilot metrics, or the team had fewer than five active Copilot licenses | Enable the policy in org **Settings → Copilot → Policies**, use an org owner or a role with **View Organization Copilot Metrics**, and check the license count |
 | **Copilot token rejected** | A fine-grained token was used, or SAML SSO isn't authorized | Create a **classic** token with `read:org`, then **Configure SSO** on it |
 
-For general connection troubleshooting, see [Troubleshooting setup](/gk-insights/ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
+For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
 
 ---
 
 ## After connecting
 
-Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/gk-insights/ai-adoption-connect-your-data) overview:
+Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data) overview:
 
-- [Set your benchmarks](/gk-insights/ai-adoption-connect-your-data#set-your-benchmarks)
-- [Map developer identities](/gk-insights/ai-adoption-connect-your-data#map-developer-identities)
-- [Invite your team](/gk-insights/ai-adoption-connect-your-data#invite-your-team)
+- [Set your benchmarks](/insights-expo/expo-ai-adoption-connect-your-data#set-your-benchmarks)
+- [Map developer identities](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities)
+- [Invite your team](/insights-expo/expo-ai-adoption-connect-your-data#invite-your-team)

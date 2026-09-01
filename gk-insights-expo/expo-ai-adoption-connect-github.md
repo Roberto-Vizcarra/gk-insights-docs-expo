@@ -6,21 +6,22 @@ content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: connect-your-data
-nav_order: 10
-nav_label: GitHub
-card_icon: brand-github
-card_color: blue
-card_description: Cloud, Enterprise Server, and Enterprise Cloud
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: blue
+    card_description: Cloud, Enterprise Server, and Enterprise Cloud
+    card_icon: brand-github
+    nav_category: connect-your-data
+    nav_label: GitHub
+    nav_order: 10
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
 Connect GitHub Cloud or GitHub Enterprise Server to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
-> **Before you start:** make sure you have the right access. See the [prerequisites table](/gk-insights/ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
+> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
 
 ---
 
@@ -53,7 +54,7 @@ Create the token at **GitHub → Settings → Developer settings → Personal ac
 
 **Recommended — Organization permissions (Read-only):**
 
-- **Members** — *Read* — lets us match GitHub identities to people on your roster, which makes [identity mapping](/gk-insights/ai-adoption-connect-your-data#map-developer-identities) far smoother.
+- **Members** — *Read* — lets us match GitHub identities to people on your roster, which makes [identity mapping](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities) far smoother.
 
 > If you use a **classic** token instead, select the **`repo`** (read) and **`read:org`** scopes.
 
@@ -86,14 +87,14 @@ Connect GitHub Enterprise Server to sync activity from a self-hosted GitHub inst
 | **No orgs to select after connecting GitHub** | Expected with a **fine-grained** token — we can't auto-fetch orgs | Type your GitHub org name in manually |
 | **GitHub Enterprise Server won't validate** | GitKraken can't reach it, or its certificate isn't publicly trusted | Confirm the **Server URL** is reachable over `https` from outside your network with a publicly-trusted certificate — self-signed and internal CAs won't work |
 
-For general connection troubleshooting, see [Troubleshooting setup](/gk-insights/ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
+For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
 
 ---
 
 ## After connecting
 
-Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/gk-insights/ai-adoption-connect-your-data) overview:
+Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data) overview:
 
-- [Set your benchmarks](/gk-insights/ai-adoption-connect-your-data#set-your-benchmarks)
-- [Map developer identities](/gk-insights/ai-adoption-connect-your-data#map-developer-identities)
-- [Invite your team](/gk-insights/ai-adoption-connect-your-data#invite-your-team)
+- [Set your benchmarks](/insights-expo/expo-ai-adoption-connect-your-data#set-your-benchmarks)
+- [Map developer identities](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities)
+- [Invite your team](/insights-expo/expo-ai-adoption-connect-your-data#invite-your-team)

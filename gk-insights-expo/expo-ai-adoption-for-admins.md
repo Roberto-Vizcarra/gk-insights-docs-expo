@@ -6,15 +6,16 @@ content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
 status: GA
-page_type: content
-nav_category: getting-started
-nav_order: 50
-nav_label: For Admins
-card_icon: shield-lock
-card_color: purple
-card_description: Settings, roster, integrations, and data hygiene
 taxonomy:
     category: insights-expo
+custom_fields:
+    card_color: purple
+    card_description: Settings, roster, integrations, and data hygiene
+    card_icon: shield-lock
+    nav_category: getting-started
+    nav_label: For Admins
+    nav_order: 50
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
@@ -84,7 +85,7 @@ The single biggest cause of "this number looks weird" tickets is roster drift. C
 | **Developer Hourly Rate** | $75 | Settings → General (input) | Annually, when your finance team updates the loaded rate |
 | **Baseline Period** | Nov 1 last year | Settings → General (month picker) | When you launch a new AI tool and want uplift relative to a specific pre-launch month |
 | **Default Department** | None | Settings → General (dropdown) | When your org structure shifts |
-| **Tier Weights** | 0.5 / 0.2 / 0.3 | Settings → General | When you move from "rolling out" to "extracting value" — see the [Set tier weights playbook](/gk-insights/ai-adoption-playbook-tier-weights) |
+| **Tier Weights** | 0.5 / 0.2 / 0.3 | Settings → General | When you move from "rolling out" to "extracting value" — see the [Set tier weights playbook](/insights-expo/expo-ai-adoption-playbook-tier-weights) |
 | **Direct Commit Weight** | 0.5 | Settings → General | When your team's direct-commit workflow changes (e.g. moving to TBD) |
 | **Review Weight** | 0.5 | Settings → General | When you want to emphasize or de-emphasize review work in Output Score |
 | **Exclude Chore from Output Score** | On | Settings → General | Rarely. Default reflects most orgs' definition of "real output" |

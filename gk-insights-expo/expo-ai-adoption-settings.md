@@ -9,19 +9,20 @@ integrations: [Claude Code, Codex, Cursor]
 status: GA
 taxonomy:
     category: insights-expo
-page_type: content
-nav_category: admin
-nav_order: 10
-nav_label: Settings
-card_icon: adjustments
-card_color: red
-card_description: Configuration reference for all AI Adoption settings
+custom_fields:
+    card_color: red
+    card_description: Configuration reference for all AI Adoption settings
+    card_icon: adjustments
+    nav_category: admin
+    nav_label: Settings
+    nav_order: 10
+    page_type: content
 ---
 <kbd>Last updated: September 2026</kbd>
 
 Every admin-configurable setting that affects AI Adoption scores in GitKraken Insights, organized by where it lives in the product, plus a one-line "what it changes."
 
-This page covers only the settings that affect AI Adoption scores. For product-wide administration — loading the developer roster, defining teams, wiring up Jira for CFR, syncing BambooHR PTO, and Demo Mode — see the [For Admins](/gk-insights/ai-adoption-for-admins) section of the Getting Started guide.
+This page covers only the settings that affect AI Adoption scores. For product-wide administration — loading the developer roster, defining teams, wiring up Jira for CFR, syncing BambooHR PTO, and Demo Mode — see the [For Admins](/insights-expo/expo-ai-adoption-for-admins) section of the Getting Started guide.
 
 If you came from a metric page to look up a specific setting, jump to the anchor of the same name.
 
@@ -52,15 +53,15 @@ Also labeled **"Company AI Readiness %"** in the General tab. _In Settings UI: y
 
 **Why you'd raise or lower it.** - **Lower (0.50 – 0.70):** Early in your AI rollout. You want every developer to feel like there's runway. Few or no Power Users yet. - **Default (0.75):** Most orgs in active rollout. The tier ceiling pushes the top 10% to keep stretching. - **Higher (0.85 – 1.00):** Mature orgs with widespread, deep adoption where you want the scoring to reflect that maturity in absolute terms.
 
-**Affects:** [Agent Adoption Score](/gk-insights/ai-adoption-agentic-metrics#agent-adoption-score), [Agent Autonomy Score](/gk-insights/ai-adoption-agentic-metrics#agent-autonomy-score), [Output Norm](/gk-insights/ai-adoption-output-metrics#output-score), [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier).
+**Affects:** [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score), [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-autonomy-score), [Output Norm](/insights-expo/expo-ai-adoption-output-metrics#output-score), [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier).
 
-→ Full section: [Maturity Factor](/gk-insights/ai-adoption-agentic-metrics#maturity-factor)
+→ Full section: [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-metrics#maturity-factor)
 
 ---
 
 ### Tier Weights
 
-Three positive numbers that say how much Adoption, Agentic, and Output each count toward the [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier) composite. _In Settings UI: yes._
+Three positive numbers that say how much Adoption, Agentic, and Output each count toward the [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) composite. _In Settings UI: yes._
 
 | Weight | Default | App-settings key | What it emphasizes |
 | --- | --- | --- | --- |
@@ -76,9 +77,9 @@ Three positive numbers that say how much Adoption, Agentic, and Output each coun
 
 **Guardrails.** If you set all three to zero we fall back to the defaults (0.5 / 0.2 / 0.3) — never a "100% output, 0% everything else" boost. Negative or NaN values are rejected and the default for that key is used.
 
-**Affects:** [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier) — and through it, the developer table sorting, the Top 10 widget, the executive ranking, and every breakdown chart that buckets by AI Tier.
+**Affects:** [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) — and through it, the developer table sorting, the Top 10 widget, the executive ranking, and every breakdown chart that buckets by AI Tier.
 
-→ See also: [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbook-tier-weights)
+→ See also: [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
 
 ---
 
@@ -92,7 +93,7 @@ _In Settings UI: yes._ App-settings key: `direct_commit_weight`.
 | **Range** | 0.0 – 1.0 |
 | **Type** | Float |
 
-**What it does.** Scales direct commits (pushes straight to a default branch with no PR) relative to merged PRs in the [Output Score](/gk-insights/ai-adoption-output-metrics#output-score) formula:
+**What it does.** Scales direct commits (pushes straight to a default branch with no PR) relative to merged PRs in the [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) formula:
 
 ```
 Output Score = SUM(PR effort) + DirectCommitWeight × SUM(DC effort)
@@ -104,7 +105,7 @@ Output Score = SUM(PR effort) + DirectCommitWeight × SUM(DC effort)
 
 **When to change it.** - Lower toward 0 if your team uses direct commits primarily for trivial maintenance and you don't want them inflating Output Score. - Raise toward 1 if your team uses direct commits for substantive work (e.g. a Trunk-Based Development workflow).
 
-**Affects:** [Output Score](/gk-insights/ai-adoption-output-metrics#output-score), [Output Norm](/gk-insights/ai-adoption-output-metrics#output-score), [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier).
+**Affects:** [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score), [Output Norm](/insights-expo/expo-ai-adoption-output-metrics#output-score), [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier).
 
 ---
 
@@ -118,7 +119,7 @@ _In Settings UI: yes._ App-settings key: `review_weight`.
 | **Range** | 0.0 – 1.0 |
 | **Type** | Float |
 
-**What it does.** Scales review-credit — effort from PRs a developer formally reviewed (state `APPROVED` or `CHANGES_REQUESTED`) — relative to authored PRs in the [Output Score](/gk-insights/ai-adoption-output-metrics#output-score) formula:
+**What it does.** Scales review-credit — effort from PRs a developer formally reviewed (state `APPROVED` or `CHANGES_REQUESTED`) — relative to authored PRs in the [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) formula:
 
 ```
 Output Score = SUM(PR effort) + DirectCommitWeight × SUM(DC effort) + ReviewWeight × SUM(reviewed-PR effort)
@@ -130,7 +131,7 @@ Output Score = SUM(PR effort) + DirectCommitWeight × SUM(DC effort) + ReviewWei
 
 **When to change it.** - Lower toward 0 if you don't want review activity contributing to Output Score. - Raise toward 1 if review is a first-class deliverable on your team and you want senior reviewers' work reflected at full weight.
 
-**Affects:** [Output Score](/gk-insights/ai-adoption-output-metrics#output-score), [Output Norm](/gk-insights/ai-adoption-output-metrics#output-score), [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier).
+**Affects:** [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score), [Output Norm](/insights-expo/expo-ai-adoption-output-metrics#output-score), [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier).
 
 ---
 
@@ -149,7 +150,7 @@ _In Settings UI: yes._ App-settings key: `output_score_exclude_chore`.
 
 **When to turn off.** Rarely. The default reflects most orgs' definition of "real output". Turn off if you've explicitly decided chores are part of how you measure delivery — e.g. for an SRE team where dependency upgrades _are_ the job.
 
-**Affects:** [Output Score](/gk-insights/ai-adoption-output-metrics#output-score), and downstream [AI Tier](/gk-insights/ai-adoption-agentic-metrics#ai-tier).
+**Affects:** [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score), and downstream [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier).
 
 ---
 
@@ -168,7 +169,7 @@ _In Settings UI: yes._
 
 **Changing it re-runs the association on existing data**, so previously-computed AI-assisted flags — and the AI-Assisted % values built on them — shift to match the new window.
 
-**Affects:** [AI-Assisted Percentage](/gk-insights/ai-adoption-impact-cost-metrics#ai-assisted-percentage), and the AI-Assisted status shown in PR drill-down tables.
+**Affects:** [AI-Assisted Percentage](/insights-expo/expo-ai-adoption-impact-cost-metrics#ai-assisted-percentage), and the AI-Assisted status shown in PR drill-down tables.
 
 ---
 
@@ -186,7 +187,7 @@ _In Settings UI: yes._
 
 **How to set it.** Use your fully-loaded internal developer cost rate (salary × benefits × overhead, divided by working hours). Most orgs land between $50 and $200/hour. If you don't have a precise number, the default $75 is a reasonable industry midpoint for a senior IC.
 
-**Affects:** [Productivity Uplift](/gk-insights/ai-adoption-impact-cost-metrics#productivity-uplift), [CapEx / OpEx Split](/gk-insights/ai-adoption-impact-cost-metrics#capex-opex-split), the AI Impact ROI cards.
+**Affects:** [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-metrics#productivity-uplift), [CapEx / OpEx Split](/insights-expo/expo-ai-adoption-impact-cost-metrics#capex-opex-split), the AI Impact ROI cards.
 
 ---
 
@@ -228,5 +229,5 @@ _In Settings UI: yes._
 
 ## Related reading
 
-* [Playbook — Set tier weights for your org's maturity](/gk-insights/ai-adoption-playbook-tier-weights)
-* [Playbook — Roll out AI tooling with the Adoption Score](/gk-insights/ai-adoption-playbook-ai-rollout)
+* [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
+* [Playbook — Roll out AI tooling with the Adoption Score](/insights-expo/expo-ai-adoption-playbook-ai-rollout)

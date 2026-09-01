@@ -14,7 +14,7 @@ custom_fields:
     card_icon: settings
     nav_category: admin
     nav_label: Admin & API
-    nav_order: 0
+    nav_order: 50
     page_type: index
 ---
 

@@ -15,7 +15,7 @@ custom_fields:
     card_icon: book
     nav_category: playbooks
     nav_label: Playbooks
-    nav_order: 0
+    nav_order: 40
     page_type: index
 ---
 <kbd>Last updated: September 2026</kbd>

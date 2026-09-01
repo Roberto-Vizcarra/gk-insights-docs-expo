@@ -24,15 +24,13 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 
 ---
 
-## Requirements
+<figure>
+  <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="The GitKraken Insights AI Adoption dashboard showing team-level flow and delivery metrics" />
+</figure>
 
-| | |
-| --- | --- |
-| **Plan** | GitKraken Insights |
-| **Platform** | Browser only via [gitkraken.dev](https://gitkraken.dev) |
-| **Role** | Lead, Admin, or Owner |
-
----
+> **Plan:** GitKraken Insights
+> **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)
+> **Role:** Lead, Admin, or Owner
 
 ## Where AI Adoption shows up in the product
 

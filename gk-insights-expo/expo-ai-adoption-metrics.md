@@ -14,7 +14,7 @@ custom_fields:
     card_icon: chart-dots-3
     nav_category: metrics
     nav_label: Metrics
-    nav_order: 0
+    nav_order: 30
     page_type: index
 ---
 

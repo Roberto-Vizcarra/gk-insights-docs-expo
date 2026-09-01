@@ -1,16 +1,15 @@
 /**
- * GKI Docs Helper — Interactive Features (v1.8.0)
+ * GKI Docs Helper — Interactive Features (v1.8.2)
  * Loaded only on insights-expo category posts.
  *
  * Features:
  *  1. Auto-generated Table of Contents (sidebar or inline)
- *  2. Card search/filter (index pages)
- *  3. Back-to-top button
- *  4. Reading progress bar
- *  5. Smooth scroll for anchor links
- *  6. Image lightbox
- *  7. Collapsible nav (sections + sub-groups)
- *  8. Site-wide search
+ *  2. Back-to-top button
+ *  3. Reading progress bar
+ *  4. Smooth scroll for anchor links
+ *  5. Image lightbox
+ *  6. Collapsible nav (sections + sub-groups)
+ *  7. Site-wide search (TOC sidebar on content pages, above cards on index pages)
  */
 
 (function () {
@@ -116,50 +115,7 @@
     });
   }
 
-  /* ================================================================
-     2. CARD SEARCH / FILTER (index pages only)
-     ================================================================ */
-  function buildCardFilter() {
-    var grid = page.querySelector('.gki-card-grid');
-    if (!grid) return;
-
-    var cards = grid.querySelectorAll('.gki-card');
-    if (cards.length < 2) return;
-
-    var wrapper = document.createElement('div');
-    wrapper.className = 'gki-search-wrap';
-
-    var input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'gki-search-input';
-    input.placeholder = 'Filter pages…';
-    input.setAttribute('aria-label', 'Filter related pages');
-
-    wrapper.appendChild(input);
-    grid.parentNode.insertBefore(wrapper, grid);
-
-    input.addEventListener('input', function () {
-      var q = this.value.toLowerCase().trim();
-      var visibleCount = 0;
-      cards.forEach(function (card) {
-        var text = (card.getAttribute('data-search') || card.textContent).toLowerCase();
-        var match = !q || text.indexOf(q) !== -1;
-        card.classList.toggle('gki-hidden', !match);
-        if (match) visibleCount++;
-      });
-      var noResults = grid.querySelector('.gki-no-results');
-      if (visibleCount === 0 && q) {
-        if (!noResults) {
-          noResults = document.createElement('div');
-          noResults.className = 'gki-no-results';
-          noResults.textContent = 'No pages match “' + q + '”';
-          grid.appendChild(noResults);
-        }
-      } else if (noResults) {
-        noResults.parentNode.removeChild(noResults);
-      }
-    });
-  }
+  /* (Card filter removed — replaced by site-wide search) */
 
   /* ================================================================
      3. BACK-TO-TOP BUTTON
@@ -304,84 +260,87 @@
      pages. Renders results in a dropdown below the search input.
      ================================================================ */
   function buildSiteSearch() {
-    var searchInput = document.querySelector('.gki-site-search-input');
-    var resultsContainer = document.querySelector('.gki-site-search-results');
-    if (!searchInput || !resultsContainer) return;
+    var searchInstances = document.querySelectorAll('.gki-site-search');
+    if (!searchInstances.length) return;
 
     var pages = (window.gkiSearchData && window.gkiSearchData.pages) || [];
     if (!pages.length) return;
 
-    var debounceTimer = null;
+    // Wire up each search instance independently
+    searchInstances.forEach(function (wrapper) {
+      var searchInput = wrapper.querySelector('.gki-site-search-input');
+      var resultsContainer = wrapper.querySelector('.gki-site-search-results');
+      if (!searchInput || !resultsContainer) return;
 
-    searchInput.addEventListener('input', function () {
-      clearTimeout(debounceTimer);
-      var q = this.value.toLowerCase().trim();
+      var debounceTimer = null;
 
-      if (!q || q.length < 2) {
-        resultsContainer.hidden = true;
-        resultsContainer.innerHTML = '';
-        return;
-      }
+      searchInput.addEventListener('input', function () {
+        clearTimeout(debounceTimer);
+        var q = this.value.toLowerCase().trim();
 
-      debounceTimer = setTimeout(function () {
-        var matches = [];
-        pages.forEach(function (p) {
-          var searchText = (p.title + ' ' + p.desc + ' ' + p.excerpt).toLowerCase();
-          var score = 0;
-          // Title match is highest priority
-          if (p.title.toLowerCase().indexOf(q) !== -1) score += 10;
-          // Description match
-          if (p.desc.toLowerCase().indexOf(q) !== -1) score += 5;
-          // Excerpt match
-          if (p.excerpt.toLowerCase().indexOf(q) !== -1) score += 1;
-
-          if (score > 0) {
-            matches.push({ page: p, score: score });
-          }
-        });
-
-        // Sort by score descending, limit to 8 results
-        matches.sort(function (a, b) { return b.score - a.score; });
-        matches = matches.slice(0, 8);
-
-        if (matches.length === 0) {
-          resultsContainer.innerHTML = '<div class="gki-search-no-results">No results for “' + q + '”</div>';
-          resultsContainer.hidden = false;
+        if (!q || q.length < 2) {
+          resultsContainer.hidden = true;
+          resultsContainer.innerHTML = '';
           return;
         }
 
-        var html = '';
-        matches.forEach(function (m) {
-          var p = m.page;
-          var catLabel = p.cat ? p.cat.replace(/-/g, ' ') : '';
-          html += '<a href="' + p.url + '" class="gki-search-result">';
-          html += '<div class="gki-search-result-title">' + escapeHtml(p.title) + '</div>';
-          if (p.desc) {
-            html += '<div class="gki-search-result-desc">' + escapeHtml(p.desc) + '</div>';
-          }
-          if (catLabel) {
-            html += '<div class="gki-search-result-cat">' + escapeHtml(catLabel) + '</div>';
-          }
-          html += '</a>';
-        });
+        debounceTimer = setTimeout(function () {
+          var matches = [];
+          pages.forEach(function (p) {
+            var score = 0;
+            if (p.title.toLowerCase().indexOf(q) !== -1) score += 10;
+            if (p.desc.toLowerCase().indexOf(q) !== -1) score += 5;
+            if (p.excerpt.toLowerCase().indexOf(q) !== -1) score += 1;
 
-        resultsContainer.innerHTML = html;
-        resultsContainer.hidden = false;
-      }, 150);
+            if (score > 0) {
+              matches.push({ page: p, score: score });
+            }
+          });
+
+          matches.sort(function (a, b) { return b.score - a.score; });
+          matches = matches.slice(0, 8);
+
+          if (matches.length === 0) {
+            resultsContainer.innerHTML = '<div class=”gki-search-no-results”>No results for “' + escapeHtml(q) + '”</div>';
+            resultsContainer.hidden = false;
+            return;
+          }
+
+          var html = '';
+          matches.forEach(function (m) {
+            var p = m.page;
+            var catLabel = p.cat ? p.cat.replace(/-/g, ' ') : '';
+            html += '<a href=”' + p.url + '” class=”gki-search-result”>';
+            html += '<div class=”gki-search-result-title”>' + escapeHtml(p.title) + '</div>';
+            if (p.desc) {
+              html += '<div class=”gki-search-result-desc”>' + escapeHtml(p.desc) + '</div>';
+            }
+            if (catLabel) {
+              html += '<div class=”gki-search-result-cat”>' + escapeHtml(catLabel) + '</div>';
+            }
+            html += '</a>';
+          });
+
+          resultsContainer.innerHTML = html;
+          resultsContainer.hidden = false;
+        }, 150);
+      });
+
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          resultsContainer.hidden = true;
+          searchInput.blur();
+        }
+      });
     });
 
-    // Close results on click outside
+    // Close all result dropdowns on click outside
     document.addEventListener('click', function (e) {
       if (!e.target.closest('.gki-site-search')) {
-        resultsContainer.hidden = true;
-      }
-    });
-
-    // Close on Escape
-    searchInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        resultsContainer.hidden = true;
-        searchInput.blur();
+        searchInstances.forEach(function (wrapper) {
+          var rc = wrapper.querySelector('.gki-site-search-results');
+          if (rc) rc.hidden = true;
+        });
       }
     });
   }
@@ -436,29 +395,6 @@
       '  color: var(--gki-purple);',
       '  border-left-color: var(--gki-purple);',
       '}',
-      /* Card filter */
-      '.gki-search-wrap { margin-bottom: 0.75rem; }',
-      '.gki-search-input {',
-      '  width: 100%;',
-      '  padding: 0.6rem 1rem;',
-      '  background: var(--gki-bg-subtle);',
-      '  border: 1px solid var(--gki-border);',
-      '  border-radius: var(--gki-radius);',
-      '  color: var(--gki-text);',
-      '  font-size: 0.9rem;',
-      '  font-family: var(--gki-font);',
-      '  outline: none;',
-      '  transition: border-color 0.15s ease;',
-      '}',
-      '.gki-search-input:focus { border-color: var(--gki-purple); }',
-      '.gki-search-input::placeholder { color: var(--gki-text-muted); }',
-      '.gki-no-results {',
-      '  grid-column: 1 / -1;',
-      '  text-align: center;',
-      '  padding: 2rem 1rem;',
-      '  color: var(--gki-text-muted);',
-      '  font-size: 0.9rem;',
-      '}',
       /* Back to top */
       '.gki-back-to-top {',
       '  position: fixed;',
@@ -506,7 +442,6 @@
     buildTOC();
     buildProgressBar();
   }
-  buildCardFilter();
   buildBackToTop();
   enableSmoothScroll();
   buildLightbox();

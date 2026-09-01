@@ -987,11 +987,22 @@ body.gki-docs-page #site-footer {
   margin-left: -2px;
 }
 
-/* --- Site search in sidebar --- */
+/* --- Site search --- */
 .gki-site-search {
   position: relative;
   padding: 0.5rem 0.75rem;
   margin-bottom: 0.25rem;
+}
+/* Inline variant: above cards on index pages */
+.gki-site-search--inline {
+  padding: 0;
+  margin-bottom: 1.25rem;
+  max-width: 480px;
+}
+/* Sidebar variant: top of TOC column on content pages */
+.gki-site-search--sidebar {
+  padding: 0;
+  margin-bottom: 1.5rem;
 }
 .gki-site-search-input {
   width: 100%;

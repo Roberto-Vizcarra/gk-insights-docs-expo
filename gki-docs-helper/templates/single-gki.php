@@ -1,11 +1,11 @@
 <?php
 /**
- * GKI Docs Helper — Custom Single Post Template (v1.8.1)
+ * GKI Docs Helper — Custom Single Post Template (v1.8.2)
  *
  * 3-column layout for insights-expo posts:
- *   Left:   Site search + collapsible category navigation (frontmatter-based)
+ *   Left:   Collapsible category navigation (frontmatter-based)
  *   Center: Post content — Intro → Cards → Overview on index pages
- *   Right:  "On this page" TOC (JS-populated, hidden on index pages)
+ *   Right:  Site search + "On this page" TOC (search above cards on index pages)
  *
  * Nav supports nested sub-groups via nav_parent (e.g. Metrics > DORA > individual metrics).
  * Active section, sub-group, and page are all visually highlighted.
@@ -31,15 +31,9 @@ get_header();
 
 <main class="gki-layout" id="gki-layout">
 
-  <!-- Left sidebar: search + navigation -->
+  <!-- Left sidebar: navigation -->
   <aside class="gki-sidebar gki-sidebar--left" role="navigation" aria-label="<?php esc_attr_e( 'Insights documentation', 'gki-docs-helper' ); ?>">
     <nav class="gki-nav">
-      <!-- Site search -->
-      <div class="gki-site-search">
-        <input type="text" class="gki-site-search-input" placeholder="Search docs…" aria-label="Search documentation">
-        <div class="gki-site-search-results" hidden></div>
-      </div>
-
       <?php if ( $nav_structure && $nav_structure['main_index'] ) : ?>
         <a href="<?php echo esc_url( get_permalink( $nav_structure['main_index']['post'] ) ); ?>" class="gki-nav-title">GitKraken Insights</a>
       <?php else : ?>
@@ -258,6 +252,11 @@ get_header();
 
             // Intro
             echo $intro;
+            // Site search (replaces card filter on index pages)
+            echo '<div class="gki-site-search gki-site-search--inline">';
+            echo '<input type="text" class="gki-site-search-input" placeholder="Search docs…" aria-label="Search documentation">';
+            echo '<div class="gki-site-search-results" hidden></div>';
+            echo '</div>';
             // Cards (front and center)
             gki_docs_render_card_grid( $child_cards );
             // Overview content below cards
@@ -271,8 +270,14 @@ get_header();
     ?>
   </article>
 
-  <!-- Right sidebar: on-this-page TOC (JS-populated, hidden on index pages via CSS) -->
+  <!-- Right sidebar: search + on-this-page TOC -->
   <aside class="gki-sidebar gki-sidebar--right" role="complementary" aria-label="<?php esc_attr_e( 'On this page', 'gki-docs-helper' ); ?>">
+    <?php if ( ! $is_index ) : ?>
+    <div class="gki-site-search gki-site-search--sidebar">
+      <input type="text" class="gki-site-search-input" placeholder="Search docs…" aria-label="Search documentation">
+      <div class="gki-site-search-results" hidden></div>
+    </div>
+    <?php endif; ?>
     <div class="gki-sidebar-toc" id="gki-sidebar-toc"></div>
   </aside>
 

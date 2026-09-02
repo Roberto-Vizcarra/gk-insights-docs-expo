@@ -1386,7 +1386,7 @@ body.gki-index-page .gki-content-main {
 /* Keep inline code from breaking the flow inside steps */
 .gki-page > ol:not([class]) > li code {
   display: inline !important;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 /* Unordered lists from Markdown */

@@ -106,13 +106,122 @@ GKI Docs Helper → Settings (WP Admin):
 
 ## Hardening Checklist
 
-- [ ] WP admin users bypass the gate (prevent lockout)
-- [ ] Token expiry → clear cache, re-authenticate
-- [ ] Subscription downgrade → caught within cache TTL window
-- [ ] Add `noindex` meta tag or `robots.txt` block for gated pages
-- [ ] Exclude GKI pages from WP page cache (WP Super Cache, W3TC, etc.)
-- [ ] Return user to the page they originally requested after login
-- [ ] Handle licensing API downtime gracefully (fail open vs fail closed — TBD)
+### Handled in Plugin Code (already done)
+
+- [x] WP admin users bypass the gate (prevent lockout) — `current_user_can('manage_options')` check
+- [x] Token expiry → clear cached entitlement, force re-auth — 401 handler in `gki_auth_call_licensing_api()`
+- [x] Subscription downgrade → caught within cache TTL window (default 30 min, configurable)
+- [x] Return user to the page they originally requested after login — current URL passed to `wp_login_url()`
+- [x] Licensing API downtime → fails closed (denies access) — change to fail-open if preferred
+- [x] Gate pages send `nocache_headers()` so the gate itself is never cached
+
+### WordPress Config (do these before enabling the gate)
+
+These are done in WP Admin, not in plugin code. The WordPress posts still exist in the database regardless of the gate, so search engines and sitemaps could expose them through other paths.
+
+#### 1. Block search engine indexing of gated pages
+
+**Option A — robots.txt (simplest)**
+
+1. Go to WP Admin → Settings → Reading
+2. Make sure "Discourage search engines from indexing this site" is **unchecked** (you don't want to block the whole site, just the gated pages)
+3. Install the **Yoast SEO** plugin if not already installed (or Rank Math — either works)
+4. In Yoast: go to Yoast SEO → Settings → Content types → Posts
+5. Under "Show Posts in search results?" — this is site-wide, so leave it on
+6. Instead, go to Yoast SEO → Settings → Categories (under Taxonomies)
+7. Find the `insights-expo` category → set "Show insights-expo in search results" to **No**
+8. This adds `noindex` to all posts in the category
+
+**If you don't have an SEO plugin and don't want one:**
+
+1. Edit the `robots.txt` file on the server (or use a robots.txt plugin)
+2. Add these lines:
+   ```
+   User-agent: *
+   Disallow: /insights-expo/
+   ```
+3. This tells search engines not to crawl any `/insights-expo/` URLs
+
+**Verify it worked:**
+- Visit `https://help.gitkraken.com/robots.txt` and confirm the disallow rule appears
+- Or for the SEO plugin approach: view source on any gated page (as an admin) and look for `<meta name="robots" content="noindex` in the `<head>`
+
+#### 2. Remove gated pages from the XML sitemap
+
+Search engines discover pages through sitemaps even if robots.txt blocks them.
+
+**If using Yoast SEO:**
+1. The noindex setting from step 1 automatically excludes those pages from the Yoast sitemap — nothing extra to do
+
+**If using another sitemap plugin (e.g., XML Sitemaps, Rank Math):**
+1. Go to that plugin's settings
+2. Find the exclusion or category filter option
+3. Exclude the `insights-expo` category from the sitemap
+
+**If using the default WordPress sitemap (`/wp-sitemap.xml`):**
+1. Add this to your theme's `functions.php` or a custom plugin:
+   ```php
+   add_filter( 'wp_sitemaps_posts_query_args', function( $args ) {
+       $args['category__not_in'] = array( get_cat_ID( 'insights-expo' ) );
+       return $args;
+   } );
+   ```
+2. Or just install Yoast — it handles this automatically with the noindex setting
+
+**Verify it worked:**
+- Visit `https://help.gitkraken.com/wp-sitemap.xml` (or `/sitemap_index.xml` for Yoast)
+- Search for "insights-expo" — no gated URLs should appear
+
+#### 3. Exclude gated pages from WordPress page cache
+
+If the site uses a caching plugin, authenticated pages could be cached and served to unauthenticated users, bypassing the gate entirely.
+
+**If using WP Super Cache:**
+1. Go to WP Admin → Settings → WP Super Cache → Advanced
+2. Under "Accepted Filenames & Rejected URIs", add: `/insights-expo/`
+3. Save
+
+**If using W3 Total Cache:**
+1. Go to WP Admin → Performance → Page Cache
+2. Under "Never cache the following pages" (in the Advanced section), add: `/insights-expo/`
+3. Save all settings
+
+**If using LiteSpeed Cache:**
+1. Go to LiteSpeed Cache → Cache → Excludes
+2. Under "Do Not Cache URIs", add: `/insights-expo/`
+3. Save
+
+**If using a managed host with built-in caching (WP Engine, Flywheel, Kinsta, etc.):**
+1. Check the host's documentation for URL-based cache exclusion
+2. Add `/insights-expo/` (or the equivalent wildcard pattern) to the exclusion list
+3. Some hosts (like WP Engine) also have a "Cache Exclusions" panel in their dashboard
+
+**If you're not sure which caching is in use:**
+1. Go to WP Admin → Plugins → Installed Plugins
+2. Look for anything with "Cache" in the name
+3. If nothing is there, your host may handle caching at the server level — check their dashboard
+
+**Verify it worked:**
+1. Log in as an admin, visit a gated page — should load normally
+2. Open the same URL in a private/incognito browser window (not logged in)
+3. You should see the gate page, not the cached authenticated version
+4. Repeat after clicking through a few pages to build up cache
+
+#### 4. Disable RSS/Atom feeds for gated content (optional)
+
+WordPress exposes post content through RSS feeds by default. If the `insights-expo` posts appear in feeds, their content would be readable without auth.
+
+1. Check if feeds include gated content: visit `https://help.gitkraken.com/category/insights-expo/feed/`
+2. If content appears, add this to your theme's `functions.php` or a custom plugin:
+   ```php
+   add_action( 'pre_get_posts', function( $query ) {
+       if ( $query->is_feed() ) {
+           $excluded = get_cat_ID( 'insights-expo' );
+           $query->set( 'category__not_in', array( $excluded ) );
+       }
+   } );
+   ```
+3. Or disable feeds entirely if the site doesn't use them — Yoast has a toggle for this under Yoast SEO → Settings → Advanced → RSS
 
 ---
 

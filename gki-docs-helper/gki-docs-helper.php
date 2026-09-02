@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.8.8
+ * Version:     1.9.0
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,9 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.8.8' );
+define( 'GKI_DOCS_VERSION', '1.9.0' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
+
+/* =========================================================================
+   0. AUTH GATE MODULE
+   ========================================================================= */
+
+require_once GKI_DOCS_PATH . 'includes/gki-auth.php';
 
 /**
  * The category slug this plugin targets.

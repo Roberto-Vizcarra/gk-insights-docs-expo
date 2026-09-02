@@ -667,8 +667,9 @@ body.gki-docs-page .gki-page hr {
   border: none !important;
 }
 
-/* Force inline code through Elementor */
+/* Force inline code through Elementor (Elementor sets code { display: inline-block }) */
 body.gki-docs-page .gki-page code:not([class]) {
+  display: inline !important;
   background: var(--gki-bg-offset) !important;
   color: var(--gki-purple) !important;
 }
@@ -1343,7 +1344,10 @@ body.gki-index-page .gki-content-main {
   margin: 0 0 0.25rem 0;
 }
 
-/* Ordered lists from Markdown → numbered step circles */
+/* Ordered lists from Markdown → numbered step circles.
+   Uses absolute positioning for the counter so that inline text,
+   <code> (inline-block via Elementor), and <strong> all flow
+   naturally instead of scattering as flex items. */
 .gki-page > ol:not([class]) {
   counter-reset: gki-md-step;
   list-style: none;
@@ -1352,20 +1356,22 @@ body.gki-index-page .gki-content-main {
 }
 .gki-page > ol:not([class]) > li {
   counter-increment: gki-md-step;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.55rem 0;
-  align-items: flex-start;
+  position: relative;
+  padding: 0.55rem 0 0.55rem 32px;
   font-size: 0.95rem;
   line-height: 1.65;
   border-top: 1px dashed var(--gki-border-light);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .gki-page > ol:not([class]) > li:first-child {
   border-top: none;
 }
 .gki-page > ol:not([class]) > li::before {
   content: counter(gki-md-step);
-  flex-shrink: 0;
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1376,7 +1382,11 @@ body.gki-index-page .gki-content-main {
   font-size: 0.7rem;
   font-weight: 700;
   border-radius: 50%;
-  margin-top: 0.2rem;
+}
+/* Keep inline code from breaking the flow inside steps */
+.gki-page > ol:not([class]) > li code {
+  display: inline !important;
+  word-break: break-all;
 }
 
 /* Unordered lists from Markdown */

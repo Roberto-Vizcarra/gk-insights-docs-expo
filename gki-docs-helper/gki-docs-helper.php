@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.8.5
+ * Version:     1.8.6
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.8.5' );
+define( 'GKI_DOCS_VERSION', '1.8.6' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -40,8 +40,8 @@ function gki_docs_enqueue_assets() {
     }
 
     // Use file modification time for cache busting — auto-updates on deploy
-    $css_ver = filemtime( GKI_DOCS_PATH . 'css/gki-docs.css' ) ?: GKI_DOCS_VERSION;
-    $js_ver  = filemtime( GKI_DOCS_PATH . 'js/gki-docs.js' )   ?: GKI_DOCS_VERSION;
+    $css_ver = GKI_DOCS_VERSION;
+    $js_ver  = GKI_DOCS_VERSION;
 
     // Tabler Icons webfont — used for card icons on index pages
     wp_enqueue_style(

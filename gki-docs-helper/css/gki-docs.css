@@ -782,10 +782,13 @@ body.gki-docs-page .gki-nav-child--active a:link,
 body.gki-docs-page .gki-nav-child--active a:visited {
   color: #1C1C1C !important;
 }
-/* Force search input colors */
+/* Force search input through Elementor (input[type="text"] has specificity 0,1,1) */
 body.gki-docs-page .gki-site-search-input {
   color: #1C1C1C !important;
   background-color: var(--gki-bg-subtle) !important;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem !important;
+  background-position: 0.65rem center !important;
+  background-size: 14px 14px !important;
 }
 body.gki-docs-page .gki-search-result-title {
   color: #1C1C1C !important;

@@ -73,6 +73,69 @@
   --gki-font-mono: "SF Mono", "Cascadia Code", "Fira Code", Consolas, monospace;
 }
 
+/* ---------- Dark Mode Custom Properties ---------------------- */
+[data-theme="dark"] {
+  /* Brand primaries — lightened for dark bg contrast (AA 4.5:1+) */
+  --gki-purple: #B475F9;
+  --gki-purple-hover: #C99AFB;
+  --gki-blue: #818CF8;
+  --gki-teal: #2DD4BF;
+
+  /* Accent */
+  --gki-accent: #B475F9;
+  --gki-accent-hover: #C99AFB;
+
+  /* Text — light on dark, high contrast */
+  --gki-text: #ECEDF0;
+  --gki-text-secondary: #B8BAC0;
+  --gki-text-muted: #8B8D94;
+  --gki-text-dim: #6E7078;
+
+  /* Backgrounds */
+  --gki-bg: #1A1B1E;
+  --gki-bg-subtle: #222326;
+  --gki-bg-offset: #2A2B2F;
+
+  /* Borders */
+  --gki-border: #3A3B40;
+  --gki-border-light: #2E2F34;
+  --gki-border-strong: #4A4B52;
+
+  /* Icon tinted backgrounds — boosted opacity for dark surfaces */
+  --gki-icon-purple-bg: rgba(180, 117, 249, 0.15);
+  --gki-icon-purple-fg: #C99AFB;
+  --gki-icon-blue-bg: rgba(129, 140, 248, 0.15);
+  --gki-icon-blue-fg: #A5B4FC;
+  --gki-icon-green-bg: rgba(45, 212, 191, 0.15);
+  --gki-icon-green-fg: #5EEAD4;
+  --gki-icon-amber-bg: rgba(251, 191, 36, 0.15);
+  --gki-icon-amber-fg: #FCD34D;
+  --gki-icon-red-bg: rgba(251, 113, 133, 0.15);
+  --gki-icon-red-fg: #FDA4AF;
+
+  /* Callout colors — muted backgrounds, readable text */
+  --gki-info-bg: rgba(129, 140, 248, 0.1);
+  --gki-info-border: rgba(129, 140, 248, 0.25);
+  --gki-info-text: #A5B4FC;
+  --gki-info-icon: #818CF8;
+  --gki-warn-bg: rgba(251, 191, 36, 0.1);
+  --gki-warn-border: rgba(251, 191, 36, 0.25);
+  --gki-warn-text: #FCD34D;
+  --gki-warn-icon: #FBBF24;
+  --gki-tip-bg: rgba(45, 212, 191, 0.1);
+  --gki-tip-border: rgba(45, 212, 191, 0.25);
+  --gki-tip-text: #5EEAD4;
+  --gki-tip-icon: #2DD4BF;
+  --gki-danger-bg: rgba(251, 113, 133, 0.1);
+  --gki-danger-border: rgba(251, 113, 133, 0.25);
+  --gki-danger-text: #FDA4AF;
+
+  /* Shadows — stronger on dark for depth */
+  --gki-shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+  --gki-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+  --gki-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -2px rgba(0,0,0,0.2);
+}
+
 /* ---------- Reset scope -------------------------------------- */
 .gki-page * {
   box-sizing: border-box;
@@ -602,10 +665,10 @@
    our layout.
    ============================================================ */
 
-/* Kill the dark theme background — Elementor kit paints body dark */
+/* Kill the Elementor kit background — use our theme bg */
 body.gki-docs-page {
-  background: #FFFFFF !important;
-  color: #1C1C1C !important;
+  background: var(--gki-bg) !important;
+  color: var(--gki-text) !important;
 }
 
 /* Force all heading colors — Elementor themes override h1-h6 */
@@ -621,22 +684,22 @@ body.gki-docs-page {
 .gki-docs-page .gki-content-main h4,
 .gki-docs-page .gki-content-main h5,
 .gki-docs-page .gki-content-main h6 {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
   font-family: var(--gki-font) !important;
 }
 
 /* Named heading classes — extra specificity to be safe */
 .gki-docs-page .gki-page-title {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 .gki-docs-page .gki-section-title {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 .gki-docs-page .gki-subsection-title {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 .gki-docs-page .gki-related-title {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 
 /* Force table styles through Elementor */
@@ -645,20 +708,20 @@ body.gki-docs-page {
 }
 .gki-docs-page .gki-page thead th {
   background: var(--gki-bg-subtle) !important;
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 .gki-docs-page .gki-page tbody td {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 
 /* Force blockquote through Elementor */
 body.gki-docs-page .gki-page blockquote {
   background: var(--gki-bg-subtle) !important;
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
   border-color: var(--gki-purple) !important;
 }
 body.gki-docs-page .gki-page blockquote p {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 
 /* Force hr through Elementor */
@@ -676,7 +739,7 @@ body.gki-docs-page .gki-page code:not([class]) {
 
 /* Force inline text elements through Elementor */
 body.gki-docs-page .gki-page strong {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 body.gki-docs-page .gki-page em {
   color: inherit !important;
@@ -688,7 +751,7 @@ body.gki-docs-page .gki-page del {
 /* Force list colors through Elementor */
 body.gki-docs-page .gki-page ul li,
 body.gki-docs-page .gki-page ol li {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 
 /* Force table background through Elementor */
@@ -702,10 +765,10 @@ body.gki-docs-page .gki-page tbody tr:hover {
 
 /* Force body text readable */
 .gki-docs-page .gki-page p {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 .gki-docs-page .gki-intro {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 
 /* Force link colors — all states */
@@ -735,7 +798,7 @@ body.gki-docs-page .gki-page tbody tr:hover {
   border-radius: var(--gki-radius-lg);
 }
 
-/* Force ALL links in sidebars dark — Elementor kit paints links pink */
+/* Force ALL links in sidebars — Elementor kit paints links pink */
 body.gki-docs-page .gki-sidebar a,
 body.gki-docs-page .gki-sidebar a:link,
 body.gki-docs-page .gki-sidebar a:visited,
@@ -745,21 +808,21 @@ body.gki-docs-page .gki-nav-item a:visited,
 body.gki-docs-page .gki-nav-list a,
 body.gki-docs-page .gki-nav-list a:link,
 body.gki-docs-page .gki-nav-list a:visited {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 body.gki-docs-page .gki-sidebar a:hover,
 body.gki-docs-page .gki-nav-item a:hover,
 body.gki-docs-page .gki-nav-list a:hover {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 body.gki-docs-page .gki-nav-item--active a,
 body.gki-docs-page .gki-nav-item--active a:link,
 body.gki-docs-page .gki-nav-item--active a:visited,
 body.gki-docs-page .gki-nav-list .current-menu-item > a {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 
-/* Force nav section/child/subgroup links dark */
+/* Force nav section/child/subgroup links */
 body.gki-docs-page .gki-nav-section-link,
 body.gki-docs-page .gki-nav-section-link:link,
 body.gki-docs-page .gki-nav-section-link:visited,
@@ -769,30 +832,30 @@ body.gki-docs-page .gki-nav-subgroup-link:visited,
 body.gki-docs-page .gki-nav-child a,
 body.gki-docs-page .gki-nav-child a:link,
 body.gki-docs-page .gki-nav-child a:visited {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 body.gki-docs-page .gki-nav-section-link:hover,
 body.gki-docs-page .gki-nav-subgroup-link:hover,
 body.gki-docs-page .gki-nav-child a:hover {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 body.gki-docs-page .gki-nav-section--active > .gki-nav-section-link,
 body.gki-docs-page .gki-nav-subgroup--active > .gki-nav-subgroup-link,
 body.gki-docs-page .gki-nav-child--active a,
 body.gki-docs-page .gki-nav-child--active a:link,
 body.gki-docs-page .gki-nav-child--active a:visited {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 /* Force search input through Elementor (input[type="text"] has specificity 0,1,1) */
 body.gki-docs-page .gki-site-search-input {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
   background-color: var(--gki-bg-subtle) !important;
   padding: 0.5rem 0.75rem 0.5rem 2.25rem !important;
   background-position: 0.65rem center !important;
   background-size: 14px 14px !important;
 }
 body.gki-docs-page .gki-search-result-title {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 
 /* Force card icon colors through Elementor */
@@ -800,29 +863,29 @@ body.gki-docs-page .gki-card-icon i {
   color: inherit !important;
 }
 
-/* Force TOC links dark */
+/* Force TOC links */
 body.gki-docs-page .gki-toc-link,
 body.gki-docs-page .gki-toc-link:link,
 body.gki-docs-page .gki-toc-link:visited {
-  color: #414141 !important;
+  color: var(--gki-text-secondary) !important;
 }
 body.gki-docs-page .gki-toc-link:hover {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 body.gki-docs-page .gki-toc-link.gki-toc-active {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 
-/* Force nav title dark */
+/* Force nav title */
 body.gki-docs-page .gki-nav-title,
 body.gki-docs-page .gki-nav-title:link,
 body.gki-docs-page .gki-nav-title:visited {
-  color: #1C1C1C !important;
+  color: var(--gki-text) !important;
 }
 
 /* Footer in our template context */
 body.gki-docs-page #site-footer {
-  background: #FFFFFF !important;
+  background: var(--gki-bg) !important;
 }
 
 /* Image zoom/expand on click */
@@ -1637,4 +1700,56 @@ body.gki-docs-page .gki-gate-button--primary:visited {
 }
 .gki-gate-switch a:hover {
   text-decoration: underline;
+}
+
+/* ============================================================
+   THEME TOGGLE BUTTON
+   ============================================================ */
+
+.gki-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--gki-border-light);
+  background: var(--gki-bg-subtle);
+  color: var(--gki-text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+.gki-theme-toggle:hover {
+  background: var(--gki-bg-offset);
+  border-color: var(--gki-border);
+  color: var(--gki-text);
+}
+.gki-theme-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+/* Hide the inactive icon */
+.gki-theme-toggle .gki-icon-moon { display: none; }
+[data-theme="dark"] .gki-theme-toggle .gki-icon-sun  { display: none; }
+[data-theme="dark"] .gki-theme-toggle .gki-icon-moon { display: block; }
+
+/* ============================================================
+   DARK MODE — SEARCH ICON SVG OVERRIDE
+   ============================================================ */
+[data-theme="dark"] .gki-site-search-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238B8D94' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E") !important;
+}
+
+/* ============================================================
+   DARK MODE — IMAGE BORDER ADJUSTMENT
+   ============================================================ */
+[data-theme="dark"] .gki-page img {
+  border-color: var(--gki-border) !important;
+}
+
+/* Dark mode card hover shadow */
+[data-theme="dark"] .gki-card:hover {
+  box-shadow: 0 4px 16px -2px rgba(180, 117, 249, 0.2), 0 2px 4px -2px rgba(0,0,0,0.3) !important;
 }

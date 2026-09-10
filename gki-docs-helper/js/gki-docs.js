@@ -447,6 +447,13 @@
       var next = isDark ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('gki-theme', next); } catch (e) {}
+      // Set cookie so PHP can apply data-theme on the <html> tag server-side,
+      // eliminating the flash of light theme on the next page load.
+      if (next === 'dark') {
+        document.cookie = 'gki_theme=dark;path=/;max-age=31536000;SameSite=Lax';
+      } else {
+        document.cookie = 'gki_theme=light;path=/;max-age=31536000;SameSite=Lax';
+      }
     });
   }
 

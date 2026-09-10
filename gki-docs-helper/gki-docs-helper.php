@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.10.5
+ * Version:     1.10.6
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.10.5' );
+define( 'GKI_DOCS_VERSION', '1.10.6' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -101,10 +101,30 @@ function gki_docs_enqueue_assets() {
 }
 
 /**
- * Inject an inline script in <head> to apply the saved theme preference
- * before the page renders, preventing a flash of the wrong theme.
- * Default is light; only applies dark if explicitly saved or if system
- * prefers dark and no preference has been saved.
+ * Server-side dark mode: read the gki_theme cookie and inject
+ * data-theme="dark" directly into the <html> tag via the
+ * language_attributes filter. This eliminates the FOUC entirely
+ * because the attribute is present from the very first byte.
+ */
+add_filter( 'language_attributes', 'gki_docs_theme_html_attribute' );
+
+function gki_docs_theme_html_attribute( $output ) {
+    if ( ! gki_docs_is_target_post() ) {
+        return $output;
+    }
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+    if ( isset( $_COOKIE['gki_theme'] ) && $_COOKIE['gki_theme'] === 'dark' ) {
+        $output .= ' data-theme="dark"';
+    }
+    return $output;
+}
+
+/**
+ * Inline fallback: if the cookie isn't set yet but localStorage has the
+ * preference (e.g. first visit after this update), apply dark mode via JS
+ * and sync the cookie so the next page load is flash-free.
+ * Also inlines the critical dark-mode CSS variables so they're available
+ * before the external stylesheet loads.
  */
 add_action( 'wp_head', 'gki_docs_theme_init_script', 1 );
 
@@ -117,17 +137,21 @@ function gki_docs_theme_init_script() {
     (function(){
       try {
         var saved = localStorage.getItem('gki-theme');
+        var hasCookie = document.cookie.indexOf('gki_theme=') !== -1;
         if (saved === 'dark') {
           document.documentElement.setAttribute('data-theme','dark');
+          if (!hasCookie) {
+            document.cookie = 'gki_theme=dark;path=/;max-age=31536000;SameSite=Lax';
+          }
+        } else if (saved === 'light' && !hasCookie) {
+          document.cookie = 'gki_theme=light;path=/;max-age=31536000;SameSite=Lax';
         }
       } catch(e){}
     })();
     </script>
     <style>
-    /* Critical dark-mode styles inlined to prevent flash of light theme.
-       Sets background/color directly on html+body (hardcoded, not via
-       variables) so the page is dark from the very first paint — before
-       the external stylesheet or body class are available. */
+    /* Critical dark-mode overrides — loaded before the external stylesheet
+       so the page is dark from the very first paint. */
     html[data-theme="dark"],
     html[data-theme="dark"] body {
       background: #1A1B1E !important;

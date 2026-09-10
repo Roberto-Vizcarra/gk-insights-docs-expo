@@ -41,6 +41,12 @@ function gki_auth_gate_check() {
         return;
     }
 
+    // Prevent CDN/page-cache from serving gated pages without auth checks.
+    // Without this, Cloudflare (or similar) may cache the page once for an
+    // admin and then serve that cached copy to unauthenticated visitors.
+    header( 'Cache-Control: no-cache, no-store, must-revalidate, private' );
+    header( 'Pragma: no-cache' );
+
     // WP admins always bypass the gate
     if ( current_user_can( 'manage_options' ) ) {
         return;

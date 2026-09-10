@@ -64,6 +64,50 @@ function gki_auth_gate_check() {
 }
 
 /* =========================================================================
+   CUSTOM LOGIN ENDPOINT — /insights-expo/login/
+   Bypasses the WP admin login page for help center visitors.
+   ========================================================================= */
+
+add_action( 'init', 'gki_auth_intercept_login_endpoint' );
+
+/**
+ * Handle the custom login endpoint at /insights-expo/login/.
+ *
+ * Redirects through the OIDC plugin's authorization flow, skipping the
+ * WP admin login form entirely. The ?action=openid-connect-authorize
+ * parameter tells the OIDC plugin to auto-redirect to the OAuth provider
+ * without rendering the login form.
+ *
+ * @since 1.10.1
+ */
+function gki_auth_intercept_login_endpoint() {
+    $path = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+
+    if ( $path !== 'insights-expo/login' ) {
+        return;
+    }
+
+    $redirect_to = isset( $_GET['redirect_to'] )
+        ? esc_url_raw( $_GET['redirect_to'] )
+        : home_url( '/insights-expo/' );
+
+    // Already logged in — send them to the page (gate will check entitlement).
+    if ( is_user_logged_in() ) {
+        wp_safe_redirect( $redirect_to );
+        exit;
+    }
+
+    // Build the OIDC authorization URL.
+    // The action parameter triggers the OIDC plugin's login_form_{action}
+    // hook, which auto-redirects to the OAuth provider.
+    $login_url = wp_login_url( $redirect_to );
+    $oidc_url  = add_query_arg( 'action', 'openid-connect-authorize', $login_url );
+
+    wp_redirect( $oidc_url );
+    exit;
+}
+
+/* =========================================================================
    ENTITLEMENT CHECK — cached, with API fallback
    ========================================================================= */
 
@@ -213,8 +257,8 @@ function gki_auth_show_gate( $reason ) {
     // Prevent caching of gate pages
     nocache_headers();
 
-    // Build the login URL, preserving the requested page as redirect target
-    $login_url = wp_login_url( gki_auth_get_current_url() );
+    // Build the login URL using our custom endpoint (bypasses WP admin login).
+    $login_url = gki_auth_get_login_url( gki_auth_get_current_url() );
 
     // Load the gate template
     $template = GKI_DOCS_PATH . 'templates/gki-gate.php';
@@ -417,4 +461,33 @@ function gki_auth_get_upgrade_url() {
 function gki_auth_get_current_url() {
     $protocol = is_ssl() ? 'https' : 'http';
     return $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+}
+
+/**
+ * Build the custom login URL for help center visitors.
+ * Points to /insights-expo/login/ which triggers the OIDC flow
+ * without exposing the WP admin login page.
+ *
+ * @since 1.10.1
+ * @param string $redirect_to URL to return to after login.
+ * @return string Login URL.
+ */
+function gki_auth_get_login_url( $redirect_to = '' ) {
+    if ( empty( $redirect_to ) ) {
+        $redirect_to = home_url( '/insights-expo/' );
+    }
+    return home_url( '/insights-expo/login/?redirect_to=' . rawurlencode( $redirect_to ) );
+}
+
+/**
+ * Build the switch-account URL.
+ * Logs the user out of WP and redirects to the custom login endpoint.
+ *
+ * @since 1.10.1
+ * @param string $redirect_to URL to return to after re-login.
+ * @return string Logout-then-login URL.
+ */
+function gki_auth_get_switch_account_url( $redirect_to = '' ) {
+    $login_url = gki_auth_get_login_url( $redirect_to );
+    return wp_logout_url( $login_url );
 }

@@ -49,19 +49,21 @@ Register the help center as an OAuth client on `gitkraken.dev`:
 - **Userinfo URL** — where WP fetches user profile after login (e.g., `https://gitkraken.dev/api/v1/user`)
 - **Required scopes** — what scopes the help center should request (e.g., `openid email profile`)
 
-### 3. Insights Entitlement Endpoint
+### 3. Insights Entitlement Endpoint ✅ CONFIRMED
 
-An API endpoint that, given a bearer token, returns whether the user's account includes Insights access.
+**Endpoint:** `GET https://api.gitkraken.dev/user/organizations`
+**Auth:** Bearer token from the OAuth flow
+**Response:** Array of organizations, each containing `totalInsightsLicenses` (int)
 
-- **URL**: e.g., `https://gitkraken.dev/api/v1/subscription` or similar
-- **Auth**: Bearer token from the OAuth flow
-- **Response format**: needs to indicate Insights entitlement (exact field TBD)
+**Gate logic:** If any org in the response has `totalInsightsLicenses > 0`, the user is granted access.
 
-### 4. Token Details
+**Caveat:** This is org-level, not per-user. It confirms the user belongs to an org that owns Insights seats, but not that this specific user has a seat assigned. The actual Insights member roster is an admin-only endpoint the plugin can't use as the logged-in user. This is an acceptable trade-off for help center docs access — worst case, someone in an Insights org without a personal seat can still read the documentation.
 
-- Access token lifetime
-- Whether refresh tokens are issued
-- Token format (JWT vs opaque)
+### 4. Token Details ✅ CONFIRMED
+
+- **Format:** Opaque Bearer token (not JWT)
+- **Lifetime:** ~60 days
+- **Refresh tokens:** None issued
 
 ---
 
@@ -75,16 +77,20 @@ Install "OpenID Connect Generic Client" from the WP plugin directory.
 
 Settings → OpenID Connect Client:
 
-- Client ID: `[from backend team]`
-- Client Secret: `[from backend team]`
-- OpenID Scope: `[from backend team]`
-- Login Endpoint URL: `[from backend team]`
-- Userinfo Endpoint URL: `[from backend team]`
-- Token Validation Endpoint URL: `[from backend team]`
+- Client ID: `gk_help`
+- Client Secret: *(leave empty — not validated on this flow)*
+- OpenID Scope: `email profile`
+- Login Endpoint URL: `https://api.gitkraken.dev/oauth/authorize`
+- Userinfo Endpoint URL: `https://api.gitkraken.dev/user`
+- Token Validation Endpoint URL: `https://api.gitkraken.dev/oauth/access_token`
+- End Session Endpoint URL: *(leave empty)*
 - Login Button Text: `Sign in with GitKraken`
 - Link Existing Users: Yes (match by email)
 - Create user if does not exist: Yes
+- Redirect Back to Origin Page: Yes
 - New user default role: Subscriber
+
+**Note:** Token is opaque (not JWT), so you may need to enable "Disable Token Verification" in the OIDC plugin if it errors on ID token validation.
 
 ### Step 3: Deploy GKI Docs Helper Update
 

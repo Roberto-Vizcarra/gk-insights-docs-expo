@@ -1,6 +1,6 @@
 <?php
 /**
- * GKI Docs Helper — Custom Single Post Template (v1.8.2)
+ * GKI Docs Helper — Custom Single Post Template (v1.10.0)
  *
  * 3-column layout for insights-expo posts:
  *   Left:   Collapsible category navigation (frontmatter-based)
@@ -270,8 +270,14 @@ get_header();
     ?>
   </article>
 
-  <!-- Right sidebar: search + on-this-page TOC -->
+  <!-- Right sidebar: theme toggle + search + on-this-page TOC -->
   <aside class="gki-sidebar gki-sidebar--right" role="complementary" aria-label="<?php esc_attr_e( 'On this page', 'gki-docs-helper' ); ?>">
+    <div style="display:flex;align-items:center;justify-content:flex-end;margin-bottom:0.75rem;">
+      <button class="gki-theme-toggle" id="gki-theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="gki-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="gki-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
     <?php if ( ! $is_index ) : ?>
     <div class="gki-site-search gki-site-search--sidebar">
       <input type="text" class="gki-site-search-input" placeholder="Search docs…" aria-label="Search documentation">

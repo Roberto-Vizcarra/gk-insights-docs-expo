@@ -83,7 +83,7 @@ These rules apply to ALL sessions working on this project.
 - WP admins always bypass the gate.
 - Entitlement results are cached in WP user meta (default 30 min TTL, configurable).
 - Gate template has two variants: "sign in" (unauthenticated) and "subscription required" (no Insights).
-- The licensing API response parsing in `includes/gki-auth.php` (~line 130) has a `TODO` — update once the backend team confirms the response format.
+- Entitlement check uses `GET /user/organizations` — if any org has `totalInsightsLicenses > 0`, access is granted. This is org-level, not per-user (acceptable for docs access).
 - See `AUTH-GATE-PLAN.md` for the full implementation plan and backend team requirements.
 
 ---

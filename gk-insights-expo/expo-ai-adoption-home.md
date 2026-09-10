@@ -24,9 +24,29 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 
 ---
 
-<figure>
-  <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="The GitKraken Insights AI Adoption dashboard showing team-level flow and delivery metrics" />
-</figure>
+## What Insights answers for your team
+
+### Business Impact & ROI
+
+Change in productivity, additional developer hours, and capacity returned — in dollars. Per team, per tool, per developer. The numbers your CFO needs to justify ongoing AI spend.
+
+### Adoption & Autonomy
+
+Two scores per developer. **Adoption** measures daily use, depth, and output. **Autonomy** measures how much of the work is handed off to agents. Cohort views surface who is leading, who is learning, and who needs help before the rollout stalls.
+
+### Repo Readiness
+
+Every repo scored on what agents need to work well: AI instruction files, CI configuration, test coverage, and build reliability. Action items when something is missing. An agent is only as good as the repo it works in.
+
+### Tool & Model Performance
+
+Claude Code, Cursor, Codex — plus every model powering them. Ranked per developer, per team, per task by cost, cycle time, PR size, and bugs shipped. The scoreboard you open when someone asks which tools to cut.
+
+### Developer-Level View
+
+A private view for each developer showing how they work with AI: adoption, autonomy, cost, and outcomes — benchmarked to your org, not used to name and shame. Plus personalized coaching on which models and skills to reach for next.
+
+---
 
 > **Plan:** GitKraken Insights
 > **Platform:** Browser only via [gitkraken.dev](https://gitkraken.dev)

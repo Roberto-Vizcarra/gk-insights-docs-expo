@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.9.0
+ * Version:     1.10.0
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.9.0' );
+define( 'GKI_DOCS_VERSION', '1.10.0' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -98,6 +98,33 @@ function gki_docs_enqueue_assets() {
     wp_localize_script( 'gki-docs-scripts', 'gkiSearchData', array(
         'pages' => $search_index,
     ) );
+}
+
+/**
+ * Inject an inline script in <head> to apply the saved theme preference
+ * before the page renders, preventing a flash of the wrong theme.
+ * Default is light; only applies dark if explicitly saved or if system
+ * prefers dark and no preference has been saved.
+ */
+add_action( 'wp_head', 'gki_docs_theme_init_script', 1 );
+
+function gki_docs_theme_init_script() {
+    if ( ! gki_docs_is_target_post() ) {
+        return;
+    }
+    ?>
+    <script>
+    (function(){
+      try {
+        var saved = localStorage.getItem('gki-theme');
+        if (saved === 'dark') {
+          document.documentElement.setAttribute('data-theme','dark');
+        }
+        // If no saved preference, stay light (the default)
+      } catch(e){}
+    })();
+    </script>
+    <?php
 }
 
 /* =========================================================================

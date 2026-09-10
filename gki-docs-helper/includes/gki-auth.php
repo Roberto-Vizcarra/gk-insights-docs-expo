@@ -98,19 +98,26 @@ function gki_auth_check_entitlement( $user_id ) {
 }
 
 /**
- * Call the GitKraken licensing API to check Insights entitlement.
+ * Check Insights entitlement via the GitKraken organizations API.
  *
- * Retrieves the user's OAuth access token (stored by the OIDC plugin)
- * and calls the configured licensing endpoint.
+ * Calls GET /user/organizations with the user's OAuth Bearer token.
+ * The response is an array of orgs, each containing the user's role
+ * and a totalInsightsLicenses count. If ANY org has
+ * totalInsightsLicenses > 0, the user is considered entitled.
+ *
+ * Caveat: this is org-level, not per-user. It confirms the user
+ * belongs to an org that owns Insights seats, not that this specific
+ * user has a seat assigned. This is an acceptable gate for help
+ * center documentation access.
  *
  * @param int $user_id WordPress user ID.
- * @return bool True if the API confirms Insights access.
+ * @return bool True if the user belongs to an org with Insights licenses.
  */
 function gki_auth_call_licensing_api( $user_id ) {
     $endpoint = gki_auth_get_licensing_endpoint();
     if ( empty( $endpoint ) ) {
         // No endpoint configured — fail closed (deny access)
-        error_log( 'GKI Auth: Licensing API endpoint not configured.' );
+        error_log( 'GKI Auth: Organizations API endpoint not configured.' );
         return false;
     }
 
@@ -127,7 +134,7 @@ function gki_auth_call_licensing_api( $user_id ) {
 
     $access_token = $token_response['access_token'];
 
-    // Call the licensing endpoint
+    // Call the organizations endpoint
     $response = wp_remote_get( $endpoint, array(
         'timeout' => 10,
         'headers' => array(
@@ -138,7 +145,7 @@ function gki_auth_call_licensing_api( $user_id ) {
 
     // Handle request failure
     if ( is_wp_error( $response ) ) {
-        error_log( 'GKI Auth: Licensing API request failed — ' . $response->get_error_message() );
+        error_log( 'GKI Auth: Organizations API request failed — ' . $response->get_error_message() );
         // Fail closed on API error — deny access
         return false;
     }
@@ -148,7 +155,7 @@ function gki_auth_call_licensing_api( $user_id ) {
 
     // Handle 401 — token may be expired
     if ( $status_code === 401 ) {
-        error_log( 'GKI Auth: Licensing API returned 401 — token may be expired for user ' . $user_id );
+        error_log( 'GKI Auth: Organizations API returned 401 — token may be expired for user ' . $user_id );
         // Clear cached entitlement so next visit triggers re-auth
         delete_user_meta( $user_id, 'gki_insights_access' );
         delete_user_meta( $user_id, 'gki_insights_checked_at' );
@@ -157,29 +164,33 @@ function gki_auth_call_licensing_api( $user_id ) {
 
     // Handle non-200 responses
     if ( $status_code !== 200 ) {
-        error_log( 'GKI Auth: Licensing API returned HTTP ' . $status_code );
+        error_log( 'GKI Auth: Organizations API returned HTTP ' . $status_code );
         return false;
     }
 
     $data = json_decode( $body, true );
+
+    // Response should be an array of organizations
     if ( ! is_array( $data ) ) {
-        error_log( 'GKI Auth: Licensing API returned invalid JSON.' );
+        error_log( 'GKI Auth: Organizations API returned invalid JSON.' );
         return false;
     }
 
-    // ---------------------------------------------------------------
-    // TODO: Update this check to match the actual API response format.
-    //
-    // Examples of what this might look like depending on the API:
-    //
-    //   return ! empty( $data['insights'] );
-    //   return ! empty( $data['entitlements']['insights'] );
-    //   return in_array( 'insights', $data['products'] ?? [], true );
-    //   return ( $data['subscription']['plan'] ?? '' ) === 'insights';
-    //
-    // For now, checks for a top-level 'insights' boolean field.
-    // ---------------------------------------------------------------
-    return ! empty( $data['insights'] );
+    // Check if any org has Insights licenses
+    // Each org object includes totalInsightsLicenses (int).
+    // If any org has totalInsightsLicenses > 0, user is entitled.
+    foreach ( $data as $org ) {
+        if ( ! is_array( $org ) ) {
+            continue;
+        }
+        $licenses = isset( $org['totalInsightsLicenses'] ) ? (int) $org['totalInsightsLicenses'] : 0;
+        if ( $licenses > 0 ) {
+            return true;
+        }
+    }
+
+    // No orgs with Insights licenses found
+    return false;
 }
 
 /* =========================================================================
@@ -291,12 +302,12 @@ function gki_auth_register_settings() {
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
 
-    add_settings_field( 'gki_auth_licensing_endpoint', 'Licensing API Endpoint', function () {
+    add_settings_field( 'gki_auth_licensing_endpoint', 'Organizations API Endpoint', function () {
         $val = get_option( 'gki_auth_licensing_endpoint', '' );
         printf(
             '<input type="url" name="gki_auth_licensing_endpoint" value="%s" class="regular-text" '
-            . 'placeholder="https://gitkraken.dev/api/v1/subscription" />'
-            . '<p class="description">The API endpoint that returns Insights entitlement for a bearer token.</p>',
+            . 'placeholder="https://api.gitkraken.dev/user/organizations" />'
+            . '<p class="description">The API endpoint that returns the user\'s organizations with Insights license counts.</p>',
             esc_attr( $val )
         );
     }, 'gki-auth-settings', 'gki_auth_main' );

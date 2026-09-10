@@ -1,5 +1,5 @@
 /**
- * GKI Docs Helper — Interactive Features (v1.8.2)
+ * GKI Docs Helper — Interactive Features (v1.10.0)
  * Loaded only on insights-expo category posts.
  *
  * Features:
@@ -433,9 +433,28 @@
   }
 
   /* ================================================================
+     9. THEME TOGGLE
+     Switches between light (default) and dark mode.
+     Persists choice in localStorage. Respects system preference
+     only when no explicit choice has been saved.
+     ================================================================ */
+  function buildThemeToggle() {
+    var btn = document.getElementById('gki-theme-toggle');
+    if (!btn) return;
+
+    btn.addEventListener('click', function () {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      var next = isDark ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('gki-theme', next); } catch (e) {}
+    });
+  }
+
+  /* ================================================================
      INIT
      ================================================================ */
   injectStyles();
+  buildThemeToggle();
   buildCollapsibleNav();
   buildSiteSearch();
   if (!isIndexPage) {

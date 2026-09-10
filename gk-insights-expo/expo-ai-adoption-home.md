@@ -30,21 +30,31 @@ GitKraken Insights gives engineering leaders a single view of how AI tools, code
 
 Change in productivity, additional developer hours, and capacity returned — in dollars. Per team, per tool, per developer. The numbers your CFO needs to justify ongoing AI spend.
 
+![Business Impact dashboard showing productivity change, additional developer hours, cost impact, and AI-assisted changes](https://gitkraken.com/wp-content/uploads/2026/05/Group-22141-1024x647.png)
+
 ### Adoption & Autonomy
 
 Two scores per developer. **Adoption** measures daily use, depth, and output. **Autonomy** measures how much of the work is handed off to agents. Cohort views surface who is leading, who is learning, and who needs help before the rollout stalls.
+
+![Top developers table ranked by AI adoption and autonomy scores with daily activity trend](https://gitkraken.com/wp-content/uploads/2026/05/Group-22143-1-1024x789.png)
 
 ### Repo Readiness
 
 Every repo scored on what agents need to work well: AI instruction files, CI configuration, test coverage, and build reliability. Action items when something is missing. An agent is only as good as the repo it works in.
 
+![Repository readiness cards showing AI instruction coverage scores and action items](https://gitkraken.com/wp-content/uploads/2026/05/GitKraken-Desktop_feature_easytoreadcommithistory-1-1024x711.png)
+
 ### Tool & Model Performance
 
 Claude Code, Cursor, Codex — plus every model powering them. Ranked per developer, per team, per task by cost, cycle time, PR size, and bugs shipped. The scoreboard you open when someone asks which tools to cut.
 
+![Comparison cards for Claude Code, Copilot, Codex, and Windsurf with adoption and cycle time metrics](https://gitkraken.com/wp-content/uploads/2026/05/Group-22142-1024x647.png)
+
 ### Developer-Level View
 
 A private view for each developer showing how they work with AI: adoption, autonomy, cost, and outcomes — benchmarked to your org, not used to name and shame. Plus personalized coaching on which models and skills to reach for next.
+
+![Individual developer profile showing AI adoption score, top skills by value, and coaching recommendations](https://gitkraken.com/wp-content/uploads/2026/08/gkid-insights-section-graphic-1024x595.png)
 
 ---
 

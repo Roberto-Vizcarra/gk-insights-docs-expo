@@ -129,16 +129,21 @@ function gki_auth_intercept_login_endpoint() {
     ), 180 );
 
     // Callback URL — where the provider sends the auth code.
+    // Must match the redirect_uri registered with the OAuth provider exactly.
     $redirect_uri = admin_url( 'admin-ajax.php?action=openid-connect-authorize' );
 
-    // Redirect straight to the OAuth provider (no WP login page involved).
-    $auth_url = add_query_arg( array(
-        'response_type' => 'code',
-        'client_id'     => $client_id,
-        'scope'         => $scope,
-        'redirect_uri'  => $redirect_uri,
-        'state'         => $state,
-    ), $endpoint );
+    // Build the authorize URL manually to ensure redirect_uri is properly
+    // percent-encoded. add_query_arg() doesn't double-encode the '?' and '&'
+    // inside redirect_uri, which causes the OAuth server to see a malformed URL.
+    $auth_url = $endpoint
+        . ( strpos( $endpoint, '?' ) !== false ? '&' : '?' )
+        . http_build_query( array(
+            'response_type' => 'code',
+            'client_id'     => $client_id,
+            'scope'         => $scope,
+            'redirect_uri'  => $redirect_uri,
+            'state'         => $state,
+        ), '', '&' );
 
     wp_redirect( $auth_url );
     exit;

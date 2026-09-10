@@ -103,16 +103,12 @@ function gki_auth_intercept_login_endpoint() {
         exit;
     }
 
-    // Build the OAuth authorize URL directly from OIDC plugin settings.
-    // This bypasses wp_login_url() entirely, avoiding conflicts with
-    // login-hiding plugins that make wp-login.php return a 404.
+    // Read client_id from the OIDC plugin settings.
     $oidc_settings = get_option( 'openid_connect_generic_settings', array() );
     $client_id     = isset( $oidc_settings['client_id'] ) ? $oidc_settings['client_id'] : '';
-    $scope         = isset( $oidc_settings['scope'] ) ? $oidc_settings['scope'] : 'email profile';
-    $endpoint      = isset( $oidc_settings['endpoint_login'] ) ? $oidc_settings['endpoint_login'] : '';
 
-    if ( empty( $client_id ) || empty( $endpoint ) ) {
-        error_log( 'GKI Auth: OIDC plugin settings not found — cannot build authorize URL.' );
+    if ( empty( $client_id ) ) {
+        error_log( 'GKI Auth: OIDC plugin client_id not found — cannot build login URL.' );
         wp_die(
             'Single sign-on is not configured yet. Please contact your administrator.',
             'Login Unavailable',
@@ -120,7 +116,7 @@ function gki_auth_intercept_login_endpoint() {
         );
     }
 
-    // Generate state + nonce matching the OIDC plugin's transient format
+    // Generate state matching the OIDC plugin's transient format
     // so the callback at admin-ajax.php validates correctly.
     $state = wp_generate_password( 32, false );
     set_transient( 'openid-connect-generic-state--' . $state, array(
@@ -128,21 +124,16 @@ function gki_auth_intercept_login_endpoint() {
         'state'       => $state,
     ), 180 );
 
-    // Callback URL — where the provider sends the auth code.
-    // Must match the redirect_uri registered with the OAuth provider exactly.
+    // Callback URL — where gitkraken.dev sends back after login.
     $redirect_uri = admin_url( 'admin-ajax.php?action=openid-connect-authorize' );
 
-    // Build the authorize URL manually to ensure redirect_uri is properly
-    // percent-encoded. add_query_arg() doesn't double-encode the '?' and '&'
-    // inside redirect_uri, which causes the OAuth server to see a malformed URL.
-    $auth_url = $endpoint
-        . ( strpos( $endpoint, '?' ) !== false ? '&' : '?' )
+    // Use the gitkraken.dev login page — NOT the raw OAuth authorize endpoint.
+    // gitkraken.dev/login handles the sign-in UI and only needs three params.
+    $auth_url = 'https://gitkraken.dev/login?'
         . http_build_query( array(
-            'response_type' => 'code',
-            'client_id'     => $client_id,
-            'scope'         => $scope,
-            'redirect_uri'  => $redirect_uri,
-            'state'         => $state,
+            'client_id'    => $client_id,
+            'redirect_uri' => $redirect_uri,
+            'state'        => $state,
         ), '', '&' );
 
     wp_redirect( $auth_url );

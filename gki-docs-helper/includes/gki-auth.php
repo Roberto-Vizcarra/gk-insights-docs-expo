@@ -97,13 +97,44 @@ function gki_auth_intercept_login_endpoint() {
         exit;
     }
 
-    // Build the OIDC authorization URL.
-    // The action parameter triggers the OIDC plugin's login_form_{action}
-    // hook, which auto-redirects to the OAuth provider.
-    $login_url = wp_login_url( $redirect_to );
-    $oidc_url  = add_query_arg( 'action', 'openid-connect-authorize', $login_url );
+    // Build the OAuth authorize URL directly from OIDC plugin settings.
+    // This bypasses wp_login_url() entirely, avoiding conflicts with
+    // login-hiding plugins that make wp-login.php return a 404.
+    $oidc_settings = get_option( 'openid_connect_generic_settings', array() );
+    $client_id     = isset( $oidc_settings['client_id'] ) ? $oidc_settings['client_id'] : '';
+    $scope         = isset( $oidc_settings['scope'] ) ? $oidc_settings['scope'] : 'email profile';
+    $endpoint      = isset( $oidc_settings['endpoint_login'] ) ? $oidc_settings['endpoint_login'] : '';
 
-    wp_redirect( $oidc_url );
+    if ( empty( $client_id ) || empty( $endpoint ) ) {
+        error_log( 'GKI Auth: OIDC plugin settings not found — cannot build authorize URL.' );
+        wp_die(
+            'Single sign-on is not configured yet. Please contact your administrator.',
+            'Login Unavailable',
+            array( 'response' => 503 )
+        );
+    }
+
+    // Generate state + nonce matching the OIDC plugin's transient format
+    // so the callback at admin-ajax.php validates correctly.
+    $state = wp_generate_password( 32, false );
+    set_transient( 'openid-connect-generic-state--' . $state, array(
+        'redirect_to' => $redirect_to,
+        'state'       => $state,
+    ), 180 );
+
+    // Callback URL — where the provider sends the auth code.
+    $redirect_uri = admin_url( 'admin-ajax.php?action=openid-connect-authorize' );
+
+    // Redirect straight to the OAuth provider (no WP login page involved).
+    $auth_url = add_query_arg( array(
+        'response_type' => 'code',
+        'client_id'     => $client_id,
+        'scope'         => $scope,
+        'redirect_uri'  => $redirect_uri,
+        'state'         => $state,
+    ), $endpoint );
+
+    wp_redirect( $auth_url );
     exit;
 }
 

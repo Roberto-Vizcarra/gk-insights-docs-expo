@@ -346,7 +346,7 @@ function gki_auth_register_settings() {
 
     register_setting( 'gki_auth_settings', 'gki_auth_cache_ttl', array(
         'type'              => 'integer',
-        'default'           => 1800, // 30 minutes
+        'default'           => 24, // 24 hours
         'sanitize_callback' => 'absint',
     ) );
 
@@ -387,11 +387,11 @@ function gki_auth_register_settings() {
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
 
-    add_settings_field( 'gki_auth_cache_ttl', 'Cache TTL (seconds)', function () {
-        $val = get_option( 'gki_auth_cache_ttl', 1800 );
+    add_settings_field( 'gki_auth_cache_ttl', 'Cache TTL (hours)', function () {
+        $val = get_option( 'gki_auth_cache_ttl', 24 );
         printf(
-            '<input type="number" name="gki_auth_cache_ttl" value="%d" min="60" max="86400" /> '
-            . '<p class="description">How long to cache entitlement results per user. Default: 1800 (30 minutes).</p>',
+            '<input type="number" name="gki_auth_cache_ttl" value="%d" min="1" max="168" /> '
+            . '<p class="description">How long to cache entitlement results per user. Default: 24 hours.</p>',
             $val
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
@@ -473,10 +473,11 @@ function gki_auth_get_licensing_endpoint() {
 }
 
 /**
- * Get the cache TTL in seconds.
+ * Get the cache TTL in seconds (stored as hours in settings).
  */
 function gki_auth_get_cache_ttl() {
-    return (int) get_option( 'gki_auth_cache_ttl', 1800 );
+    $hours = (int) get_option( 'gki_auth_cache_ttl', 24 );
+    return $hours * 3600;
 }
 
 /**

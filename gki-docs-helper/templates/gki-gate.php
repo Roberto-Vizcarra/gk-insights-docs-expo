@@ -64,12 +64,12 @@ get_header();
         </p>
 
         <?php
-        // Provide a logout link so users can switch accounts
-        $logout_url = wp_logout_url( gki_auth_get_current_url() );
+        // Log out and redirect through our custom login endpoint (not the admin page).
+        $switch_url = gki_auth_get_switch_account_url( gki_auth_get_current_url() );
         ?>
         <p class="gki-gate-switch">
           Signed in as <?php echo esc_html( wp_get_current_user()->user_email ); ?>.
-          <a href="<?php echo esc_url( $logout_url ); ?>">Switch account</a>
+          <a href="<?php echo esc_url( $switch_url ); ?>">Switch account</a>
         </p>
 
       <?php endif; ?>

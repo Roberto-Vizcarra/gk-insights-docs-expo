@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.10.3
+ * Version:     1.10.4
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.10.3' );
+define( 'GKI_DOCS_VERSION', '1.10.4' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -120,10 +120,28 @@ function gki_docs_theme_init_script() {
         if (saved === 'dark') {
           document.documentElement.setAttribute('data-theme','dark');
         }
-        // If no saved preference, stay light (the default)
       } catch(e){}
     })();
     </script>
+    <style>
+    /* Critical dark-mode tokens inlined to prevent flash of light theme.
+       Full set lives in gki-docs.css — these just cover the gap before
+       the external stylesheet loads. */
+    [data-theme="dark"] {
+      --gki-purple: #B475F9;
+      --gki-accent: #B475F9;
+      --gki-text: #ECEDF0;
+      --gki-text-secondary: #B8BAC0;
+      --gki-text-muted: #8B8D94;
+      --gki-bg: #1A1B1E;
+      --gki-bg-subtle: #222326;
+      --gki-bg-offset: #2A2B2F;
+      --gki-border: #3A3B40;
+      --gki-border-light: #2E2F34;
+      --gki-shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
+      --gki-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    }
+    </style>
     <?php
 }
 

@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.10.4
+ * Version:     1.10.5
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.10.4' );
+define( 'GKI_DOCS_VERSION', '1.10.5' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -124,9 +124,15 @@ function gki_docs_theme_init_script() {
     })();
     </script>
     <style>
-    /* Critical dark-mode tokens inlined to prevent flash of light theme.
-       Full set lives in gki-docs.css — these just cover the gap before
-       the external stylesheet loads. */
+    /* Critical dark-mode styles inlined to prevent flash of light theme.
+       Sets background/color directly on html+body (hardcoded, not via
+       variables) so the page is dark from the very first paint — before
+       the external stylesheet or body class are available. */
+    html[data-theme="dark"],
+    html[data-theme="dark"] body {
+      background: #1A1B1E !important;
+      color: #ECEDF0 !important;
+    }
     [data-theme="dark"] {
       --gki-purple: #B475F9;
       --gki-accent: #B475F9;

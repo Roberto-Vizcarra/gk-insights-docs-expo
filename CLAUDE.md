@@ -10,7 +10,7 @@ Phases 1–4 are substantially complete. The content breakout (including metric-
 
 ### What's Live
 - ~50 Markdown files in `gk-insights-expo/` synced to WordPress via Git It Write
-- GKI Docs Helper plugin v1.8.0 installed on WordPress
+- GKI Docs Helper plugin v1.9.0 installed on WordPress
 - 3-column layout: left nav, center content, right TOC
 - Collapsible nav sidebar with nested sub-groups (section → sub-index → page)
 - Site-wide search (PHP-generated JSON index, JS client)
@@ -23,10 +23,12 @@ Phases 1–4 are substantially complete. The content breakout (including metric-
 ### Plugin Location
 ```
 gki-docs-helper/
-  gki-docs-helper.php      # Main plugin file (v1.8.0)
+  gki-docs-helper.php      # Main plugin file (v1.9.0)
+  includes/gki-auth.php    # Auth gate module (OAuth + Insights entitlement check)
   css/gki-docs.css          # All styles
   js/gki-docs.js            # Interactive features (8 modules)
   templates/single-gki.php  # 3-column page template
+  templates/gki-gate.php    # Auth gate page (login / no-access variants)
   gki-docs-helper.zip       # Installable archive — REBUILD AFTER EVERY CHANGE
 ```
 
@@ -73,6 +75,16 @@ These rules apply to ALL sessions working on this project.
 - After ANY plugin file change: bump version in both the header comment AND `GKI_DOCS_VERSION` constant, then rebuild the zip.
 - Zip rebuild: use Python zipfile (shell `zip` has permission issues in sandbox) or `cd gki-docs-helper && zip -r /tmp/gki-new.zip . -x '*.zip' -x '.*' && cp /tmp/gki-new.zip ./gki-docs-helper.zip`
 - Upload zip to WP Admin → Plugins after each version bump.
+
+### Auth Gate (v1.9.0)
+- All `/insights-expo/` pages are gated behind GitKraken OAuth + Insights subscription entitlement.
+- Requires **OpenID Connect Generic Client** WP plugin for the OAuth login flow against `gitkraken.dev`.
+- Auth gate is disabled by default — enable via Settings → GKI Auth Gate in WP Admin.
+- WP admins always bypass the gate.
+- Entitlement results are cached in WP user meta (default 30 min TTL, configurable).
+- Gate template has two variants: "sign in" (unauthenticated) and "subscription required" (no Insights).
+- The licensing API response parsing in `includes/gki-auth.php` (~line 130) has a `TODO` — update once the backend team confirms the response format.
+- See `AUTH-GATE-PLAN.md` for the full implementation plan and backend team requirements.
 
 ---
 

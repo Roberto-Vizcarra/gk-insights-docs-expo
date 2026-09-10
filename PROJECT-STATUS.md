@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-09-01
 **Owner:** roberto.vizcarra@gitkraken.com
-**Plugin version:** 1.7.0
+**Plugin version:** 1.9.0
 **Live URL:** `help.gitkraken.com/insights-expo/expo-ai-adoption-home`
 
 ## Architecture
@@ -13,13 +13,14 @@ WordPress (help.gitkraken.com)
   ├── Git It Write plugin (syncs repo Markdown → WP posts)
   │     └── Category: insights-expo → gk-insights-expo/ directory
   │     └── YAML custom_fields: → stored as WP post meta
-  └── GKI Docs Helper plugin v1.7.0 (our custom plugin)
+  └── GKI Docs Helper plugin v1.9.0 (our custom plugin)
         ├── template override (priority 9999)
+        ├── auth gate (template_redirect, priority 5) — OAuth + Insights entitlement
         ├── Parsedown cleanup (the_content filter)
         ├── gki_docs_render_card_grid() — reusable card grid renderer
         ├── gki_docs_get_nav_structure() — frontmatter-based nav builder
         ├── gki_docs_get_child_pages() — child page query for index cards
-        ├── CSS (brand tokens + Elementor overrides + table styles)
+        ├── CSS (brand tokens + Elementor overrides + table styles + gate page)
         └── JS (TOC, card filter, lightbox, back-to-top, progress bar)
 ```
 
@@ -44,8 +45,11 @@ Split content into 29 standalone pages. Key fixes along the way:
 - Template splits main-index content at first `<hr>` to insert cards after intro
 - Added `gki_docs_render_card_grid()` helper function
 
-### Phase 4 — UI/UX Refinement (Next)
-See `PHASE-4-HANDOFF.md` for the complete punch list.
+### Phase 4 — UI/UX Refinement (Complete, v1.8.x)
+See `PHASE-4-HANDOFF.md` for the original punch list.
+
+### Phase 5 — Auth Gate (In Progress, v1.9.0)
+Added authentication gate requiring GitKraken OAuth + Insights subscription entitlement. Uses OpenID Connect Generic Client plugin for OAuth login against `gitkraken.dev`, with custom entitlement check in `includes/gki-auth.php`. Gate is scaffolded and committed on `feature/auth-gate` branch. Blocked on backend team providing OAuth client details and licensing API endpoint. See `AUTH-GATE-PLAN.md`.
 
 ## Content Map (29 files)
 

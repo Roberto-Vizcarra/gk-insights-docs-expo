@@ -2,7 +2,7 @@
 
 WordPress plugin that provides a custom page template, shared CSS/JS, and Parsedown cleanup for GitKraken Insights Help Center pages.
 
-**Version:** 1.4.0
+**Version:** 1.9.0
 **Requires:** WordPress 5.8+, [Git It Write](https://developer.wordpress.org/plugins/git-it-write/) plugin
 **Category target:** `insights-expo`
 
@@ -19,10 +19,13 @@ WordPress plugin that provides a custom page template, shared CSS/JS, and Parsed
 ```
 gki-docs-helper/
   gki-docs-helper.php    # Main plugin file — hooks, filters, template override
-  css/gki-docs.css       # All styles: brand tokens, component styles, Elementor overrides, layout
+  includes/
+    gki-auth.php         # Auth gate — OAuth + Insights entitlement check, WP Admin settings
+  css/gki-docs.css       # All styles: brand tokens, component styles, Elementor overrides, layout, gate page
   js/gki-docs.js         # TOC builder, search, lightbox, back-to-top, progress bar
   templates/
     single-gki.php       # 3-column page template (replaces Elementor's single-post template)
+    gki-gate.php         # Auth gate page (login / no-access variants)
   gki-docs-helper.zip    # Installable plugin archive (rebuild after changes)
 ```
 
@@ -44,6 +47,14 @@ Or copy the `gki-docs-helper/` folder directly into `wp-content/plugins/`.
 **Sidebar navigation** — two modes:
 1. **Auto-generated** (default): lists all posts in the target category, sorted alphabetically.
 2. **Manual menu**: assign a WP menu to the "GKI Insights Sidebar Navigation" location in Appearance > Menus.
+
+**Auth gate** (v1.9.0) — requires the [OpenID Connect Generic Client](https://wordpress.org/plugins/daggerhart-openid-connect-generic/) plugin. Configure via Settings → GKI Auth Gate in WP Admin:
+- **Enable Auth Gate** — toggle on/off (default: off)
+- **Licensing API Endpoint** — URL that returns Insights entitlement for a bearer token
+- **Cache TTL** — how long to cache entitlement per user (default: 30 min)
+- **Upgrade URL** — shown to users without Insights access
+
+WP admins always bypass the gate. Settings persist across plugin reinstalls (stored in `wp_options`).
 
 ## Cache Busting
 

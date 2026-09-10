@@ -1543,3 +1543,98 @@ body.gki-index-page .gki-content-main {
   margin-top: 0.5rem;
   font-style: italic;
 }
+
+/* ============================================================
+   AUTH GATE PAGE
+   ============================================================ */
+
+.gki-gate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 2rem;
+}
+
+.gki-gate-card {
+  max-width: 460px;
+  width: 100%;
+  text-align: center;
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-light);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.gki-gate-logo {
+  margin-bottom: 1.5rem;
+}
+
+.gki-gate-title {
+  font-family: var(--gki-font);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gki-text);
+  margin: 0 0 0.75rem 0;
+  line-height: 1.35;
+}
+
+.gki-gate-message {
+  font-size: 0.93rem;
+  line-height: 1.65;
+  color: var(--gki-text-secondary);
+  margin: 0 0 1.5rem 0;
+}
+
+.gki-gate-button {
+  display: inline-block;
+  padding: 0.7rem 1.75rem;
+  font-size: 0.93rem;
+  font-weight: 600;
+  font-family: var(--gki-font);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+}
+
+.gki-gate-button--primary {
+  background: var(--gki-purple);
+  color: #fff;
+  border: none;
+}
+.gki-gate-button--primary:hover {
+  background: var(--gki-purple-hover);
+  box-shadow: 0 2px 8px rgba(121, 0, 201, 0.25);
+}
+body.gki-docs-page .gki-gate-button--primary:link,
+body.gki-docs-page .gki-gate-button--primary:visited {
+  color: #fff !important;
+}
+
+.gki-gate-footer {
+  font-size: 0.85rem;
+  color: var(--gki-text-muted);
+  margin: 1.25rem 0 0 0;
+}
+.gki-gate-footer a {
+  color: var(--gki-purple);
+  text-decoration: none;
+}
+.gki-gate-footer a:hover {
+  text-decoration: underline;
+}
+
+.gki-gate-switch {
+  font-size: 0.8rem;
+  color: var(--gki-text-dim);
+  margin: 0.75rem 0 0 0;
+}
+.gki-gate-switch a {
+  color: var(--gki-purple);
+  text-decoration: none;
+}
+.gki-gate-switch a:hover {
+  text-decoration: underline;
+}

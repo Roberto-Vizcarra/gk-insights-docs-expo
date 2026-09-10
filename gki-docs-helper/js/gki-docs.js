@@ -1,5 +1,5 @@
 /**
- * GKI Docs Helper — Interactive Features (v1.10.0)
+ * GKI Docs Helper — Interactive Features (v1.11.0)
  * Loaded only on insights-expo category posts.
  *
  * Features:
@@ -439,21 +439,19 @@
      only when no explicit choice has been saved.
      ================================================================ */
   function buildThemeToggle() {
-    var btn = document.getElementById('gki-theme-toggle');
-    if (!btn) return;
+    var toggle = document.getElementById('gki-theme-toggle');
+    if (!toggle) return;
+    var checkbox = toggle.querySelector('input[type="checkbox"]');
+    if (!checkbox) return;
 
-    btn.addEventListener('click', function () {
-      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      var next = isDark ? 'light' : 'dark';
+    // Sync checkbox with current theme on load
+    checkbox.checked = (document.documentElement.getAttribute('data-theme') === 'dark');
+
+    checkbox.addEventListener('change', function () {
+      var next = checkbox.checked ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('gki-theme', next); } catch (e) {}
-      // Set cookie so PHP can apply data-theme on the <html> tag server-side,
-      // eliminating the flash of light theme on the next page load.
-      if (next === 'dark') {
-        document.cookie = 'gki_theme=dark;path=/;max-age=31536000;SameSite=Lax';
-      } else {
-        document.cookie = 'gki_theme=light;path=/;max-age=31536000;SameSite=Lax';
-      }
+      document.cookie = 'gki_theme=' + next + ';path=/;max-age=31536000;SameSite=Lax';
     });
   }
 

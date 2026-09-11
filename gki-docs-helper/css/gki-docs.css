@@ -941,6 +941,11 @@ body.gki-docs-page #site-footer {
   color: var(--gki-text);
   background: var(--gki-bg);
   min-height: calc(100vh - 80px);
+  transition: grid-template-columns 0.3s ease;
+}
+/* Collapsed nav: shrink left column, expand center */
+.gki-layout.gki-nav-collapsed {
+  grid-template-columns: 48px minmax(0, 1fr) 220px;
 }
 
 /* --- Left sidebar --- */
@@ -950,13 +955,55 @@ body.gki-docs-page #site-footer {
   align-self: start;
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--gki-border-light) transparent;
+  transition: width 0.3s ease;
 }
 .gki-sidebar--left .gki-nav {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+}
+
+/* Collapse toggle button */
+.gki-nav-collapse-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--gki-border-light);
+  border-radius: 6px;
+  background: var(--gki-bg-subtle);
+  color: var(--gki-text-muted);
+  cursor: pointer;
+  padding: 0;
+  margin: 0 0 0.5rem auto;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.3s ease;
+}
+.gki-nav-collapse-btn:hover {
+  background: var(--gki-bg-offset, var(--gki-bg-subtle));
+  color: var(--gki-text);
+}
+.gki-nav-collapse-btn svg {
+  width: 16px;
+  height: 16px;
+}
+/* Rotate arrow when collapsed */
+.gki-nav-collapsed .gki-nav-collapse-btn {
+  transform: rotate(180deg);
+  margin: 0 auto 0.5rem;
+}
+
+/* Hide nav content when collapsed (button is sibling of nav, stays visible) */
+.gki-nav-collapsed .gki-sidebar--left .gki-nav {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .gki-nav-title {
@@ -1291,6 +1338,9 @@ body.gki-docs-page #site-footer {
     grid-template-columns: 220px minmax(0, 1fr);
     padding: 1.5rem 2rem;
   }
+  .gki-layout.gki-nav-collapsed {
+    grid-template-columns: 48px minmax(0, 1fr);
+  }
   .gki-sidebar--right {
     display: none;
   }
@@ -1300,6 +1350,12 @@ body.gki-docs-page #site-footer {
   .gki-layout {
     grid-template-columns: 1fr;
     padding: 1rem 1.5rem;
+  }
+  .gki-layout.gki-nav-collapsed {
+    grid-template-columns: 1fr;
+  }
+  .gki-nav-collapse-btn {
+    display: none;
   }
   .gki-sidebar--left {
     position: static;

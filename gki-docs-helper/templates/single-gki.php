@@ -1,6 +1,6 @@
 <?php
 /**
- * GKI Docs Helper — Custom Single Post Template (v1.11.0)
+ * GKI Docs Helper — Custom Single Post Template (v1.13.0)
  *
  * 3-column layout for insights-expo posts:
  *   Left:   Collapsible category navigation (frontmatter-based)
@@ -33,6 +33,9 @@ get_header();
 
   <!-- Left sidebar: navigation -->
   <aside class="gki-sidebar gki-sidebar--left" role="navigation" aria-label="<?php esc_attr_e( 'Insights documentation', 'gki-docs-helper' ); ?>">
+    <button class="gki-nav-collapse-btn" id="gki-nav-collapse" type="button" aria-label="Collapse navigation" title="Collapse navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
+    </button>
     <nav class="gki-nav">
       <?php if ( $nav_structure && $nav_structure['main_index'] ) : ?>
         <a href="<?php echo esc_url( get_permalink( $nav_structure['main_index']['post'] ) ); ?>" class="gki-nav-title">GitKraken Insights</a>

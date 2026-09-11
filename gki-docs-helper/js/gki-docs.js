@@ -1,5 +1,5 @@
 /**
- * GKI Docs Helper — Interactive Features (v1.11.0)
+ * GKI Docs Helper — Interactive Features (v1.13.0)
  * Loaded only on insights-expo category posts.
  *
  * Features:
@@ -456,10 +456,38 @@
   }
 
   /* ================================================================
+     10. COLLAPSIBLE NAV SIDEBAR
+     Toggle the left nav between expanded and collapsed states.
+     Persists choice in localStorage.
+     ================================================================ */
+  function buildNavCollapse() {
+    var btn = document.getElementById('gki-nav-collapse');
+    var layout = document.getElementById('gki-layout');
+    if (!btn || !layout) return;
+
+    // Restore saved state
+    try {
+      if (localStorage.getItem('gki-nav-collapsed') === '1') {
+        layout.classList.add('gki-nav-collapsed');
+        btn.setAttribute('aria-label', 'Expand navigation');
+        btn.setAttribute('title', 'Expand navigation');
+      }
+    } catch (e) {}
+
+    btn.addEventListener('click', function () {
+      var collapsed = layout.classList.toggle('gki-nav-collapsed');
+      btn.setAttribute('aria-label', collapsed ? 'Expand navigation' : 'Collapse navigation');
+      btn.setAttribute('title', collapsed ? 'Expand navigation' : 'Collapse navigation');
+      try { localStorage.setItem('gki-nav-collapsed', collapsed ? '1' : '0'); } catch (e) {}
+    });
+  }
+
+  /* ================================================================
      INIT
      ================================================================ */
   injectStyles();
   buildThemeToggle();
+  buildNavCollapse();
   buildCollapsibleNav();
   buildSiteSearch();
   if (!isIndexPage) {

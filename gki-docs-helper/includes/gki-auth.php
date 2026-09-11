@@ -3,15 +3,20 @@
  * GKI Docs Helper — Auth Gate Module
  *
  * Gates all insights-expo pages behind GitKraken authentication + Insights
- * subscription entitlement. Works alongside the OpenID Connect Generic Client
- * plugin which handles the OAuth login flow.
+ * subscription entitlement. Implements a standalone OAuth2 authorization-code
+ * flow against gitkraken.dev.
  *
  * Flow:
  *   1. Check if current page is a GKI docs page
- *   2. Check if user has a WordPress session (created by OIDC plugin after OAuth)
+ *   2. Check if user has a WordPress session
  *   3. Check cached Insights entitlement in user meta
  *   4. If cache expired, call licensing API to re-validate
  *   5. Allow or block based on entitlement
+ *
+ * OAuth endpoints (gitkraken.dev):
+ *   - Authorize: https://gitkraken.dev/login?client_id=&redirect_uri=&state=
+ *   - Token:     POST https://api.gitkraken.dev/oauth/access_token
+ *   - Userinfo:  GET  https://api.gitkraken.dev/user (Bearer token)
  *
  * @since 1.9.0
  */
@@ -71,7 +76,7 @@ function gki_auth_gate_check() {
 
 /* =========================================================================
    CUSTOM LOGIN ENDPOINT — /insights-expo/login/
-   Bypasses the WP admin login page for help center visitors.
+   Redirects to gitkraken.dev with OAuth2 params.
    ========================================================================= */
 
 add_action( 'init', 'gki_auth_intercept_login_endpoint' );
@@ -79,10 +84,10 @@ add_action( 'init', 'gki_auth_intercept_login_endpoint' );
 /**
  * Handle the custom login endpoint at /insights-expo/login/.
  *
- * Redirects through the OIDC plugin's authorization flow, skipping the
- * WP admin login form entirely. The ?action=openid-connect-authorize
- * parameter tells the OIDC plugin to auto-redirect to the OAuth provider
- * without rendering the login form.
+ * Generates a cryptographic state token, stores it in a transient,
+ * and redirects the user to gitkraken.dev/login with client_id,
+ * redirect_uri, and state. After authentication, gitkraken.dev
+ * redirects back to our own callback handler.
  *
  * @since 1.10.1
  */
@@ -103,12 +108,10 @@ function gki_auth_intercept_login_endpoint() {
         exit;
     }
 
-    // Read client_id from the OIDC plugin settings.
-    $oidc_settings = get_option( 'openid_connect_generic_settings', array() );
-    $client_id     = isset( $oidc_settings['client_id'] ) ? $oidc_settings['client_id'] : '';
+    $client_id = gki_auth_get_client_id();
 
     if ( empty( $client_id ) ) {
-        error_log( 'GKI Auth: OIDC plugin client_id not found — cannot build login URL.' );
+        error_log( 'GKI Auth: client_id not configured — cannot build login URL.' );
         wp_die(
             'Single sign-on is not configured yet. Please contact your administrator.',
             'Login Unavailable',
@@ -116,19 +119,16 @@ function gki_auth_intercept_login_endpoint() {
         );
     }
 
-    // Generate state matching the OIDC plugin's transient format
-    // so the callback at admin-ajax.php validates correctly.
+    // Generate cryptographic state for CSRF protection.
     $state = wp_generate_password( 32, false );
-    set_transient( 'openid-connect-generic-state--' . $state, array(
+    set_transient( 'gki_auth_state--' . $state, array(
         'redirect_to' => $redirect_to,
-        'state'       => $state,
-    ), 180 );
+    ), 180 ); // 3-minute window to complete login
 
-    // Callback URL — where gitkraken.dev sends back after login.
-    $redirect_uri = admin_url( 'admin-ajax.php?action=openid-connect-authorize' );
+    // Callback URL — our ajax handler receives the auth code from gitkraken.dev.
+    $redirect_uri = admin_url( 'admin-ajax.php?action=gki-oauth-callback' );
 
-    // Use the gitkraken.dev login page — NOT the raw OAuth authorize endpoint.
-    // gitkraken.dev/login handles the sign-in UI and only needs three params.
+    // Redirect to gitkraken.dev login page.
     $auth_url = 'https://gitkraken.dev/login?'
         . http_build_query( array(
             'client_id'    => $client_id,
@@ -137,6 +137,194 @@ function gki_auth_intercept_login_endpoint() {
         ), '', '&' );
 
     wp_redirect( $auth_url );
+    exit;
+}
+
+/* =========================================================================
+   OAUTH2 CALLBACK — handles the redirect from gitkraken.dev
+   ========================================================================= */
+
+// Register for both logged-in and logged-out users.
+add_action( 'wp_ajax_gki-oauth-callback', 'gki_auth_oauth_callback' );
+add_action( 'wp_ajax_nopriv_gki-oauth-callback', 'gki_auth_oauth_callback' );
+
+/**
+ * OAuth2 callback handler.
+ *
+ * 1. Validates the state parameter (CSRF protection)
+ * 2. Exchanges the authorization code for an access token
+ * 3. Fetches user profile from /user endpoint
+ * 4. Creates or matches a WordPress user
+ * 5. Stores the access token in user meta
+ * 6. Logs the user in and redirects to the original page
+ *
+ * @since 1.12.0
+ */
+function gki_auth_oauth_callback() {
+    // --- Validate state (CSRF protection) ---
+    if ( empty( $_GET['state'] ) ) {
+        gki_auth_callback_error( 'missing-state', 'Missing state parameter.' );
+        return;
+    }
+
+    $state      = sanitize_text_field( $_GET['state'] );
+    $state_data = get_transient( 'gki_auth_state--' . $state );
+
+    if ( ! $state_data ) {
+        gki_auth_callback_error( 'invalid-state', 'Invalid or expired state. Please try signing in again.' );
+        return;
+    }
+
+    // State is single-use — delete immediately.
+    delete_transient( 'gki_auth_state--' . $state );
+
+    $redirect_to = ! empty( $state_data['redirect_to'] )
+        ? $state_data['redirect_to']
+        : home_url( '/insights-expo/' );
+
+    // --- Check for errors from the provider ---
+    if ( ! empty( $_GET['error'] ) ) {
+        $desc = ! empty( $_GET['error_description'] )
+            ? sanitize_text_field( $_GET['error_description'] )
+            : sanitize_text_field( $_GET['error'] );
+        gki_auth_callback_error( 'provider-error', $desc );
+        return;
+    }
+
+    // --- Get the authorization code ---
+    if ( empty( $_GET['code'] ) ) {
+        gki_auth_callback_error( 'missing-code', 'No authorization code received.' );
+        return;
+    }
+
+    $code      = sanitize_text_field( $_GET['code'] );
+    $client_id = gki_auth_get_client_id();
+
+    // --- Exchange code for access token ---
+    $token_url = 'https://api.gitkraken.dev/oauth/access_token';
+    $token_response = wp_remote_post( $token_url, array(
+        'timeout' => 15,
+        'body'    => array(
+            'code'          => $code,
+            'client_id'     => $client_id,
+            'client_secret' => '', // Not required per backend team
+            'redirect_uri'  => admin_url( 'admin-ajax.php?action=gki-oauth-callback' ),
+            'grant_type'    => 'authorization_code',
+        ),
+    ) );
+
+    if ( is_wp_error( $token_response ) ) {
+        error_log( 'GKI Auth: Token exchange failed — ' . $token_response->get_error_message() );
+        gki_auth_callback_error( 'token-request-failed', 'Could not connect to authentication server.' );
+        return;
+    }
+
+    $token_status = wp_remote_retrieve_response_code( $token_response );
+    $token_body   = json_decode( wp_remote_retrieve_body( $token_response ), true );
+
+    if ( $token_status !== 200 || empty( $token_body['access_token'] ) ) {
+        $msg = isset( $token_body['error'] ) ? $token_body['error'] : 'HTTP ' . $token_status;
+        error_log( 'GKI Auth: Token exchange returned ' . $msg );
+        gki_auth_callback_error( 'token-exchange-failed', 'Authentication failed: ' . $msg );
+        return;
+    }
+
+    $access_token = $token_body['access_token'];
+
+    // --- Fetch user profile ---
+    $userinfo_url = 'https://api.gitkraken.dev/user';
+    $userinfo_response = wp_remote_get( $userinfo_url, array(
+        'timeout' => 10,
+        'headers' => array(
+            'Authorization' => 'Bearer ' . $access_token,
+            'Accept'        => 'application/json',
+        ),
+    ) );
+
+    if ( is_wp_error( $userinfo_response ) ) {
+        error_log( 'GKI Auth: Userinfo request failed — ' . $userinfo_response->get_error_message() );
+        gki_auth_callback_error( 'userinfo-failed', 'Could not retrieve user profile.' );
+        return;
+    }
+
+    $userinfo_status = wp_remote_retrieve_response_code( $userinfo_response );
+    $user_profile    = json_decode( wp_remote_retrieve_body( $userinfo_response ), true );
+
+    if ( $userinfo_status !== 200 || empty( $user_profile['email'] ) ) {
+        error_log( 'GKI Auth: Userinfo returned HTTP ' . $userinfo_status );
+        gki_auth_callback_error( 'userinfo-invalid', 'Could not retrieve a valid user profile.' );
+        return;
+    }
+
+    // --- Find or create WordPress user ---
+    $email    = sanitize_email( $user_profile['email'] );
+    $name     = isset( $user_profile['name'] ) ? sanitize_text_field( $user_profile['name'] ) : '';
+    $username = isset( $user_profile['username'] ) ? sanitize_user( $user_profile['username'] ) : '';
+    $gk_id    = isset( $user_profile['id'] ) ? sanitize_text_field( $user_profile['id'] ) : '';
+
+    $wp_user = get_user_by( 'email', $email );
+
+    if ( ! $wp_user ) {
+        // Create a new WordPress user for this GitKraken account.
+        $user_login = ! empty( $username ) ? $username : $email;
+
+        // Ensure username is unique.
+        if ( username_exists( $user_login ) ) {
+            $user_login = $email;
+        }
+        if ( username_exists( $user_login ) ) {
+            $user_login = 'gk_' . substr( md5( $email ), 0, 10 );
+        }
+
+        $user_id = wp_insert_user( array(
+            'user_login'   => $user_login,
+            'user_email'   => $email,
+            'display_name' => ! empty( $name ) ? $name : $user_login,
+            'user_pass'    => wp_generate_password( 32, true, true ), // Random, unused
+            'role'         => 'subscriber',
+        ) );
+
+        if ( is_wp_error( $user_id ) ) {
+            error_log( 'GKI Auth: Failed to create user — ' . $user_id->get_error_message() );
+            gki_auth_callback_error( 'user-creation-failed', 'Could not create your account. Please try again.' );
+            return;
+        }
+
+        $wp_user = get_user_by( 'id', $user_id );
+    }
+
+    // --- Store token and profile in user meta ---
+    update_user_meta( $wp_user->ID, 'gki_access_token', $access_token );
+    update_user_meta( $wp_user->ID, 'gki_gitkraken_id', $gk_id );
+
+    // Update display name if it changed.
+    if ( ! empty( $name ) && $wp_user->display_name !== $name ) {
+        wp_update_user( array(
+            'ID'           => $wp_user->ID,
+            'display_name' => $name,
+        ) );
+    }
+
+    // --- Log the user in ---
+    wp_set_current_user( $wp_user->ID );
+    wp_set_auth_cookie( $wp_user->ID, true ); // "Remember me" = true
+
+    // --- Redirect to the original page ---
+    wp_safe_redirect( $redirect_to );
+    exit;
+}
+
+/**
+ * Redirect to the login error page with a message.
+ *
+ * @since 1.12.0
+ * @param string $code    Error code slug.
+ * @param string $message Human-readable error message.
+ */
+function gki_auth_callback_error( $code, $message ) {
+    $url = home_url( '/insights-expo/?login-error=' . urlencode( $code )
+        . '&message=' . urlencode( $message ) );
+    wp_redirect( $url );
     exit;
 }
 
@@ -198,18 +386,13 @@ function gki_auth_call_licensing_api( $user_id ) {
         return false;
     }
 
-    // Get the OAuth access token stored by OpenID Connect Generic plugin.
-    // The OIDC plugin stores tokens in user meta under these keys:
-    //   openid-connect-generic-last-token-response  (full token response)
-    //   openid-connect-generic-last-id-token-claim  (decoded ID token claims)
-    $token_response = get_user_meta( $user_id, 'openid-connect-generic-last-token-response', true );
+    // Get the OAuth access token stored by our custom OAuth handler.
+    $access_token = get_user_meta( $user_id, 'gki_access_token', true );
 
-    if ( empty( $token_response ) || empty( $token_response['access_token'] ) ) {
+    if ( empty( $access_token ) ) {
         error_log( 'GKI Auth: No OAuth access token found for user ' . $user_id );
         return false;
     }
-
-    $access_token = $token_response['access_token'];
 
     // Call the organizations endpoint
     $response = wp_remote_get( $endpoint, array(
@@ -358,13 +541,19 @@ function gki_auth_register_settings() {
         'sanitize_callback' => 'esc_url_raw',
     ) );
 
+    register_setting( 'gki_auth_settings', 'gki_auth_client_id', array(
+        'type'              => 'string',
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+
     // Settings section
     add_settings_section(
         'gki_auth_main',
         'Auth Gate Configuration',
         function () {
             echo '<p>Configure the authentication gate for GKI Help Center pages. '
-               . 'Requires the OpenID Connect Generic Client plugin for OAuth login.</p>';
+               . 'Uses a built-in OAuth2 flow against gitkraken.dev.</p>';
         },
         'gki-auth-settings'
     );
@@ -376,6 +565,16 @@ function gki_auth_register_settings() {
             '<label><input type="checkbox" name="gki_auth_enabled" value="1" %s /> '
             . 'Require authentication to view Help Center pages</label>',
             checked( $val, true, false )
+        );
+    }, 'gki-auth-settings', 'gki_auth_main' );
+
+    add_settings_field( 'gki_auth_client_id', 'OAuth Client ID', function () {
+        $val = get_option( 'gki_auth_client_id', '' );
+        printf(
+            '<input type="text" name="gki_auth_client_id" value="%s" class="regular-text" '
+            . 'placeholder="gk_help" />'
+            . '<p class="description">The OAuth client_id registered with gitkraken.dev.</p>',
+            esc_attr( $val )
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
 
@@ -431,18 +630,161 @@ function gki_auth_render_settings_page() {
         <hr />
         <h2>Status</h2>
         <?php
-        $oidc_active = is_plugin_active( 'daggerhart-openid-connect-generic/openid-connect-generic.php' );
-        $endpoint    = get_option( 'gki_auth_licensing_endpoint', '' );
-        $enabled     = get_option( 'gki_auth_enabled', false );
+        $client_id = gki_auth_get_client_id();
+        $endpoint  = get_option( 'gki_auth_licensing_endpoint', '' );
+        $enabled   = get_option( 'gki_auth_enabled', false );
+        $callback  = admin_url( 'admin-ajax.php?action=gki-oauth-callback' );
 
         echo '<table class="widefat" style="max-width:600px">';
-        echo '<tr><td>OIDC Plugin Active</td><td>' . ( $oidc_active ? '✅ Yes' : '❌ Not detected' ) . '</td></tr>';
+        echo '<tr><td>OAuth Client ID</td><td>' . ( $client_id ? esc_html( $client_id ) : '⚠️ Not configured' ) . '</td></tr>';
+        echo '<tr><td>Callback URL</td><td><code style="font-size:12px;">' . esc_html( $callback ) . '</code><br><em style="font-size:11px;">Register this as the redirect_uri in gitkraken.dev</em></td></tr>';
         echo '<tr><td>Licensing Endpoint</td><td>' . ( $endpoint ? esc_html( $endpoint ) : '⚠️ Not configured' ) . '</td></tr>';
         echo '<tr><td>Auth Gate</td><td>' . ( $enabled ? '🔒 Enabled' : '🔓 Disabled' ) . '</td></tr>';
         echo '</table>';
         ?>
+
+        <hr />
+        <h2>OAuth Debug Log</h2>
+        <p>Captures HTTP requests/responses between WordPress and the GitKraken API (token exchange, userinfo, etc.). Trigger a login attempt to populate.</p>
+        <?php
+        $debug_log = get_option( 'gki_auth_debug_log', array() );
+        if ( empty( $debug_log ) ) {
+            echo '<p><em>No entries yet. Try signing in to capture the OAuth token exchange.</em></p>';
+        } else {
+            // Clear log button
+            if ( isset( $_POST['gki_clear_debug_log'] ) && check_admin_referer( 'gki_clear_debug_log' ) ) {
+                delete_option( 'gki_auth_debug_log' );
+                echo '<div class="notice notice-success"><p>Debug log cleared.</p></div>';
+                $debug_log = array();
+            }
+
+            if ( ! empty( $debug_log ) ) {
+                echo '<form method="post">';
+                wp_nonce_field( 'gki_clear_debug_log' );
+                echo '<p><button type="submit" name="gki_clear_debug_log" value="1" class="button">Clear Log</button></p>';
+                echo '</form>';
+
+                // Show entries newest first
+                $debug_log = array_reverse( $debug_log );
+                foreach ( $debug_log as $i => $entry ) {
+                    $time   = isset( $entry['time'] ) ? esc_html( $entry['time'] ) : '?';
+                    $method = isset( $entry['method'] ) ? esc_html( $entry['method'] ) : '?';
+                    $url    = isset( $entry['url'] ) ? esc_html( $entry['url'] ) : '?';
+                    $code   = isset( $entry['response_code'] ) ? (int) $entry['response_code'] : '—';
+
+                    echo '<details style="margin-bottom:8px;border:1px solid #ccd0d4;border-radius:4px;padding:8px 12px;">';
+                    echo '<summary><strong>' . $method . '</strong> ' . $url . ' &mdash; <code>' . $code . '</code> &mdash; ' . $time . '</summary>';
+                    echo '<div style="margin-top:8px;">';
+
+                    if ( ! empty( $entry['request_headers'] ) ) {
+                        echo '<h4 style="margin:4px 0;">Request Headers</h4>';
+                        echo '<pre style="background:#f0f0f1;padding:8px;overflow-x:auto;max-height:200px;font-size:12px;">'
+                            . esc_html( print_r( $entry['request_headers'], true ) ) . '</pre>';
+                    }
+                    if ( ! empty( $entry['request_body'] ) ) {
+                        echo '<h4 style="margin:4px 0;">Request Body</h4>';
+                        echo '<pre style="background:#f0f0f1;padding:8px;overflow-x:auto;max-height:200px;font-size:12px;">'
+                            . esc_html( is_array( $entry['request_body'] ) ? print_r( $entry['request_body'], true ) : $entry['request_body'] ) . '</pre>';
+                    }
+                    if ( ! empty( $entry['response_error'] ) ) {
+                        echo '<h4 style="margin:4px 0;color:#d63638;">Response Error</h4>';
+                        echo '<pre style="background:#fcf0f1;padding:8px;font-size:12px;">' . esc_html( $entry['response_error'] ) . '</pre>';
+                    }
+                    if ( ! empty( $entry['response_headers'] ) ) {
+                        echo '<h4 style="margin:4px 0;">Response Headers</h4>';
+                        echo '<pre style="background:#f0f0f1;padding:8px;overflow-x:auto;max-height:200px;font-size:12px;">'
+                            . esc_html( print_r( $entry['response_headers'], true ) ) . '</pre>';
+                    }
+                    if ( ! empty( $entry['response_body'] ) ) {
+                        echo '<h4 style="margin:4px 0;">Response Body</h4>';
+                        // Try to pretty-print JSON
+                        $pretty = json_decode( $entry['response_body'] );
+                        $body_display = ( $pretty !== null )
+                            ? json_encode( $pretty, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES )
+                            : $entry['response_body'];
+                        echo '<pre style="background:#f0f0f1;padding:8px;overflow-x:auto;max-height:400px;font-size:12px;">'
+                            . esc_html( $body_display ) . '</pre>';
+                    }
+
+                    echo '</div></details>';
+                }
+            }
+        }
+        ?>
     </div>
     <?php
+}
+
+/* =========================================================================
+   OAUTH DEBUG LOGGING — captures token exchange request/response
+   ========================================================================= */
+
+/**
+ * Intercept all WordPress HTTP API calls to api.gitkraken.dev and log the
+ * request + response details to a WP option. Viewable from the GKI Auth
+ * settings page — no server/FTP access required.
+ *
+ * @since 1.11.2
+ */
+add_action( 'http_api_debug', 'gki_auth_debug_http', 10, 5 );
+
+function gki_auth_debug_http( $response, $context, $class, $parsed_args, $url ) {
+    // Only log requests to gitkraken API endpoints
+    if ( strpos( $url, 'gitkraken.dev' ) === false ) {
+        return;
+    }
+
+    $entry = array(
+        'time'   => current_time( 'mysql' ),
+        'url'    => $url,
+        'method' => isset( $parsed_args['method'] ) ? $parsed_args['method'] : 'GET',
+    );
+
+    // Log request body (the POST data sent to the token endpoint)
+    if ( ! empty( $parsed_args['body'] ) ) {
+        $body = $parsed_args['body'];
+        if ( is_array( $body ) ) {
+            // Redact client_secret if present
+            if ( isset( $body['client_secret'] ) && strlen( $body['client_secret'] ) > 4 ) {
+                $body['client_secret'] = substr( $body['client_secret'], 0, 4 ) . '***REDACTED***';
+            }
+            // Redact auth code (keep first 8 chars for identification)
+            if ( isset( $body['code'] ) && strlen( $body['code'] ) > 8 ) {
+                $body['code'] = substr( $body['code'], 0, 8 ) . '***';
+            }
+        }
+        $entry['request_body'] = $body;
+    }
+
+    // Log request headers
+    if ( ! empty( $parsed_args['headers'] ) ) {
+        $headers = $parsed_args['headers'];
+        // Redact Authorization header value
+        if ( isset( $headers['Authorization'] ) ) {
+            $headers['Authorization'] = substr( $headers['Authorization'], 0, 15 ) . '***REDACTED***';
+        }
+        $entry['request_headers'] = $headers;
+    }
+
+    // Log response
+    if ( is_wp_error( $response ) ) {
+        $entry['response_error'] = $response->get_error_message();
+    } else {
+        $entry['response_code'] = wp_remote_retrieve_response_code( $response );
+        $entry['response_headers'] = wp_remote_retrieve_headers( $response )->getAll();
+        $resp_body = wp_remote_retrieve_body( $response );
+        // Truncate very long responses but keep enough to diagnose
+        if ( strlen( $resp_body ) > 4000 ) {
+            $resp_body = substr( $resp_body, 0, 4000 ) . '...[TRUNCATED]';
+        }
+        $entry['response_body'] = $resp_body;
+    }
+
+    // Append to the debug log (keep last 20 entries)
+    $log = get_option( 'gki_auth_debug_log', array() );
+    $log[] = $entry;
+    $log = array_slice( $log, -20 );
+    update_option( 'gki_auth_debug_log', $log, false );
 }
 
 /* =========================================================================
@@ -458,6 +800,13 @@ function gki_auth_is_gated_page() {
         return false;
     }
     return has_category( GKI_DOCS_CATEGORY );
+}
+
+/**
+ * Get the configured OAuth client ID.
+ */
+function gki_auth_get_client_id() {
+    return get_option( 'gki_auth_client_id', '' );
 }
 
 /**
@@ -499,7 +848,7 @@ function gki_auth_get_current_url() {
 
 /**
  * Build the custom login URL for help center visitors.
- * Points to /insights-expo/login/ which triggers the OIDC flow
+ * Points to /insights-expo/login/ which triggers the OAuth flow
  * without exposing the WP admin login page.
  *
  * @since 1.10.1

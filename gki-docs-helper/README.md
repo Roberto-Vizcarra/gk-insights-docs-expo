@@ -48,10 +48,11 @@ Or copy the `gki-docs-helper/` folder directly into `wp-content/plugins/`.
 1. **Auto-generated** (default): lists all posts in the target category, sorted alphabetically.
 2. **Manual menu**: assign a WP menu to the "GKI Insights Sidebar Navigation" location in Appearance > Menus.
 
-**Auth gate** (v1.9.0) — requires the [OpenID Connect Generic Client](https://wordpress.org/plugins/daggerhart-openid-connect-generic/) plugin. Configure via Settings → GKI Auth Gate in WP Admin:
+**Auth gate** (v1.12.0) — built-in OAuth2 flow against gitkraken.dev (no external plugin required). Configure via Settings → GKI Auth Gate in WP Admin:
 - **Enable Auth Gate** — toggle on/off (default: off)
+- **OAuth Client ID** — the client_id registered with gitkraken.dev (e.g. `gk_help`)
 - **Licensing API Endpoint** — URL that returns Insights entitlement for a bearer token
-- **Cache TTL** — how long to cache entitlement per user (default: 30 min)
+- **Cache TTL** — how long to cache entitlement per user (default: 24 hours)
 - **Upgrade URL** — shown to users without Insights access
 
 WP admins always bypass the gate. Settings persist across plugin reinstalls (stored in `wp_options`).

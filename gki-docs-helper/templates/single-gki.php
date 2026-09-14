@@ -210,6 +210,17 @@ get_header();
           </span>
         </label>
       </div>
+
+      <?php /* Taste exploration switch — branch: Taste-design-expo.
+               Delete this block when the exploration is retired. */ ?>
+      <div class="gki-taste-switch-wrap">
+        <span class="gki-taste-switch-label">Design pass</span>
+        <div class="gki-taste-switch" role="group" aria-label="<?php esc_attr_e( 'Design pass', 'gki-docs-helper' ); ?>">
+          <button type="button" class="gki-taste-option" data-taste-value="stable" aria-pressed="true" title="Stable build (v1.14.2)">Base</button>
+          <button type="button" class="gki-taste-option" data-taste-value="a" aria-pressed="false" title="Pass A — typographic and state craft">A</button>
+          <button type="button" class="gki-taste-option" data-taste-value="b" aria-pressed="false" title="Pass B — craft plus structure and motion">B</button>
+        </div>
+      </div>
     </nav>
   </aside>
 

@@ -1,0 +1,427 @@
+/* ============================================================
+   GKI Docs Helper — TASTE PASS A ("Craft")
+   ------------------------------------------------------------
+   Exploration overlay. Loaded on every docs page but inert until
+   <html data-taste="a"> (or "b") is set — see js/gki-taste.js.
+
+   Pass B builds ON TOP of Pass A, so every rule here is scoped to
+   :is([data-taste="a"],[data-taste="b"]).
+
+   SCOPE OF THIS PASS: typographic and state craft only.
+   No layout changes. No palette changes. No new structure.
+   The three documented layout traps are not touched:
+     - no grid-template-columns in any transition on .gki-layout
+     - no fixed height on .gki-sidebar--left
+     - no permalink / template assumptions
+
+   Specificity note: the base sheet uses `body.gki-docs-page …
+   !important` to beat Elementor. These selectors add one attribute
+   selector on <html> above that, so `!important` here wins cleanly.
+   ============================================================ */
+
+/* ---------- A1. A real type scale ---------------------------
+   The base sheet declares "Major Third 1.250" but had drifted to
+   eleven near-identical sizes between 0.70rem and 0.95rem. These
+   are nine steps with distinct jobs. Every size below maps to one.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) {
+  --gki-fs-3xl:  2.441rem;  /* page title                        */
+  --gki-fs-2xl:  1.953rem;  /* markdown h1 in body (rare)        */
+  --gki-fs-xl:   1.563rem;  /* section title / h2                */
+  --gki-fs-lg:   1.25rem;   /* subsection title / h3             */
+  --gki-fs-md:   1.125rem;  /* intro / lead paragraph            */
+  --gki-fs-base: 1rem;      /* body copy, list items             */
+  --gki-fs-sm:   0.875rem;  /* card desc, captions, nav, TOC     */
+  --gki-fs-xs:   0.8125rem; /* labels, counts, breadcrumb        */
+  --gki-fs-2xs:  0.75rem;   /* eyebrow, meta, badges             */
+
+  /* Line heights paired to the step, not applied globally */
+  --gki-lh-tight:  1.2;
+  --gki-lh-snug:   1.35;
+  --gki-lh-normal: 1.7;
+
+  /* Measure — 860px at 0.95rem ran to ~110 characters per line.
+     68ch at 1rem lands in the 65-75 range that reads comfortably. */
+  --gki-measure: 68ch;
+
+  /* Focus ring — one token, used everywhere, visible in both themes */
+  --gki-focus-ring: 0 0 0 2px var(--gki-bg), 0 0 0 4px var(--gki-accent);
+
+  /* Shadows, tinted toward the surface hue instead of pure black.
+     The page ground is cool (#FFF / #F5F6F8), so the shadow carries
+     a slight blue-grey cast rather than neutral grey. */
+  --gki-shadow-sm: 0 1px 2px rgba(28, 32, 48, 0.06);
+  --gki-shadow:    0 1px 3px rgba(28, 32, 48, 0.08),
+                   0 1px 2px rgba(28, 32, 48, 0.04);
+  --gki-shadow-md: 0 4px 6px -1px rgba(28, 32, 48, 0.08),
+                   0 2px 4px -2px rgba(28, 32, 48, 0.05);
+}
+
+/* Dark mode shadows need depth, not tint — a tinted shadow on a dark
+   ground is invisible. Deepen instead. */
+:is([data-taste="a"], [data-taste="b"])[data-theme="dark"] {
+  --gki-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --gki-shadow:    0 1px 3px rgba(0, 0, 0, 0.45),
+                   0 1px 2px rgba(0, 0, 0, 0.3);
+  --gki-shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.5),
+                   0 2px 4px -2px rgba(0, 0, 0, 0.35);
+  --gki-focus-ring: 0 0 0 2px var(--gki-bg), 0 0 0 4px var(--gki-accent);
+}
+
+/* ---------- A2. Measure and body size -----------------------
+   16px body on a 68ch measure. The single largest readability win
+   available without touching layout.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-page {
+  max-width: var(--gki-measure);
+  line-height: var(--gki-lh-normal);
+}
+
+/* Index pages are card-driven, not prose — they keep the wide field
+   so the 3-up grid does not collapse to a narrow column. min() so the
+   figure can never exceed the column on a small screen. */
+:is([data-taste="a"], [data-taste="b"]) body.gki-index-page .gki-page {
+  max-width: min(900px, 100%);
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page > p:not([class]):not(:empty) {
+  font-size: var(--gki-fs-base);
+  line-height: var(--gki-lh-normal);
+  margin-bottom: 1.15rem;
+  text-wrap: pretty; /* kills orphans without the balance cost */
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page > ul:not([class]) > li,
+:is([data-taste="a"], [data-taste="b"]) .gki-page > ol:not([class]) > li {
+  font-size: var(--gki-fs-base);
+  line-height: var(--gki-lh-normal);
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-list li {
+  font-size: var(--gki-fs-base);
+}
+
+/* ---------- A3. Headings ------------------------------------
+   Negative tracking scaled to size — large text needs more of it,
+   small text needs none. Balance prevents one-word last lines.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-page-title {
+  font-size: var(--gki-fs-3xl);
+  line-height: var(--gki-lh-tight);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-section-title,
+:is([data-taste="a"], [data-taste="b"]) .gki-page > h2:not([class]) {
+  font-size: var(--gki-fs-xl);
+  line-height: var(--gki-lh-snug);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-subsection-title,
+:is([data-taste="a"], [data-taste="b"]) .gki-page > h3:not([class]) {
+  font-size: var(--gki-fs-lg);
+  line-height: var(--gki-lh-snug);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page > h4:not([class]) {
+  font-size: var(--gki-fs-md);
+  line-height: var(--gki-lh-snug);
+  letter-spacing: 0;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page > h5:not([class]) {
+  font-size: var(--gki-fs-base);
+  letter-spacing: 0;
+}
+
+/* h6 was uppercase at 0.88rem with 0.03em tracking. Uppercase micro-labels
+   need more tracking than that to stay legible; 0.75rem + 0.08em reads as a
+   deliberate label rather than shrunken body text. */
+:is([data-taste="a"], [data-taste="b"]) .gki-page > h6:not([class]) {
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.08em;
+  color: var(--gki-text-muted);
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-intro {
+  font-size: var(--gki-fs-md);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* ---------- A4. Small-end sizes onto the scale --------------- */
+:is([data-taste="a"], [data-taste="b"]) .gki-breadcrumb,
+:is([data-taste="a"], [data-taste="b"]) .gki-card-count,
+:is([data-taste="a"], [data-taste="b"]) .gki-req-label {
+  font-size: var(--gki-fs-xs);
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page-updated,
+:is([data-taste="a"], [data-taste="b"]) .gki-search-result-cat {
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.02em;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-card-title {
+  font-size: var(--gki-fs-base);
+  letter-spacing: -0.005em;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-card-desc,
+:is([data-taste="a"], [data-taste="b"]) .gki-figure figcaption,
+:is([data-taste="a"], [data-taste="b"]) .gki-hero-figure figcaption,
+:is([data-taste="a"], [data-taste="b"]) .gki-page figure:not([class]) figcaption {
+  font-size: var(--gki-fs-sm);
+  line-height: 1.55;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-item a,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-child a,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-section-link,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-subgroup-link,
+:is([data-taste="a"], [data-taste="b"]) .gki-sidebar-toc .gki-toc-link {
+  font-size: var(--gki-fs-sm);
+}
+
+/* ---------- A5. Tabular figures -----------------------------
+   This is a docs site about 26 numeric metrics. Proportional digits
+   make columns of numbers ragged and thresholds hard to compare.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-page table,
+:is([data-taste="a"], [data-taste="b"]) .gki-page code,
+:is([data-taste="a"], [data-taste="b"]) .gki-page pre,
+:is([data-taste="a"], [data-taste="b"]) .gki-page kbd,
+:is([data-taste="a"], [data-taste="b"]) .gki-card-count,
+:is([data-taste="a"], [data-taste="b"]) .gki-req-value,
+:is([data-taste="a"], [data-taste="b"]) .gki-page-updated {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Numeric table cells align right so magnitudes line up; the rule is
+   opt-in per cell via a class the content can carry, plus a sensible
+   default for any cell that is purely a number, percentage or duration. */
+:is([data-taste="a"], [data-taste="b"]) .gki-page td.num,
+:is([data-taste="a"], [data-taste="b"]) .gki-page th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- A6. Focus states --------------------------------
+   The base sheet had four focus rules across a link-dense, nav-heavy
+   UI. Every interactive element gets the same visible ring, and only
+   on keyboard focus so mouse users see no change.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-page a:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-card:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-item a:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-child a:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-section-link:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-subgroup-link:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-title:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-toc-link:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-breadcrumb a:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-summary:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-search-result:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-gate-button:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-collapse-btn:focus-visible,
+:is([data-taste="a"], [data-taste="b"]) .gki-theme-switch input:focus-visible + .gki-theme-slider {
+  outline: none !important;
+  box-shadow: var(--gki-focus-ring) !important;
+  border-radius: 4px;
+}
+
+/* The base sheet put a permanent outline on :focus (not :focus-visible),
+   which fires on mouse click too. Neutralise it; :focus-visible above
+   is the replacement. */
+:is([data-taste="a"], [data-taste="b"]) .gki-docs-page .gki-page a:focus {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+:is([data-taste="a"], [data-taste="b"]) .gki-docs-page .gki-page a:focus-visible {
+  outline: none !important;
+  box-shadow: var(--gki-focus-ring) !important;
+}
+
+/* Text inputs keep a ring rather than a colour-only change, so the
+   focused field is identifiable without relying on hue. */
+:is([data-taste="a"], [data-taste="b"]) .gki-site-search-input:focus,
+:is([data-taste="a"], [data-taste="b"]) .gki-site-search-input:focus-visible {
+  outline: none !important;
+  border-color: var(--gki-accent) !important;
+  box-shadow: var(--gki-focus-ring) !important;
+}
+
+/* ---------- A7. Pressed states ------------------------------
+   Hover told you an element was live; nothing confirmed the press.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-card:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: 0.06s;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-item a:active,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-child a:active,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-section-link:active,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-subgroup-link:active,
+:is([data-taste="a"], [data-taste="b"]) .gki-toc-link:active {
+  transform: translateX(1px);
+  transition-duration: 0.06s;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-search-result:active,
+:is([data-taste="a"], [data-taste="b"]) .gki-summary:active {
+  transform: scale(0.995);
+  transition-duration: 0.06s;
+}
+
+/* ---------- A8. Hit targets ---------------------------------
+   Nav rows were tight enough to be fiddly on touch. 40px minimum
+   without changing the visual rhythm much.
+   ------------------------------------------------------------ */
+@media (pointer: coarse) {
+  :is([data-taste="a"], [data-taste="b"]) .gki-nav-item a,
+  :is([data-taste="a"], [data-taste="b"]) .gki-nav-child a,
+  :is([data-taste="a"], [data-taste="b"]) .gki-nav-section-link,
+  :is([data-taste="a"], [data-taste="b"]) .gki-nav-subgroup-link {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ---------- A9. Reduced motion ------------------------------
+   The base sheet ran 23 transitions with no reduced-motion block at
+   all. Collapse animation is kept functional (max-height still
+   resolves) but instant.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  :is([data-taste="a"], [data-taste="b"]) *,
+  :is([data-taste="a"], [data-taste="b"]) *::before,
+  :is([data-taste="a"], [data-taste="b"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  :is([data-taste="a"], [data-taste="b"]) .gki-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ---------- A10. Optical alignment --------------------------
+   Mathematically centred icons next to text sit visually low; the
+   card arrow and callout icons both needed a 1px lift.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-card-arrow {
+  position: relative;
+  top: -1px;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-callout-icon {
+  position: relative;
+  top: 1px;
+}
+
+/* Card icon glyphs are optically small inside a 36px tile at 18px.
+   20px reads as intentional without changing the tile. */
+:is([data-taste="a"], [data-taste="b"]) .gki-card-icon i {
+  font-size: 20px;
+}
+
+/* ---------- A11. Consistent easing --------------------------
+   Everything was `ease`, which decelerates too abruptly to feel
+   considered. One curve, applied to the interactive set.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-card,
+:is([data-taste="a"], [data-taste="b"]) .gki-card-arrow,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-item a,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-child a,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-section-link,
+:is([data-taste="a"], [data-taste="b"]) .gki-nav-subgroup-link,
+:is([data-taste="a"], [data-taste="b"]) .gki-toc-link,
+:is([data-taste="a"], [data-taste="b"]) .gki-search-result {
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- A12. Table craft --------------------------------
+   Header row read at the same weight as the body, so scanning a
+   metric table meant re-finding the header each time.
+   ------------------------------------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-page thead th {
+  font-size: var(--gki-fs-xs) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted) !important;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page tbody td {
+  font-size: var(--gki-fs-sm) !important;
+  line-height: 1.6;
+}
+
+/* Wide metric tables must scroll inside their own box rather than
+   forcing the page to scroll sideways. */
+:is([data-taste="a"], [data-taste="b"]) .gki-page table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ---------- A13. Mobile horizontal overflow (bug fix) --------
+   Measured on the local import at 375px: the stable build scrolls
+   sideways by 122px on every docs page.
+
+   Cause: the mobile grid track is `1fr`, which is shorthand for
+   `minmax(auto, 1fr)`. An `auto` minimum resolves to the widest
+   item's max-content size, so any single wide child — the nav
+   scroller, a metric table, a formula block — drags the whole grid
+   past the viewport and takes the page with it. `minmax(0, 1fr)`
+   lets the track shrink below its content, which is what the
+   per-element overflow rules below are then free to handle.
+
+   The desktop tracks already use minmax(0, …) for exactly this
+   reason; only the two mobile breakpoints were missed.
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  :is([data-taste="a"], [data-taste="b"]) .gki-layout,
+  :is([data-taste="a"], [data-taste="b"]) .gki-layout.gki-nav-collapsed {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The nested nav tree scrolls within itself rather than widening
+     the page. The flat .gki-nav-list already had this; the section /
+     sub-group tree the nav actually uses did not. */
+  :is([data-taste="a"], [data-taste="b"]) .gki-sidebar--left .gki-nav {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Formula and code blocks are the other common offender. */
+  :is([data-taste="a"], [data-taste="b"]) .gki-page pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  :is([data-taste="a"], [data-taste="b"]) .gki-page img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ---------- A14. Code and keys ------------------------------ */
+:is([data-taste="a"], [data-taste="b"]) .gki-page code:not([class]) {
+  font-size: 0.875em !important;
+  padding: 0.12em 0.36em !important;
+}
+
+:is([data-taste="a"], [data-taste="b"]) .gki-page pre code {
+  font-size: var(--gki-fs-sm);
+  line-height: 1.6;
+}

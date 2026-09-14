@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.14.2
+ * Version:     1.15.0
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.14.2' );
+define( 'GKI_DOCS_VERSION', '1.15.0' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -77,6 +77,33 @@ function gki_docs_enqueue_assets() {
         $css_ver
     );
 
+    /* -----------------------------------------------------------
+       TASTE EXPLORATION OVERLAYS — branch: Taste-design-expo
+       -----------------------------------------------------------
+       The overlay loads on every docs page but every rule inside it
+       is scoped to html[data-taste="a"]. With no attribute set,
+       nothing matches and the page renders exactly as the stable
+       build does.
+
+       To retire the exploration, delete this block and the overlay
+       stylesheet. gki-docs.css is untouched by it.
+       ----------------------------------------------------------- */
+    wp_enqueue_style(
+        'gki-taste-a',
+        GKI_DOCS_URL . 'css/taste-a.css',
+        array( 'gki-docs-styles' ),
+        $css_ver
+    );
+
+    // The switch control itself — unscoped, so it stays usable in the
+    // Base state where neither overlay applies.
+    wp_enqueue_style(
+        'gki-taste-switch',
+        GKI_DOCS_URL . 'css/taste-switch.css',
+        array( 'gki-taste-a' ),
+        $css_ver
+    );
+
     // Optional JS for interactive features (TOC, search, collapsible, etc.)
     wp_enqueue_script(
         'gki-docs-scripts',
@@ -84,6 +111,15 @@ function gki_docs_enqueue_assets() {
         array(),
         $js_ver,
         true // load in footer
+    );
+
+    // Taste switch + Pass B entry motion — branch only.
+    wp_enqueue_script(
+        'gki-taste-scripts',
+        GKI_DOCS_URL . 'js/gki-taste.js',
+        array(),
+        $js_ver,
+        true
     );
 
     // Build site-wide search index for JS
@@ -139,6 +175,48 @@ function gki_docs_theme_html_attribute( $output ) {
  * before the external stylesheet loads.
  */
 add_action( 'wp_head', 'gki_docs_theme_init_script', 1 );
+
+/**
+ * Taste variant init — branch: Taste-design-expo.
+ *
+ * Sets html[data-taste] before first paint so switching between the
+ * stable build and the two exploration passes never flashes. Reads
+ * ?taste=a|b|stable first (one-off override, then remembered), else
+ * localStorage. Absent or unrecognised means the stable build.
+ *
+ * Runs at priority 2, immediately after the theme init above.
+ */
+add_action( 'wp_head', 'gki_docs_taste_init_script', 2 );
+
+function gki_docs_taste_init_script() {
+    if ( ! gki_docs_is_target_post() ) {
+        return;
+    }
+    ?>
+    <script>
+    (function(){
+      try {
+        var allowed = ['stable','a','b'];
+        var match = window.location.search.match(/[?&]taste=([^&]+)/);
+        var param = match ? decodeURIComponent(match[1]) : null;
+        var value = null;
+
+        if (param && allowed.indexOf(param) !== -1) {
+          value = param;
+          try { localStorage.setItem('gki-taste', value); } catch(e){}
+        } else {
+          var saved = localStorage.getItem('gki-taste');
+          if (saved && allowed.indexOf(saved) !== -1) { value = saved; }
+        }
+
+        if (value === 'a' || value === 'b') {
+          document.documentElement.setAttribute('data-taste', value);
+        }
+      } catch(e){}
+    })();
+    </script>
+    <?php
+}
 
 function gki_docs_theme_init_script() {
     if ( ! gki_docs_is_target_post() ) {

@@ -1,0 +1,90 @@
+/* ============================================================
+   GKI Docs Helper — Taste switch chrome
+   ------------------------------------------------------------
+   Styles the exploration control itself. Unscoped on purpose: the
+   switch has to be visible and usable in the Base state too, where
+   no data-taste attribute is set and neither overlay applies.
+
+   Kept in its own file so gki-docs.css stays byte-identical to the
+   v1.14.2-stable tag for the length of the exploration.
+   ============================================================ */
+
+.gki-taste-switch-wrap {
+  margin-top: 0.75rem;
+  padding: 0.85rem 0.75rem 0.5rem;
+  border-top: 1px dashed var(--gki-border-light);
+}
+
+.gki-taste-switch-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.gki-taste-switch {
+  display: inline-flex;
+  padding: 2px;
+  gap: 2px;
+  background: var(--gki-bg-offset, #EDEEF1);
+  border-radius: 7px;
+}
+
+body.gki-docs-page .gki-taste-option {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: var(--gki-font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--gki-text-muted);
+  padding: 0.34rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+              color 0.18s ease,
+              transform 0.08s ease;
+}
+
+body.gki-docs-page .gki-taste-option:hover {
+  color: var(--gki-text);
+}
+
+body.gki-docs-page .gki-taste-option:active {
+  transform: scale(0.96);
+}
+
+body.gki-docs-page .gki-taste-option--active {
+  background: var(--gki-bg);
+  color: var(--gki-accent);
+  box-shadow: 0 1px 2px rgba(28, 32, 48, 0.12);
+}
+
+body.gki-docs-page .gki-taste-option:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--gki-bg-offset), 0 0 0 4px var(--gki-accent);
+}
+
+[data-theme="dark"] .gki-taste-switch {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] body.gki-docs-page .gki-taste-option--active {
+  background: rgba(255, 255, 255, 0.10);
+  box-shadow: none;
+}
+
+/* Hidden while the nav is collapsed, like the rest of the nav body. */
+.gki-nav-collapsed .gki-taste-switch-wrap {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.gki-docs-page .gki-taste-option {
+    transition-duration: 0.01ms;
+  }
+}

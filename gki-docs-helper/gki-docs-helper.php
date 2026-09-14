@@ -80,13 +80,16 @@ function gki_docs_enqueue_assets() {
     /* -----------------------------------------------------------
        TASTE EXPLORATION OVERLAYS — branch: Taste-design-expo
        -----------------------------------------------------------
-       The overlay loads on every docs page but every rule inside it
-       is scoped to html[data-taste="a"]. With no attribute set,
-       nothing matches and the page renders exactly as the stable
-       build does.
+       Both overlays load on every docs page but every rule inside
+       them is scoped to html[data-taste="a"] / ="b". With no
+       attribute set, neither matches and the page renders exactly
+       as the stable build does.
 
-       To retire the exploration, delete this block and the overlay
-       stylesheet. gki-docs.css is untouched by it.
+       taste-b.css must load AFTER taste-a.css: Pass B builds on
+       Pass A rather than replacing it.
+
+       To retire the exploration, delete this block and the two
+       stylesheets. gki-docs.css is untouched by it.
        ----------------------------------------------------------- */
     wp_enqueue_style(
         'gki-taste-a',
@@ -95,12 +98,19 @@ function gki_docs_enqueue_assets() {
         $css_ver
     );
 
+    wp_enqueue_style(
+        'gki-taste-b',
+        GKI_DOCS_URL . 'css/taste-b.css',
+        array( 'gki-taste-a' ),
+        $css_ver
+    );
+
     // The switch control itself — unscoped, so it stays usable in the
     // Base state where neither overlay applies.
     wp_enqueue_style(
         'gki-taste-switch',
         GKI_DOCS_URL . 'css/taste-switch.css',
-        array( 'gki-taste-a' ),
+        array( 'gki-taste-b' ),
         $css_ver
     );
 

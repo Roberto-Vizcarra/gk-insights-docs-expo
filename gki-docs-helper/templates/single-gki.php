@@ -33,15 +33,17 @@ get_header();
 
   <!-- Left sidebar: navigation -->
   <aside class="gki-sidebar gki-sidebar--left" role="navigation" aria-label="<?php esc_attr_e( 'Insights documentation', 'gki-docs-helper' ); ?>">
-    <button class="gki-nav-collapse-btn" id="gki-nav-collapse" type="button" aria-label="Collapse navigation" title="Collapse navigation">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
-    </button>
-    <nav class="gki-nav">
-      <?php if ( $nav_structure && $nav_structure['main_index'] ) : ?>
-        <a href="<?php echo esc_url( get_permalink( $nav_structure['main_index']['post'] ) ); ?>" class="gki-nav-title">GitKraken Insights</a>
-      <?php else : ?>
-        <a href="/<?php echo esc_attr( GKI_DOCS_CATEGORY ); ?>/" class="gki-nav-title">GitKraken Insights</a>
-      <?php endif; ?>
+    <nav class="gki-nav" id="gki-nav">
+      <div class="gki-nav-header">
+        <?php if ( $nav_structure && $nav_structure['main_index'] ) : ?>
+          <a href="<?php echo esc_url( get_permalink( $nav_structure['main_index']['post'] ) ); ?>" class="gki-nav-title">GitKraken Insights</a>
+        <?php else : ?>
+          <a href="/<?php echo esc_attr( GKI_DOCS_CATEGORY ); ?>/" class="gki-nav-title">GitKraken Insights</a>
+        <?php endif; ?>
+        <button class="gki-nav-collapse-btn" id="gki-nav-collapse" type="button" aria-expanded="true" aria-controls="gki-nav" aria-label="Collapse navigation" title="Collapse navigation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      </div>
 
       <?php
       if ( has_nav_menu( 'gki-insights-nav' ) ) {

@@ -771,8 +771,26 @@ function gki_auth_debug_http( $response, $context, $class, $parsed_args, $url ) 
         $entry['response_error'] = $response->get_error_message();
     } else {
         $entry['response_code'] = wp_remote_retrieve_response_code( $response );
-        $entry['response_headers'] = wp_remote_retrieve_headers( $response )->getAll();
+
+        // wp_remote_retrieve_headers() returns a CaseInsensitiveDictionary object
+        // on success but a plain array() when headers are absent. Calling
+        // ->getAll() on the array is a fatal error, so branch on the type.
+        $resp_headers = wp_remote_retrieve_headers( $response );
+        if ( is_object( $resp_headers ) && method_exists( $resp_headers, 'getAll' ) ) {
+            $resp_headers = $resp_headers->getAll();
+        }
+        $entry['response_headers'] = is_array( $resp_headers ) ? $resp_headers : array();
+
         $resp_body = wp_remote_retrieve_body( $response );
+
+        // Redact bearer/refresh tokens before they are written to wp_options.
+        // The token endpoint returns them in plain text in the response body.
+        $resp_body = preg_replace(
+            '/("(?:access|refresh|id)_token"\s*:\s*")([^"]{8})[^"]*(")/i',
+            '$1$2***REDACTED***$3',
+            $resp_body
+        );
+
         // Truncate very long responses but keep enough to diagnose
         if ( strlen( $resp_body ) > 4000 ) {
             $resp_body = substr( $resp_body, 0, 4000 ) . '...[TRUNCATED]';

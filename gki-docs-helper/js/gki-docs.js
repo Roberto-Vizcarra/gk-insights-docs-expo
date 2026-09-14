@@ -465,19 +465,24 @@
     var layout = document.getElementById('gki-layout');
     if (!btn || !layout) return;
 
+    function sync(collapsed) {
+      var label = collapsed ? 'Expand navigation' : 'Collapse navigation';
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+      btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    }
+
     // Restore saved state
     try {
       if (localStorage.getItem('gki-nav-collapsed') === '1') {
         layout.classList.add('gki-nav-collapsed');
-        btn.setAttribute('aria-label', 'Expand navigation');
-        btn.setAttribute('title', 'Expand navigation');
       }
     } catch (e) {}
+    sync(layout.classList.contains('gki-nav-collapsed'));
 
     btn.addEventListener('click', function () {
       var collapsed = layout.classList.toggle('gki-nav-collapsed');
-      btn.setAttribute('aria-label', collapsed ? 'Expand navigation' : 'Collapse navigation');
-      btn.setAttribute('title', collapsed ? 'Expand navigation' : 'Collapse navigation');
+      sync(collapsed);
       try { localStorage.setItem('gki-nav-collapsed', collapsed ? '1' : '0'); } catch (e) {}
     });
   }

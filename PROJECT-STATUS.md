@@ -1,9 +1,10 @@
 # GKI Help Center Redesign — Project Status
 
-**Last updated:** 2026-09-01
+**Last updated:** 2026-09-14
 **Owner:** roberto.vizcarra@gitkraken.com
 **Plugin version:** 1.9.0
 **Live URL:** `help.gitkraken.com/insights-expo/expo-ai-adoption-home`
+**Local URL:** `localhost:8420/insights-expo/expo-ai-adoption-home/` — see `LOCAL-DEV.md`
 
 ## Architecture
 
@@ -85,6 +86,26 @@ Added authentication gate requiring GitKraken OAuth + Insights subscription enti
 | expo-ai-adoption-manual-releases-api.md | content | admin | Releases API |
 | expo-ai-adoption.md | content | hidden | (Redirect) |
 
+### Phase 6 — Local Test Environment (Complete, 2026-09-14)
+Built a Dockerized WordPress in `local-dev/` running a full production import,
+ending the practice of testing plugin changes against the live site. One command
+(`setup.ps1`) takes a WP Migrate export to a verified running site: import,
+charset normalization, URL rewrite, file staging, cleanup, and post-install
+verification. `gki-docs-helper/` is bind-mounted, so iteration needs no zip
+rebuild. See `LOCAL-DEV.md`.
+
+Confirmed by the import, and previously unrecorded:
+
+| Fact | Value |
+|---|---|
+| Elementor active kit ID | `5` — `.elementor-kit-5` selectors are correct |
+| Permalink structure | `/%category%/%postname%/` |
+| Docs post type | `post`, category `insights-expo` (not a CPT) |
+| Posts collation | `utf8mb4_unicode_520_ci` |
+| Published posts (whole help center) | 3,622; 50 are insights-expo |
+| Active theme | `hello-elementor` + `hello-elementor-child` |
+| Active plugins | 27 |
+
 ## Known Issues
 
 1. **Parsedown v1** doesn't parse Markdown inside HTML blocks — fundamental limitation.
@@ -92,6 +113,13 @@ Added authentication gate requiring GitKraken OAuth + Insights subscription enti
 3. **No auto-update** — plugin zip must be manually uploaded after each version.
 4. **Git It Write doesn't delete posts** — when source files are removed, WP posts persist and must be manually deleted.
 5. **Tabler Icons CDN** — icons load from `cdn.jsdelivr.net`. If CDN is blocked by WAF/CSP, card icons will be invisible.
+6. **Two search systems over the same content** — SearchWP is active site-wide and
+   indexes `/insights-expo/` pages, alongside the plugin's own PHP-generated JSON
+   search index. Discovered during the 2026-09-14 local import. Not yet
+   investigated: whether they conflict, and which one users actually hit.
+7. **The auth gate cannot be tested locally** — `gitkraken.dev` will not redirect
+   to `localhost`. Needs a staging instance with a registered redirect URI, or a
+   whitelisted tunnel hostname. Tracked in `AUTH-GATE-PLAN.md`.
 
 ## Long-term Considerations
 
@@ -99,3 +127,7 @@ Added authentication gate requiring GitKraken OAuth + Insights subscription enti
 - Auto-update mechanism (webhook or GitHub Actions → WP REST API)
 - Replace Git It Write + Parsedown with a better Markdown pipeline
 - Consider dedicated docs platform if WP/Elementor friction continues
+- **A real staging instance.** The local Docker environment covers plugin
+  rendering, but not the OAuth gate, the CDN, or production caching. If the
+  host (WP Engine / Kinsta / Pantheon) offers one-click staging, enabling it
+  closes the remaining gap.

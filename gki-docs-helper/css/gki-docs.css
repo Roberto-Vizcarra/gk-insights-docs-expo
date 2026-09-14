@@ -941,14 +941,25 @@ body.gki-docs-page #site-footer {
   color: var(--gki-text);
   background: var(--gki-bg);
   min-height: calc(100vh - 80px);
-  transition: grid-template-columns 0.3s ease;
 }
-/* Collapsed nav: shrink left column, expand center */
+/* NOTE: do NOT add `transition: grid-template-columns` here. Chrome refuses to
+   interpolate between `240px minmax(0,860px) 220px` and the collapsed track
+   list and holds the *from* value for the life of the transition — which made
+   collapsing the nav appear to do nothing at all. Measured 2026-09-14:
+   with the transition on, the computed value stayed `240px 860px 220px` and
+   the content column stayed 860px; with it off, the same class change
+   resolved to `0px 1100px 220px` immediately. */
+/* Collapsed nav: left column collapses to nothing, centre column takes the
+   width the nav gave up (860px -> 1100px) while the overall grid footprint
+   and the right-hand TOC stay exactly where they were. */
 .gki-layout.gki-nav-collapsed {
-  grid-template-columns: 48px minmax(0, 1fr) 220px;
+  grid-template-columns: 44px minmax(0, 1100px) 220px;
 }
 
-/* --- Left sidebar --- */
+/* --- Left sidebar ---
+   Height is driven by content (max-height, not height). Forcing this to
+   100vh pins anything using `margin-top: auto` — the theme switch — to the
+   bottom of the viewport instead of sitting under the menu. */
 .gki-sidebar--left {
   position: sticky;
   top: 2rem;
@@ -958,52 +969,125 @@ body.gki-docs-page #site-footer {
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: var(--gki-border-light) transparent;
-  transition: width 0.3s ease;
 }
 .gki-sidebar--left .gki-nav {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
 }
 
-/* Collapse toggle button */
+/* --- Collapse control ---
+   A compact icon button sitting on the nav's header row, aligned with the
+   "GITKRAKEN INSIGHTS" title. It stays in normal flow, so it cannot stretch
+   and cannot push the theme switch around.
+
+   Elementor's kit paints buttons with its own background, radius and padding;
+   the body.gki-docs-page prefix is needed to win that specificity war.
+
+   Measured 2026-09-14 on the local import: the kit's button rule beats a bare
+   class selector, so WITHOUT the !important block below the chevron renders as
+   a 17px-wide blue-to-purple gradient pill with a pink border. Every visual
+   property the kit touches — background, colour, border, size — has to be
+   reclaimed here, not just shadow/radius/padding. The button is meant to read
+   as a quiet ghost icon: no fill and no border at rest, a faint grey wash on
+   hover. Purple appears only in the focus ring. */
+body.gki-docs-page .gki-nav-collapse-btn,
+body.gki-docs-page .gki-nav-collapse-btn:link,
+body.gki-docs-page .gki-nav-collapse-btn:visited,
+body.gki-docs-page .gki-nav-collapse-btn:hover,
+body.gki-docs-page .gki-nav-collapse-btn:focus,
+body.gki-docs-page .gki-nav-collapse-btn:active {
+  box-shadow: none !important;
+  border-radius: 6px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  font-size: inherit !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+body.gki-docs-page .gki-nav-collapse-btn {
+  color: #9A9CA1 !important;
+}
+body.gki-docs-page .gki-nav-collapse-btn:hover {
+  background: var(--gki-bg-subtle) !important;
+  color: var(--gki-text-secondary) !important;
+}
+body.gki-docs-page .gki-nav-collapse-btn:active {
+  background: #EDEEF1 !important;
+}
 .gki-nav-collapse-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 0 0 auto;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--gki-border-light);
-  border-radius: 6px;
-  background: var(--gki-bg-subtle);
-  color: var(--gki-text-muted);
-  cursor: pointer;
   padding: 0;
-  margin: 0 0 0.5rem auto;
-  flex-shrink: 0;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.3s ease;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #9A9CA1;
+  cursor: pointer;
+  opacity: 0.85;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 .gki-nav-collapse-btn:hover {
-  background: var(--gki-bg-offset, var(--gki-bg-subtle));
-  color: var(--gki-text);
+  opacity: 1;
+}
+.gki-nav-collapse-btn:focus-visible {
+  outline: 2px solid var(--gki-purple);
+  outline-offset: 1px;
 }
 .gki-nav-collapse-btn svg {
-  width: 16px;
-  height: 16px;
-}
-/* Rotate arrow when collapsed */
-.gki-nav-collapsed .gki-nav-collapse-btn {
-  transform: rotate(180deg);
-  margin: 0 auto 0.5rem;
+  width: 15px;
+  height: 15px;
+  stroke-width: 1.75;
+  transition: transform 0.2s ease;
 }
 
-/* Hide nav content when collapsed (button is sibling of nav, stays visible) */
-.gki-nav-collapsed .gki-sidebar--left .gki-nav {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+/* Header row holding the title and the collapse button */
+.gki-nav-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+.gki-nav-header .gki-nav-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
   overflow: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- Collapsed state --- */
+.gki-nav-collapsed .gki-nav-header {
+  border-bottom: 0;
+  justify-content: center;
+}
+.gki-nav-collapsed .gki-nav-header .gki-nav-title {
+  display: none;
+}
+.gki-nav-collapsed .gki-nav-collapse-btn svg {
+  transform: rotate(180deg);
+}
+/* Hide everything in the nav except the header row, so the 44px rail shows
+   only the expand button. */
+.gki-nav-collapsed .gki-sidebar--left .gki-nav > *:not(.gki-nav-header) {
+  display: none;
+}
+.gki-nav-collapsed .gki-sidebar--left {
+  overflow: visible;
 }
 
 .gki-nav-title {
@@ -1339,7 +1423,7 @@ body.gki-docs-page #site-footer {
     padding: 1.5rem 2rem;
   }
   .gki-layout.gki-nav-collapsed {
-    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-columns: 44px minmax(0, 1fr);
   }
   .gki-sidebar--right {
     display: none;
@@ -1396,6 +1480,11 @@ body.gki-index-page .gki-sidebar--right {
 }
 body.gki-index-page .gki-content-main {
   max-width: 860px;
+}
+/* With the nav collapsed the grid column already caps the width at 1100px —
+   this hard cap would otherwise make collapsing a no-op on index pages. */
+body.gki-index-page .gki-layout.gki-nav-collapsed .gki-content-main {
+  max-width: none;
 }
 
 /* ============================================================
@@ -1807,8 +1896,11 @@ body.gki-docs-page .gki-gate-button--primary:visited {
    ============================================================ */
 
 /* Theme toggle — pill slider in left nav */
+/* Sits directly under the nav menu. Do NOT use `margin-top: auto` here — in a
+   full-height flex column that banishes the switch to the bottom of the
+   viewport, where it is very hard to find. */
 .gki-theme-switch-wrap {
-  margin-top: auto;
+  margin-top: 0.5rem;
   padding: 1rem 0.75rem 0.5rem;
   border-top: 1px solid var(--gki-border-light);
 }

@@ -1,2 +1,10 @@
 
 .DS_Store
+
+# Local Docker dev environment (see LOCAL-DEV.md)
+local-dev/.env
+local-dev/db-dump/
+local-dev/uploads/
+local-dev/*.log
+local-dev/.staging/
+local-dev/.staging/

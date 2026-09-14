@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.13.0
+ * Version:     1.14.2
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.13.0' );
+define( 'GKI_DOCS_VERSION', '1.14.2' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -22,7 +22,19 @@ define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
    0. AUTH GATE MODULE
    ========================================================================= */
 
-require_once GKI_DOCS_PATH . 'includes/gki-auth.php';
+// Load defensively. A malformed plugin zip (one built without a root folder or
+// with Windows "\" path separators) can leave this file missing, and a bare
+// require_once would take the whole site down with an uncatchable fatal.
+if ( file_exists( GKI_DOCS_PATH . 'includes/gki-auth.php' ) ) {
+    require_once GKI_DOCS_PATH . 'includes/gki-auth.php';
+} else {
+    add_action( 'admin_notices', function () {
+        echo '<div class="notice notice-error"><p><strong>GKI Docs Helper:</strong> '
+            . 'the auth gate module (<code>includes/gki-auth.php</code>) is missing. '
+            . 'The plugin archive was not extracted correctly — re-upload the plugin zip.'
+            . '</p></div>';
+    } );
+}
 
 /**
  * The category slug this plugin targets.
@@ -228,86 +240,34 @@ function gki_docs_clean_parsedown( $content ) {
 }
 
 /* =========================================================================
-   3. ALLOW SCRIPT TAGS IN TARGET POSTS
+   3. [REMOVED in 1.14.1] INLINE SCRIPT SUPPORT IN POST CONTENT
+   -------------------------------------------------------------------------
+   This section previously contained three filters that let <script> tags
+   travel through post content:
+
+     - gki_docs_allow_scripts()    (wp_kses_allowed_html)
+     - gki_docs_preserve_scripts() (content_save_pre, priority 5)
+     - gki_docs_restore_scripts()  (the_content, priority 5)
+
+   On save, scripts were base64-encoded into an HTML comment
+   (<!--gki-script:...-->) at priority 5 — ahead of wp_filter_post_kses at
+   priority 10 — so the sanitizer only ever saw a comment. On render they
+   were decoded and echoed back unescaped.
+
+   That defeated the `unfiltered_html` capability check by design, and
+   granted arbitrary front-end JS execution to anyone able to save a post
+   in this category — including the Git It Write import path, and therefore
+   anyone with write access to the content repo.
+
+   No synced content ever used it (0 of ~50 Markdown files contain a
+   <script> tag or a gki-script marker), so removal is a no-op for the
+   current site. Any stale <!--gki-script:...--> comment left in the
+   database now renders as an inert HTML comment.
+
+   If a page ever needs its own JS, add a vetted file under js/ and select
+   it from frontmatter (e.g. a `page_script` custom field mapped to an
+   allow-list) rather than embedding code in content.
    ========================================================================= */
-
-add_filter( 'wp_kses_allowed_html', 'gki_docs_allow_scripts', 10, 2 );
-
-/**
- * Expand the allowed HTML tags to include <script> for posts in the
- * target category. This lets Git It Write content include inline JS.
- *
- * Note: This only affects wp_kses filtering. If Git It Write or another
- * plugin strips scripts before wp_kses runs, a separate filter on that
- * plugin's content pipeline may be needed.
- */
-function gki_docs_allow_scripts( $allowed_tags, $context ) {
-    if ( $context !== 'post' ) {
-        return $allowed_tags;
-    }
-
-    // Only widen for target posts (check is safe inside this filter)
-    if ( ! gki_docs_is_target_post() ) {
-        return $allowed_tags;
-    }
-
-    $allowed_tags['script'] = array(
-        'type' => true,
-        'src'  => true,
-    );
-
-    return $allowed_tags;
-}
-
-/**
- * Additionally, try to preserve <script> tags during the Git It Write
- * save/import process by filtering content before sanitization.
- */
-add_filter( 'content_save_pre', 'gki_docs_preserve_scripts', 5 );
-
-function gki_docs_preserve_scripts( $content ) {
-    // Only act if the post is being saved to the target category
-    // Since we're in a save context, check via $_POST or the global $post
-    if ( ! gki_docs_is_saving_target_post() ) {
-        return $content;
-    }
-
-    // Store scripts as base64 comments that survive sanitization,
-    // then restore them on render via the_content filter
-    $content = preg_replace_callback(
-        '/<script\b([^>]*)>(.*?)<\/script>/is',
-        function ( $matches ) {
-            $attrs   = $matches[1];
-            $body    = $matches[2];
-            $encoded = base64_encode( '<script' . $attrs . '>' . $body . '</script>' );
-            return '<!--gki-script:' . $encoded . '-->';
-        },
-        $content
-    );
-
-    return $content;
-}
-
-/**
- * Restore base64-encoded scripts on render.
- */
-add_filter( 'the_content', 'gki_docs_restore_scripts', 5 );
-
-function gki_docs_restore_scripts( $content ) {
-    if ( ! gki_docs_is_target_post() ) {
-        return $content;
-    }
-
-    $content = preg_replace_callback(
-        '/<!--gki-script:([\w+\/=]+)-->/',
-        function ( $matches ) {
-            return base64_decode( $matches[1] );
-        },
-        $content
-    );
-
-    return $content;
-}
 
 /* =========================================================================
    4. ADD BODY CLASS FOR CSS SCOPING
@@ -431,19 +391,6 @@ function gki_docs_is_target_post() {
 
     $result = has_category( GKI_DOCS_CATEGORY );
     return $result;
-}
-
-/**
- * Check whether a post being saved belongs to the target category.
- */
-function gki_docs_is_saving_target_post() {
-    global $post;
-
-    if ( ! $post ) {
-        return false;
-    }
-
-    return has_category( GKI_DOCS_CATEGORY, $post );
 }
 
 /* =========================================================================

@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.15.0
+ * Version:     1.16.0
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.15.0' );
+define( 'GKI_DOCS_VERSION', '1.16.0' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -43,6 +43,17 @@ if ( file_exists( GKI_DOCS_PATH . 'includes/gki-auth.php' ) ) {
 define( 'GKI_DOCS_CATEGORY', 'insights-expo' );
 
 /* =========================================================================
+   0b. PASS C STRUCTURAL MODULE
+   =========================================================================
+   Restructures metric pages into reference objects and supplies the data
+   for the Home landing page. Loaded defensively for the same reason as the
+   auth gate above: a malformed zip must not fatal the site.
+   ========================================================================= */
+if ( file_exists( GKI_DOCS_PATH . 'includes/gki-passc.php' ) ) {
+    require_once GKI_DOCS_PATH . 'includes/gki-passc.php';
+}
+
+/* =========================================================================
    1. CONDITIONAL ASSET LOADING
    ========================================================================= */
 
@@ -69,6 +80,15 @@ function gki_docs_enqueue_assets() {
         '3.6.0'
     );
 
+    // JetBrains Mono — formulas, spec values and instrument figures.
+    // Inter remains the brand face for everything else.
+    wp_enqueue_style(
+        'gki-mono-font',
+        'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap',
+        array(),
+        null
+    );
+
     // Shared docs stylesheet — replaces per-file <style> blocks
     wp_enqueue_style(
         'gki-docs-styles',
@@ -77,40 +97,11 @@ function gki_docs_enqueue_assets() {
         $css_ver
     );
 
-    /* -----------------------------------------------------------
-       TASTE EXPLORATION OVERLAYS — branch: Taste-design-expo
-       -----------------------------------------------------------
-       Both overlays load on every docs page but every rule inside
-       them is scoped to html[data-taste="a"] / ="b". With no
-       attribute set, neither matches and the page renders exactly
-       as the stable build does.
-
-       taste-b.css must load AFTER taste-a.css: Pass B builds on
-       Pass A rather than replacing it.
-
-       To retire the exploration, delete this block and the two
-       stylesheets. gki-docs.css is untouched by it.
-       ----------------------------------------------------------- */
+    // Pass C stylesheet — spec panel, formula, instruments, palette, Home
     wp_enqueue_style(
-        'gki-taste-a',
-        GKI_DOCS_URL . 'css/taste-a.css',
+        'gki-passc-styles',
+        GKI_DOCS_URL . 'css/gki-passc.css',
         array( 'gki-docs-styles' ),
-        $css_ver
-    );
-
-    wp_enqueue_style(
-        'gki-taste-b',
-        GKI_DOCS_URL . 'css/taste-b.css',
-        array( 'gki-taste-a' ),
-        $css_ver
-    );
-
-    // The switch control itself — unscoped, so it stays usable in the
-    // Base state where neither overlay applies.
-    wp_enqueue_style(
-        'gki-taste-switch',
-        GKI_DOCS_URL . 'css/taste-switch.css',
-        array( 'gki-taste-b' ),
         $css_ver
     );
 
@@ -123,19 +114,24 @@ function gki_docs_enqueue_assets() {
         true // load in footer
     );
 
-    // Taste switch + Pass B entry motion — branch only.
+    // Pass C behaviour — command palette, metric instruments, entry reveal
     wp_enqueue_script(
-        'gki-taste-scripts',
-        GKI_DOCS_URL . 'js/gki-taste.js',
-        array(),
+        'gki-passc-scripts',
+        GKI_DOCS_URL . 'js/gki-passc.js',
+        array( 'gki-docs-scripts' ),
         $js_ver,
         true
     );
 
-    // Build site-wide search index for JS
+    // Build site-wide search index for JS.
+    // Ordered by nav_order so the command palette's grouped view lists
+    // sections in the same order as the sidebar rather than by post date.
     $search_posts = get_posts( array(
         'category_name'  => GKI_DOCS_CATEGORY,
         'posts_per_page' => -1,
+        'meta_key'       => 'nav_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
     ) );
     $search_index = array();
     foreach ( $search_posts as $sp ) {
@@ -186,48 +182,6 @@ function gki_docs_theme_html_attribute( $output ) {
  */
 add_action( 'wp_head', 'gki_docs_theme_init_script', 1 );
 
-/**
- * Taste variant init — branch: Taste-design-expo.
- *
- * Sets html[data-taste] before first paint so switching between the
- * stable build and the two exploration passes never flashes. Reads
- * ?taste=a|b|stable first (one-off override, then remembered), else
- * localStorage. Absent or unrecognised means the stable build.
- *
- * Runs at priority 2, immediately after the theme init above.
- */
-add_action( 'wp_head', 'gki_docs_taste_init_script', 2 );
-
-function gki_docs_taste_init_script() {
-    if ( ! gki_docs_is_target_post() ) {
-        return;
-    }
-    ?>
-    <script>
-    (function(){
-      try {
-        var allowed = ['stable','a','b'];
-        var match = window.location.search.match(/[?&]taste=([^&]+)/);
-        var param = match ? decodeURIComponent(match[1]) : null;
-        var value = null;
-
-        if (param && allowed.indexOf(param) !== -1) {
-          value = param;
-          try { localStorage.setItem('gki-taste', value); } catch(e){}
-        } else {
-          var saved = localStorage.getItem('gki-taste');
-          if (saved && allowed.indexOf(saved) !== -1) { value = saved; }
-        }
-
-        if (value === 'a' || value === 'b') {
-          document.documentElement.setAttribute('data-taste', value);
-        }
-      } catch(e){}
-    })();
-    </script>
-    <?php
-}
-
 function gki_docs_theme_init_script() {
     if ( ! gki_docs_is_target_post() ) {
         return;
@@ -235,6 +189,10 @@ function gki_docs_theme_init_script() {
     ?>
     <script>
     (function(){
+      /* Marks the document as script-capable before first paint. The entry
+         reveal in gki-docs.css hides elements only under .gki-js, so if
+         scripting is off or the bundle fails, nothing is stranded hidden. */
+      document.documentElement.className += ' gki-js';
       try {
         var saved = localStorage.getItem('gki-theme');
         var hasCookie = document.cookie.indexOf('gki_theme=') !== -1;

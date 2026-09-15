@@ -1,0 +1,750 @@
+/* ============================================================
+   GKI Docs Helper — PASS C
+   ------------------------------------------------------------
+   Structural components that did not exist before this pass:
+
+     .gki-definition   lifted blockquote under the page title
+     .gki-spec         the metric's typed fields, as a hairline grid
+     .gki-formula      the formula, as a first-class panel
+     .gki-instrument   sandbox / proportion bar / timeline / precedence
+     .gki-palette      command palette replacing the search input
+     .gki-home-*       Home landing: role paths and the metric map
+
+   Loaded after gki-docs.css, which already carries the Pass A craft
+   baseline and the Pass B card / nav / callout treatment.
+
+   Brand rules hold throughout: --gki-accent stays accent-only and
+   never colours a heading or body text.
+   ============================================================ */
+
+:root {
+  /* One mono face for formulas and figures. Inter stays the brand
+     face for everything else. */
+  --gki-font-data: 'JetBrains Mono', 'SF Mono', 'Cascadia Code',
+                   'Fira Code', Consolas, monospace;
+
+  /* Tier colours, used by the sandboxes and the tier scale. Semantic,
+     not accent — they encode a band, not a brand. */
+  --gki-tier-power:    #15777E;
+  --gki-tier-regular:  #3F36BA;
+  --gki-tier-explorer: #8B6914;
+  --gki-tier-emerging: #9E2040;
+}
+
+[data-theme="dark"] {
+  --gki-tier-power:    #2DD4BF;
+  --gki-tier-regular:  #818CF8;
+  --gki-tier-explorer: #D9A441;
+  --gki-tier-emerging: #F0748E;
+}
+
+/* ============================================================
+   1. DEFINITION
+   ============================================================ */
+body.gki-docs-page .gki-page .gki-definition {
+  font-size: var(--gki-fs-md) !important;
+  line-height: 1.55;
+  color: var(--gki-text-secondary) !important;
+  max-width: 54ch;
+  margin: 0 0 1.5rem;
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   2. SPEC PANEL
+   ------------------------------------------------------------
+   A metric is a typed object. Fields read before prose, as a
+   hairline grid rather than a card — border, fill and radius are
+   spent on things that are genuinely separate objects, and a
+   field list is not one.
+   ============================================================ */
+.gki-spec {
+  margin: 0 0 2rem;
+  border-top: 2px solid var(--gki-text);
+}
+
+.gki-spec dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  margin: 0;
+  padding: 0;
+}
+
+.gki-spec-field {
+  padding: 0.8rem 1rem 0.85rem 0;
+  border-bottom: 1px solid var(--gki-border-light);
+  min-width: 0;
+}
+
+/* The surface list is long; let it run the full width of the grid. */
+.gki-spec-field--wide {
+  grid-column: 1 / -1;
+  padding-right: 0;
+}
+
+.gki-spec dt {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  margin: 0 0 0.3rem;
+}
+
+.gki-spec dd {
+  margin: 0;
+  font-size: var(--gki-fs-sm);
+  font-weight: 500;
+  color: var(--gki-text);
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-spec-field--wide dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+body.gki-docs-page .gki-page code.gki-path {
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem !important;
+  font-weight: 500;
+  color: var(--gki-accent) !important;
+  background: var(--gki-bg-subtle) !important;
+  border: 1px solid var(--gki-border-light);
+  border-radius: 4px;
+  padding: 0.14rem 0.42rem !important;
+  white-space: nowrap;
+}
+
+.gki-spec-prose { color: var(--gki-text-secondary); font-weight: 400; }
+
+/* ============================================================
+   3. FORMULA PANEL
+   ============================================================ */
+.gki-formula {
+  position: relative;
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  padding: 1.6rem 1.15rem 1.1rem;
+  margin: 0 0 2rem;
+  overflow-x: auto;
+}
+
+.gki-formula-label {
+  position: absolute;
+  top: 0.6rem;
+  left: 1.15rem;
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+}
+
+body.gki-docs-page .gki-page .gki-formula pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font-family: var(--gki-font-data);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--gki-text);
+  white-space: pre;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   4. INSTRUMENTS (shared chrome)
+   ============================================================ */
+.gki-instrument {
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  background: var(--gki-bg);
+  padding: 1.15rem 1.15rem 1.25rem;
+  margin: 0 0 2.25rem;
+}
+
+.gki-instrument:empty { display: none; }
+
+.gki-inst-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.gki-inst-title {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+}
+
+.gki-inst-note {
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-dim);
+}
+
+/* Every instrument says where its numbers come from. A calculator
+   that silently disagrees with the product is worse than none. */
+.gki-inst-source {
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gki-border-light);
+  line-height: 1.5;
+}
+
+/* ---------- Sandbox ---------------------------------------- */
+.gki-sandbox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 250px);
+  gap: 0 2rem;
+  align-items: start;
+}
+
+.gki-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+
+.gki-readout-value {
+  font-family: var(--gki-font-data);
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-readout-unit {
+  font-family: var(--gki-font-data);
+  font-size: 0.8125rem;
+  color: var(--gki-text-dim);
+}
+
+.gki-band {
+  margin-left: auto;
+  font-size: var(--gki-fs-xs);
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.gki-derived {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  font-size: var(--gki-fs-xs);
+  color: var(--gki-text-muted);
+}
+.gki-derived div { display: flex; justify-content: space-between; gap: 1rem; }
+.gki-derived b {
+  font-family: var(--gki-font-data);
+  font-weight: 500;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-controls { display: grid; gap: 0.75rem; }
+
+.gki-ctrl-group {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-dim);
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--gki-border-light);
+}
+.gki-ctrl-group:first-child { padding-top: 0; border-top: 0; }
+
+.gki-ctrl { display: grid; gap: 0.15rem; }
+.gki-ctrl-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.gki-ctrl label { font-size: var(--gki-fs-xs); font-weight: 500; color: var(--gki-text-secondary); }
+.gki-ctrl-val {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  font-weight: 500;
+  color: var(--gki-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-instrument input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gki-bg-offset);
+  margin: 0.3rem 0 0;
+  cursor: pointer;
+}
+.gki-instrument input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--gki-accent);
+  border: 2px solid var(--gki-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.28);
+}
+.gki-instrument input[type="range"]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--gki-accent);
+  border: 2px solid var(--gki-bg);
+}
+.gki-instrument input[type="range"]:focus-visible {
+  outline: none;
+  box-shadow: var(--gki-focus-ring);
+}
+
+/* ---------- Tier scale ------------------------------------- */
+.gki-tier-scale { margin: 1rem 0 0; position: relative; }
+.gki-tier-track { display: grid; gap: 3px; }
+.gki-tier-track span { height: 9px; border-radius: 2px; opacity: 0.4; transition: opacity 0.2s ease; }
+.gki-tier-track span[data-current="true"] { opacity: 1; }
+.gki-tier-marker {
+  position: absolute;
+  top: -5px;
+  width: 2px;
+  height: 19px;
+  background: var(--gki-text);
+  border-radius: 1px;
+  transform: translateX(-1px);
+  transition: left 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.gki-tier-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Proportion bar --------------------------------- */
+.gki-propbar { display: flex; height: 30px; border-radius: 6px; overflow: hidden; gap: 2px; }
+.gki-propbar span {
+  display: grid;
+  place-items: center;
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  color: #FFFFFF;
+  min-width: 0;
+  overflow: hidden;
+  transition: flex-grow 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.gki-proplegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0.7rem 0 0;
+  font-size: var(--gki-fs-xs);
+  color: var(--gki-text-secondary);
+}
+.gki-proplegend span { display: flex; align-items: center; gap: 0.4rem; }
+.gki-proplegend i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.gki-proplegend b {
+  font-family: var(--gki-font-data);
+  font-weight: 500;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Sequence timeline ------------------------------- */
+.gki-timeline { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.gki-timeline li {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 0 0.85rem;
+  padding: 0 0 1rem;
+  position: relative;
+}
+.gki-timeline li:last-child { padding-bottom: 0; }
+.gki-timeline li::before {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  top: 1.1rem;
+  bottom: -0.1rem;
+  width: 1px;
+  background: var(--gki-border-light);
+}
+.gki-timeline li:last-child::before { display: none; }
+.gki-tl-dot {
+  width: 1.6rem; height: 1.6rem;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-strong);
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--gki-accent);
+  position: relative;
+  z-index: 1;
+}
+.gki-tl-dot--rule {
+  border-color: var(--gki-accent);
+  background: var(--gki-accent);
+  color: #FFFFFF;
+}
+.gki-tl-body strong { display: block; font-size: var(--gki-fs-sm); color: var(--gki-text); font-weight: 600; margin-bottom: 0.1rem; }
+.gki-tl-body span { font-size: var(--gki-fs-xs); color: var(--gki-text-secondary); line-height: 1.5; display: block; }
+.gki-tl-body code {
+  font-family: var(--gki-font-data);
+  font-size: 0.72rem;
+  color: var(--gki-accent);
+}
+
+/* ---------- Precedence table -------------------------------- */
+.gki-precedence { display: grid; gap: 0; }
+.gki-prec-row {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 12rem) minmax(0, 1fr);
+  gap: 0 0.85rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+.gki-prec-row:last-child { border-bottom: 0; }
+.gki-prec-rank {
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--gki-text-dim);
+}
+.gki-prec-row code {
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gki-accent);
+}
+.gki-prec-row p { margin: 0; font-size: var(--gki-fs-xs); color: var(--gki-text-secondary); line-height: 1.5; }
+
+/* ============================================================
+   5. COMMAND PALETTE
+   ============================================================ */
+
+/* The trigger lives in the left nav, directly under the title, so
+   search is in the same place on every page. */
+.gki-palette-slot {
+  padding: 0 0.75rem 0.75rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+
+/* Collapsed nav hides the nav body; the trigger goes with it. */
+.gki-nav-collapsed .gki-palette-slot { display: none; }
+/* Elementor's kit styles every <button>: a #CC3366 border, 3px radius,
+   16px padding and near-white text, which on a white ground made the
+   trigger invisible. Per the project rule, Elementor overrides need a
+   body.gki-docs-page prefix AND !important. */
+body.gki-docs-page .gki-palette-trigger,
+body.gki-docs-page button.gki-palette-trigger {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem !important;
+  background: var(--gki-bg) !important;
+  background-image: none !important;
+  border: 1px solid var(--gki-border-light) !important;
+  border-radius: 8px !important;
+  font-family: var(--gki-font) !important;
+  font-size: var(--gki-fs-sm) !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--gki-text-muted) !important;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: none !important;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+body.gki-docs-page .gki-palette-trigger:hover {
+  border-color: var(--gki-border-strong) !important;
+  color: var(--gki-text) !important;
+  background: var(--gki-bg) !important;
+}
+body.gki-docs-page .gki-palette-trigger:focus-visible {
+  outline: none !important;
+  box-shadow: var(--gki-focus-ring) !important;
+}
+.gki-palette-trigger svg { flex: none; }
+.gki-palette-trigger .gki-kbd { margin-left: auto; }
+
+.gki-kbd {
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--gki-text-muted);
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.08rem 0.34rem;
+  white-space: nowrap;
+}
+
+.gki-palette-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(16, 17, 22, 0.45);
+  display: grid;
+  place-items: start center;
+  padding: clamp(3rem, 12vh, 8rem) 1rem 1rem;
+}
+.gki-palette-backdrop[hidden] { display: none !important; }
+
+.gki-palette {
+  width: min(600px, 100%);
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-strong);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -20px rgba(24, 26, 38, 0.32),
+              0 6px 16px -8px rgba(24, 26, 38, 0.18);
+  overflow: hidden;
+}
+[data-theme="dark"] .gki-palette {
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8),
+              0 6px 16px -8px rgba(0, 0, 0, 0.55);
+}
+
+.gki-palette-field {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.05rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+.gki-palette-field svg { flex: none; color: var(--gki-text-dim); }
+
+body.gki-docs-page .gki-palette-input {
+  flex: 1;
+  min-width: 0;
+  border: 0 !important;
+  background: transparent !important;
+  font-family: var(--gki-font);
+  font-size: 1rem !important;
+  color: var(--gki-text) !important;
+  outline: none;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.gki-palette-input::placeholder { color: var(--gki-text-dim); }
+
+.gki-palette-results {
+  max-height: min(52vh, 380px);
+  overflow-y: auto;
+  padding: 0.4rem;
+  margin: 0;
+  list-style: none;
+}
+.gki-palette-group {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-dim);
+  padding: 0.65rem 0.7rem 0.28rem;
+}
+.gki-palette-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.48rem 0.7rem;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.gki-palette-item[data-active="true"] { background: var(--gki-bg-subtle); }
+.gki-palette-item .gki-pi-title { font-size: var(--gki-fs-sm); font-weight: 500; color: var(--gki-text); }
+.gki-palette-item[data-active="true"] .gki-pi-title { color: var(--gki-accent); }
+.gki-palette-item .gki-pi-cat {
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+.gki-palette-empty { padding: 1.4rem 0.7rem; text-align: center; font-size: var(--gki-fs-sm); color: var(--gki-text-muted); }
+
+.gki-palette-foot {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 1.05rem;
+  border-top: 1px solid var(--gki-border-light);
+  background: var(--gki-bg-subtle);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+}
+.gki-palette-foot span { display: flex; align-items: center; gap: 0.3rem; }
+
+/* ============================================================
+   6. HOME LANDING
+   ============================================================ */
+.gki-home-hero {
+  border-bottom: 1px solid var(--gki-border-light);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+body.gki-docs-page .gki-home-hero .gki-page-title {
+  font-size: clamp(2.1rem, 5vw, 3rem) !important;
+  line-height: 1.08;
+  letter-spacing: -0.032em;
+  max-width: 19ch;
+  margin: 0.5rem 0 0.8rem;
+  padding-top: 0.85rem;
+}
+
+.gki-home-label {
+  display: block;
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.gki-paths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  border-top: 1px solid var(--gki-border-light);
+  margin-bottom: 2.75rem;
+}
+body.gki-docs-page .gki-path {
+  display: block;
+  text-decoration: none;
+  padding: 1rem 1.2rem 1.15rem 0;
+  border-bottom: 1px solid var(--gki-border-light);
+  border-right: 1px solid var(--gki-border-light);
+  color: var(--gki-text-secondary) !important;
+}
+body.gki-docs-page .gki-path:last-child { border-right: 0; }
+.gki-path-role {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-accent);
+}
+.gki-path h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 0.4rem 0 0.28rem;
+  transition: color 0.18s ease;
+}
+.gki-path p { font-size: var(--gki-fs-xs); color: var(--gki-text-muted); margin: 0; line-height: 1.5; }
+body.gki-docs-page .gki-path:hover h3 { color: var(--gki-accent); }
+
+.gki-map-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.gki-map-head h2 {
+  font-size: 1.3rem;
+  letter-spacing: -0.015em;
+  color: var(--gki-text);
+  margin: 0;
+}
+.gki-map-count {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-families {
+  display: grid;
+  gap: 1px;
+  background: var(--gki-border-light);
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  overflow: hidden;
+}
+.gki-family {
+  background: var(--gki-bg);
+  display: grid;
+  grid-template-columns: minmax(145px, 195px) minmax(0, 1fr);
+  gap: 0.45rem 1.5rem;
+  padding: 0.95rem 1.2rem;
+  align-items: start;
+}
+body.gki-docs-page .gki-family-name {
+  font-size: var(--gki-fs-sm);
+  font-weight: 600;
+  color: var(--gki-text) !important;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.1rem;
+}
+body.gki-docs-page .gki-family-name:hover { color: var(--gki-accent) !important; }
+.gki-family-count {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+body.gki-docs-page .gki-chip {
+  font-size: var(--gki-fs-xs);
+  font-weight: 500;
+  color: var(--gki-text-secondary) !important;
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  padding: 0.18rem 0.55rem;
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+body.gki-docs-page .gki-chip:hover {
+  border-color: var(--gki-accent);
+  color: var(--gki-accent) !important;
+}
+.gki-chip--derived { border-style: dashed; }
+
+.gki-map-key { font-size: var(--gki-fs-2xs); color: var(--gki-text-muted); margin: 0.8rem 0 2rem; }
+.gki-map-key .gki-chip { pointer-events: none; }
+
+/* ============================================================
+   7. RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .gki-sandbox { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+}
+@media (max-width: 640px) {
+  .gki-spec dl { grid-template-columns: minmax(0, 1fr); }
+  .gki-family { grid-template-columns: minmax(0, 1fr); }
+  body.gki-docs-page .gki-path { border-right: 0; padding-right: 0; }
+  .gki-readout-value { font-size: 2.1rem; }
+  .gki-prec-row { grid-template-columns: 1.6rem minmax(0, 1fr); }
+  .gki-prec-row p { grid-column: 2; }
+}

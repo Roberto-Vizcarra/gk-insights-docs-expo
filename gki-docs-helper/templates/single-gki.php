@@ -211,16 +211,6 @@ get_header();
         </label>
       </div>
 
-      <?php /* Taste exploration switch — branch: Taste-design-expo.
-               Delete this block when the exploration is retired. */ ?>
-      <div class="gki-taste-switch-wrap">
-        <span class="gki-taste-switch-label">Design pass</span>
-        <div class="gki-taste-switch" role="group" aria-label="<?php esc_attr_e( 'Design pass', 'gki-docs-helper' ); ?>">
-          <button type="button" class="gki-taste-option" data-taste-value="stable" aria-pressed="true" title="Stable build (v1.14.2)">Base</button>
-          <button type="button" class="gki-taste-option" data-taste-value="a" aria-pressed="false" title="Pass A — typographic and state craft">A</button>
-          <button type="button" class="gki-taste-option" data-taste-value="b" aria-pressed="false" title="Pass B — craft plus structure and motion">B</button>
-        </div>
-      </div>
     </nav>
   </aside>
 
@@ -246,10 +236,8 @@ get_header();
     <?php endif; ?>
 
     <?php
-    // Page title <h1>
-    if ( $page_type === 'main-index' ) {
-        echo '<h1 class="gki-page-title">GitKraken Insights Documentation</h1>';
-    } else {
+    // Page title <h1> — Home renders its own inside the hero (Pass C)
+    if ( $page_type !== 'main-index' ) {
         $title_text = get_post_meta( get_the_ID(), 'nav_label', true ) ?: get_the_title();
         printf( '<h1 class="gki-page-title">%s</h1>', esc_html( $title_text ) );
     }
@@ -260,7 +248,94 @@ get_header();
     while ( have_posts() ) {
         the_post();
 
-        if ( $is_index && ! empty( $child_cards ) ) {
+        if ( $page_type === 'main-index' && function_exists( 'gki_passc_metric_map' ) ) {
+            /* ---------------------------------------------------------
+               PASS C HOME
+               ---------------------------------------------------------
+               A landing page rather than the same card grid used at every
+               other level: a hero, role-based entry paths, and a map of
+               every metric family. All three are built from frontmatter
+               that already exists — no content files were changed.
+               --------------------------------------------------------- */
+            ob_start();
+            the_content();
+            $full_content = ob_get_clean();
+
+            $hr_pos = strpos( $full_content, '<hr' );
+            $intro  = $hr_pos !== false ? substr( $full_content, 0, $hr_pos ) : $full_content;
+            $rest   = $hr_pos !== false ? substr( $full_content, $hr_pos ) : '';
+
+            // --- Hero ---
+            echo '<header class="gki-home-hero">';
+            echo '<span class="gki-home-label">GitKraken Insights</span>';
+            echo '<h1 class="gki-page-title">Find out what AI is actually delivering.</h1>';
+            echo $intro;
+            echo '</header>';
+
+            // --- Role-based entry paths ---
+            $roles = gki_passc_role_paths();
+            if ( $roles ) {
+                echo '<span class="gki-home-label">Start where you sit</span>';
+                echo '<div class="gki-paths">';
+                foreach ( $roles as $r ) {
+                    printf(
+                        '<a class="gki-path" href="%s"><span class="gki-path-role">%s</span><h3>%s</h3><p>%s</p></a>',
+                        esc_url( $r['url'] ),
+                        esc_html( $r['role'] ),
+                        esc_html( $r['title'] ),
+                        esc_html( $r['desc'] )
+                    );
+                }
+                echo '</div>';
+            }
+
+            // --- Metric map ---
+            $map = gki_passc_metric_map();
+            if ( $map ) {
+                $total = 0;
+                foreach ( $map as $f ) {
+                    $total += $f['count'];
+                }
+                echo '<div class="gki-map-head">';
+                echo '<h2>The metric map</h2>';
+                printf(
+                    '<span class="gki-map-count">%d metrics &middot; %d families</span>',
+                    (int) $total,
+                    count( $map )
+                );
+                echo '</div>';
+
+                echo '<div class="gki-families">';
+                foreach ( $map as $f ) {
+                    echo '<div class="gki-family">';
+                    printf(
+                        '<div><a class="gki-family-name" href="%s">%s</a><span class="gki-family-count">%d metrics</span></div>',
+                        esc_url( $f['url'] ),
+                        esc_html( $f['family'] ),
+                        (int) $f['count']
+                    );
+                    echo '<div class="gki-chips">';
+                    foreach ( $f['metrics'] as $m ) {
+                        printf(
+                            '<a class="gki-chip%s" href="%s">%s</a>',
+                            $m['derived'] ? ' gki-chip--derived' : '',
+                            esc_url( $m['url'] ),
+                            esc_html( $m['label'] )
+                        );
+                    }
+                    echo '</div></div>';
+                }
+                echo '</div>';
+
+                echo '<p class="gki-map-key"><span class="gki-chip gki-chip--derived">Dashed</span> '
+                   . esc_html__( 'marks a setting or modifier that changes other scores rather than being a score of its own.', 'gki-docs-helper' )
+                   . '</p>';
+            }
+
+            if ( trim( $rest ) ) {
+                echo '<div class="gki-below-cards">' . $rest . '</div>';
+            }
+        } elseif ( $is_index && ! empty( $child_cards ) ) {
             // Buffer content so we can split at first <hr>
             ob_start();
             the_content();

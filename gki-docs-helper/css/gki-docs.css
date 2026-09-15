@@ -1982,3 +1982,851 @@ body.gki-docs-page .gki-gate-button--primary:visited {
 [data-theme="dark"] .gki-card:hover {
   box-shadow: 0 4px 16px -2px rgba(180, 117, 249, 0.2), 0 2px 4px -2px rgba(0,0,0,0.3) !important;
 }
+
+/* ============================================================
+   PASS C BASELINE — folded in from the Pass A craft overlay
+   ------------------------------------------------------------
+   These were an attribute-scoped overlay on the Taste-design-expo
+   branch. On this branch they are simply the baseline, so the
+   scoping has been removed. See TASTE-EXPLORATION.md on that
+   branch for the measurements behind each one.
+   ============================================================ */
+/* The three documented layout traps are untouched by everything
+   below: no grid-template-columns in a transition on .gki-layout,
+   no fixed height on .gki-sidebar--left, no permalink assumptions. */
+
+/* ---------- A1. A real type scale ---------------------------
+   The base sheet declares "Major Third 1.250" but had drifted to
+   eleven near-identical sizes between 0.70rem and 0.95rem. These
+   are nine steps with distinct jobs. Every size below maps to one.
+   ------------------------------------------------------------ */
+:root {
+  --gki-fs-3xl:  2.441rem;  /* page title                        */
+  --gki-fs-2xl:  1.953rem;  /* markdown h1 in body (rare)        */
+  --gki-fs-xl:   1.563rem;  /* section title / h2                */
+  --gki-fs-lg:   1.25rem;   /* subsection title / h3             */
+  --gki-fs-md:   1.125rem;  /* intro / lead paragraph            */
+  --gki-fs-base: 1rem;      /* body copy, list items             */
+  --gki-fs-sm:   0.875rem;  /* card desc, captions, nav, TOC     */
+  --gki-fs-xs:   0.8125rem; /* labels, counts, breadcrumb        */
+  --gki-fs-2xs:  0.75rem;   /* eyebrow, meta, badges             */
+
+  /* Line heights paired to the step, not applied globally */
+  --gki-lh-tight:  1.2;
+  --gki-lh-snug:   1.35;
+  --gki-lh-normal: 1.7;
+
+  /* Measure — 860px at 0.95rem ran to ~110 characters per line.
+     68ch at 1rem lands in the 65-75 range that reads comfortably. */
+  --gki-measure: 68ch;
+
+  /* Focus ring — one token, used everywhere, visible in both themes */
+  --gki-focus-ring: 0 0 0 2px var(--gki-bg), 0 0 0 4px var(--gki-accent);
+
+  /* Shadows, tinted toward the surface hue instead of pure black.
+     The page ground is cool (#FFF / #F5F6F8), so the shadow carries
+     a slight blue-grey cast rather than neutral grey. */
+  --gki-shadow-sm: 0 1px 2px rgba(28, 32, 48, 0.06);
+  --gki-shadow:    0 1px 3px rgba(28, 32, 48, 0.08),
+                   0 1px 2px rgba(28, 32, 48, 0.04);
+  --gki-shadow-md: 0 4px 6px -1px rgba(28, 32, 48, 0.08),
+                   0 2px 4px -2px rgba(28, 32, 48, 0.05);
+}
+
+/* Dark mode shadows need depth, not tint — a tinted shadow on a dark
+   ground is invisible. Deepen instead. */
+[data-theme="dark"] {
+  --gki-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --gki-shadow:    0 1px 3px rgba(0, 0, 0, 0.45),
+                   0 1px 2px rgba(0, 0, 0, 0.3);
+  --gki-shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.5),
+                   0 2px 4px -2px rgba(0, 0, 0, 0.35);
+  --gki-focus-ring: 0 0 0 2px var(--gki-bg), 0 0 0 4px var(--gki-accent);
+}
+
+/* ---------- A2. Measure and body size -----------------------
+   16px body on a 68ch measure. The single largest readability win
+   available without touching layout.
+   ------------------------------------------------------------ */
+.gki-page {
+  max-width: var(--gki-measure);
+  line-height: var(--gki-lh-normal);
+}
+
+/* Index pages are card-driven, not prose — they keep the wide field
+   so the 3-up grid does not collapse to a narrow column. min() so the
+   figure can never exceed the column on a small screen. */
+body.gki-index-page .gki-page {
+  max-width: min(900px, 100%);
+}
+
+.gki-page > p:not([class]):not(:empty) {
+  font-size: var(--gki-fs-base);
+  line-height: var(--gki-lh-normal);
+  margin-bottom: 1.15rem;
+  text-wrap: pretty; /* kills orphans without the balance cost */
+}
+
+.gki-page > ul:not([class]) > li,
+.gki-page > ol:not([class]) > li {
+  font-size: var(--gki-fs-base);
+  line-height: var(--gki-lh-normal);
+}
+
+.gki-list li {
+  font-size: var(--gki-fs-base);
+}
+
+/* ---------- A3. Headings ------------------------------------
+   Negative tracking scaled to size — large text needs more of it,
+   small text needs none. Balance prevents one-word last lines.
+   ------------------------------------------------------------ */
+.gki-page-title {
+  font-size: var(--gki-fs-3xl);
+  line-height: var(--gki-lh-tight);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.gki-section-title,
+.gki-page > h2:not([class]) {
+  font-size: var(--gki-fs-xl);
+  line-height: var(--gki-lh-snug);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.gki-subsection-title,
+.gki-page > h3:not([class]) {
+  font-size: var(--gki-fs-lg);
+  line-height: var(--gki-lh-snug);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.gki-page > h4:not([class]) {
+  font-size: var(--gki-fs-md);
+  line-height: var(--gki-lh-snug);
+  letter-spacing: 0;
+}
+
+.gki-page > h5:not([class]) {
+  font-size: var(--gki-fs-base);
+  letter-spacing: 0;
+}
+
+/* h6 was uppercase at 0.88rem with 0.03em tracking. Uppercase micro-labels
+   need more tracking than that to stay legible; 0.75rem + 0.08em reads as a
+   deliberate label rather than shrunken body text. */
+.gki-page > h6:not([class]) {
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.08em;
+  color: var(--gki-text-muted);
+}
+
+.gki-intro {
+  font-size: var(--gki-fs-md);
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+/* ---------- A4. Small-end sizes onto the scale --------------- */
+.gki-breadcrumb,
+.gki-card-count,
+.gki-req-label {
+  font-size: var(--gki-fs-xs);
+}
+
+.gki-page-updated,
+.gki-search-result-cat {
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.02em;
+}
+
+.gki-card-title {
+  font-size: var(--gki-fs-base);
+  letter-spacing: -0.005em;
+}
+
+.gki-card-desc,
+.gki-figure figcaption,
+.gki-hero-figure figcaption,
+.gki-page figure:not([class]) figcaption {
+  font-size: var(--gki-fs-sm);
+  line-height: 1.55;
+}
+
+.gki-nav-item a,
+.gki-nav-child a,
+.gki-nav-section-link,
+.gki-nav-subgroup-link,
+.gki-sidebar-toc .gki-toc-link {
+  font-size: var(--gki-fs-sm);
+}
+
+/* ---------- A5. Tabular figures -----------------------------
+   This is a docs site about 26 numeric metrics. Proportional digits
+   make columns of numbers ragged and thresholds hard to compare.
+   ------------------------------------------------------------ */
+.gki-page table,
+.gki-page code,
+.gki-page pre,
+.gki-page kbd,
+.gki-card-count,
+.gki-req-value,
+.gki-page-updated {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Numeric table cells align right so magnitudes line up; the rule is
+   opt-in per cell via a class the content can carry, plus a sensible
+   default for any cell that is purely a number, percentage or duration. */
+.gki-page td.num,
+.gki-page th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- A6. Focus states --------------------------------
+   The base sheet had four focus rules across a link-dense, nav-heavy
+   UI. Every interactive element gets the same visible ring, and only
+   on keyboard focus so mouse users see no change.
+   ------------------------------------------------------------ */
+.gki-page a:focus-visible,
+.gki-card:focus-visible,
+.gki-nav-item a:focus-visible,
+.gki-nav-child a:focus-visible,
+.gki-nav-section-link:focus-visible,
+.gki-nav-subgroup-link:focus-visible,
+.gki-nav-title:focus-visible,
+.gki-toc-link:focus-visible,
+.gki-breadcrumb a:focus-visible,
+.gki-summary:focus-visible,
+.gki-search-result:focus-visible,
+.gki-gate-button:focus-visible,
+.gki-nav-collapse-btn:focus-visible,
+.gki-theme-switch input:focus-visible + .gki-theme-slider {
+  outline: none !important;
+  box-shadow: var(--gki-focus-ring) !important;
+  border-radius: 4px;
+}
+
+/* The base sheet put a permanent outline on :focus (not :focus-visible),
+   which fires on mouse click too. Neutralise it; :focus-visible above
+   is the replacement. */
+.gki-docs-page .gki-page a:focus {
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+.gki-docs-page .gki-page a:focus-visible {
+  outline: none !important;
+  box-shadow: var(--gki-focus-ring) !important;
+}
+
+/* Text inputs keep a ring rather than a colour-only change, so the
+   focused field is identifiable without relying on hue. */
+.gki-site-search-input:focus,
+.gki-site-search-input:focus-visible {
+  outline: none !important;
+  border-color: var(--gki-accent) !important;
+  box-shadow: var(--gki-focus-ring) !important;
+}
+
+/* ---------- A7. Pressed states ------------------------------
+   Hover told you an element was live; nothing confirmed the press.
+   ------------------------------------------------------------ */
+.gki-card:active {
+  transform: translateY(-1px) scale(0.995);
+  transition-duration: 0.06s;
+}
+
+.gki-nav-item a:active,
+.gki-nav-child a:active,
+.gki-nav-section-link:active,
+.gki-nav-subgroup-link:active,
+.gki-toc-link:active {
+  transform: translateX(1px);
+  transition-duration: 0.06s;
+}
+
+.gki-search-result:active,
+.gki-summary:active {
+  transform: scale(0.995);
+  transition-duration: 0.06s;
+}
+
+/* ---------- A8. Hit targets ---------------------------------
+   Nav rows were tight enough to be fiddly on touch. 40px minimum
+   without changing the visual rhythm much.
+   ------------------------------------------------------------ */
+@media (pointer: coarse) {
+  .gki-nav-item a,
+  .gki-nav-child a,
+  .gki-nav-section-link,
+  .gki-nav-subgroup-link {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ---------- A9. Reduced motion ------------------------------
+   The base sheet ran 23 transitions with no reduced-motion block at
+   all. Collapse animation is kept functional (max-height still
+   resolves) but instant.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .gki-card:hover {
+    transform: none !important;
+  }
+}
+
+/* ---------- A10. Optical alignment --------------------------
+   Mathematically centred icons next to text sit visually low; the
+   card arrow and callout icons both needed a 1px lift.
+   ------------------------------------------------------------ */
+.gki-card-arrow {
+  position: relative;
+  top: -1px;
+}
+
+.gki-callout-icon {
+  position: relative;
+  top: 1px;
+}
+
+/* Card icon glyphs are optically small inside a 36px tile at 18px.
+   20px reads as intentional without changing the tile. */
+.gki-card-icon i {
+  font-size: 20px;
+}
+
+/* ---------- A11. Consistent easing --------------------------
+   Everything was `ease`, which decelerates too abruptly to feel
+   considered. One curve, applied to the interactive set.
+   ------------------------------------------------------------ */
+.gki-card,
+.gki-card-arrow,
+.gki-nav-item a,
+.gki-nav-child a,
+.gki-nav-section-link,
+.gki-nav-subgroup-link,
+.gki-toc-link,
+.gki-search-result {
+  transition-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- A12. Table craft --------------------------------
+   Header row read at the same weight as the body, so scanning a
+   metric table meant re-finding the header each time.
+   ------------------------------------------------------------ */
+.gki-page thead th {
+  font-size: var(--gki-fs-xs) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted) !important;
+}
+
+.gki-page tbody td {
+  font-size: var(--gki-fs-sm) !important;
+  line-height: 1.6;
+}
+
+/* Wide metric tables must scroll inside their own box rather than
+   forcing the page to scroll sideways. */
+.gki-page table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ---------- A13. Mobile horizontal overflow (bug fix) --------
+   Measured on the local import at 375px: the stable build scrolls
+   sideways by 122px on every docs page.
+
+   Cause: the mobile grid track is `1fr`, which is shorthand for
+   `minmax(auto, 1fr)`. An `auto` minimum resolves to the widest
+   item's max-content size, so any single wide child — the nav
+   scroller, a metric table, a formula block — drags the whole grid
+   past the viewport and takes the page with it. `minmax(0, 1fr)`
+   lets the track shrink below its content, which is what the
+   per-element overflow rules below are then free to handle.
+
+   The desktop tracks already use minmax(0, …) for exactly this
+   reason; only the two mobile breakpoints were missed.
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .gki-layout,
+  .gki-layout.gki-nav-collapsed {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The nested nav tree scrolls within itself rather than widening
+     the page. The flat .gki-nav-list already had this; the section /
+     sub-group tree the nav actually uses did not. */
+  .gki-sidebar--left .gki-nav {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  /* Formula and code blocks are the other common offender. */
+  .gki-page pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .gki-page img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ---------- A14. Code and keys ------------------------------ */
+.gki-page code:not([class]) {
+  font-size: 0.875em !important;
+  padding: 0.12em 0.36em !important;
+}
+
+.gki-page pre code {
+  font-size: var(--gki-fs-sm);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   PASS C BASELINE — folded in from the Pass B ambition overlay
+   ------------------------------------------------------------
+   Card hierarchy and hover physics, nav and TOC active rails,
+   section-title hairlines, the lighter callout treatment, and the
+   entry-reveal classes. Attribute scoping removed: on this branch
+   these are simply how the site looks.
+
+   The reveal classes below are driven by the IntersectionObserver
+   in js/gki-passc.js. Cards and section blocks only; disabled
+   entirely under prefers-reduced-motion.
+   ============================================================ */
+/* ---------- B1. Page header ---------------------------------
+   The title block was title + pill + prose with no visual anchor.
+   An accent rule ties the header to the brand without colouring
+   the heading itself.
+   ------------------------------------------------------------ */
+.gki-page-title {
+  position: relative;
+  padding-top: 0.85rem;
+}
+
+.gki-page-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--gki-accent);
+}
+
+.gki-page-updated {
+  background: transparent;
+  border: 1px solid var(--gki-border-light);
+  color: var(--gki-text-muted);
+  padding: 0.22rem 0.62rem;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+/* ---------- B2. Section titles ------------------------------
+   The base used `display:inline-block` with a 2px bottom border,
+   which renders as a ragged underline the width of the text and
+   reads like a link artifact. A full-width hairline with a short
+   accent lead-in is calmer and scans faster.
+   ------------------------------------------------------------ */
+.gki-section-title,
+.gki-page > h2:not([class]) {
+  display: block !important;
+  border-bottom: 1px solid var(--gki-border-light) !important;
+  padding-bottom: 0.55rem !important;
+  position: relative;
+}
+
+.gki-section-title::after,
+.gki-page > h2:not([class])::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 2rem;
+  height: 2px;
+  background: var(--gki-accent);
+}
+
+/* ---------- B3. Cards ---------------------------------------
+   Three changes, in order of impact:
+
+   1. Drop `aspect-ratio: 1.15/1`. A fixed ratio forced a two-line
+      title and a three-line description into the same box as a
+      one-line pair, so half the cards carried dead space and the
+      rest felt cramped. Content-sized with a min-height instead.
+   2. Pin the count to the bottom so counts form one clean baseline
+      across the row regardless of description length.
+   3. Give hover real physics — lift, accent edge, arrow travel —
+      driven only by transform and box-shadow.
+   ------------------------------------------------------------ */
+.gki-card {
+  aspect-ratio: auto;
+  min-height: 0;
+  padding: 1.15rem 1.15rem 1rem !important;
+  border-radius: var(--gki-radius-lg) !important;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 0.25s cubic-bezier(0.22, 0.61, 0.36, 1),
+              border-color 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Accent edge that wipes in from the left on hover. Uses transform on
+   a pseudo-element, so no layout work. */
+.gki-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--gki-accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.gki-card:hover::before,
+.gki-card:focus-visible::before {
+  transform: scaleY(1);
+}
+
+.gki-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gki-border) !important;
+  background: var(--gki-bg) !important; /* stay white; the edge does the work */
+  box-shadow: 0 12px 24px -10px rgba(28, 32, 48, 0.18),
+              0 3px 8px -4px rgba(28, 32, 48, 0.10);
+}
+
+[data-theme="dark"] .gki-card:hover {
+  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.6),
+              0 3px 8px -4px rgba(0, 0, 0, 0.45) !important;
+}
+
+.gki-card:active {
+  transform: translateY(-1px);
+}
+
+/* Icon tile: slightly larger, softer corner, and it reacts to the
+   card hover so the whole card feels like one object. */
+.gki-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  margin-bottom: 0.7rem;
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.gki-card:hover .gki-card-icon {
+  transform: scale(1.06) rotate(-2deg);
+}
+
+.gki-card-title {
+  margin-bottom: 0.4rem;
+  align-items: flex-start;
+}
+
+.gki-card-desc {
+  margin-bottom: 0.9rem;
+}
+
+/* Count pinned to the bottom, on a hairline, so every card in a row
+   ends on the same baseline even with uneven description lengths. */
+.gki-card-count {
+  margin-top: auto;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--gki-border-light);
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+}
+
+.gki-card-arrow {
+  transition: transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+              color 0.2s ease;
+}
+
+.gki-card:hover .gki-card-arrow {
+  transform: translateX(4px);
+}
+
+/* Slightly more air between cards now that they are content-sized. */
+.gki-card-grid {
+  gap: 1.15rem !important;
+}
+
+/* ---------- B4. Navigation ----------------------------------
+   Active state was colour-only, which is both an accessibility gap
+   and hard to find at a glance in a 50-item tree. A left rail gives
+   position at a glance; colour becomes reinforcement, not the signal.
+   ------------------------------------------------------------ */
+.gki-nav-item a,
+.gki-nav-child a {
+  position: relative;
+  border-radius: 6px;
+  transition: background 0.18s cubic-bezier(0.22, 0.61, 0.36, 1),
+              color 0.18s ease;
+}
+
+.gki-nav-item a:hover,
+.gki-nav-child a:hover {
+  background: var(--gki-bg-subtle);
+}
+
+.gki-nav-item--active a::before,
+.gki-nav-child--active a::before {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 1.05em;
+  border-radius: 2px;
+  background: var(--gki-accent);
+}
+
+.gki-nav-item--active a,
+.gki-nav-child--active a {
+  background: var(--gki-bg-subtle);
+  font-weight: 600;
+}
+
+/* Section headers read as structure, not as more links. */
+.gki-nav-section-link,
+.gki-nav-subgroup-link {
+  border-radius: 6px;
+  transition: background 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.gki-nav-section-link:hover,
+.gki-nav-subgroup-link:hover {
+  background: var(--gki-bg-subtle);
+}
+
+.gki-nav-title {
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted) !important;
+  font-weight: 600;
+}
+
+/* Chevron rotates on a spring rather than a linear turn. */
+.gki-nav-chevron {
+  transition: transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* ---------- B5. Table of contents ---------------------------
+   Same reasoning as the nav: the active heading gets a rail.
+   ------------------------------------------------------------ */
+.gki-sidebar-toc .gki-toc {
+  position: relative;
+  padding-left: 0.85rem;
+}
+
+.gki-sidebar-toc .gki-toc::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--gki-border-light);
+}
+
+.gki-sidebar-toc .gki-toc-link {
+  position: relative;
+  transition: color 0.18s ease, transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.gki-sidebar-toc .gki-toc-link.gki-toc-active::before {
+  content: "";
+  position: absolute;
+  left: -0.85rem;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--gki-accent);
+}
+
+.gki-sidebar-toc .gki-toc-link:hover {
+  transform: translateX(2px);
+}
+
+.gki-sidebar-toc .gki-toc-title {
+  font-size: var(--gki-fs-2xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+}
+
+/* ---------- B6. Callouts ------------------------------------
+   Fully-tinted boxes with a border on all four sides interrupt the
+   reading column and stack badly when two appear in a row. A left
+   rule with a much lighter wash keeps the emphasis but lets the
+   column keep flowing.
+   ------------------------------------------------------------ */
+.gki-callout {
+  border: none !important;
+  border-left: 3px solid transparent !important;
+  border-radius: 0 var(--gki-radius) var(--gki-radius) 0 !important;
+  padding: 0.9rem 1.1rem !important;
+}
+
+.gki-callout--tip {
+  border-left-color: var(--gki-tip-icon) !important;
+  background: var(--gki-tip-bg) !important;
+}
+
+.gki-callout--info {
+  border-left-color: var(--gki-info-icon) !important;
+  background: var(--gki-info-bg) !important;
+}
+
+.gki-callout--warn {
+  border-left-color: var(--gki-warn-icon) !important;
+  background: var(--gki-warn-bg) !important;
+}
+
+/* ---------- B7. Steps ---------------------------------------
+   Step numbers sat on a plain circle with no connecting line, so a
+   five-step flow read as five unrelated blocks.
+   ------------------------------------------------------------ */
+.gki-step::before {
+  box-shadow: 0 0 0 4px var(--gki-bg);
+  z-index: 1;
+}
+
+.gki-steps {
+  position: relative;
+}
+
+/* ---------- B8. Search --------------------------------------- */
+.gki-site-search-input {
+  border-radius: 8px !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.gki-search-result {
+  border-radius: 6px;
+  transition: background 0.16s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 0.16s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.gki-search-result:hover {
+  transform: translateX(2px);
+}
+
+/* ---------- B9. Breadcrumb ----------------------------------- */
+.gki-breadcrumb {
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.gki-breadcrumb a {
+  color: var(--gki-text-muted) !important;
+  font-weight: 500;
+  transition: color 0.16s ease;
+}
+
+.gki-breadcrumb a:hover {
+  color: var(--gki-accent) !important;
+}
+
+/* ---------- B10. Entry motion -------------------------------
+   Driven by IntersectionObserver in js/gki-passc.js, which adds
+   .gki-reveal to eligible elements and .gki-revealed when they
+   enter. Transform and opacity only.
+
+   Deliberately restrained: docs are read top-to-bottom, and motion
+   that delays text a reader is already scrolling toward is hostile.
+   Cards and section blocks only, 320ms, 12px of travel, no blur,
+   no stagger beyond 40ms.
+
+   The hiding rule is gated on html.gki-js, which the script sets on
+   itself before anything else runs. If the script fails to load or
+   throws, the class is never added and every element renders fully
+   visible — content is never left stranded at opacity 0.
+   ------------------------------------------------------------ */
+.gki-js .gki-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  will-change: transform, opacity;
+}
+
+.gki-reveal.gki-revealed {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+              transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Drop will-change once the animation has run, so the compositor
+   does not hold a layer for every card on a 26-card index page. */
+.gki-reveal.gki-reveal-done {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gki-js .gki-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}
+
+/* ---------- B11. Figures ------------------------------------- */
+.gki-figure img,
+.gki-page figure:not([class]) img {
+  border-radius: var(--gki-radius-lg);
+  transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.gki-figure img:hover,
+.gki-page figure:not([class]) img:hover {
+  transform: scale(1.008);
+  box-shadow: var(--gki-shadow-md);
+}
+
+/* ---------- B12. Details / disclosure ------------------------ */
+.gki-details {
+  border-radius: var(--gki-radius-lg);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.gki-details:hover {
+  border-color: var(--gki-border);
+}
+
+.gki-summary {
+  transition: background 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+}

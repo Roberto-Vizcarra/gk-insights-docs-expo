@@ -1,0 +1,1008 @@
+<!--
+  Pass C prototype — GitKraken Insights Help Center
+  ================================================================
+  Structural mockup, not wired to the plugin. Explores three things
+  the CSS-only passes could not reach:
+
+    1. A metric page as a typed reference object (spec panel first,
+       prose second) rather than an article.
+    2. A working score sandbox pinned beside the explanation.
+    3. A command palette in place of the search input.
+
+  This file is the Artifact source, so it deliberately carries no
+  doctype / html / head / body — those are supplied at publish time.
+  Open it through the published artifact rather than from disk.
+
+  Tokens are the project's own (CLAUDE.md): #7900C9 accent-only,
+  #1C1C1C headings, #414141 body, Inter. JetBrains Mono is added for
+  formulas and figures.
+-->
+<title>Insights Docs Pass C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+/* ---------- Tokens ---------------------------------------- */
+:root {
+  color-scheme: light;
+
+  --accent:        #7900C9;
+  --accent-wash:   rgba(121, 0, 201, 0.07);
+
+  --ink:           #1C1C1C;
+  --body:          #414141;
+  --muted:         #636568;
+  --dim:           #8A8C92;
+
+  --ground:        #FFFFFF;
+  --surface:       #F7F7F9;
+  --surface-2:     #EDEEF1;
+  --rule:          #E3E4E8;
+  --rule-strong:   #C9CBD1;
+
+  --tier-power:    #15777E;
+  --tier-regular:  #3F36BA;
+  --tier-explorer: #8B6914;
+  --tier-emerging: #9E2040;
+
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, monospace;
+
+  --shadow-pop: 0 24px 60px -20px rgba(24, 26, 38, 0.30),
+                0 6px 16px -8px rgba(24, 26, 38, 0.16);
+
+  --measure: 66ch;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --accent:        #B475F9;
+    --accent-wash:   rgba(180, 117, 249, 0.14);
+    --ink:           #ECEDF0;
+    --body:          #B8BAC0;
+    --muted:         #8E9199;
+    --dim:           #70737B;
+    --ground:        #16171A;
+    --surface:       #1D1F23;
+    --surface-2:     #26282D;
+    --rule:          #303239;
+    --rule-strong:   #43464E;
+    --tier-power:    #2DD4BF;
+    --tier-regular:  #818CF8;
+    --tier-explorer: #D9A441;
+    --tier-emerging: #F0748E;
+    --shadow-pop: 0 24px 60px -20px rgba(0, 0, 0, 0.75),
+                  0 6px 16px -8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --accent:        #B475F9;
+  --accent-wash:   rgba(180, 117, 249, 0.14);
+  --ink:           #ECEDF0;
+  --body:          #B8BAC0;
+  --muted:         #8E9199;
+  --dim:           #70737B;
+  --ground:        #16171A;
+  --surface:       #1D1F23;
+  --surface-2:     #26282D;
+  --rule:          #303239;
+  --rule-strong:   #43464E;
+  --tier-power:    #2DD4BF;
+  --tier-regular:  #818CF8;
+  --tier-explorer: #D9A441;
+  --tier-emerging: #F0748E;
+  --shadow-pop: 0 24px 60px -20px rgba(0, 0, 0, 0.75),
+                0 6px 16px -8px rgba(0, 0, 0, 0.5);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--body);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { color: var(--ink); text-wrap: balance; margin: 0; }
+a { color: var(--accent); }
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--ground), 0 0 0 4px var(--accent);
+  border-radius: 4px;
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.kbd {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--ground);
+  border: 1px solid var(--rule);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.1rem 0.34rem;
+}
+
+/* ---------- Prototype chrome ------------------------------- */
+.proto-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.1rem;
+  padding-block: 0.65rem;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.8125rem;
+}
+.proto-tag {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.18rem 0.48rem;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+}
+.proto-note { color: var(--muted); }
+.proto-spacer { flex: 1 1 auto; }
+
+.seg { display: inline-flex; gap: 2px; padding: 2px; background: var(--surface-2); border-radius: 7px; }
+.seg button {
+  appearance: none; border: 0; background: transparent;
+  font: 600 0.75rem/1 var(--sans); color: var(--muted);
+  padding: 0.4rem 0.7rem; border-radius: 5px; cursor: pointer;
+  transition: background .18s cubic-bezier(.22,.61,.36,1), color .18s;
+}
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ground); color: var(--accent); }
+
+.pal-trigger {
+  display: flex; align-items: center; gap: 0.45rem;
+  padding: 0.38rem 0.65rem;
+  border: 1px solid var(--rule); border-radius: 7px;
+  font: 500 0.75rem/1 var(--sans); color: var(--muted);
+  background: var(--ground); cursor: pointer;
+}
+.pal-trigger:hover { border-color: var(--rule-strong); color: var(--ink); }
+
+/* ---------- Shell ------------------------------------------ */
+.shell {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 0 clamp(1.5rem, 4vw, 3.5rem);
+  max-width: 1340px;
+  margin: 0 auto;
+  padding-block: 2rem 4rem;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+}
+
+.sidenav { position: sticky; top: 4rem; align-self: start; max-height: calc(100vh - 6rem); overflow-y: auto; }
+.sidenav > .eyebrow { display: block; margin-bottom: 0.8rem; }
+.navgroup { margin-bottom: 1.05rem; }
+.navgroup > span { display: block; font-size: 0.75rem; font-weight: 600; color: var(--ink); padding: 0.2rem 0; }
+.navgroup ul { list-style: none; margin: 0.15rem 0 0; padding: 0 0 0 0.7rem; border-left: 1px solid var(--rule); }
+.navgroup li a { display: block; font-size: 0.8125rem; color: var(--body); text-decoration: none; padding: 0.22rem 0.4rem; border-radius: 5px; }
+.navgroup li a:hover { background: var(--surface); color: var(--ink); }
+.navgroup li a[aria-current] { color: var(--accent); font-weight: 600; background: var(--accent-wash); }
+
+/* ---------- Metric page ------------------------------------ */
+.crumbs { font-size: 0.8125rem; color: var(--muted); margin-bottom: 1.4rem; }
+.crumbs a { color: var(--muted); text-decoration: none; }
+.crumbs a:hover { color: var(--accent); }
+.crumbs i { font-style: normal; margin: 0 0.4rem; color: var(--rule-strong); }
+
+.metric-head { margin-bottom: 1.75rem; }
+.metric-head h1 {
+  font-size: clamp(2rem, 4vw, 2.55rem);
+  line-height: 1.12; letter-spacing: -0.028em; font-weight: 700;
+  margin: 0.35rem 0 0.55rem;
+}
+.definition { font-size: 1.0625rem; line-height: 1.55; color: var(--body); max-width: 54ch; margin: 0; }
+
+/* The spec panel — a metric is a typed object with fields */
+.spec { margin: 0 0 2.25rem; border-top: 2px solid var(--ink); }
+.spec dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); margin: 0; }
+.spec div { padding: 0.8rem 1rem 0.85rem 0; border-bottom: 1px solid var(--rule); }
+.spec dt {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.28rem;
+}
+.spec dd {
+  margin: 0; font-family: var(--mono); font-size: 0.8125rem; font-weight: 500;
+  color: var(--ink); line-height: 1.45; font-variant-numeric: tabular-nums;
+}
+.spec dd.plain { font-family: var(--sans); font-size: 0.875rem; }
+.spec dd small { color: var(--muted); font-weight: 400; }
+
+.formula {
+  background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 10px; padding: 1.1rem 1.2rem; margin: 0 0 0.9rem; overflow-x: auto;
+}
+.formula pre { margin: 0; font-family: var(--mono); font-size: 0.875rem; line-height: 1.7; color: var(--ink); }
+.formula .op { color: var(--muted); }
+.formula .var { color: var(--accent); font-weight: 500; }
+
+.legend {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 0.45rem 1.5rem; margin: 0 0 2.5rem; padding: 0; list-style: none; font-size: 0.8125rem;
+}
+.legend li { display: flex; gap: 0.5rem; color: var(--muted); }
+.legend code { font-family: var(--mono); font-size: 0.75rem; color: var(--accent); font-weight: 500; flex: none; }
+
+.body-split {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure)) minmax(275px, 330px);
+  gap: 0 clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.prose h2 {
+  font-size: 1.3rem; letter-spacing: -0.015em;
+  margin: 2.4rem 0 0.8rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--rule);
+}
+.prose h2:first-child { margin-top: 0; }
+.prose p { margin: 0 0 1rem; text-wrap: pretty; }
+.prose strong { color: var(--ink); font-weight: 600; }
+
+/* Numbered steps — genuinely a sequence, so numbers carry meaning */
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.steps li {
+  counter-increment: s; position: relative;
+  padding: 0 0 1.05rem 2.4rem; border-left: 1px solid var(--rule); margin-left: 0.8rem;
+}
+.steps li:last-child { border-left-color: transparent; padding-bottom: 0; }
+.steps li::before {
+  content: counter(s); position: absolute; left: -0.8rem; top: 0;
+  width: 1.6rem; height: 1.6rem; display: grid; place-items: center;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--accent);
+  background: var(--ground); border: 1px solid var(--rule-strong); border-radius: 50%;
+}
+.steps h3 { font-size: 0.9375rem; font-weight: 600; margin: 0.1rem 0 0.3rem; }
+.steps p { font-size: 0.9375rem; margin: 0; }
+
+/* Tier scale — draws the thing the old 4-row table described */
+.tier-track { display: grid; grid-template-columns: 24fr 30fr 25fr 21fr; gap: 3px; margin-bottom: 0.7rem; }
+.tier-track span { height: 9px; border-radius: 2px; }
+.t-emerging { background: var(--tier-emerging); }
+.t-explorer { background: var(--tier-explorer); }
+.t-regular  { background: var(--tier-regular); }
+.t-power    { background: var(--tier-power); }
+
+.tier-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.tier-list li { display: grid; grid-template-columns: 4.4rem 1fr; gap: 0.7rem; align-items: baseline; font-size: 0.8125rem; }
+.tier-list b { font-family: var(--mono); font-size: 0.75rem; font-variant-numeric: tabular-nums; color: var(--ink); }
+.tier-list em { font-style: normal; color: var(--muted); }
+.swatch { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 0.4rem; }
+.tier-note { font-size: 0.8125rem; color: var(--muted); margin: 0.85rem 0 0; }
+
+/* The instrument */
+.rail { position: sticky; top: 4rem; }
+.instrument { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 1.1rem 1.1rem 1.2rem; }
+.instrument > .eyebrow { display: block; margin-bottom: 0.8rem; }
+
+.readout {
+  display: flex; align-items: baseline; gap: 0.55rem;
+  padding-bottom: 0.8rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--rule);
+}
+.readout output {
+  font-family: var(--mono); font-size: 2.7rem; font-weight: 700; line-height: 1;
+  letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums;
+}
+.readout .of { font-family: var(--mono); font-size: 0.875rem; color: var(--dim); }
+.band {
+  margin-left: auto; font-size: 0.75rem; font-weight: 600;
+  padding: 0.2rem 0.55rem; border-radius: 999px; border: 1px solid currentColor; white-space: nowrap;
+}
+
+.ctrl { display: grid; gap: 0.25rem; margin-bottom: 0.8rem; }
+.ctrl-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.ctrl label { font-size: 0.8125rem; font-weight: 500; color: var(--body); }
+.ctrl .val { font-family: var(--mono); font-size: 0.75rem; font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+input[type="range"] {
+  appearance: none; -webkit-appearance: none;
+  width: 100%; height: 4px; border-radius: 2px;
+  background: var(--surface-2); margin: 0.3rem 0 0; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--ground);
+  box-shadow: 0 1px 3px rgba(0,0,0,.28);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--ground);
+}
+
+.group-label {
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--dim); margin: 1rem 0 0.55rem; padding-top: 0.8rem; border-top: 1px solid var(--rule);
+}
+.group-label.first { margin-top: 0; padding-top: 0; border-top: 0; }
+
+.ceiling-note { font-size: 0.75rem; color: var(--muted); margin: 0.85rem 0 0; padding-top: 0.7rem; border-top: 1px solid var(--rule); }
+.ceiling-note b { color: var(--ink); font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+.surfaces { list-style: none; margin: 0; padding: 0; }
+.surfaces li {
+  display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem;
+  padding: 0.65rem 0; border-bottom: 1px solid var(--rule); font-size: 0.875rem; align-items: baseline;
+}
+.surfaces code { font-family: var(--mono); font-size: 0.8125rem; color: var(--accent); font-weight: 500; }
+
+/* ---------- Home ------------------------------------------- */
+.home-hero { border-bottom: 1px solid var(--rule); padding-bottom: 2.1rem; margin-bottom: 2.1rem; }
+.home-hero h1 {
+  font-size: clamp(2.1rem, 5vw, 3rem); line-height: 1.08;
+  letter-spacing: -0.032em; font-weight: 700; max-width: 18ch; margin: 0.55rem 0 0.85rem;
+}
+.home-hero p { font-size: 1.0625rem; max-width: 56ch; margin: 0; }
+
+.paths {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(188px, 1fr));
+  border-top: 1px solid var(--rule); margin-bottom: 2.9rem;
+}
+.path { display: block; text-decoration: none; padding: 1.05rem 1.2rem 1.2rem 0; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); }
+.path:last-child { border-right: 0; }
+.path .role { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+.path h3 { font-size: 1rem; font-weight: 600; margin: 0.4rem 0 0.28rem; }
+.path p { font-size: 0.8125rem; color: var(--muted); margin: 0; line-height: 1.5; }
+.path:hover h3 { color: var(--accent); }
+
+.map-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.map-head h2 { font-size: 1.3rem; letter-spacing: -0.015em; }
+.map-head .count { font-family: var(--mono); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.families { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.family {
+  background: var(--ground); display: grid;
+  grid-template-columns: minmax(148px, 195px) minmax(0, 1fr);
+  gap: 0.45rem 1.5rem; padding: 0.95rem 1.2rem; align-items: start;
+}
+.family h3 { font-size: 0.9375rem; font-weight: 600; margin: 0 0 0.15rem; }
+.family .n { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chip {
+  font-size: 0.75rem; font-weight: 500; color: var(--body);
+  background: var(--surface); border: 1px solid var(--rule);
+  padding: 0.2rem 0.55rem; border-radius: 5px; text-decoration: none; white-space: nowrap;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip.derived { border-style: dashed; }
+.map-key { font-size: 0.75rem; color: var(--muted); margin: 0.8rem 0 0; }
+.map-key .chip { pointer-events: none; }
+
+/* ---------- Command palette -------------------------------- */
+.pal-backdrop {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(16, 17, 22, 0.45);
+  display: grid; place-items: start center;
+  padding: clamp(3rem, 12vh, 8rem) 1rem 1rem;
+}
+.pal-backdrop[hidden] { display: none !important; }
+.pal {
+  width: min(600px, 100%); background: var(--ground);
+  border: 1px solid var(--rule-strong); border-radius: 14px;
+  box-shadow: var(--shadow-pop); overflow: hidden;
+}
+.pal-input-wrap { display: flex; align-items: center; gap: 0.7rem; padding: 0.85rem 1.05rem; border-bottom: 1px solid var(--rule); }
+.pal-input-wrap svg { flex: none; color: var(--dim); }
+#pal-input { flex: 1; min-width: 0; border: 0; background: transparent; font: 400 1rem/1.4 var(--sans); color: var(--ink); outline: none; }
+#pal-input::placeholder { color: var(--dim); }
+
+.pal-results { max-height: min(50vh, 370px); overflow-y: auto; padding: 0.4rem; margin: 0; list-style: none; }
+.pal-group { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); padding: 0.65rem 0.7rem 0.28rem; }
+.pal-item { display: flex; align-items: baseline; gap: 0.7rem; padding: 0.48rem 0.7rem; border-radius: 7px; cursor: pointer; }
+.pal-item[data-active="true"] { background: var(--accent-wash); }
+.pal-item .t { font-size: 0.875rem; font-weight: 500; color: var(--ink); }
+.pal-item[data-active="true"] .t { color: var(--accent); }
+.pal-item .d { font-size: 0.75rem; color: var(--muted); margin-left: auto; text-align: right; white-space: nowrap; }
+.pal-empty { padding: 1.4rem 0.7rem; text-align: center; font-size: 0.875rem; color: var(--muted); }
+.pal-foot { display: flex; gap: 1rem; padding: 0.5rem 1.05rem; border-top: 1px solid var(--rule); background: var(--surface); font-size: 0.6875rem; color: var(--muted); }
+.pal-foot span { display: flex; align-items: center; gap: 0.3rem; }
+
+/* ---------- Responsive ------------------------------------- */
+@media (max-width: 1080px) {
+  .body-split { grid-template-columns: minmax(0, 1fr); gap: 2.4rem; }
+  .rail { position: static; }
+}
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidenav { display: none; }
+}
+@media (max-width: 560px) {
+  .surfaces li { grid-template-columns: 1fr; gap: 0.15rem; }
+  .family { grid-template-columns: 1fr; }
+  .path { border-right: 0; padding-right: 0; }
+  .readout output { font-size: 2.2rem; }
+  .proto-note { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+</style>
+
+<div class="proto-bar">
+  <span class="proto-tag">Pass C · prototype</span>
+  <span class="proto-note">Structural mockup — not wired to the plugin</span>
+  <span class="proto-spacer"></span>
+  <div class="seg" role="group" aria-label="View">
+    <button type="button" id="view-metric" aria-pressed="true">Metric page</button>
+    <button type="button" id="view-home" aria-pressed="false">Home</button>
+  </div>
+  <button type="button" class="pal-trigger" id="open-pal">
+    Search docs <span class="kbd">Ctrl K</span>
+  </button>
+</div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="Documentation">
+    <span class="eyebrow">GitKraken Insights</span>
+
+    <div class="navgroup">
+      <span>Getting Started</span>
+      <ul>
+        <li><a href="#">Your first dashboard</a></li>
+        <li><a href="#">For executives</a></li>
+        <li><a href="#">For engineering leaders</a></li>
+      </ul>
+    </div>
+
+    <div class="navgroup">
+      <span>Metrics &middot; Adoption &amp; Agentic</span>
+      <ul>
+        <li><a href="#" aria-current="page">Agent Adoption Score</a></li>
+        <li><a href="#">Agent Autonomy Score</a></li>
+        <li><a href="#">AI Tier</a></li>
+        <li><a href="#">Maturity Factor</a></li>
+        <li><a href="#">Cursor Boost</a></li>
+      </ul>
+    </div>
+
+    <div class="navgroup">
+      <span>Metrics &middot; Flow &amp; Cycle Time</span>
+      <ul>
+        <li><a href="#">Cycle Time</a></li>
+        <li><a href="#">Review Cycles</a></li>
+        <li><a href="#">First-Pass Rate</a></li>
+      </ul>
+    </div>
+
+    <div class="navgroup">
+      <span>Playbooks</span>
+      <ul>
+        <li><a href="#">Sizing tier weights</a></li>
+        <li><a href="#">Rolling out AI</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ==================== Metric page ==================== -->
+  <main id="pane-metric">
+    <div class="crumbs">
+      <a href="#">Home</a><i>/</i><a href="#">Metrics</a><i>/</i><a href="#">Adoption &amp; Agentic</a><i>/</i>Agent Adoption Score
+    </div>
+
+    <header class="metric-head">
+      <span class="eyebrow">Adoption &amp; Agentic</span>
+      <h1>Agent Adoption Score</h1>
+      <p class="definition">
+        A 0&ndash;100 measure of how consistently and how deeply a developer is using AI coding
+        tools over the selected window.
+      </p>
+    </header>
+
+    <section class="spec" aria-label="Specification">
+      <dl>
+        <div><dt>Range</dt><dd>0 &ndash; 100</dd></div>
+        <div><dt>Family</dt><dd class="plain">Adoption &amp; Agentic</dd></div>
+        <div><dt>Cadence</dt><dd class="plain">Window-based</dd></div>
+        <div><dt>Normalized against</dt><dd class="plain">Org P90, same window</dd></div>
+        <div><dt>Providers</dt><dd class="plain">Claude Code &middot; Codex &middot; Cursor</dd></div>
+        <div><dt>Default ceiling</dt><dd>75 <small>(0.75 MF)</small></dd></div>
+      </dl>
+    </section>
+
+    <div class="formula">
+      <pre>Adoption Score <span class="op">=</span> min(<span class="var">Primary</span> <span class="op">+</span> 0.25 <span class="op">&times;</span> <span class="var">Cursor</span>, 100) <span class="op">&times;</span> <span class="var">MaturityFactor</span></pre>
+    </div>
+    <ul class="legend">
+      <li><code>Primary</code> four-factor blend of Claude &cup; Codex</li>
+      <li><code>Cursor</code> four-factor blend of Cursor, if non-null</li>
+      <li><code>MaturityFactor</code> org setting, default 0.75</li>
+    </ul>
+
+    <div class="body-split">
+      <div class="prose">
+        <h2>At a glance</h2>
+        <p>
+          The Agent Adoption Score is the dashboard's headline answer to "is this developer
+          using AI?" It combines four dimensions of usage &mdash; daily consistency, time-of-day
+          spread, prompt volume, and output tokens &mdash; across every AI tool the developer has
+          access to. Higher means more consistent, deeper use.
+        </p>
+        <p>
+          It is normalized against your organization's own 90th-percentile usage, so the bar is
+          your team, not an industry average. The score is <strong>descriptive, not
+          evaluative</strong>: a senior developer on a quarter-long migration may read as
+          Emerging because the work doesn't suit AI tooling.
+        </p>
+
+        <h2>How it's calculated</h2>
+        <ol class="steps">
+          <li>
+            <h3>Per-provider scoring</h3>
+            <p>Four factors are normalized against the org P90 cap and capped at 1.0, then weighted and summed to a 0&ndash;100 provider score.</p>
+          </li>
+          <li>
+            <h3>Union Claude and Codex into Primary</h3>
+            <p>The two are unioned at the factor level, not averaged. A developer using Claude in the morning and Codex in the afternoon gets credit for the combined daily spread rather than two fractional scores.</p>
+          </li>
+          <li>
+            <h3>Add the Cursor boost</h3>
+            <p>Cursor is scored independently and added to Primary at 25%. The total is capped at 100 before maturity scaling.</p>
+          </li>
+          <li>
+            <h3>Scale by Maturity Factor</h3>
+            <p>The final value is multiplied by the org's Maturity Factor. At the default 0.75, a developer at P90 on every factor scores 75 &mdash; leaving headroom to grow into the Power User band.</p>
+          </li>
+        </ol>
+
+        <h2>How to read it</h2>
+        <div class="tier-track" aria-hidden="true">
+          <span class="t-emerging"></span><span class="t-explorer"></span><span class="t-regular"></span><span class="t-power"></span>
+        </div>
+        <ul class="tier-list">
+          <li><b>80&ndash;100</b><span><span class="swatch" style="background:var(--tier-power)"></span><strong>Power User</strong> &mdash; <em>integrated into daily work, multiple sessions per day</em></span></li>
+          <li><b>55&ndash;79</b><span><span class="swatch" style="background:var(--tier-regular)"></span><strong>Regular</strong> &mdash; <em>solid, consistent adoption; a routine part of the workflow</em></span></li>
+          <li><b>25&ndash;54</b><span><span class="swatch" style="background:var(--tier-explorer)"></span><strong>Explorer</strong> &mdash; <em>using AI but not yet daily, or shallow integration</em></span></li>
+          <li><b>0&ndash;24</b><span><span class="swatch" style="background:var(--tier-emerging)"></span><strong>Emerging</strong> &mdash; <em>minimal or no AI usage in the window</em></span></li>
+        </ul>
+        <p class="tier-note">
+          Tier bands are fixed reference points &mdash; they do not move with the Maturity Factor.
+          What moves is the score, so at the default 0.75 the Power User band only opens up as
+          you raise the factor toward 1.0.
+        </p>
+
+        <h2>Where it appears</h2>
+        <ul class="surfaces">
+          <li><code>/developers</code><span>Primary surface. Headline column, plus an expanded four-factor and per-provider breakdown.</span></li>
+          <li><code>/teams</code><span>Team average column; expandable rows show per-developer scores.</span></li>
+          <li><code>/comparison</code><span>Distribution by cohort &mdash; team, AI tool, primary model.</span></li>
+          <li><code>/executive</code><span>Hero KPI "AI Adoption %" (devs at score &ge; 25) and a trend line.</span></li>
+          <li><code>/ai-impact</code><span>Cohort dimension for the productivity uplift analysis.</span></li>
+        </ul>
+      </div>
+
+      <aside class="rail">
+        <div class="instrument">
+          <span class="eyebrow">Score sandbox</span>
+          <div class="readout">
+            <output id="score">56</output>
+            <span class="of">/ 100</span>
+            <span class="band" id="band">Regular</span>
+          </div>
+
+          <div class="group-label first">Primary &mdash; Claude &cup; Codex</div>
+
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="f1">Daily use</label><span class="val" id="f1v">0.80</span></div>
+            <input type="range" id="f1" min="0" max="1" step="0.01" value="0.80">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="f2">Hourly spread</label><span class="val" id="f2v">0.70</span></div>
+            <input type="range" id="f2" min="0" max="1" step="0.01" value="0.70">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="f3">Prompts</label><span class="val" id="f3v">0.65</span></div>
+            <input type="range" id="f3" min="0" max="1" step="0.01" value="0.65">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="f4">Output tokens</label><span class="val" id="f4v">0.60</span></div>
+            <input type="range" id="f4" min="0" max="1" step="0.01" value="0.60">
+          </div>
+
+          <div class="group-label">Secondary &amp; scaling</div>
+
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="cur">Cursor score</label><span class="val" id="curv">30</span></div>
+            <input type="range" id="cur" min="0" max="100" step="1" value="30">
+          </div>
+          <div class="ctrl">
+            <div class="ctrl-top"><label for="mf">Maturity Factor</label><span class="val" id="mfv">0.75</span></div>
+            <input type="range" id="mf" min="0.5" max="1" step="0.05" value="0.75">
+          </div>
+
+          <p class="ceiling-note">
+            Ceiling at this Maturity Factor: <b id="ceiling">75</b>.<br>
+            Primary before scaling: <b id="primary">69</b>.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ==================== Home ==================== -->
+  <main id="pane-home" hidden>
+    <header class="home-hero">
+      <span class="eyebrow">GitKraken Insights</span>
+      <h1>Find out what AI is actually delivering.</h1>
+      <p>
+        Insights gives engineering leaders a single view of how AI tools, code delivery, and
+        team capacity work together &mdash; how much your team is using AI, how autonomously, and
+        what it returns in time and dollars.
+      </p>
+    </header>
+
+    <span class="eyebrow" style="display:block;margin-bottom:.85rem;">Start where you sit</span>
+    <div class="paths">
+      <a class="path" href="#">
+        <span class="role">Executive</span>
+        <h3>Prove the investment</h3>
+        <p>Adoption %, productivity uplift, and the CapEx/OpEx split in four screens.</p>
+      </a>
+      <a class="path" href="#">
+        <span class="role">Engineering leader</span>
+        <h3>Find the bottleneck</h3>
+        <p>DORA, cycle time, and review load across every team you own.</p>
+      </a>
+      <a class="path" href="#">
+        <span class="role">Team lead</span>
+        <h3>Coach the team</h3>
+        <p>Per-developer adoption, without turning the score into a performance review.</p>
+      </a>
+      <a class="path" href="#">
+        <span class="role">Admin</span>
+        <h3>Connect the data</h3>
+        <p>Git providers, AI tools, and project trackers &mdash; plus the settings that move scores.</p>
+      </a>
+    </div>
+
+    <div class="map-head">
+      <h2>The metric map</h2>
+      <span class="count">21 metrics &middot; 5 families</span>
+    </div>
+
+    <div class="families">
+      <div class="family">
+        <div><h3>Adoption &amp; Agentic</h3><span class="n">5 metrics</span></div>
+        <div class="chips">
+          <a class="chip" href="#">Agent Adoption Score</a>
+          <a class="chip" href="#">Agent Autonomy Score</a>
+          <a class="chip" href="#">AI Tier</a>
+          <a class="chip derived" href="#">Maturity Factor</a>
+          <a class="chip derived" href="#">Cursor Boost</a>
+        </div>
+      </div>
+      <div class="family">
+        <div><h3>Output &amp; Throughput</h3><span class="n">4 metrics</span></div>
+        <div class="chips">
+          <a class="chip" href="#">Output Score</a>
+          <a class="chip" href="#">Throughput</a>
+          <a class="chip" href="#">Direct Commits</a>
+          <a class="chip" href="#">Effort Score</a>
+        </div>
+      </div>
+      <div class="family">
+        <div><h3>Flow &amp; Cycle Time</h3><span class="n">4 metrics</span></div>
+        <div class="chips">
+          <a class="chip" href="#">Cycle Time</a>
+          <a class="chip" href="#">Review Cycles</a>
+          <a class="chip" href="#">First-Pass Rate</a>
+          <a class="chip" href="#">WIP</a>
+        </div>
+      </div>
+      <div class="family">
+        <div><h3>DORA &amp; Quality</h3><span class="n">4 metrics</span></div>
+        <div class="chips">
+          <a class="chip" href="#">Deployment Frequency</a>
+          <a class="chip" href="#">Lead Time</a>
+          <a class="chip" href="#">Change Failure Rate</a>
+          <a class="chip" href="#">MTTR</a>
+        </div>
+      </div>
+      <div class="family">
+        <div><h3>AI Impact &amp; Cost</h3><span class="n">4 metrics</span></div>
+        <div class="chips">
+          <a class="chip" href="#">Productivity Uplift</a>
+          <a class="chip" href="#">AI-Assisted %</a>
+          <a class="chip" href="#">CapEx / OpEx</a>
+          <a class="chip" href="#">Spend by Tier</a>
+        </div>
+      </div>
+    </div>
+    <p class="map-key">
+      <span class="chip derived">Dashed</span> marks a setting or modifier that changes other
+      scores rather than a score of its own.
+    </p>
+  </main>
+</div>
+
+<div class="pal-backdrop" id="pal" hidden>
+  <div class="pal" role="dialog" aria-modal="true" aria-label="Search documentation">
+    <div class="pal-input-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="pal-input" type="text" placeholder="Search metrics, playbooks, settings&hellip;" autocomplete="off" spellcheck="false">
+    </div>
+    <ul class="pal-results" id="pal-results"></ul>
+    <div class="pal-foot">
+      <span><span class="kbd">&uarr;&darr;</span> navigate</span>
+      <span><span class="kbd">&crarr;</span> open</span>
+      <span><span class="kbd">esc</span> close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- View toggle ---------- */
+  var paneMetric = document.getElementById('pane-metric');
+  var paneHome   = document.getElementById('pane-home');
+  var btnMetric  = document.getElementById('view-metric');
+  var btnHome    = document.getElementById('view-home');
+
+  function show(which) {
+    var metric = which === 'metric';
+    paneMetric.hidden = !metric;
+    paneHome.hidden = metric;
+    btnMetric.setAttribute('aria-pressed', String(metric));
+    btnHome.setAttribute('aria-pressed', String(!metric));
+  }
+  btnMetric.addEventListener('click', function () { show('metric'); });
+  btnHome.addEventListener('click', function () { show('home'); });
+
+  /* ---------- Score sandbox ----------
+     Faithful to the documented formula:
+       Adoption = min(Primary + 0.25 x Cursor, 100) x MaturityFactor
+     The four factors are equally weighted here; in the product the
+     per-provider weights are env-configurable (SCORE_WEIGHT_*). */
+  var f1 = document.getElementById('f1');
+  var f2 = document.getElementById('f2');
+  var f3 = document.getElementById('f3');
+  var f4 = document.getElementById('f4');
+  var cur = document.getElementById('cur');
+  var mf = document.getElementById('mf');
+
+  var f1v = document.getElementById('f1v');
+  var f2v = document.getElementById('f2v');
+  var f3v = document.getElementById('f3v');
+  var f4v = document.getElementById('f4v');
+  var curv = document.getElementById('curv');
+  var mfv = document.getElementById('mfv');
+
+  var out = document.getElementById('score');
+  var bandEl = document.getElementById('band');
+  var ceilEl = document.getElementById('ceiling');
+  var primEl = document.getElementById('primary');
+
+  var BANDS = [
+    { min: 80, name: 'Power User', color: 'var(--tier-power)' },
+    { min: 55, name: 'Regular',    color: 'var(--tier-regular)' },
+    { min: 25, name: 'Explorer',   color: 'var(--tier-explorer)' },
+    { min: 0,  name: 'Emerging',   color: 'var(--tier-emerging)' }
+  ];
+
+  function recalc() {
+    var primary = (+f1.value + +f2.value + +f3.value + +f4.value) / 4 * 100;
+    var score = Math.min(primary + 0.25 * +cur.value, 100) * +mf.value;
+    var rounded = Math.round(score);
+
+    out.textContent = rounded;
+    primEl.textContent = Math.round(primary);
+    ceilEl.textContent = Math.round(100 * +mf.value);
+
+    for (var i = 0; i < BANDS.length; i++) {
+      if (rounded >= BANDS[i].min) {
+        bandEl.textContent = BANDS[i].name;
+        bandEl.style.color = BANDS[i].color;
+        break;
+      }
+    }
+
+    f1v.textContent = (+f1.value).toFixed(2);
+    f2v.textContent = (+f2.value).toFixed(2);
+    f3v.textContent = (+f3.value).toFixed(2);
+    f4v.textContent = (+f4.value).toFixed(2);
+    curv.textContent = String(+cur.value);
+    mfv.textContent = (+mf.value).toFixed(2);
+  }
+
+  [f1, f2, f3, f4, cur, mf].forEach(function (input) {
+    input.addEventListener('input', recalc);
+  });
+  recalc();
+
+  /* ---------- Command palette ---------- */
+  var PAGES = [
+    { t: 'Agent Adoption Score',       g: 'Adoption & Agentic' },
+    { t: 'Agent Autonomy Score',       g: 'Adoption & Agentic' },
+    { t: 'AI Tier',                    g: 'Adoption & Agentic' },
+    { t: 'Maturity Factor',            g: 'Adoption & Agentic' },
+    { t: 'Cursor Boost',               g: 'Adoption & Agentic' },
+    { t: 'Output Score',               g: 'Output & Throughput' },
+    { t: 'Throughput',                 g: 'Output & Throughput' },
+    { t: 'Direct Commits',             g: 'Output & Throughput' },
+    { t: 'Effort Score',               g: 'Output & Throughput' },
+    { t: 'Cycle Time',                 g: 'Flow & Cycle Time' },
+    { t: 'Review Cycles',              g: 'Flow & Cycle Time' },
+    { t: 'First-Pass Rate',            g: 'Flow & Cycle Time' },
+    { t: 'WIP',                        g: 'Flow & Cycle Time' },
+    { t: 'Deployment Frequency',       g: 'DORA & Quality' },
+    { t: 'Lead Time',                  g: 'DORA & Quality' },
+    { t: 'Change Failure Rate',        g: 'DORA & Quality' },
+    { t: 'MTTR',                       g: 'DORA & Quality' },
+    { t: 'Productivity Uplift',        g: 'AI Impact & Cost' },
+    { t: 'AI-Assisted Percentage',     g: 'AI Impact & Cost' },
+    { t: 'CapEx / OpEx',               g: 'AI Impact & Cost' },
+    { t: 'Spend by Tier',              g: 'AI Impact & Cost' },
+    { t: 'Sizing tier weights',        g: 'Playbooks' },
+    { t: 'Rolling out AI',             g: 'Playbooks' },
+    { t: 'Diagnosing slow cycle time', g: 'Playbooks' },
+    { t: 'Fixing a high change failure rate', g: 'Playbooks' },
+    { t: 'Connect GitHub',             g: 'Connect Your Data' },
+    { t: 'Connect Bitbucket',          g: 'Connect Your Data' },
+    { t: 'Connect Azure DevOps',       g: 'Connect Your Data' },
+    { t: 'Connect AI tools',           g: 'Connect Your Data' },
+    { t: 'Settings reference',         g: 'Admin & API' },
+    { t: 'Manual releases API',        g: 'Admin & API' },
+    { t: 'Your first dashboard',       g: 'Getting Started' },
+    { t: 'For executives',             g: 'Getting Started' },
+    { t: 'For engineering leaders',    g: 'Getting Started' }
+  ];
+
+  var pal = document.getElementById('pal');
+  var palInput = document.getElementById('pal-input');
+  var palResults = document.getElementById('pal-results');
+  var active = 0;
+  var matches = [];
+  var lastFocus = null;
+
+  /* Substring first, then subsequence, so "adsc" still finds
+     "Agent Adoption Score". */
+  function rank(query, text) {
+    var q = query.toLowerCase();
+    var s = text.toLowerCase();
+    var direct = s.indexOf(q);
+    if (direct === 0) return 1000;
+    if (direct > 0) return 600 - direct;
+    var qi = 0;
+    for (var i = 0; i < s.length && qi < q.length; i++) {
+      if (s.charAt(i) === q.charAt(qi)) qi++;
+    }
+    return qi === q.length ? 200 - s.length * 0.1 : -1;
+  }
+
+  function render() {
+    var q = palInput.value.trim();
+    var grouped = !q;
+
+    if (grouped) {
+      matches = PAGES.slice();
+    } else {
+      matches = PAGES
+        .map(function (p) { return { p: p, r: rank(q, p.t) }; })
+        .filter(function (x) { return x.r >= 0; })
+        .sort(function (a, b) { return b.r - a.r; })
+        .map(function (x) { return x.p; });
+    }
+
+    palResults.innerHTML = '';
+
+    if (!matches.length) {
+      var empty = document.createElement('li');
+      empty.className = 'pal-empty';
+      empty.textContent = 'No pages match "' + q + '"';
+      palResults.appendChild(empty);
+      return;
+    }
+
+    var lastGroup = null;
+    matches.forEach(function (p, i) {
+      if (grouped && p.g !== lastGroup) {
+        var head = document.createElement('li');
+        head.className = 'pal-group';
+        head.textContent = p.g;
+        palResults.appendChild(head);
+        lastGroup = p.g;
+      }
+
+      var li = document.createElement('li');
+      li.className = 'pal-item';
+      li.dataset.active = String(i === active);
+      li.dataset.index = String(i);
+
+      var t = document.createElement('span');
+      t.className = 't';
+      t.textContent = p.t;
+      var d = document.createElement('span');
+      d.className = 'd';
+      d.textContent = p.g;
+      li.appendChild(t);
+      li.appendChild(d);
+
+      li.addEventListener('mousemove', function () {
+        if (active !== i) { active = i; paint(); }
+      });
+      li.addEventListener('click', choose);
+      palResults.appendChild(li);
+    });
+  }
+
+  function paint() {
+    var items = palResults.querySelectorAll('.pal-item');
+    for (var i = 0; i < items.length; i++) {
+      items[i].dataset.active = String(+items[i].dataset.index === active);
+    }
+    var cur2 = palResults.querySelector('.pal-item[data-active="true"]');
+    if (cur2) cur2.scrollIntoView({ block: 'nearest' });
+  }
+
+  function choose() {
+    if (!matches[active]) return;
+    close();
+    // Prototype: every result resolves to the one page that is built.
+    show('metric');
+  }
+
+  function open() {
+    lastFocus = document.activeElement;
+    pal.hidden = false;
+    palInput.value = '';
+    active = 0;
+    render();
+    palInput.focus();
+  }
+
+  function close() {
+    pal.hidden = true;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.getElementById('open-pal').addEventListener('click', open);
+  palInput.addEventListener('input', function () { active = 0; render(); });
+
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (pal.hidden) { open(); } else { close(); }
+      return;
+    }
+    if (pal.hidden) return;
+
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    else if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, matches.length - 1); paint(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); paint(); }
+    else if (e.key === 'Enter') { e.preventDefault(); choose(); }
+  });
+
+  pal.addEventListener('mousedown', function (e) {
+    if (e.target === pal) close();
+  });
+})();
+</script>

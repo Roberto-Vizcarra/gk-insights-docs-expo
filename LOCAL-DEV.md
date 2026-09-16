@@ -199,10 +199,40 @@ database `wordpress`.
 
 **The OAuth auth gate.** `gitkraken.dev` will not redirect back to
 `http://localhost:8420`, so the sign-in flow cannot complete. `setup.ps1`
-deactivates OpenID Connect Generic and forces `gki_auth_gate_enabled` off.
+deactivates OpenID Connect Generic and forces `gki_auth_enabled` off.
+(Until 1.17.0 it set `gki_auth_gate_enabled`, an option the plugin never
+reads, so the local gate state was simply whatever the prod import carried.)
 
-You can still test the gate *template* by forcing the variant in
-`includes/gki-auth.php`. To exercise the real flow you need either a staging
+You can still test the gate *template* without OAuth by turning the gate on
+and driving the three states from the database. Run from `local-dev/`:
+
+```powershell
+# 1. Signed-out visitor -> 401 "Sign in to continue"
+docker compose run --rm -T wpcli wp option update gki_auth_enabled 1
+#    then open any /insights-expo/ page in a private window
+
+# 2. Signed-in, not entitled -> 403 "Insights subscription required"
+docker compose run --rm -T wpcli wp user create gatetest gatetest@example.com --role=subscriber --user_pass=gatetest
+docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_access 0
+docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_checked_at $([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
+#    sign in at /wp-login.php as gatetest, then open a docs page
+
+# 3. Signed-in, entitled -> the page renders
+docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_access 1
+
+# Back to normal
+docker compose run --rm -T wpcli wp option update gki_auth_enabled 0
+```
+
+The cached `gki_insights_checked_at` timestamp keeps `gki_auth_check_entitlement`
+from calling the licensing API (no endpoint is configured locally, and an
+unconfigured endpoint fails closed, which would also produce the 403 — but for
+the wrong reason). WP admins bypass the gate entirely, so test as the
+subscriber, not as admin. The "Sign in with GitKraken" button itself will
+still dead-end at gitkraken.dev, since localhost is not a registered
+redirect URI.
+
+To exercise the real OAuth flow you need either a staging
 instance with a registered redirect URI, or a tunnel (`cloudflared`) on a stable
 hostname that the backend team whitelists. That request belongs in the same
 conversation as asking for a real staging environment.

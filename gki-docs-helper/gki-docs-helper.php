@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.17.0
+ * Version:     1.17.1
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.17.0' );
+define( 'GKI_DOCS_VERSION', '1.17.1' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -104,6 +104,15 @@ function gki_docs_enqueue_assets() {
         array( 'gki-docs-styles' ),
         $css_ver
     );
+
+    /* The auth gate renders through get_header(), so this hook fires for
+       it too. The gate needs the stylesheets and nothing else: the scripts
+       carry the site-wide search index (titles, URLs and excerpts of every
+       gated page) and a live Ctrl-K palette, neither of which belongs in
+       front of a visitor who has not signed in. */
+    if ( defined( 'GKI_GATE_ACTIVE' ) && GKI_GATE_ACTIVE ) {
+        return;
+    }
 
     // Optional JS for interactive features (TOC, search, collapsible, etc.)
     wp_enqueue_script(

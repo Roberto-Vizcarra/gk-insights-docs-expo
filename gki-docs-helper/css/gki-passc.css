@@ -1008,16 +1008,16 @@ body.gki-docs-page .gki-page ul.gki-surfaces > li > span::first-letter { text-tr
    Metric names in the first column are links; set them as labels
    so the table reads as a list of relationships.
    ------------------------------------------------------------ */
-body.gki-docs-page .gki-page table.gki-related td:first-child {
+body.gki-docs-page .gki-page table.gki-related-table td:first-child {
   white-space: nowrap;
   font-weight: 600;
 }
-body.gki-docs-page .gki-page table.gki-related td:first-child a {
+body.gki-docs-page .gki-page table.gki-related-table td:first-child a {
   color: var(--gki-text) !important;
   text-decoration: none !important;
   border-bottom: 1px solid var(--gki-border-strong);
 }
-body.gki-docs-page .gki-page table.gki-related td:first-child a:hover {
+body.gki-docs-page .gki-page table.gki-related-table td:first-child a:hover {
   color: var(--gki-accent) !important;
   border-bottom-color: var(--gki-accent);
 }
@@ -1278,6 +1278,56 @@ body.gki-docs-page .gki-page .gki-below-cards hr:first-child { display: none; }
    getting-started pages nest H3s under one H2, so the first H3
    after an H2 should not double up the top margin. */
 body.gki-docs-page .gki-page > h2:not([class]) + h3:not([class]) { margin-top: 1.5rem !important; }
+
+/* ============================================================
+   6d. AUTH GATE
+   ------------------------------------------------------------
+   templates/gki-gate.php reuses <main class="gki-layout">, which is
+   the three-column docs grid. With .gki-gate as its only child the
+   card was being laid into the 240px nav track (measured 176px wide
+   at 1280). Span every track and let the flex centring inside
+   .gki-gate do the rest.
+   ============================================================ */
+.gki-layout > .gki-gate {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: min(80vh, 720px);
+}
+
+/* The gate's H1 and links sit outside .gki-page, where the Elementor
+   overrides live, so the kit was painting the title near-white (#F1F1F1
+   at 32px) and the footer links hot pink. Measured on the local import. */
+body.gki-docs-page .gki-gate-title {
+  color: var(--gki-text) !important;
+  font-size: var(--gki-fs-xl) !important;
+  font-weight: 700 !important;
+  line-height: var(--gki-lh-snug) !important;
+  letter-spacing: -0.015em !important;
+  margin: 0 0 0.75rem !important;
+  text-wrap: balance;
+}
+body.gki-docs-page .gki-gate-message { color: var(--gki-text-secondary) !important; }
+body.gki-docs-page .gki-gate-footer a:link,
+body.gki-docs-page .gki-gate-footer a:visited,
+body.gki-docs-page .gki-gate-switch a:link,
+body.gki-docs-page .gki-gate-switch a:visited {
+  color: var(--gki-accent) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid currentColor;
+}
+body.gki-docs-page .gki-gate-footer a:hover,
+body.gki-docs-page .gki-gate-switch a:hover { color: var(--gki-accent-hover) !important; }
+body.gki-docs-page .gki-gate-button--primary:link,
+body.gki-docs-page .gki-gate-button--primary:visited,
+body.gki-docs-page .gki-gate-button--primary:hover { color: #EBF1FF !important; text-decoration: none !important; }
+
+.gki-gate-card {
+  border-radius: var(--gki-radius-lg);
+  box-shadow: 0 24px 60px -28px rgba(24, 26, 38, 0.28), 0 1px 3px rgba(24, 26, 38, 0.06);
+}
+[data-theme="dark"] .gki-gate-card {
+  box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
 
 /* ============================================================
    7. RESPONSIVE

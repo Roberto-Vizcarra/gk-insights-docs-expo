@@ -467,7 +467,7 @@ foreach ($slug in $deactivate) {
 }
 if ($off) { Ok "Deactivated: $($off -join ', ')" } else { Info "Nothing needed deactivating" }
 
-WpQuiet option update gki_auth_gate_enabled 0
+WpQuiet option update gki_auth_enabled 0
 Ok "Auth gate forced off (cannot complete OAuth against localhost)"
 
 # Stop the local copy emailing anyone or hitting prod search indexes.

@@ -545,7 +545,7 @@ function gki_passc_link_tables( $html ) {
                     return $m[0];
                 }
             }
-            return '<table class="gki-related">' . $m[1] . '<tbody>' . $m[2] . '</tbody></table>';
+            return '<table class="gki-related-table">' . $m[1] . '<tbody>' . $m[2] . '</tbody></table>';
         },
         $html
     );
@@ -664,7 +664,7 @@ function gki_passc_transform_sections( $sections, $formula, $instrument, $spec_s
                 break;
 
             case 'related':
-                $s['body'] = preg_replace( '/<table>/i', '<table class="gki-related">', $s['body'], 1 );
+                $s['body'] = preg_replace( '/<table>/i', '<table class="gki-related-table">', $s['body'], 1 );
                 break;
 
             case 'surfaces':

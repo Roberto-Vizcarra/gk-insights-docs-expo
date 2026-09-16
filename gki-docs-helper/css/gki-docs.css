@@ -359,54 +359,7 @@
 .gki-callout--info a { color: var(--gki-blue); }
 .gki-callout--warn a { color: var(--gki-warn-text); }
 
-/* ---------- Step flow ---------------------------------------- */
-.gki-steps {
-  counter-reset: gki-step;
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 1.25rem 0;
-}
-.gki-step {
-  counter-increment: gki-step;
-  display: flex !important;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  align-items: flex-start;
-}
-.gki-step + .gki-step {
-  border-top: 1px dashed var(--gki-border-light);
-}
-.gki-step::before {
-  content: counter(gki-step) !important;
-  flex-shrink: 0;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 22px !important;
-  height: 22px !important;
-  background: var(--gki-purple) !important;
-  color: #fff !important;
-  font-size: 0.7rem !important;
-  font-weight: 700 !important;
-  border-radius: 50% !important;
-  margin-top: 0.2rem;
-}
-.gki-step-content {
-  flex: 1;
-  font-size: 0.95rem;
-  line-height: 1.65;
-}
-.gki-step-content strong {
-  color: var(--gki-text);
-}
-.gki-step-content code {
-  background: var(--gki-bg-offset);
-  padding: 0.15rem 0.4rem;
-  border-radius: 4px;
-  font-family: var(--gki-font-mono);
-  font-size: 0.88em;
-  color: var(--gki-purple);
-}
+/* Step flow: see gki-passc.css "Numbered sequence" (.gki-seq and plain <ol>). */
 
 /* ---------- Screenshot figures ------------------------------- */
 .gki-figure {
@@ -2714,18 +2667,7 @@ body.gki-index-page .gki-page {
   background: var(--gki-warn-bg) !important;
 }
 
-/* ---------- B7. Steps ---------------------------------------
-   Step numbers sat on a plain circle with no connecting line, so a
-   five-step flow read as five unrelated blocks.
-   ------------------------------------------------------------ */
-.gki-step::before {
-  box-shadow: 0 0 0 4px var(--gki-bg);
-  z-index: 1;
-}
-
-.gki-steps {
-  position: relative;
-}
+/* B7 (steps) retired in 1.17.0 — one step style now lives in gki-passc.css. */
 
 /* ---------- B8. Search --------------------------------------- */
 .gki-site-search-input {

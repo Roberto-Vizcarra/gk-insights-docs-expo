@@ -104,28 +104,13 @@ function gki_passc_restructure( $content ) {
     $post_id = get_the_ID();
     $type    = get_post_meta( $post_id, 'nav_category', true );
 
-    // Metric pages only. Index pages, playbooks and admin pages are untouched.
+    // Metric pages only. Every other page goes through gki_passc_restructure_general.
     if ( $type !== 'metrics' || gki_docs_get_page_type() !== 'content' ) {
         return $content;
     }
 
-    $title = get_the_title( $post_id );
-
-    /* --- 1. Drop the leading H2 that repeats the page title -------------
-       Every metric page opens with `## <Metric Name>`, which renders as a
-       second copy of the H1 directly beneath it.
-
-       The match has to survive other plugins: the anchor-link plugin on
-       this site injects an <a class="aal_anchor"> with an inline SVG
-       inside every heading, so the title text is not the first thing
-       after the opening tag. Compare stripped text instead of matching
-       the tag contents literally. */
-    if ( preg_match( '/<h2\b[^>]*>(.*?)<\/h2>/is', $content, $h2 ) ) {
-        $heading_text = trim( html_entity_decode( wp_strip_all_tags( $h2[1] ), ENT_QUOTES, 'UTF-8' ) );
-        if ( strcasecmp( $heading_text, trim( $title ) ) === 0 ) {
-            $content = str_replace( $h2[0], '', $content );
-        }
-    }
+    /* --- 1. Drop the leading H2 that repeats the page title ------------- */
+    $content = gki_passc_drop_duplicate_h2( $content, get_the_title( $post_id ) );
 
     /* --- 2. Lift the definition blockquote ------------------------------ */
     $definition = '';
@@ -150,17 +135,34 @@ function gki_passc_restructure( $content ) {
         $spec = array_merge( array( 'Range' => $range ), $spec );
     }
 
-    /* --- 4. Lift the first code block into a formula panel --------------- */
+    /* "Where it appears" belongs at the foot of the page as a full section
+       with descriptions, not as a spec field. The spec value is kept only
+       as a fallback for a page that has no such section. */
+    $spec_surfaces = '';
+    foreach ( array_keys( $spec ) as $label ) {
+        if ( stripos( $label, 'appears' ) !== false ) {
+            $spec_surfaces = $spec[ $label ];
+            unset( $spec[ $label ] );
+        }
+    }
+
+    /* --- 4. Lift the first code block into a formula panel ---------------
+       The panel is re-inserted at the top of the Formula section below, so
+       the formula, its legend and the sandbox read as one unit. */
     $formula = '';
     if ( preg_match( '/<pre[^>]*>\s*<code[^>]*>(.*?)<\/code>\s*<\/pre>/is', $content, $m ) ) {
         $formula = $m[1];
         $content = str_replace( $m[0], '', $content );
-
-        // The heading that introduced it is now orphaned.
-        $content = preg_replace( '/<h[23][^>]*>\s*Formula\s*<\/h[23]>\s*/i', '', $content, 1 );
     }
 
-    /* --- 5. Assemble ------------------------------------------------------ */
+    $instrument = gki_passc_instrument_for( $post_id );
+
+    /* --- 5. Split on H3, transform each section, reorder ----------------- */
+    $sections = gki_passc_split_sections( $content );
+    $sections = gki_passc_transform_sections( $sections, $formula, $instrument, $spec_surfaces );
+    $sections = gki_passc_order_sections( $sections );
+
+    /* --- 6. Assemble ------------------------------------------------------ */
     $head = '';
 
     if ( $definition !== '' ) {
@@ -171,16 +173,839 @@ function gki_passc_restructure( $content ) {
         $head .= gki_passc_render_spec( $spec );
     }
 
-    if ( $formula !== '' ) {
-        $head .= gki_passc_render_formula( $formula );
+    $out = $head;
+    foreach ( $sections as $s ) {
+        $out .= $s['heading'] . $s['body'];
     }
 
-    $instrument = gki_passc_instrument_for( $post_id );
-    if ( $instrument ) {
-        $head .= '<div class="gki-instrument" data-instrument="' . esc_attr( $instrument ) . '"></div>';
+    return $out;
+}
+
+/* =========================================================================
+   GENERAL PAGES (connect, playbooks, getting started, admin, indexes)
+   =========================================================================
+   The same component language as the metric pages, applied to the
+   patterns those pages actually use. Nothing is re-ordered here — the
+   page authors chose these orders deliberately — and the first <hr> on an
+   index page is left untouched because the template splits on it.
+   ========================================================================= */
+
+add_filter( 'the_content', 'gki_passc_restructure_general', 17 );
+
+function gki_passc_restructure_general( $content ) {
+    if ( ! function_exists( 'gki_docs_is_target_post' ) || ! gki_docs_is_target_post() ) {
+        return $content;
     }
 
-    return $head . $content;
+    $post_id = get_the_ID();
+    $cat     = get_post_meta( $post_id, 'nav_category', true );
+    $ptype   = gki_docs_get_page_type();
+    $slug    = get_post_field( 'post_name', $post_id );
+
+    // Metric pages have their own pipeline.
+    if ( $cat === 'metrics' && $ptype === 'content' ) {
+        return $content;
+    }
+
+    if ( $ptype === 'content' ) {
+        // The H1 shows nav_label when one is set, so a duplicate H2 may
+        // match either that or the post title.
+        $content = gki_passc_drop_duplicate_h2( $content, get_the_title( $post_id ), get_post_meta( $post_id, 'nav_label', true ) );
+        $content = gki_passc_lift_lede( $content );
+    }
+
+    $content = gki_passc_callouts( $content );
+
+    if ( substr( $slug, -9 ) === '-settings' ) {
+        $content = gki_passc_settings_specs( $content );
+    }
+
+    if ( $cat === 'playbooks' && $ptype === 'content' ) {
+        $content = gki_passc_headed_steps( $content );
+        $content = gki_passc_branch_headings( $content );
+    }
+
+    if ( $ptype === 'content' ) {
+        $content = gki_passc_hero_figure( $content );
+    }
+
+    $content = gki_passc_code_panels( $content );
+    $content = gki_passc_link_tables( $content );
+    $content = gki_passc_checklists( $content );
+    $content = gki_passc_runins( $content );
+
+    return $content;
+}
+
+/**
+ * A figure that appears before the first section heading is the page's
+ * hero screenshot (getting-started role pages, settings). Tag it so it
+ * gets the hero treatment rather than the in-flow one.
+ */
+function gki_passc_hero_figure( $content ) {
+    $first_head = preg_match( '/<h[23]\b/i', $content, $m, PREG_OFFSET_CAPTURE ) ? $m[0][1] : strlen( $content );
+    $head       = substr( $content, 0, $first_head );
+
+    if ( preg_match( '/<figure\b(?![^>]*gki-hero-figure)([^>]*)>/i', $head, $fig, PREG_OFFSET_CAPTURE ) ) {
+        $pos = $fig[0][1];
+        // A figure that follows a step list is illustrating those steps
+        // (connect pages whose duplicate H2 was dropped), not opening the page.
+        if ( preg_match( '/<ol\b/i', substr( $head, 0, $pos ) ) ) {
+            return $content;
+        }
+        $content = substr_replace( $content, '<figure' . $fig[1][0] . ' class="gki-hero-figure">', $pos, strlen( $fig[0][0] ) );
+    }
+    return $content;
+}
+
+/**
+ * `* [ ] item` / `* [x] item` written as literal brackets (Parsedown v1 has
+ * no task-list syntax) become checklist rows with a drawn box.
+ */
+function gki_passc_checklists( $html ) {
+    $html = preg_replace_callback(
+        '/<ul>((?:\s*<li>\s*\[( |x|X)\].*?<\/li>\s*)+)<\/ul>/is',
+        function ( $m ) {
+            $items = preg_replace_callback(
+                '/<li>\s*\[( |x|X)\]\s*(.*?)<\/li>/is',
+                function ( $li ) {
+                    $done = strtolower( $li[1] ) === 'x';
+                    return '<li class="gki-check' . ( $done ? ' gki-check--done' : '' ) . '"><span class="gki-check-box" aria-hidden="true"></span><span class="gki-check-body">' . $li[2] . '</span></li>';
+                },
+                $m[1]
+            );
+            return '<ul class="gki-checklist">' . $items . '</ul>';
+        },
+        $html
+    );
+    return $html;
+}
+
+/**
+ * Drop a leading H2 whose stripped text equals the post title.
+ *
+ * The anchor-link plugin injects an <a class="aal_anchor"> with an SVG
+ * inside every heading, so compare stripped text, not tag contents.
+ */
+function gki_passc_drop_duplicate_h2( $content, $title, $alt = '' ) {
+    if ( preg_match( '/<h2\b[^>]*>(.*?)<\/h2>/is', $content, $h2 ) ) {
+        $heading_text = trim( html_entity_decode( wp_strip_all_tags( $h2[1] ), ENT_QUOTES, 'UTF-8' ) );
+        foreach ( array( $title, $alt ) as $candidate ) {
+            $candidate = trim( (string) $candidate );
+            if ( $candidate !== '' && strcasecmp( $heading_text, $candidate ) === 0 ) {
+                $content = str_replace( $h2[0], '', $content );
+                break;
+            }
+        }
+    }
+    return $content;
+}
+
+/**
+ * An italic-only blockquote before the first H2 is the page's lede
+ * (playbooks open this way). Lift it exactly as metric pages do.
+ */
+function gki_passc_lift_lede( $content ) {
+    $first_h2 = stripos( $content, '<h2' );
+    $head     = $first_h2 === false ? $content : substr( $content, 0, $first_h2 );
+
+    if ( preg_match( '/<blockquote>\s*<p>\s*<em>(.*?)<\/em>\s*<\/p>\s*<\/blockquote>/is', $head, $m ) ) {
+        $inner = trim( wp_strip_all_tags( $m[1] ) );
+        if ( $inner !== '' && strlen( $inner ) < 500 ) {
+            $content = str_replace( $m[0], '<p class="gki-definition">' . esc_html( $inner ) . '</p>', $content );
+        }
+    }
+    return $content;
+}
+
+/**
+ * Blockquotes → typed callouts, decided by the bold lead phrase.
+ *
+ * Handles nesting by depth-counting rather than regex, since one page
+ * quotes a suggested message inside a warning. An italic-only inner
+ * quote stays a quotation.
+ */
+function gki_passc_callouts( $html ) {
+    $offset = 0;
+    while ( ( $start = strpos( $html, '<blockquote>', $offset ) ) !== false ) {
+        // Find the matching close.
+        $depth = 0;
+        $pos   = $start;
+        $end   = false;
+        while ( preg_match( '/<(\/?)blockquote\b[^>]*>/i', $html, $t, PREG_OFFSET_CAPTURE, $pos ) ) {
+            $tag_pos = $t[0][1];
+            $depth  += ( $t[1][0] === '/' ) ? -1 : 1;
+            $pos     = $tag_pos + strlen( $t[0][0] );
+            if ( $depth === 0 ) {
+                $end = $pos;
+                break;
+            }
+        }
+        if ( $end === false ) {
+            break; // unbalanced; leave the rest alone
+        }
+
+        $inner = substr( $html, $start + strlen( '<blockquote>' ), $end - $start - strlen( '<blockquote>' ) - strlen( '</blockquote>' ) );
+        $inner = gki_passc_callouts( $inner ); // nested first
+
+        $replacement = gki_passc_render_callout( $inner );
+        $html        = substr_replace( $html, $replacement, $start, $end - $start );
+        $offset      = $start + strlen( $replacement );
+    }
+    return $html;
+}
+
+function gki_passc_render_callout( $inner ) {
+    $trimmed = trim( $inner );
+
+    // Italic-only quotation → keep as a quote, restyled.
+    if ( preg_match( '/^<p>\s*<em>.*<\/em>\s*<\/p>$/is', $trimmed ) ) {
+        return '<blockquote class="gki-quote">' . $trimmed . '</blockquote>';
+    }
+
+    $lead = '';
+    if ( preg_match( '/^<p>\s*<strong>(.*?)<\/strong>/is', $trimmed, $m ) ) {
+        $lead = strtolower( wp_strip_all_tags( $m[1] ) );
+    }
+    $probe = $lead !== '' ? $lead : strtolower( substr( wp_strip_all_tags( $trimmed ), 0, 80 ) );
+
+    if ( preg_match( '/private|owner|heads.?up|don.t merge|warn|restart|precedence|caution|do not|don.t|won.t|never|requires|watch|must/u', $probe ) ) {
+        $type = 'warn';
+    } elseif ( preg_match( '/before you start|privacy|data appears|backfill|already send|note|suppress|only returns/u', $probe ) ) {
+        $type = 'info';
+    } elseif ( preg_match( '/tip|recommended|you can edit|shortcut/u', $probe ) ) {
+        $type = 'tip';
+    } else {
+        $type = 'note';
+    }
+
+    $icons = array(
+        'warn' => '<svg class="gki-callout-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.2 2.6 16h14.8z"/><path d="M10 8v4M10 14.2h.01"/></svg>',
+        'info' => '<svg class="gki-callout-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.2"/><path d="M10 9v4.5M10 6.6h.01"/></svg>',
+        'tip'  => '<svg class="gki-callout-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 14.5h5M8.3 17h3.4M10 2.8a5 5 0 0 1 3 9c-.6.5-1 1.2-1 2H8c0-.8-.4-1.5-1-2a5 5 0 0 1 3-9z"/></svg>',
+        'note' => '<svg class="gki-callout-icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M5 4.5h10M5 8.5h10M5 12.5h6"/></svg>',
+    );
+
+    return '<div class="gki-callout gki-callout--' . $type . '" role="note">' . $icons[ $type ]
+         . '<div class="gki-callout-body">' . $trimmed . '</div></div>';
+}
+
+/**
+ * Settings page: the `<em>In Settings UI: yes.</em>` sentence plus the
+ * headerless Default / Range / Type table under each setting become one
+ * mini spec panel. The "→ Full section" pointer becomes a link row.
+ */
+function gki_passc_settings_specs( $html ) {
+    $html = preg_replace_callback(
+        '/(<p>(.*?)<em>\s*In Settings UI:\s*(yes|no)\.?\s*<\/em>(.*?)<\/p>)?\s*<table>\s*<thead>\s*<tr>\s*<th>\s*<\/th>\s*<th>\s*<\/th>\s*<\/tr>\s*<\/thead>\s*<tbody>(.*?)<\/tbody>\s*<\/table>/is',
+        function ( $m ) {
+            $fields = array();
+            if ( preg_match_all( '/<tr>\s*<td>\s*<strong>(.*?)<\/strong>\s*<\/td>\s*<td>(.*?)<\/td>\s*<\/tr>/is', $m[5], $rows, PREG_SET_ORDER ) ) {
+                foreach ( $rows as $r ) {
+                    $fields[ trim( wp_strip_all_tags( $r[1] ) ) ] = trim( $r[2] );
+                }
+            }
+            if ( ! $fields ) {
+                return $m[0];
+            }
+            if ( ! empty( $m[3] ) ) {
+                $fields['In Settings UI'] = ucfirst( strtolower( $m[3] ) );
+            }
+
+            $out = '';
+            $lead = trim( ( isset( $m[2] ) ? $m[2] : '' ) . ' ' . ( isset( $m[4] ) ? $m[4] : '' ) );
+            if ( $lead !== '' ) {
+                $out .= '<p>' . $lead . '</p>';
+            }
+            $out .= '<section class="gki-spec gki-spec--mini" aria-label="Setting"><dl>';
+            foreach ( $fields as $k => $v ) {
+                $out .= '<div class="gki-spec-field"><dt>' . esc_html( $k ) . '</dt><dd><span>' . $v . '</span></dd></div>';
+            }
+            $out .= '</dl></section>';
+            return $out;
+        },
+        $html
+    );
+
+    $html = preg_replace( '/<p>\s*(?:→|&rarr;|&#8594;|-&gt;|->)?\s*(Full section|See also|See):\s*(<a\b[^>]*>.*?<\/a>)\s*\.?\s*<\/p>/isu', '<p class="gki-fullsection"><span class="gki-fullsection-label">$1</span> $2</p>', $html );
+
+    return $html;
+}
+
+/**
+ * Playbooks: runs of `### Step N — Title (3 min)` (or `### Month N — …`)
+ * headings become the same numbered rail used on metric pages, with the
+ * heading kept for the TOC and the time estimate set as a badge.
+ */
+function gki_passc_headed_steps( $html ) {
+    $re_head = '/<h3\b[^>]*>(.*?)<\/h3>/is';
+    $re_step = '/^(.*?)(Step|Month|Week|Phase)\s+(\d+)\s*[—–-]+\s*(.*?)\s*(?:\(([^()]*)\))?\s*$/isu';
+
+    $parts = preg_split( '/(<h[23]\b[^>]*>.*?<\/h[23]>)/is', $html, -1, PREG_SPLIT_DELIM_CAPTURE );
+    $out   = '';
+    $open  = false;
+
+    $count = count( $parts );
+    for ( $i = 0; $i < $count; $i++ ) {
+        $chunk = $parts[ $i ];
+        $is_h3 = (bool) preg_match( $re_head, $chunk, $h );
+
+        if ( $is_h3 && preg_match( $re_step, $h[1], $s ) ) {
+            $prefix = $s[1]; // anchor-plugin markup, if any
+            $unit   = $s[2];
+            $num    = $s[3];
+            $title  = trim( $s[4] );
+            $time   = isset( $s[5] ) ? trim( $s[5] ) : '';
+
+            if ( ! $open ) {
+                $out .= '<ol class="gki-seq gki-seq--headed">';
+                $open = true;
+            } else {
+                $out .= '</li>';
+            }
+
+            $kicker = strcasecmp( $unit, 'Step' ) === 0 ? '' : '<span class="gki-seq-kicker">' . esc_html( $unit . ' ' . $num ) . '</span>';
+            $badge  = $time !== '' ? ' <span class="gki-seq-time">' . esc_html( $time ) . '</span>' : '';
+
+            $out .= '<li class="gki-seq-step">'
+                  . preg_replace( '/^<h3\b([^>]*)>.*<\/h3>$/is', '<h3$1 class="gki-seq-title">' . $prefix . $kicker . $title . $badge . '</h3>', $chunk );
+            continue;
+        }
+
+        // Any other heading (h2, or a non-step h3) closes an open sequence.
+        if ( $open && preg_match( '/^<h[23]\b/i', $chunk ) ) {
+            $out .= '</li></ol>';
+            $open = false;
+        }
+
+        $out .= $chunk;
+    }
+
+    if ( $open ) {
+        $out .= '</li></ol>';
+    }
+
+    return $out;
+}
+
+/**
+ * Playbooks: the "What to do" branches (`### Pattern: …`, `### If … dominates`)
+ * are alternatives, not a sequence. Tag them so they read as branches.
+ */
+function gki_passc_branch_headings( $html ) {
+    return preg_replace_callback(
+        '/<h3\b([^>]*)>(.*?)<\/h3>/is',
+        function ( $m ) {
+            $text = trim( wp_strip_all_tags( $m[2] ) );
+            if ( preg_match( '/^(pattern:|if\s|when\s)/i', $text ) && strpos( $m[1], 'class=' ) === false ) {
+                return '<h3' . $m[1] . ' class="gki-branch">' . $m[2] . '</h3>';
+            }
+            return $m[0];
+        },
+        $html
+    );
+}
+
+/**
+ * Fenced code blocks → the formula panel, labelled with the language.
+ */
+function gki_passc_code_panels( $html ) {
+    return preg_replace_callback(
+        '/<pre[^>]*>\s*<code([^>]*)>(.*?)<\/code>\s*<\/pre>/is',
+        function ( $m ) {
+            $label = 'Code';
+            if ( preg_match( '/language-([a-z0-9+#-]+)/i', $m[1], $l ) ) {
+                $label = strtoupper( $l[1] );
+                if ( $label === 'SH' || $label === 'SHELL' || $label === 'BASH' ) { $label = 'Shell'; }
+                if ( $label === 'JSON' ) { $label = 'JSON'; }
+                if ( $label === 'TOML' || $label === 'YAML' || $label === 'HTTP' ) { /* keep */ }
+                if ( $label === 'TEXT' || $label === 'TXT' || $label === 'PLAINTEXT' ) { $label = 'Code'; }
+            }
+            return '<section class="gki-formula gki-code" aria-label="' . esc_attr( $label ) . '">'
+                 . '<span class="gki-formula-label">' . esc_html( $label ) . '</span>'
+                 . '<pre><code' . $m[1] . '>' . $m[2] . '</code></pre></section>';
+        },
+        $html
+    );
+}
+
+/**
+ * A table whose every first cell is a link is a list of relationships —
+ * give it the related-metrics treatment.
+ */
+function gki_passc_link_tables( $html ) {
+    return preg_replace_callback(
+        '/<table>(\s*<thead>.*?<\/thead>)?\s*<tbody>(.*?)<\/tbody>\s*<\/table>/is',
+        function ( $m ) {
+            if ( ! preg_match_all( '/<tr>\s*<td>(.*?)<\/td>/is', $m[2], $cells ) || count( $cells[1] ) < 2 ) {
+                return $m[0];
+            }
+            foreach ( $cells[1] as $c ) {
+                if ( stripos( $c, '<a ' ) === false ) {
+                    return $m[0];
+                }
+            }
+            return '<table class="gki-related">' . $m[1] . '<tbody>' . $m[2] . '</tbody></table>';
+        },
+        $html
+    );
+}
+
+/* =========================================================================
+   SECTION PIPELINE
+   =========================================================================
+   Every metric page is written to the same H3 skeleton. Splitting on H3
+   lets each section receive the treatment its content pattern calls for,
+   and lets the page be re-ordered so that reference material (Related
+   metrics, Where it appears) closes the page rather than interrupting it.
+
+   Unknown headings are never dropped: they keep their position relative
+   to the known section that preceded them.
+   ========================================================================= */
+
+/**
+ * Canonical section order. Each entry is a regex matched against the
+ * heading's stripped text. The first match wins.
+ */
+function gki_passc_section_order() {
+    return array(
+        'glance'    => '/^at a glance$/i',
+        'formula'   => '/^(formulas?|the rubric)$/i',
+        'calc'      => '/^how .* (calculates|applies|computes) it$/i',
+        'why'       => '/^why /i',
+        'read'      => '/^how to read it$/i',
+        'settings'  => '/^settings that affect it$/i',
+        'improve'   => '/^how to (improve|use) /i',
+        'limits'    => '/^limitations/i',
+        'faq'       => '/^faq$/i',
+        'related'   => '/^related metrics$/i',
+        'surfaces'  => '/^where it appears$/i',
+    );
+}
+
+/**
+ * Split rendered HTML into a preamble plus one entry per <h3>.
+ *
+ * @return array [ [ 'key' => string|'', 'heading' => html, 'text' => string, 'body' => html ] ]
+ */
+function gki_passc_split_sections( $content ) {
+    $parts    = preg_split( '/(<h3\b[^>]*>.*?<\/h3>)/is', $content, -1, PREG_SPLIT_DELIM_CAPTURE );
+    $sections = array();
+
+    // parts[0] is anything before the first H3.
+    if ( isset( $parts[0] ) && trim( $parts[0] ) !== '' ) {
+        $sections[] = array( 'key' => '', 'heading' => '', 'text' => '', 'body' => $parts[0] );
+    }
+
+    $count = count( $parts );
+    for ( $i = 1; $i < $count; $i += 2 ) {
+        $heading = $parts[ $i ];
+        $body    = isset( $parts[ $i + 1 ] ) ? $parts[ $i + 1 ] : '';
+        $text    = trim( html_entity_decode( wp_strip_all_tags( $heading ), ENT_QUOTES, 'UTF-8' ) );
+
+        $key = '';
+        foreach ( gki_passc_section_order() as $k => $re ) {
+            if ( preg_match( $re, $text ) ) {
+                $key = $k;
+                break;
+            }
+        }
+
+        $sections[] = array( 'key' => $key, 'heading' => $heading, 'text' => $text, 'body' => $body );
+    }
+
+    return $sections;
+}
+
+/**
+ * Apply per-section treatments. Order of operations matters: the formula
+ * and instrument are placed before the generic run-in pass so their
+ * markup is never re-parsed.
+ */
+function gki_passc_transform_sections( $sections, $formula, $instrument, $spec_surfaces ) {
+    $has_formula_section  = false;
+    $has_surfaces_section = false;
+    $hero                 = '';
+
+    foreach ( $sections as $s ) {
+        if ( $s['key'] === 'formula' )  { $has_formula_section  = true; }
+        if ( $s['key'] === 'surfaces' ) { $has_surfaces_section = true; }
+    }
+
+    foreach ( $sections as &$s ) {
+        switch ( $s['key'] ) {
+
+            case 'formula':
+                $lead = '';
+                if ( $formula !== '' ) {
+                    $lead .= gki_passc_render_formula( $formula );
+                }
+                if ( $instrument ) {
+                    $lead .= '<div class="gki-instrument" data-instrument="' . esc_attr( $instrument ) . '"></div>';
+                }
+                // The factor legend (a ul directly under the formula) reads as
+                // a key to the formula, so it is tagged for tighter styling.
+                $s['body'] = preg_replace( '/^(\s*(?:<p>.*?<\/p>\s*)?)<ul>/is', '$1<ul class="gki-legend">', $s['body'], 1 );
+                $s['body'] = $lead . gki_passc_runins( $s['body'] );
+                break;
+
+            case 'calc':
+                $s['body'] = gki_passc_steps( $s['body'] );
+                $s['body'] = gki_passc_runins( $s['body'] );
+                break;
+
+            case 'read':
+                $s['body'] = gki_passc_tier_scale( $s['body'] );
+                $s['body'] = gki_passc_runins( $s['body'] );
+                break;
+
+            case 'faq':
+                $s['body'] = gki_passc_faq( $s['body'] );
+                break;
+
+            case 'related':
+                $s['body'] = preg_replace( '/<table>/i', '<table class="gki-related">', $s['body'], 1 );
+                break;
+
+            case 'surfaces':
+                /* The page's one screenshot was authored here because it
+                   shows the surface. As the only visual on a reference page
+                   it earns the hero slot instead — lifted out now, placed
+                   after At a glance below. Path, alt and caption untouched. */
+                if ( preg_match( '/<figure\b[^>]*>.*?<\/figure>/is', $s['body'], $fig ) ) {
+                    $hero      = preg_replace( '/^<figure\b([^>]*)>/i', '<figure$1 class="gki-hero-figure">', $fig[0], 1 );
+                    $s['body'] = str_replace( $fig[0], '', $s['body'] );
+                }
+                $s['body'] = gki_passc_surfaces( $s['body'] );
+                break;
+
+            default:
+                $s['body'] = gki_passc_runins( $s['body'] );
+        }
+    }
+    unset( $s );
+
+    /* Hero screenshot: after At a glance, or at the very top if there is none. */
+    if ( $hero !== '' ) {
+        $placed = false;
+        foreach ( $sections as &$s ) {
+            if ( $s['key'] === 'glance' ) {
+                $s['body'] .= $hero;
+                $placed     = true;
+                break;
+            }
+        }
+        unset( $s );
+        if ( ! $placed ) {
+            array_unshift( $sections, array( 'key' => '', 'heading' => '', 'text' => '', 'body' => $hero ) );
+        }
+    }
+
+    /* A page with a formula but no Formula heading (or a sandbox with no
+       formula at all) still gets the panel, directly after At a glance. */
+    if ( ! $has_formula_section && ( $formula !== '' || $instrument ) ) {
+        $lead = $formula !== '' ? gki_passc_render_formula( $formula ) : '';
+        if ( $instrument ) {
+            $lead .= '<div class="gki-instrument" data-instrument="' . esc_attr( $instrument ) . '"></div>';
+        }
+        $inserted = false;
+        foreach ( $sections as $i => $s ) {
+            if ( $s['key'] === 'glance' ) {
+                array_splice( $sections, $i + 1, 0, array( array( 'key' => 'formula', 'heading' => '', 'text' => '', 'body' => $lead ) ) );
+                $inserted = true;
+                break;
+            }
+        }
+        if ( ! $inserted ) {
+            array_unshift( $sections, array( 'key' => 'formula', 'heading' => '', 'text' => '', 'body' => $lead ) );
+        }
+    }
+
+    /* A page whose only surface list was the spec line still gets the
+       closing section, built from that value. */
+    if ( ! $has_surfaces_section && $spec_surfaces !== '' ) {
+        $sections[] = array(
+            'key'     => 'surfaces',
+            'heading' => '<h3>Where it appears</h3>',
+            'text'    => 'Where it appears',
+            'body'    => '<ul class="gki-surfaces">' . gki_passc_surface_items_from_spec( $spec_surfaces ) . '</ul>',
+        );
+    }
+
+    return $sections;
+}
+
+/**
+ * Stable reorder into canonical order. Unknown sections inherit the rank
+ * of the known section before them, so they travel with their neighbour.
+ */
+function gki_passc_order_sections( $sections ) {
+    $order = array_keys( gki_passc_section_order() );
+    $rank  = array_flip( $order );
+
+    $last = -1;
+    foreach ( $sections as $i => &$s ) {
+        if ( $s['key'] !== '' && isset( $rank[ $s['key'] ] ) ) {
+            $last = $rank[ $s['key'] ];
+            $s['_rank'] = $last;
+        } else {
+            $s['_rank'] = $last + 0.5;
+        }
+        $s['_i'] = $i;
+    }
+    unset( $s );
+
+    usort( $sections, function ( $a, $b ) {
+        if ( $a['_rank'] == $b['_rank'] ) {
+            return $a['_i'] - $b['_i'];
+        }
+        return ( $a['_rank'] < $b['_rank'] ) ? -1 : 1;
+    } );
+
+    return $sections;
+}
+
+/* =========================================================================
+   SECTION TREATMENTS
+   ========================================================================= */
+
+/**
+ * Run-in paragraphs: `<p><strong>Label.</strong> body…</p>`.
+ *
+ * Every metric page uses these as sub-headings inside a section. Tagging
+ * them lets CSS give the label weight and a hanging rhythm without
+ * touching the words. Q:/A: pairs are excluded (FAQ has its own pass),
+ * as are labels that are really the start of a sentence.
+ */
+function gki_passc_runins( $html ) {
+    return preg_replace_callback(
+        '/<p>\s*<strong>\s*([^<]{2,80}?[.:])\s*<\/strong>\s*(?!<br)(.*?)<\/p>/is',
+        function ( $m ) {
+            $label = trim( $m[1] );
+            if ( preg_match( '/^(Q|A):/i', $label ) ) {
+                return $m[0];
+            }
+            return '<p class="gki-runin"><strong class="gki-runin-label">' . $label . '</strong> ' . ltrim( $m[2] ) . '</p>';
+        },
+        $html
+    );
+}
+
+/**
+ * Consecutive `<p><strong>Step N — Title.</strong> body</p>` paragraphs
+ * become an ordered step list. Everything between one step and the next
+ * (lists, follow-on paragraphs) belongs to the step it follows. The list
+ * closes at the first run-in paragraph that is not itself a step.
+ */
+function gki_passc_steps( $html ) {
+    // Both `**Step 1 — Title.**` and the bare `**Step 1.**` form.
+    $re_step = '/<p>\s*<strong>\s*Step\s+(\d+)\s*(?:[—–-]+\s*(.*?)|\.)\s*<\/strong>\s*(.*?)<\/p>/is';
+
+    if ( ! preg_match( $re_step, $html ) ) {
+        return $html;
+    }
+
+    // Tokenise into top-level chunks: each <p>, <ul>, <ol>, <table>, <pre>, <figure> …
+    $chunks = preg_split(
+        '/(?=<(?:p|ul|ol|table|pre|figure|blockquote|div|h4)\b)/i',
+        $html,
+        -1,
+        PREG_SPLIT_NO_EMPTY
+    );
+
+    $out      = '';
+    $in_list  = false;
+    $open_li  = false;
+
+    foreach ( $chunks as $chunk ) {
+        if ( preg_match( $re_step, $chunk, $m ) ) {
+            if ( ! $in_list ) {
+                $out    .= '<ol class="gki-seq">';
+                $in_list = true;
+            }
+            if ( $open_li ) {
+                $out .= '</li>';
+            }
+            $title = isset( $m[2] ) ? rtrim( trim( $m[2] ), '.' ) : '';
+            $body  = trim( $m[3] );
+            $out  .= '<li class="gki-seq-step' . ( $title === '' ? ' gki-seq-step--untitled' : '' ) . '">';
+            if ( $title !== '' ) {
+                $out .= '<h4 class="gki-seq-title">' . $title . '</h4>';
+            }
+            if ( $body !== '' ) {
+                $out .= '<p>' . $body . '</p>';
+            }
+            $open_li = true;
+            continue;
+        }
+
+        // A non-step run-in ends the sequence.
+        $is_runin = (bool) preg_match( '/^<p>\s*<strong>[^<]{2,80}?[.:]\s*<\/strong>/is', $chunk );
+
+        if ( $in_list && $is_runin ) {
+            $out    .= '</li></ol>';
+            $in_list = false;
+            $open_li = false;
+        }
+
+        $out .= $chunk;
+    }
+
+    if ( $in_list ) {
+        $out .= ( $open_li ? '</li>' : '' ) . '</ol>';
+    }
+
+    return $out;
+}
+
+/**
+ * The first 3–6 row table whose first cell is bold becomes a tier scale:
+ * a segmented track plus a list, in the table's own row order. Colour is
+ * semantic only when the rows name the product's own tiers; otherwise a
+ * neutral ramp is used so the picture never claims a ranking the words
+ * do not.
+ */
+function gki_passc_tier_scale( $html ) {
+    if ( ! preg_match( '/<table>\s*(?:<thead>.*?<\/thead>)?\s*<tbody>(.*?)<\/tbody>\s*<\/table>/is', $html, $t ) ) {
+        return $html;
+    }
+
+    if ( ! preg_match_all( '/<tr>\s*(.*?)\s*<\/tr>/is', $t[1], $rows ) ) {
+        return $html;
+    }
+
+    $n = count( $rows[1] );
+    if ( $n < 3 || $n > 6 ) {
+        return $html;
+    }
+
+    $items = array();
+    foreach ( $rows[1] as $row ) {
+        if ( ! preg_match_all( '/<td>\s*(.*?)\s*<\/td>/is', $row, $cells ) ) {
+            return $html;
+        }
+        $c = $cells[1];
+        if ( count( $c ) < 2 || ! preg_match( '/^<strong>(.*?)<\/strong>$/is', trim( $c[0] ), $lead ) ) {
+            return $html; // not the pattern — leave the table alone
+        }
+        $items[] = array(
+            'lead' => trim( $lead[1] ),
+            'rest' => array_slice( $c, 1 ),
+        );
+    }
+
+    // Semantic colours only for the product's named tiers.
+    $names = array(
+        'power user' => 'power', 'regular' => 'regular', 'explorer' => 'explorer', 'emerging' => 'emerging',
+        'elite'      => 'power', 'high'    => 'regular', 'medium'   => 'explorer', 'low'      => 'emerging',
+        'strong'     => 'power',
+    );
+
+    // Semantic colour is all-or-nothing: if any row is unnamed, every row
+    // takes the neutral ramp so the bar never half-claims a ranking.
+    $classes = array();
+    foreach ( $items as $i => $it ) {
+        $lead_txt = strtolower( wp_strip_all_tags( $it['lead'] ) );
+        $rest_txt = strtolower( wp_strip_all_tags( $it['rest'][0] ) );
+        $cls      = '';
+        foreach ( $names as $needle => $tier ) {
+            $re = '/^' . preg_quote( $needle, '/' ) . '\b/';
+            if ( preg_match( $re, $lead_txt ) || preg_match( $re, $rest_txt ) ) {
+                $cls = 'gki-tier--' . $tier;
+                break;
+            }
+        }
+        $classes[] = $cls;
+    }
+    if ( in_array( '', $classes, true ) ) {
+        foreach ( $classes as $i => $c ) {
+            $classes[ $i ] = 'gki-tier--n' . ( $i + 1 );
+        }
+    }
+
+    $out  = '<div class="gki-tiers" data-count="' . (int) $n . '">';
+    $out .= '<div class="gki-tier-bar" aria-hidden="true">';
+    foreach ( $classes as $cls ) {
+        $out .= '<span class="' . $cls . '"></span>';
+    }
+    $out .= '</div><ul class="gki-tier-list">';
+    foreach ( $items as $i => $it ) {
+        $out .= '<li><b class="gki-tier-lead">' . $it['lead'] . '</b>'
+              . '<span class="gki-tier-desc"><i class="gki-tier-swatch ' . $classes[ $i ] . '"></i>'
+              . implode( ' <span class="gki-tier-sep">·</span> ', $it['rest'] )
+              . '</span></li>';
+    }
+    $out .= '</ul></div>';
+
+    return str_replace( $t[0], $out, $html );
+}
+
+/**
+ * `<p><strong>Q: …</strong><br>A: …</p>` pairs become a Q/A list.
+ */
+function gki_passc_faq( $html ) {
+    $count = 0;
+    $html  = preg_replace_callback(
+        '/<p>\s*<strong>\s*Q:\s*(.*?)<\/strong>\s*<br\s*\/?>\s*A:\s*(.*?)<\/p>/is',
+        function ( $m ) use ( &$count ) {
+            $count++;
+            return '<div class="gki-faq-item"><p class="gki-faq-q">' . trim( $m[1] ) . '</p>'
+                 . '<p class="gki-faq-a">' . trim( $m[2] ) . '</p></div>';
+        },
+        $html
+    );
+
+    if ( $count ) {
+        // Wrap each contiguous run of items; items contain only <p>, so
+        // the non-greedy match cannot swallow a neighbouring block.
+        $html = preg_replace(
+            '/((?:<div class="gki-faq-item">.*?<\/p><\/div>\s*)+)/is',
+            '<div class="gki-faq">$1</div>',
+            $html
+        );
+    }
+
+    return $html;
+}
+
+/**
+ * `<li><strong>/path</strong> — description</li>` becomes a surface row
+ * with the path as a token. Items that are not paths are left as-is.
+ */
+function gki_passc_surfaces( $html ) {
+    return preg_replace_callback(
+        '/<ul>((?:\s*<li>\s*<strong>\s*\/[^<]*<\/strong>.*?<\/li>\s*)+)<\/ul>/is',
+        function ( $m ) {
+            $items = preg_replace_callback(
+                '/<li>\s*<strong>\s*(\/[^<]*?)\s*<\/strong>\s*(?:[—–-]+\s*)?(.*?)<\/li>/is',
+                function ( $li ) {
+                    return '<li><code class="gki-path">' . esc_html( trim( $li[1] ) ) . '</code><span>' . trim( $li[2] ) . '</span></li>';
+                },
+                $m[1]
+            );
+            return '<ul class="gki-surfaces">' . $items . '</ul>';
+        },
+        $html,
+        1
+    );
+}
+
+/**
+ * Fallback surface rows from the spec-line value, for pages without a
+ * "Where it appears" section of their own.
+ */
+function gki_passc_surface_items_from_spec( $value ) {
+    $out = '';
+    foreach ( preg_split( '/\s*,\s*/', $value ) as $chunk ) {
+        $chunk = trim( $chunk );
+        if ( $chunk === '' ) {
+            continue;
+        }
+        $out .= $chunk[0] === '/'
+            ? '<li><code class="gki-path">' . esc_html( $chunk ) . '</code><span></span></li>'
+            : '<li><span>' . esc_html( $chunk ) . '</span></li>';
+    }
+    return $out;
 }
 
 /**

@@ -138,7 +138,7 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 | Other search plugin | SearchWP also indexes this content — see PROJECT-STATUS |
 
 ### Design Rules
-- **Purple (#7900C9) is accent only** — links, active borders, step numbers, hover effects. Never a main/heading color. Tier colours (`--gki-tier-*`) are semantic, not accent, and only appear where the content names a product tier.
+- **Purple (#7900C9) is accent only** — links, active borders, step numbers, hover effects. Never a main/heading color. Tier colours (`--gki-tier-*`) are semantic, not accent. Every "How to read it" scale is coloured: quality scales by rank (teal → indigo → amber → rose → deep rose), the product's own tiers by name, ordinal-but-neutral scales (Maturity Factor, CapEx share) on a sequential indigo ramp, PTO/empty rows grey. Bands are drawn proportional to their numeric range on an ascending axis with boundary ticks when the ranges parse and are within 20× of each other; otherwise equal widths. Categorical tables get swatches, no bar.
 - Heading text: #1C1C1C. Body text: #414141. Formulas, figures, paths and step numbers use JetBrains Mono (`--gki-font-data`); Inter stays the brand face.
 - Cards drive navigation on index pages. Index pages: Intro → Cards → Overview.
 - All Elementor overrides require `body.gki-docs-page` prefix + `!important`. **This includes anything rendered outside `.gki-page`** — the auth gate's H1 and links were being painted near-white and hot pink by the kit until 1.17.1 because the overrides were scoped to `.gki-page` only.

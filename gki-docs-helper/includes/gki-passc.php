@@ -894,50 +894,287 @@ function gki_passc_tier_scale( $html ) {
         );
     }
 
-    // Semantic colours only for the product's named tiers.
-    $names = array(
-        'power user' => 'power', 'regular' => 'regular', 'explorer' => 'explorer', 'emerging' => 'emerging',
-        'elite'      => 'power', 'high'    => 'regular', 'medium'   => 'explorer', 'low'      => 'emerging',
-        'strong'     => 'power',
+    /* ---- Classify every row -------------------------------------------
+       name    : the band's label (lead if it is a word, else the phrase
+                 before the first dash in the description)
+       range   : parsed numeric interval, or null
+       special : PTO / empty-state rows — listed, never drawn           */
+    $product_tiers = array( 'power user' => 'power', 'regular' => 'regular', 'explorer' => 'explorer', 'emerging' => 'emerging' );
+    $top_words     = '/^(power user|elite|strong|high|deep|lean|excellent)\b/';
+    $special_words = '/\b(pto|empty state|n\/a|not applicable)\b/';
+
+    $any_product = false;
+    foreach ( $items as $i => &$it ) {
+        // Parsedown emits &lt; / &gt; for the comparison signs; decode first.
+        $lead_plain = html_entity_decode( trim( wp_strip_all_tags( $it['lead'] ) ), ENT_QUOTES, 'UTF-8' );
+        $rest_plain = html_entity_decode( trim( wp_strip_all_tags( $it['rest'][0] ) ), ENT_QUOTES, 'UTF-8' );
+        $lead_txt   = strtolower( $lead_plain );
+        $rest_txt   = strtolower( $rest_plain );
+
+        $lead_is_numeric = (bool) preg_match( '/^[<>≥≤]?=?\s*[0-9]/u', $lead_txt );
+
+        if ( $lead_is_numeric ) {
+            $it['range'] = gki_passc_parse_range( $lead_txt );
+            $name        = preg_split( '/\s+[—–-]+\s+/u', $rest_plain, 2 );
+            $it['name']  = trim( $name[0] );
+        } else {
+            $it['range'] = gki_passc_parse_range( $rest_txt );
+            $it['name']  = $lead_plain;
+        }
+        $it['name_key'] = strtolower( $it['name'] );
+        $it['special']  = (bool) preg_match( $special_words, $lead_txt . ' ' . $it['name_key'] );
+        $it['product']  = isset( $product_tiers[ $it['name_key'] ] ) ? $product_tiers[ $it['name_key'] ] : '';
+        if ( $it['product'] ) {
+            $any_product = true;
+        }
+    }
+    unset( $it );
+
+    $drawn = array_values( array_filter( $items, function ( $it ) { return ! $it['special']; } ) );
+    $count = count( $drawn );
+
+    // Map by tier name only when the whole scale is the product's tiers;
+    // one row that happens to be called "Emerging" does not make it one.
+    $all_product = $count > 0;
+    foreach ( $drawn as $it ) {
+        if ( ! $it['product'] ) { $all_product = false; break; }
+    }
+    $any_product = $all_product;
+
+    /* ---- Colour ----------------------------------------------------------
+       quality  : the first band names a top level -> rank palette
+       product  : rows are the product's own tiers -> by name
+       ordinal  : numeric but not a judgement -> sequential ramp            */
+    $first_name = $count ? $drawn[0]['name_key'] : '';
+    $quality    = (bool) preg_match( $top_words, $first_name );
+    $rank_pal   = array(
+        3 => array( 'power', 'explorer', 'emerging' ),
+        4 => array( 'power', 'regular', 'explorer', 'emerging' ),
+        5 => array( 'power', 'regular', 'explorer', 'emerging', 'critical' ),
+        6 => array( 'power', 'regular', 'explorer', 'emerging', 'critical', 'critical' ),
     );
 
-    // Semantic colour is all-or-nothing: if any row is unnamed, every row
-    // takes the neutral ramp so the bar never half-claims a ranking.
-    $classes = array();
-    foreach ( $items as $i => $it ) {
-        $lead_txt = strtolower( wp_strip_all_tags( $it['lead'] ) );
-        $rest_txt = strtolower( wp_strip_all_tags( $it['rest'][0] ) );
-        $cls      = '';
-        foreach ( $names as $needle => $tier ) {
-            $re = '/^' . preg_quote( $needle, '/' ) . '\b/';
-            if ( preg_match( $re, $lead_txt ) || preg_match( $re, $rest_txt ) ) {
-                $cls = 'gki-tier--' . $tier;
+    $rank = 0;
+    foreach ( $items as $i => &$it ) {
+        if ( $it['special'] ) {
+            $it['cls'] = 'gki-tier--special';
+            continue;
+        }
+        if ( $any_product && $it['product'] ) {
+            $it['cls'] = 'gki-tier--' . $it['product'];
+        } elseif ( $quality && isset( $rank_pal[ $count ] ) ) {
+            $it['cls'] = 'gki-tier--' . $rank_pal[ $count ][ $rank ];
+        } else {
+            $it['cls'] = 'gki-tier--seq' . min( $rank + 1, 6 );
+        }
+        $rank++;
+    }
+    unset( $it );
+
+    // Rebuild now that every row carries its class.
+    $drawn = array_values( array_filter( $items, function ( $it ) { return ! $it['special']; } ) );
+
+    /* ---- Geometry --------------------------------------------------------
+       Scale only when every drawn band parses, the bands do not overlap
+       (shares of a population, like the AI Tier mix, are not bands on an
+       axis) and the bands are within 20x of each other; otherwise equal
+       widths. Segments are laid on an ascending axis so the picture is a
+       number line, not a list.                                           */
+    $numeric = $count > 0;
+    foreach ( $drawn as $it ) {
+        if ( ! $it['range'] ) { $numeric = false; break; }
+    }
+    if ( $numeric ) {
+        $sorted = $drawn;
+        usort( $sorted, function ( $a, $b ) { return $a['range']['lo'] <=> $b['range']['lo']; } );
+        for ( $i = 1; $i < $count; $i++ ) {
+            $prev_hi = $sorted[ $i - 1 ]['range']['hi'];
+            if ( $prev_hi === null || $sorted[ $i ]['range']['lo'] < $prev_hi - 0.0001 ) {
+                // An open-ended band that is not the top, or overlapping bands.
+                $numeric = false;
                 break;
             }
         }
-        $classes[] = $cls;
     }
-    if ( in_array( '', $classes, true ) ) {
-        foreach ( $classes as $i => $c ) {
-            $classes[ $i ] = 'gki-tier--n' . ( $i + 1 );
+
+    $segments = array();
+    $ticks    = array();
+    $unit     = $numeric ? $drawn[0]['range']['unit'] : '';
+
+    if ( $numeric ) {
+        usort( $drawn, function ( $a, $b ) {
+            return $a['range']['lo'] <=> $b['range']['lo'];
+        } );
+
+        // Snap to contiguous: each band runs to the next band's lower bound.
+        $bounds = array();
+        $widest = 0;
+        for ( $i = 0; $i < $count; $i++ ) {
+            $lo = $drawn[ $i ]['range']['lo'];
+            $hi = ( $i + 1 < $count ) ? $drawn[ $i + 1 ]['range']['lo'] : $drawn[ $i ]['range']['hi'];
+            $open = ( $i + 1 === $count ) && $drawn[ $i ]['range']['open_hi'];
+            if ( ! $open ) {
+                $widest = max( $widest, $hi - $lo );
+            }
+            $bounds[] = array( 'lo' => $lo, 'hi' => $hi, 'open' => $open );
+        }
+        // An open-ended top band is drawn as wide as the widest closed band.
+        foreach ( $bounds as &$b ) {
+            if ( $b['open'] || $b['hi'] === null ) {
+                $b['hi']   = $b['lo'] + ( $widest > 0 ? $widest : 1 );
+                $b['open'] = true;
+            }
+        }
+        unset( $b );
+
+        $min = $bounds[0]['lo'];
+        $max = $bounds[ $count - 1 ]['hi'];
+        $span = $max - $min;
+
+        $narrowest = INF;
+        foreach ( $bounds as $b ) {
+            $narrowest = min( $narrowest, $b['hi'] - $b['lo'] );
+        }
+        if ( $span <= 0 || $narrowest <= 0 || ( $widest > 0 && $widest / $narrowest > 20 ) ) {
+            $numeric = false; // too lopsided to read — fall back to equal bands
+        } else {
+            foreach ( $bounds as $i => $b ) {
+                $segments[] = array(
+                    'pct'  => ( $b['hi'] - $b['lo'] ) / $span * 100,
+                    'cls'  => $drawn[ $i ]['cls'],
+                    'name' => $drawn[ $i ]['name'],
+                    'open' => $b['open'],
+                );
+                $ticks[] = array( 'pct' => ( $b['lo'] - $min ) / $span * 100, 'label' => gki_passc_format_value( $b['lo'], $unit ) );
+            }
+            $last = $bounds[ $count - 1 ];
+            $ticks[] = array(
+                'pct'   => 100,
+                'label' => $last['open'] ? gki_passc_format_value( $last['lo'], $unit ) . '+' : gki_passc_format_value( $last['hi'], $unit ),
+                'end'   => true,
+            );
+            // The first tick of an open top band duplicates the "+" label; drop it.
+            if ( $last['open'] && $count > 1 ) {
+                array_splice( $ticks, $count - 1, 1 );
+            }
         }
     }
 
-    $out  = '<div class="gki-tiers" data-count="' . (int) $n . '">';
-    $out .= '<div class="gki-tier-bar" aria-hidden="true">';
-    foreach ( $classes as $cls ) {
-        $out .= '<span class="' . $cls . '"></span>';
+    if ( ! $numeric && $count ) {
+        // Equal bands in table order. Categorical tables (nothing parses,
+        // no quality words) get no bar at all — a bar would be decoration.
+        $categorical = ! $quality && ! $any_product;
+        if ( ! $categorical ) {
+            foreach ( $drawn as $it ) {
+                $segments[] = array( 'pct' => 100 / $count, 'cls' => $it['cls'], 'name' => $it['name'], 'open' => false );
+            }
+        }
     }
-    $out .= '</div><ul class="gki-tier-list">';
-    foreach ( $items as $i => $it ) {
+
+    /* ---- Render ------------------------------------------------------------ */
+    $out = '<div class="gki-tiers' . ( $numeric ? ' gki-tiers--scaled' : '' ) . '" data-count="' . (int) $n . '">';
+
+    if ( $segments ) {
+        $out .= '<div class="gki-tier-bar" aria-hidden="true">';
+        foreach ( $segments as $s ) {
+            // A label only when the band is wide enough and the name is a
+            // name, not a sentence (Maturity Factor's rows are quotations).
+            $label = ( $s['pct'] >= 13 && mb_strlen( $s['name'] ) <= 22 && ! preg_match( '/[.!?"“”]/u', $s['name'] ) )
+                ? '<span class="gki-tier-bar-label">' . esc_html( $s['name'] ) . '</span>'
+                : '';
+            $out  .= '<span class="gki-tier-seg ' . $s['cls'] . ( $s['open'] ? ' gki-tier-seg--open' : '' ) . '" style="flex-basis:' . round( $s['pct'], 2 ) . '%">' . $label . '</span>';
+        }
+        $out .= '</div>';
+        if ( $ticks ) {
+            $out .= '<div class="gki-tier-ticks" aria-hidden="true">';
+            foreach ( $ticks as $tk ) {
+                $out .= '<span class="gki-tier-tick' . ( ! empty( $tk['end'] ) ? ' gki-tier-tick--end' : '' ) . '" style="left:' . round( $tk['pct'], 2 ) . '%">' . esc_html( $tk['label'] ) . '</span>';
+            }
+            $out .= '</div>';
+        }
+    }
+
+    $out .= '<ul class="gki-tier-list">';
+    foreach ( $items as $it ) {
         $out .= '<li><b class="gki-tier-lead">' . $it['lead'] . '</b>'
-              . '<span class="gki-tier-desc"><i class="gki-tier-swatch ' . $classes[ $i ] . '"></i>'
+              . '<span class="gki-tier-desc"><i class="gki-tier-swatch ' . $it['cls'] . '"></i>'
               . implode( ' <span class="gki-tier-sep">·</span> ', $it['rest'] )
               . '</span></li>';
     }
     $out .= '</ul></div>';
 
     return str_replace( $t[0], $out, $html );
+}
+
+/**
+ * Parse a band expression into a numeric interval.
+ *
+ *   "80–100"  "55 – 79"  "0.50 – 0.65"  "2 – 3.9"        closed
+ *   "≥ 10"  "70%+"  "> 7 days"  "More than 1 month"       open top
+ *   "< 1"  "< 24 hours"  "Less than 1 day"                [0, a]
+ *   "1 day to 1 week"  "1 hour – 1 day"                   closed, mixed units
+ *
+ * Durations normalise to days. Returns null when the text is not a range.
+ *
+ * @return array|null [ lo, hi, open_hi, unit ]
+ */
+function gki_passc_parse_range( $text ) {
+    $t = strtolower( trim( $text ) );
+    $t = str_replace( array( '≥', '≤', '&gt;', '&lt;', '×', 'x ' ), array( '>=', '<=', '>', '<', '×', '× ' ), $t );
+    $t = preg_replace( '/\s*\(.*?\)\s*/', ' ', $t ); // drop parentheticals
+    $t = preg_replace( '/^(less than|under|below)\s+/', '< ', $t );
+    $t = preg_replace( '/^(more than|over|above|at least)\s+/', '> ', $t );
+    $t = preg_replace( '/\s+(to|and)\s+/', ' – ', $t );
+    $t = trim( preg_replace( '/\s+/', ' ', $t ) );
+
+    $num  = '([0-9]+(?:\.[0-9]+)?)';
+    $unit = '\s*(%|×|hours?|hrs?|h|days?|d|weeks?|wks?|w|months?|mo)?';
+
+    $conv = function ( $v, $u ) {
+        $u = (string) $u;
+        if ( preg_match( '/^(hours?|hrs?|h)$/', $u ) )   { return array( $v / 24, 'd' ); }
+        if ( preg_match( '/^(days?|d)$/', $u ) )         { return array( $v, 'd' ); }
+        if ( preg_match( '/^(weeks?|wks?|w)$/', $u ) )   { return array( $v * 7, 'd' ); }
+        if ( preg_match( '/^(months?|mo)$/', $u ) )      { return array( $v * 30, 'd' ); }
+        if ( $u === '%' )                                 { return array( $v, '%' ); }
+        if ( $u === '×' )                                 { return array( $v, '×' ); }
+        return array( $v, '' );
+    };
+
+    // a – b   (units may sit on either or both numbers)
+    if ( preg_match( '/^' . $num . $unit . '\s*[–—-]\s*' . $num . $unit . '$/u', $t, $m ) ) {
+        $ua = $m[2] !== '' ? $m[2] : $m[4];
+        $ub = $m[4] !== '' ? $m[4] : $m[2];
+        list( $lo, $u ) = $conv( (float) $m[1], $ua );
+        list( $hi )     = $conv( (float) $m[3], $ub );
+        if ( $hi < $lo ) { return null; }
+        return array( 'lo' => $lo, 'hi' => $hi, 'open_hi' => false, 'unit' => $u );
+    }
+    // >= a   > a   a+
+    if ( preg_match( '/^(?:>=?\s*' . $num . $unit . '|' . $num . $unit . '\s*\+)$/u', $t, $m ) ) {
+        $v = $m[1] !== '' ? $m[1] : $m[3];
+        $u = $m[1] !== '' ? $m[2] : $m[4];
+        list( $lo, $unit_out ) = $conv( (float) $v, $u );
+        return array( 'lo' => $lo, 'hi' => null, 'open_hi' => true, 'unit' => $unit_out );
+    }
+    // <= a   < a
+    if ( preg_match( '/^<=?\s*' . $num . $unit . '$/u', $t, $m ) ) {
+        list( $hi, $u ) = $conv( (float) $m[1], $m[2] );
+        return array( 'lo' => 0, 'hi' => $hi, 'open_hi' => false, 'unit' => $u );
+    }
+    return null;
+}
+
+/**
+ * Tick label for a value in the scale's unit. Integers stay integers.
+ */
+function gki_passc_format_value( $v, $unit ) {
+    $s = ( abs( $v - round( $v ) ) < 0.001 ) ? (string) (int) round( $v ) : rtrim( rtrim( number_format( $v, 2, '.', '' ), '0' ), '.' );
+    if ( $s === '0' )    { return '0'; } // "0×" and "0d" read as noise
+    if ( $unit === '%' ) { return $s . '%'; }
+    if ( $unit === '×' ) { return $s . '×'; }
+    if ( $unit === 'd' ) { return $s . 'd'; }
+    return $s;
 }
 
 /**

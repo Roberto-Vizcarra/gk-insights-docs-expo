@@ -8,3 +8,4 @@ then hard-refresh; the version string busts the CSS/JS cache.
 | Archived (local time) | Version | File | SHA-256 (first 12) | Source commit |
 | --- | --- | --- | --- | --- |
 | 2026-09-16 10:25 | 1.14.2 | gki-docs-helper-v1.14.2.zip | 8F82A16ECEDA | main@9414de9 |
+| 2026-09-21 13:50 | 1.17.1 | gki-docs-helper-v1.17.1.zip | 0B0CA7DA823D | a9655c5 |

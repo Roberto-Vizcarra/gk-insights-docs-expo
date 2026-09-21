@@ -889,32 +889,102 @@ body.gki-docs-page .gki-page ul.gki-legend > li > strong {
 }
 
 /* ---------- Tier scale (static) ------------------------------
-   The 4-row "Range → Read it as" table, drawn: one segment per
-   band, then the bands as a list. Semantic tier colours only when
-   the rows name the product's tiers; otherwise a neutral ramp.
+   The "Range → Read it as" table, drawn as a number line: one
+   segment per band, proportional to the band's width when the
+   ranges parse (equal otherwise), band names inside the segments
+   where they fit, boundary values as ticks beneath, then the bands
+   as a list.
+
+   Colour: quality scales take the tier palette by rank (best →
+   worst); the product's own tiers map by name; ordinal-but-not-
+   judgemental scales (Maturity Factor, CapEx share) take a
+   sequential indigo ramp; PTO / empty-state rows are grey and are
+   listed but never drawn.
    ------------------------------------------------------------ */
+:root {
+  --gki-tier-critical: #6E1030;
+  --gki-tier-special:  #9A9CA3;
+}
+[data-theme="dark"] {
+  --gki-tier-critical: #F9A8C0;
+  --gki-tier-special:  #6B6E76;
+}
+
 .gki-tiers { margin: 0.5rem 0 1.5rem; }
 
 .gki-tier-bar {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
+  display: flex;
   gap: 3px;
   margin-bottom: 0.9rem;
 }
-.gki-tier-bar span { height: 9px; border-radius: 2px; background: var(--gki-border-strong); }
+.gki-tier-seg {
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 6px;
+  height: 22px;
+  border-radius: 3px;
+  background: var(--gki-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.gki-tier-seg--open {
+  -webkit-mask-image: linear-gradient(to right, #000 55%, rgba(0, 0, 0, 0.35) 100%);
+  mask-image: linear-gradient(to right, #000 55%, rgba(0, 0, 0, 0.35) 100%);
+}
+.gki-tier-bar-label {
+  font-family: var(--gki-font);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+  white-space: nowrap;
+  padding: 0 0.5rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+}
+/* Dark-theme tier colours are pastels; ink labels read better on them. */
+[data-theme="dark"] .gki-tier-bar-label { color: #16171A; text-shadow: none; }
+
+/* Ticks sit under the bar; the end tick right-aligns. */
+.gki-tier-ticks {
+  position: relative;
+  height: 1.1rem;
+  margin: -0.55rem 0 0.9rem;
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.gki-tier-tick { position: absolute; top: 0; transform: translateX(0); white-space: nowrap; }
+.gki-tier-tick--end { transform: translateX(-100%); }
+.gki-tiers--scaled .gki-tier-bar { margin-bottom: 0.45rem; }
 
 .gki-tier--power    { background: var(--gki-tier-power) !important; }
 .gki-tier--regular  { background: var(--gki-tier-regular) !important; }
 .gki-tier--explorer { background: var(--gki-tier-explorer) !important; }
 .gki-tier--emerging { background: var(--gki-tier-emerging) !important; }
-/* Neutral ramp, first row darkest — reads as "top of the table". */
-.gki-tier--n1 { background: var(--gki-text) !important; }
-.gki-tier--n2 { background: var(--gki-text-muted) !important; }
-.gki-tier--n3 { background: var(--gki-text-dim) !important; }
-.gki-tier--n4 { background: var(--gki-border-strong) !important; }
-.gki-tier--n5 { background: var(--gki-border) !important; }
-.gki-tier--n6 { background: var(--gki-border-light) !important; }
+.gki-tier--critical { background: var(--gki-tier-critical) !important; }
+.gki-tier--special  { background: var(--gki-tier-special) !important; }
+
+/* Sequential ramp for ordinal-but-neutral scales: first row deepest. */
+.gki-tier--seq1 { background: var(--gki-tier-regular) !important; }
+.gki-tier--seq2 { background: color-mix(in srgb, var(--gki-tier-regular) 78%, var(--gki-bg)) !important; }
+.gki-tier--seq3 { background: color-mix(in srgb, var(--gki-tier-regular) 58%, var(--gki-bg)) !important; }
+.gki-tier--seq4 { background: color-mix(in srgb, var(--gki-tier-regular) 40%, var(--gki-bg)) !important; }
+.gki-tier--seq5 { background: color-mix(in srgb, var(--gki-tier-regular) 28%, var(--gki-bg)) !important; }
+.gki-tier--seq6 { background: color-mix(in srgb, var(--gki-tier-regular) 18%, var(--gki-bg)) !important; }
+/* Light ramp steps need dark labels. */
+.gki-tier--seq4 .gki-tier-bar-label,
+.gki-tier--seq5 .gki-tier-bar-label,
+.gki-tier--seq6 .gki-tier-bar-label { color: var(--gki-text); text-shadow: none; }
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .gki-tier--seq2 { background: var(--gki-tier-regular) !important; opacity: 0.78; }
+  .gki-tier--seq3 { background: var(--gki-tier-regular) !important; opacity: 0.58; }
+  .gki-tier--seq4 { background: var(--gki-tier-regular) !important; opacity: 0.40; }
+  .gki-tier--seq5 { background: var(--gki-tier-regular) !important; opacity: 0.28; }
+  .gki-tier--seq6 { background: var(--gki-tier-regular) !important; opacity: 0.18; }
+}
 
 body.gki-docs-page .gki-page ul.gki-tier-list {
   list-style: none !important;

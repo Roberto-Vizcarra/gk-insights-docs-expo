@@ -67,7 +67,10 @@
 
       var a = document.createElement('a');
       a.href = '#' + h.id;
-      a.textContent = h.textContent;
+      // Time badges on playbook steps are decoration, not part of the title.
+      var clone = h.cloneNode(true);
+      Array.prototype.forEach.call(clone.querySelectorAll('.gki-seq-time'), function (n) { n.remove(); });
+      a.textContent = clone.textContent.replace(/\s+/g, ' ').trim();
       a.className = 'gki-toc-link';
       li.appendChild(a);
       list.appendChild(li);

@@ -1,5 +1,19 @@
 # GKI Help Center — Auth Gate Implementation Plan
 
+> **Status (2026-09-16): built and shipped; this document is the original plan.**
+> The architecture below changed in v1.12.0: the **OpenID Connect Generic Client
+> plugin was removed** and the OAuth2 flow is now implemented inside
+> `includes/gki-auth.php` (login endpoint `/insights-expo/login/`, callback
+> `admin-ajax.php?action=gki-oauth-callback`, token exchange against
+> `api.gitkraken.dev/oauth/access_token`, userinfo `api.gitkraken.dev/user`).
+> The entitlement endpoint and token details in section 3–4 are confirmed and
+> unchanged. Default cache TTL is 24 hours, not 30 minutes. v1.17.1 fixed the
+> gate page's layout (card was 176px wide in the nav column), Elementor colour
+> leaks, and an information leak (the search index and Ctrl-K palette were
+> served to signed-out visitors). The **Hardening Checklist → WordPress Config**
+> section is still the pre-enable checklist and still applies. For current
+> behaviour see `CLAUDE.md` → Auth Gate; for local testing see `LOCAL-DEV.md`.
+
 ## Goal
 
 Restrict all GKI Help Center pages (`/insights-expo/*`) to authenticated GitKraken users whose subscription includes Insights access.
@@ -245,8 +259,12 @@ gki-docs-helper/
 ## Status
 
 - [x] Implementation plan documented
-- [x] Auth module scaffolded with placeholder endpoints
-- [ ] Backend team provides OAuth client + endpoint details
-- [ ] OIDC plugin installed and configured on WP
-- [ ] End-to-end testing
-- [ ] Production deployment
+- [x] Auth module scaffolded with placeholder endpoints (v1.9.0)
+- [x] Backend team provided OAuth client + endpoint details
+- [x] ~~OIDC plugin installed and configured on WP~~ — replaced by the built-in OAuth2 handler (v1.12.0)
+- [x] Gate page redesigned with GK branding (v1.10.7)
+- [x] Cloudflare caching of gated pages fixed with no-store headers (v1.10.7)
+- [x] Production deployment (gate available, enable via Settings → GKI Auth Gate)
+- [x] Gate page layout, Elementor leaks and search-index leak fixed (v1.17.1, on `pass-c-structural`, not yet deployed)
+- [ ] WordPress hardening checklist above verified on prod (noindex, sitemap, page cache exclusion, feeds)
+- [ ] Gate visually confirmed on production after 1.17.1 upload (the local site cannot complete the sign-in round-trip)

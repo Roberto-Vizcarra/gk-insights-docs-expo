@@ -33,10 +33,13 @@ ROOT = "gki-docs-helper"
 REQUIRED = [
     "gki-docs-helper.php",
     "includes/gki-auth.php",
+    "includes/gki-passc.php",
     "templates/single-gki.php",
     "templates/gki-gate.php",
     "css/gki-docs.css",
+    "css/gki-passc.css",
     "js/gki-docs.js",
+    "js/gki-passc.js",
 ]
 
 EXCLUDE_SUFFIX = {".zip"}

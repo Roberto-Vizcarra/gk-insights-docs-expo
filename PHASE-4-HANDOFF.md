@@ -4,6 +4,14 @@
 **For:** Next session continuing the GKI Help Center redesign
 **Plugin version at handoff:** 1.7.0
 
+> **Status (2026-09-16): closed — historical.** Everything on this punch list
+> was either done in v1.8.x–1.14.2 or superseded by the Pass A/B/C redesign
+> (v1.15–1.17). Dark mode shipped (theme slider, v1.11). Steps, callouts, code
+> blocks, nested lists, TOC and blockquotes were all redone in Pass C.2. The
+> function and CSS-architecture references below are still broadly accurate
+> but predate `includes/gki-passc.php`, `css/gki-passc.css` and
+> `js/gki-passc.js`; see `CLAUDE.md` for the current map.
+
 ---
 
 ## What Was Just Deployed

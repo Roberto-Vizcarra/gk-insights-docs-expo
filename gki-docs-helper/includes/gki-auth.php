@@ -473,6 +473,12 @@ function gki_auth_show_gate( $reason ) {
     // Prevent caching of gate pages
     nocache_headers();
 
+    // Tell the asset enqueue (which runs inside get_header) that this is the
+    // gate: stylesheet only, no scripts and no search index.
+    if ( ! defined( 'GKI_GATE_ACTIVE' ) ) {
+        define( 'GKI_GATE_ACTIVE', true );
+    }
+
     // Build the login URL using our custom endpoint (bypasses WP admin login).
     $login_url = gki_auth_get_login_url( gki_auth_get_current_url() );
 

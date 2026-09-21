@@ -1,0 +1,1418 @@
+/* ============================================================
+   GKI Docs Helper — PASS C
+   ------------------------------------------------------------
+   Structural components that did not exist before this pass:
+
+     .gki-definition   lifted blockquote under the page title
+     .gki-spec         the metric's typed fields, as a hairline grid
+     .gki-formula      the formula, as a first-class panel
+     .gki-instrument   sandbox / proportion bar / timeline / precedence
+     .gki-palette      command palette replacing the search input
+     .gki-home-*       Home landing: role paths and the metric map
+
+   Loaded after gki-docs.css, which already carries the Pass A craft
+   baseline and the Pass B card / nav / callout treatment.
+
+   Brand rules hold throughout: --gki-accent stays accent-only and
+   never colours a heading or body text.
+   ============================================================ */
+
+:root {
+  /* One mono face for formulas and figures. Inter stays the brand
+     face for everything else. */
+  --gki-font-data: 'JetBrains Mono', 'SF Mono', 'Cascadia Code',
+                   'Fira Code', Consolas, monospace;
+
+  /* Tier colours, used by the sandboxes and the tier scale. Semantic,
+     not accent — they encode a band, not a brand. */
+  --gki-tier-power:    #15777E;
+  --gki-tier-regular:  #3F36BA;
+  --gki-tier-explorer: #8B6914;
+  --gki-tier-emerging: #9E2040;
+}
+
+[data-theme="dark"] {
+  --gki-tier-power:    #2DD4BF;
+  --gki-tier-regular:  #818CF8;
+  --gki-tier-explorer: #D9A441;
+  --gki-tier-emerging: #F0748E;
+}
+
+/* ============================================================
+   1. DEFINITION
+   ============================================================ */
+body.gki-docs-page .gki-page .gki-definition {
+  font-size: var(--gki-fs-md) !important;
+  line-height: 1.55;
+  color: var(--gki-text-secondary) !important;
+  max-width: 54ch;
+  margin: 0 0 1.5rem;
+  text-wrap: pretty;
+}
+
+/* ============================================================
+   2. SPEC PANEL
+   ------------------------------------------------------------
+   A metric is a typed object. Fields read before prose, as a
+   hairline grid rather than a card — border, fill and radius are
+   spent on things that are genuinely separate objects, and a
+   field list is not one.
+   ============================================================ */
+.gki-spec {
+  margin: 0 0 2rem;
+  border-top: 2px solid var(--gki-text);
+}
+
+.gki-spec dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  margin: 0;
+  padding: 0;
+}
+
+.gki-spec-field {
+  padding: 0.8rem 1rem 0.85rem 0;
+  border-bottom: 1px solid var(--gki-border-light);
+  min-width: 0;
+}
+
+/* The surface list is long; let it run the full width of the grid. */
+.gki-spec-field--wide {
+  grid-column: 1 / -1;
+  padding-right: 0;
+}
+
+.gki-spec dt {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  margin: 0 0 0.3rem;
+}
+
+.gki-spec dd {
+  margin: 0;
+  font-size: var(--gki-fs-sm);
+  font-weight: 500;
+  color: var(--gki-text);
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-spec-field--wide dd {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+body.gki-docs-page .gki-page code.gki-path {
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem !important;
+  font-weight: 500;
+  color: var(--gki-accent) !important;
+  background: var(--gki-bg-subtle) !important;
+  border: 1px solid var(--gki-border-light);
+  border-radius: 4px;
+  padding: 0.14rem 0.42rem !important;
+  white-space: nowrap;
+}
+
+.gki-spec-prose { color: var(--gki-text-secondary); font-weight: 400; }
+
+/* ============================================================
+   3. FORMULA PANEL
+   ============================================================ */
+.gki-formula {
+  position: relative;
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  padding: 1.6rem 1.15rem 1.1rem;
+  margin: 0 0 2rem;
+  overflow-x: auto;
+}
+
+.gki-formula-label {
+  position: absolute;
+  top: 0.6rem;
+  left: 1.15rem;
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+}
+
+body.gki-docs-page .gki-page .gki-formula pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font-family: var(--gki-font-data);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--gki-text);
+  white-space: pre;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   4. INSTRUMENTS (shared chrome)
+   ============================================================ */
+.gki-instrument {
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  background: var(--gki-bg);
+  padding: 1.15rem 1.15rem 1.25rem;
+  margin: 0 0 2.25rem;
+}
+
+.gki-instrument:empty { display: none; }
+
+.gki-inst-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.gki-inst-title {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+}
+
+.gki-inst-note {
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-dim);
+}
+
+/* Every instrument says where its numbers come from. A calculator
+   that silently disagrees with the product is worse than none. */
+.gki-inst-source {
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gki-border-light);
+  line-height: 1.5;
+}
+
+/* ---------- Sandbox ---------------------------------------- */
+.gki-sandbox {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(200px, 250px);
+  gap: 0 2rem;
+  align-items: start;
+}
+
+.gki-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.85rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+
+.gki-readout-value {
+  font-family: var(--gki-font-data);
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-readout-unit {
+  font-family: var(--gki-font-data);
+  font-size: 0.8125rem;
+  color: var(--gki-text-dim);
+}
+
+.gki-band {
+  margin-left: auto;
+  font-size: var(--gki-fs-xs);
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.gki-derived {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  font-size: var(--gki-fs-xs);
+  color: var(--gki-text-muted);
+}
+.gki-derived div { display: flex; justify-content: space-between; gap: 1rem; }
+.gki-derived b {
+  font-family: var(--gki-font-data);
+  font-weight: 500;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-controls { display: grid; gap: 0.75rem; }
+
+.gki-ctrl-group {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-dim);
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--gki-border-light);
+}
+.gki-ctrl-group:first-child { padding-top: 0; border-top: 0; }
+
+.gki-ctrl { display: grid; gap: 0.15rem; }
+.gki-ctrl-top { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.gki-ctrl label { font-size: var(--gki-fs-xs); font-weight: 500; color: var(--gki-text-secondary); }
+.gki-ctrl-val {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  font-weight: 500;
+  color: var(--gki-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-instrument input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--gki-bg-offset);
+  margin: 0.3rem 0 0;
+  cursor: pointer;
+}
+.gki-instrument input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--gki-accent);
+  border: 2px solid var(--gki-bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.28);
+}
+.gki-instrument input[type="range"]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--gki-accent);
+  border: 2px solid var(--gki-bg);
+}
+.gki-instrument input[type="range"]:focus-visible {
+  outline: none;
+  box-shadow: var(--gki-focus-ring);
+}
+
+/* ---------- Tier scale ------------------------------------- */
+.gki-tier-scale { margin: 1rem 0 0; position: relative; }
+.gki-tier-track { display: grid; gap: 3px; }
+.gki-tier-track span { height: 9px; border-radius: 2px; opacity: 0.4; transition: opacity 0.2s ease; }
+.gki-tier-track span[data-current="true"] { opacity: 1; }
+.gki-tier-marker {
+  position: absolute;
+  top: -5px;
+  width: 2px;
+  height: 19px;
+  background: var(--gki-text);
+  border-radius: 1px;
+  transform: translateX(-1px);
+  transition: left 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.gki-tier-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Proportion bar --------------------------------- */
+.gki-propbar { display: flex; height: 30px; border-radius: 6px; overflow: hidden; gap: 2px; }
+.gki-propbar span {
+  display: grid;
+  place-items: center;
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  color: #FFFFFF;
+  min-width: 0;
+  overflow: hidden;
+  transition: flex-grow 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.gki-proplegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 0.7rem 0 0;
+  font-size: var(--gki-fs-xs);
+  color: var(--gki-text-secondary);
+}
+.gki-proplegend span { display: flex; align-items: center; gap: 0.4rem; }
+.gki-proplegend i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.gki-proplegend b {
+  font-family: var(--gki-font-data);
+  font-weight: 500;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Sequence timeline ------------------------------- */
+.gki-timeline { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.gki-timeline li {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 1fr);
+  gap: 0 0.85rem;
+  padding: 0 0 1rem;
+  position: relative;
+}
+.gki-timeline li:last-child { padding-bottom: 0; }
+.gki-timeline li::before {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  top: 1.1rem;
+  bottom: -0.1rem;
+  width: 1px;
+  background: var(--gki-border-light);
+}
+.gki-timeline li:last-child::before { display: none; }
+.gki-tl-dot {
+  width: 1.6rem; height: 1.6rem;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-strong);
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--gki-accent);
+  position: relative;
+  z-index: 1;
+}
+.gki-tl-dot--rule {
+  border-color: var(--gki-accent);
+  background: var(--gki-accent);
+  color: #FFFFFF;
+}
+.gki-tl-body strong { display: block; font-size: var(--gki-fs-sm); color: var(--gki-text); font-weight: 600; margin-bottom: 0.1rem; }
+.gki-tl-body span { font-size: var(--gki-fs-xs); color: var(--gki-text-secondary); line-height: 1.5; display: block; }
+.gki-tl-body code {
+  font-family: var(--gki-font-data);
+  font-size: 0.72rem;
+  color: var(--gki-accent);
+}
+
+/* ---------- Precedence table -------------------------------- */
+.gki-precedence { display: grid; gap: 0; }
+.gki-prec-row {
+  display: grid;
+  grid-template-columns: 1.6rem minmax(0, 12rem) minmax(0, 1fr);
+  gap: 0 0.85rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+.gki-prec-row:last-child { border-bottom: 0; }
+.gki-prec-rank {
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--gki-text-dim);
+}
+.gki-prec-row code {
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gki-accent);
+}
+.gki-prec-row p { margin: 0; font-size: var(--gki-fs-xs); color: var(--gki-text-secondary); line-height: 1.5; }
+
+/* ============================================================
+   5. COMMAND PALETTE
+   ============================================================ */
+
+/* The trigger lives in the left nav, directly under the title, so
+   search is in the same place on every page. */
+.gki-palette-slot {
+  padding: 0 0.75rem 0.75rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+
+/* Collapsed nav hides the nav body; the trigger goes with it. */
+.gki-nav-collapsed .gki-palette-slot { display: none; }
+/* Elementor's kit styles every <button>: a #CC3366 border, 3px radius,
+   16px padding and near-white text, which on a white ground made the
+   trigger invisible. Per the project rule, Elementor overrides need a
+   body.gki-docs-page prefix AND !important. */
+body.gki-docs-page .gki-palette-trigger,
+body.gki-docs-page button.gki-palette-trigger {
+  display: flex !important;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.65rem !important;
+  background: var(--gki-bg) !important;
+  background-image: none !important;
+  border: 1px solid var(--gki-border-light) !important;
+  border-radius: 8px !important;
+  font-family: var(--gki-font) !important;
+  font-size: var(--gki-fs-sm) !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--gki-text-muted) !important;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: none !important;
+  transition: border-color 0.18s ease, color 0.18s ease;
+}
+body.gki-docs-page .gki-palette-trigger:hover {
+  border-color: var(--gki-border-strong) !important;
+  color: var(--gki-text) !important;
+  background: var(--gki-bg) !important;
+}
+body.gki-docs-page .gki-palette-trigger:focus-visible {
+  outline: none !important;
+  box-shadow: var(--gki-focus-ring) !important;
+}
+.gki-palette-trigger svg { flex: none; }
+.gki-palette-trigger .gki-kbd { margin-left: auto; }
+
+.gki-kbd {
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--gki-text-muted);
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 0.08rem 0.34rem;
+  white-space: nowrap;
+}
+
+.gki-palette-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(16, 17, 22, 0.45);
+  display: grid;
+  place-items: start center;
+  padding: clamp(3rem, 12vh, 8rem) 1rem 1rem;
+}
+.gki-palette-backdrop[hidden] { display: none !important; }
+
+.gki-palette {
+  width: min(600px, 100%);
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-strong);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px -20px rgba(24, 26, 38, 0.32),
+              0 6px 16px -8px rgba(24, 26, 38, 0.18);
+  overflow: hidden;
+}
+[data-theme="dark"] .gki-palette {
+  box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.8),
+              0 6px 16px -8px rgba(0, 0, 0, 0.55);
+}
+
+.gki-palette-field {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.85rem 1.05rem;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+.gki-palette-field svg { flex: none; color: var(--gki-text-dim); }
+
+body.gki-docs-page .gki-palette-input {
+  flex: 1;
+  min-width: 0;
+  border: 0 !important;
+  background: transparent !important;
+  font-family: var(--gki-font);
+  font-size: 1rem !important;
+  color: var(--gki-text) !important;
+  outline: none;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+.gki-palette-input::placeholder { color: var(--gki-text-dim); }
+
+.gki-palette-results {
+  max-height: min(52vh, 380px);
+  overflow-y: auto;
+  padding: 0.4rem;
+  margin: 0;
+  list-style: none;
+}
+.gki-palette-group {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-dim);
+  padding: 0.65rem 0.7rem 0.28rem;
+}
+.gki-palette-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.48rem 0.7rem;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.gki-palette-item[data-active="true"] { background: var(--gki-bg-subtle); }
+.gki-palette-item .gki-pi-title { font-size: var(--gki-fs-sm); font-weight: 500; color: var(--gki-text); }
+.gki-palette-item[data-active="true"] .gki-pi-title { color: var(--gki-accent); }
+.gki-palette-item .gki-pi-cat {
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+.gki-palette-empty { padding: 1.4rem 0.7rem; text-align: center; font-size: var(--gki-fs-sm); color: var(--gki-text-muted); }
+
+.gki-palette-foot {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 1.05rem;
+  border-top: 1px solid var(--gki-border-light);
+  background: var(--gki-bg-subtle);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+}
+.gki-palette-foot span { display: flex; align-items: center; gap: 0.3rem; }
+
+/* ============================================================
+   6. HOME LANDING
+   ============================================================ */
+.gki-home-hero {
+  border-bottom: 1px solid var(--gki-border-light);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+body.gki-docs-page .gki-home-hero .gki-page-title {
+  font-size: clamp(2.1rem, 5vw, 3rem) !important;
+  line-height: 1.08;
+  letter-spacing: -0.032em;
+  max-width: 19ch;
+  margin: 0.5rem 0 0.8rem;
+  padding-top: 0.85rem;
+}
+
+.gki-home-label {
+  display: block;
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.gki-paths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+  border-top: 1px solid var(--gki-border-light);
+  margin-bottom: 2.75rem;
+}
+body.gki-docs-page .gki-path {
+  display: block;
+  text-decoration: none;
+  padding: 1rem 1.2rem 1.15rem 0;
+  border-bottom: 1px solid var(--gki-border-light);
+  border-right: 1px solid var(--gki-border-light);
+  color: var(--gki-text-secondary) !important;
+}
+body.gki-docs-page .gki-path:last-child { border-right: 0; }
+.gki-path-role {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-accent);
+}
+.gki-path h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 0.4rem 0 0.28rem;
+  transition: color 0.18s ease;
+}
+.gki-path p { font-size: var(--gki-fs-xs); color: var(--gki-text-muted); margin: 0; line-height: 1.5; }
+body.gki-docs-page .gki-path:hover h3 { color: var(--gki-accent); }
+
+.gki-map-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.gki-map-head h2 {
+  font-size: 1.3rem;
+  letter-spacing: -0.015em;
+  color: var(--gki-text);
+  margin: 0;
+}
+.gki-map-count {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-families {
+  display: grid;
+  gap: 1px;
+  background: var(--gki-border-light);
+  border: 1px solid var(--gki-border-light);
+  border-radius: var(--gki-radius-lg);
+  overflow: hidden;
+}
+.gki-family {
+  background: var(--gki-bg);
+  display: grid;
+  grid-template-columns: minmax(145px, 195px) minmax(0, 1fr);
+  gap: 0.45rem 1.5rem;
+  padding: 0.95rem 1.2rem;
+  align-items: start;
+}
+body.gki-docs-page .gki-family-name {
+  font-size: var(--gki-fs-sm);
+  font-weight: 600;
+  color: var(--gki-text) !important;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.1rem;
+}
+body.gki-docs-page .gki-family-name:hover { color: var(--gki-accent) !important; }
+.gki-family-count {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.gki-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+body.gki-docs-page .gki-chip {
+  font-size: var(--gki-fs-xs);
+  font-weight: 500;
+  color: var(--gki-text-secondary) !important;
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  padding: 0.18rem 0.55rem;
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+body.gki-docs-page .gki-chip:hover {
+  border-color: var(--gki-accent);
+  color: var(--gki-accent) !important;
+}
+.gki-chip--derived { border-style: dashed; }
+
+.gki-map-key { font-size: var(--gki-fs-2xs); color: var(--gki-text-muted); margin: 0.8rem 0 2rem; }
+.gki-map-key .gki-chip { pointer-events: none; }
+
+/* ============================================================
+   6b. SECTION COMPONENTS (Pass C.2)
+   ------------------------------------------------------------
+   The header of a metric page was designed; the body below it was
+   raw Parsedown. These components carry the same language — hairline
+   rules, mono figures, accent-only purple — through the whole page.
+
+     .gki-seq        numbered sequence with a connecting rail
+     .gki-runin      run-in label paragraph (`**Label.** body`)
+     .gki-legend     key to the formula, directly beneath it
+     .gki-tiers      segmented tier bar + list (replaces a 4-row table)
+     .gki-faq        Q/A pairs
+     .gki-surfaces   where-it-appears rows with path tokens
+     .gki-related    related-metrics table
+
+   Every rule here is scoped under .gki-page so Elementor cannot
+   reach it, and uses !important only where the kit already does.
+   ============================================================ */
+
+/* ---------- Numbered sequence -------------------------------
+   Used for `**Step N**` paragraphs on metric pages AND for every
+   plain Markdown <ol> site-wide, so a step is the same object on a
+   connect page, a playbook and a metric page. Outlined circle with
+   the number in accent, and a hairline rail joining the circles —
+   the filled purple disc is retired.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page ol.gki-seq,
+body.gki-docs-page .gki-page > ol:not([class]) {
+  list-style: none !important;
+  counter-reset: gki-seq;
+  margin: 1.1rem 0 1.6rem !important;
+  padding: 0 !important;
+}
+
+body.gki-docs-page .gki-page ol.gki-seq > li,
+body.gki-docs-page .gki-page > ol:not([class]) > li {
+  counter-increment: gki-seq;
+  position: relative;
+  margin: 0 0 0 0.85rem !important;
+  padding: 0 0 1.15rem 2.35rem !important;
+  border-top: 0 !important;
+  border-left: 1px solid var(--gki-border-light);
+  font-size: var(--gki-fs-base);
+  line-height: var(--gki-lh-normal);
+  color: var(--gki-text-secondary);
+  overflow-wrap: break-word;
+}
+
+body.gki-docs-page .gki-page ol.gki-seq > li:last-child,
+body.gki-docs-page .gki-page > ol:not([class]) > li:last-child {
+  border-left-color: transparent;
+  padding-bottom: 0.2rem !important;
+}
+
+body.gki-docs-page .gki-page ol.gki-seq > li::before,
+body.gki-docs-page .gki-page > ol:not([class]) > li::before {
+  content: counter(gki-seq);
+  position: absolute;
+  left: -0.85rem;
+  top: 0;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gki-accent);
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-strong);
+  border-radius: 50%;
+  box-shadow: none;
+  z-index: 1;
+}
+
+body.gki-docs-page .gki-page ol.gki-seq > li > p,
+body.gki-docs-page .gki-page ol.gki-seq > li > ul {
+  margin: 0 0 0.6rem;
+}
+body.gki-docs-page .gki-page ol.gki-seq > li > :last-child { margin-bottom: 0; }
+
+body.gki-docs-page .gki-page ol.gki-seq > li > ul {
+  padding-left: 1.1rem;
+}
+body.gki-docs-page .gki-page ol.gki-seq > li > ul > li {
+  font-size: var(--gki-fs-sm);
+  color: var(--gki-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+/* The step title sits on the same line as the number. */
+body.gki-docs-page .gki-page .gki-seq-title {
+  font-size: var(--gki-fs-base) !important;
+  font-weight: 600 !important;
+  line-height: 1.7rem !important;
+  letter-spacing: 0 !important;
+  color: var(--gki-text) !important;
+  margin: 0 0 0.25rem !important;
+  padding: 0 !important;
+}
+
+/* An untitled step's first line should also align with the number. */
+body.gki-docs-page .gki-page .gki-seq-step--untitled > p:first-child {
+  padding-top: 0.2rem;
+}
+
+/* ---------- Run-in labels ------------------------------------
+   `**Label.** body` is how every metric page sub-divides a section.
+   Give the label ink weight and the paragraph a little more air so
+   the rhythm reads as headed blocks rather than one grey column.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page p.gki-runin {
+  margin-top: 1.1rem;
+}
+body.gki-docs-page .gki-page p.gki-runin + p:not(.gki-runin),
+body.gki-docs-page .gki-page p.gki-runin + ul {
+  margin-top: -0.35rem;
+}
+body.gki-docs-page .gki-page .gki-runin-label {
+  color: var(--gki-text) !important;
+  font-weight: 600 !important;
+}
+
+/* ---------- Formula legend ----------------------------------
+   The list of variables directly under the formula is a key, not
+   prose. Pull it up against the panel and set it small.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page .gki-formula + .gki-instrument { margin-top: -0.75rem; }
+
+body.gki-docs-page .gki-page ul.gki-legend {
+  list-style: none !important;
+  margin: 0.15rem 0 1.75rem !important;
+  padding: 0 !important;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.35rem 1.5rem;
+}
+body.gki-docs-page .gki-page ul.gki-legend > li {
+  font-size: var(--gki-fs-sm) !important;
+  color: var(--gki-text-muted);
+  line-height: 1.5;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.gki-docs-page .gki-page ul.gki-legend > li > strong {
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--gki-accent) !important;
+  margin-right: 0.1rem;
+}
+
+/* ---------- Tier scale (static) ------------------------------
+   The "Range → Read it as" table, drawn as a number line: one
+   segment per band, proportional to the band's width when the
+   ranges parse (equal otherwise), band names inside the segments
+   where they fit, boundary values as ticks beneath, then the bands
+   as a list.
+
+   Colour: quality scales take the tier palette by rank (best →
+   worst); the product's own tiers map by name; ordinal-but-not-
+   judgemental scales (Maturity Factor, CapEx share) take a
+   sequential indigo ramp; PTO / empty-state rows are grey and are
+   listed but never drawn.
+   ------------------------------------------------------------ */
+:root {
+  --gki-tier-critical: #6E1030;
+  --gki-tier-special:  #9A9CA3;
+}
+[data-theme="dark"] {
+  --gki-tier-critical: #F9A8C0;
+  --gki-tier-special:  #6B6E76;
+}
+
+.gki-tiers { margin: 0.5rem 0 1.5rem; }
+
+.gki-tier-bar {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 0.9rem;
+}
+.gki-tier-seg {
+  position: relative;
+  flex: 0 0 auto;
+  min-width: 6px;
+  height: 22px;
+  border-radius: 3px;
+  background: var(--gki-border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.gki-tier-seg--open {
+  -webkit-mask-image: linear-gradient(to right, #000 55%, rgba(0, 0, 0, 0.35) 100%);
+  mask-image: linear-gradient(to right, #000 55%, rgba(0, 0, 0, 0.35) 100%);
+}
+.gki-tier-bar-label {
+  font-family: var(--gki-font);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+  white-space: nowrap;
+  padding: 0 0.5rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.18);
+}
+/* Dark-theme tier colours are pastels; ink labels read better on them. */
+[data-theme="dark"] .gki-tier-bar-label { color: #16171A; text-shadow: none; }
+
+/* Ticks sit under the bar; the end tick right-aligns. */
+.gki-tier-ticks {
+  position: relative;
+  height: 1.1rem;
+  margin: -0.55rem 0 0.9rem;
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  color: var(--gki-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.gki-tier-tick { position: absolute; top: 0; transform: translateX(0); white-space: nowrap; }
+.gki-tier-tick--end { transform: translateX(-100%); }
+.gki-tiers--scaled .gki-tier-bar { margin-bottom: 0.45rem; }
+
+.gki-tier--power    { background: var(--gki-tier-power) !important; }
+.gki-tier--regular  { background: var(--gki-tier-regular) !important; }
+.gki-tier--explorer { background: var(--gki-tier-explorer) !important; }
+.gki-tier--emerging { background: var(--gki-tier-emerging) !important; }
+.gki-tier--critical { background: var(--gki-tier-critical) !important; }
+.gki-tier--special  { background: var(--gki-tier-special) !important; }
+
+/* Sequential ramp for ordinal-but-neutral scales: first row deepest. */
+.gki-tier--seq1 { background: var(--gki-tier-regular) !important; }
+.gki-tier--seq2 { background: color-mix(in srgb, var(--gki-tier-regular) 78%, var(--gki-bg)) !important; }
+.gki-tier--seq3 { background: color-mix(in srgb, var(--gki-tier-regular) 58%, var(--gki-bg)) !important; }
+.gki-tier--seq4 { background: color-mix(in srgb, var(--gki-tier-regular) 40%, var(--gki-bg)) !important; }
+.gki-tier--seq5 { background: color-mix(in srgb, var(--gki-tier-regular) 28%, var(--gki-bg)) !important; }
+.gki-tier--seq6 { background: color-mix(in srgb, var(--gki-tier-regular) 18%, var(--gki-bg)) !important; }
+/* Light ramp steps need dark labels. */
+.gki-tier--seq4 .gki-tier-bar-label,
+.gki-tier--seq5 .gki-tier-bar-label,
+.gki-tier--seq6 .gki-tier-bar-label { color: var(--gki-text); text-shadow: none; }
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .gki-tier--seq2 { background: var(--gki-tier-regular) !important; opacity: 0.78; }
+  .gki-tier--seq3 { background: var(--gki-tier-regular) !important; opacity: 0.58; }
+  .gki-tier--seq4 { background: var(--gki-tier-regular) !important; opacity: 0.40; }
+  .gki-tier--seq5 { background: var(--gki-tier-regular) !important; opacity: 0.28; }
+  .gki-tier--seq6 { background: var(--gki-tier-regular) !important; opacity: 0.18; }
+}
+
+body.gki-docs-page .gki-page ul.gki-tier-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: grid;
+  gap: 0.45rem;
+}
+body.gki-docs-page .gki-page ul.gki-tier-list > li {
+  display: grid;
+  grid-template-columns: minmax(5.5rem, max-content) minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: baseline;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: var(--gki-fs-sm);
+  line-height: 1.5;
+  color: var(--gki-text-secondary);
+}
+.gki-tier-lead {
+  font-family: var(--gki-font-data);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gki-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.gki-tier-lead strong { font-weight: 600; }
+.gki-tier-swatch {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  margin-right: 0.45rem;
+  vertical-align: 1px;
+}
+.gki-tier-sep { color: var(--gki-text-dim); margin: 0 0.1rem; }
+
+/* ---------- FAQ -----------------------------------------------
+   Questions in ink, answers in body grey, one hairline between
+   pairs. No accordion — the answers are short and readers scan.
+   ------------------------------------------------------------ */
+.gki-faq { margin: 0.25rem 0 1.5rem; }
+.gki-faq-item {
+  padding: 0.95rem 0;
+  border-top: 1px solid var(--gki-border-light);
+}
+.gki-faq-item:last-child { border-bottom: 1px solid var(--gki-border-light); }
+body.gki-docs-page .gki-page .gki-faq-q {
+  margin: 0 0 0.35rem !important;
+  font-weight: 600 !important;
+  color: var(--gki-text) !important;
+  text-wrap: balance;
+}
+body.gki-docs-page .gki-page .gki-faq-a {
+  margin: 0 !important;
+  font-size: var(--gki-fs-sm) !important;
+  color: var(--gki-text-secondary) !important;
+}
+
+/* ---------- Where it appears --------------------------------
+   The spec panel used to carry these paths as bare tokens. Now
+   they close the page, each with its description, as rows.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page ul.gki-surfaces {
+  list-style: none !important;
+  margin: 0.25rem 0 1.5rem !important;
+  padding: 0 !important;
+}
+body.gki-docs-page .gki-page ul.gki-surfaces > li {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  margin: 0 !important;
+  padding: 0.7rem 0 !important;
+  border-top: 1px solid var(--gki-border-light);
+  font-size: var(--gki-fs-sm);
+  line-height: 1.55;
+  color: var(--gki-text-secondary);
+}
+body.gki-docs-page .gki-page ul.gki-surfaces > li:last-child {
+  border-bottom: 1px solid var(--gki-border-light);
+}
+body.gki-docs-page .gki-page ul.gki-surfaces .gki-path { justify-self: start; }
+/* Descriptions were written to follow "— " mid-sentence; as rows they
+   start a line, so the first letter reads as a sentence start. */
+body.gki-docs-page .gki-page ul.gki-surfaces > li > span::first-letter { text-transform: uppercase; }
+
+/* ---------- Related metrics ----------------------------------
+   Metric names in the first column are links; set them as labels
+   so the table reads as a list of relationships.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page table.gki-related-table td:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+}
+body.gki-docs-page .gki-page table.gki-related-table td:first-child a {
+  color: var(--gki-text) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid var(--gki-border-strong);
+}
+body.gki-docs-page .gki-page table.gki-related-table td:first-child a:hover {
+  color: var(--gki-accent) !important;
+  border-bottom-color: var(--gki-accent);
+}
+
+/* ---------- H3 rhythm on metric pages -----------------------
+   H2s carry a hairline (Pass B); the twelve H3s that structure a
+   metric page did not, so the page lost its grid below the header.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page > h3:not([class]) {
+  margin-top: 2.6rem !important;
+  padding-bottom: 0.45rem !important;
+  border-bottom: 1px solid var(--gki-border-light);
+}
+body.gki-docs-page .gki-page > h3:not([class]):first-of-type { margin-top: 1.25rem !important; }
+
+/* ============================================================
+   6c. GENERAL-PAGE COMPONENTS (Pass C.2)
+   ------------------------------------------------------------
+     .gki-callout--note / .gki-quote   blockquote treatments
+     .gki-seq--headed                  playbook step headings on the rail
+     .gki-branch                       playbook alternatives
+     .gki-spec--mini / .gki-fullsection settings reference
+     .gki-code                         fenced code as a labelled panel
+     hr:has(+ h2)                      redundant rules under hairline heads
+   ============================================================ */
+
+/* ---------- Callouts -----------------------------------------
+   Pass B made callouts a left rule on a light wash. The new neutral
+   "note" type and the body wrapper join that system; the icon takes
+   the type colour and the run-in label inherits the text colour.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page .gki-callout--note {
+  border-left-color: var(--gki-border-strong) !important;
+  background: var(--gki-bg-subtle) !important;
+  color: var(--gki-text-secondary) !important;
+}
+body.gki-docs-page .gki-page .gki-callout--note a { color: var(--gki-accent); }
+.gki-callout--tip  .gki-callout-icon { color: var(--gki-tip-icon); }
+.gki-callout--info .gki-callout-icon { color: var(--gki-info-icon); }
+.gki-callout--warn .gki-callout-icon { color: var(--gki-warn-icon); }
+.gki-callout--note .gki-callout-icon { color: var(--gki-text-muted); }
+
+.gki-callout-body { flex: 1; min-width: 0; }
+body.gki-docs-page .gki-page .gki-callout-body > p { margin: 0 !important; color: inherit !important; }
+body.gki-docs-page .gki-page .gki-callout-body > p + p { margin-top: 0.5rem !important; }
+body.gki-docs-page .gki-page .gki-callout-body > p.gki-runin { margin-top: 0 !important; }
+body.gki-docs-page .gki-page .gki-callout-body > p.gki-runin + p { margin-top: 0.5rem !important; }
+body.gki-docs-page .gki-page .gki-callout .gki-runin-label { color: inherit !important; }
+body.gki-docs-page .gki-page .gki-callout-body > ul,
+body.gki-docs-page .gki-page .gki-callout-body > ol { margin: 0.5rem 0 0 !important; }
+
+/* A quotation proper — the one thing left that should look quoted. */
+body.gki-docs-page .gki-page blockquote.gki-quote {
+  background: transparent !important;
+  border-left: 2px solid var(--gki-border-strong) !important;
+  border-radius: 0 !important;
+  padding: 0.15rem 0 0.15rem 1rem !important;
+  margin: 0.75rem 0 0.25rem !important;
+  color: var(--gki-text-secondary) !important;
+}
+body.gki-docs-page .gki-page .gki-callout-body blockquote.gki-quote { margin-top: 0.6rem !important; }
+
+/* ---------- Headed steps (playbooks) -------------------------
+   The heading stays an <h3> so the TOC still lists it; it sits on
+   the rail like a metric-page step, with the time estimate as a
+   small mono badge.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page ol.gki-seq--headed { margin-top: 1.25rem !important; }
+
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > h3.gki-seq-title {
+  font-size: var(--gki-fs-md) !important;
+  font-weight: 600 !important;
+  line-height: 1.7rem !important;
+  letter-spacing: -0.005em !important;
+  color: var(--gki-text) !important;
+  margin: 0 0 0.5rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+}
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > h3.gki-seq-title .aal_anchor { order: -1; }
+
+.gki-seq-kicker {
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  flex-basis: 100%;
+  line-height: 1.2;
+}
+.gki-seq-time {
+  font-family: var(--gki-font-data);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--gki-text-muted);
+  background: var(--gki-bg-subtle);
+  border: 1px solid var(--gki-border-light);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > p,
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > ul,
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > ol,
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > table,
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > .gki-callout {
+  font-size: var(--gki-fs-base);
+}
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > ul { padding-left: 1.1rem; margin: 0.5rem 0 0.75rem; }
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > ul > li { font-size: var(--gki-fs-sm); margin-bottom: 0.3rem; }
+body.gki-docs-page .gki-page ol.gki-seq--headed > li > :last-child { margin-bottom: 0; }
+
+/* ---------- Branch headings (playbooks) ----------------------
+   Alternatives, not a sequence. Same size as a sub-heading, no
+   hairline, a small accent tick where a step number would be.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page h3.gki-branch {
+  position: relative;
+  font-size: var(--gki-fs-md) !important;
+  font-weight: 600 !important;
+  line-height: var(--gki-lh-snug) !important;
+  letter-spacing: -0.005em !important;
+  color: var(--gki-text) !important;
+  margin: 1.9rem 0 0.5rem !important;
+  padding: 0 0 0 1.1rem !important;
+  border: 0 !important;
+}
+body.gki-docs-page .gki-page h3.gki-branch::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid var(--gki-accent);
+  border-bottom: 2px solid var(--gki-accent);
+  transform: rotate(-45deg);
+}
+body.gki-docs-page .gki-page h3.gki-branch .aal_anchor { left: -1.25rem; }
+
+/* ---------- Settings reference -------------------------------
+   Each setting is a small typed object: Default / Range / Type /
+   In Settings UI. Same grid as the metric spec, lighter top rule.
+   ------------------------------------------------------------ */
+.gki-spec--mini {
+  border-top-width: 1px;
+  border-top-color: var(--gki-border-strong);
+  margin: 0.75rem 0 1.25rem;
+}
+.gki-spec--mini dl { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.gki-spec--mini .gki-spec-field { padding: 0.6rem 1rem 0.65rem 0; }
+.gki-spec--mini dd { font-family: var(--gki-font-data); font-size: 0.8125rem; }
+
+body.gki-docs-page .gki-page p.gki-fullsection {
+  margin: 0.75rem 0 0.5rem !important;
+  font-size: var(--gki-fs-sm) !important;
+}
+body.gki-docs-page .gki-page p.gki-fullsection a {
+  font-weight: 600;
+  text-decoration: none !important;
+  border-bottom: 1px solid currentColor;
+}
+body.gki-docs-page .gki-page p.gki-fullsection a::after { content: " \2192"; }
+.gki-fullsection-label {
+  font-size: var(--gki-fs-2xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gki-text-muted);
+  margin-right: 0.35rem;
+}
+
+/* ---------- Code panels ---------------------------------------
+   Fenced code shares the formula panel: same fill, same label slot.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page .gki-code { margin: 1rem 0 1.5rem; }
+body.gki-docs-page .gki-page .gki-code pre {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  font-size: var(--gki-fs-sm);
+  line-height: 1.65;
+  color: var(--gki-text) !important;
+  white-space: pre;
+}
+body.gki-docs-page .gki-page .gki-code pre code {
+  font-family: var(--gki-font-data);
+  font-size: inherit;
+  color: inherit;
+  background: none !important;
+  padding: 0 !important;
+}
+
+/* ---------- Checklists ---------------------------------------
+   Literal `[ ]` bullets become a drawn box on a hairline row.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page ul.gki-checklist {
+  list-style: none !important;
+  margin: 0.75rem 0 1.5rem !important;
+  padding: 0 !important;
+}
+body.gki-docs-page .gki-page ul.gki-checklist > li {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin: 0 !important;
+  padding: 0.6rem 0 !important;
+  border-top: 1px solid var(--gki-border-light);
+  font-size: var(--gki-fs-base);
+  line-height: var(--gki-lh-normal);
+  color: var(--gki-text-secondary);
+}
+body.gki-docs-page .gki-page ul.gki-checklist > li:last-child { border-bottom: 1px solid var(--gki-border-light); }
+.gki-check-box {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.3rem;
+  border: 1.5px solid var(--gki-border-strong);
+  border-radius: 4px;
+  background: var(--gki-bg);
+  position: relative;
+}
+.gki-check--done .gki-check-box { border-color: var(--gki-accent); }
+.gki-check--done .gki-check-box::after {
+  content: "";
+  position: absolute;
+  left: 0.28rem; top: 0.08rem;
+  width: 0.28rem; height: 0.55rem;
+  border-right: 2px solid var(--gki-accent);
+  border-bottom: 2px solid var(--gki-accent);
+  transform: rotate(45deg);
+}
+.gki-check-body strong { color: var(--gki-text); }
+
+/* ---------- Redundant rules ----------------------------------
+   Authors separated sections with `---`; the hairline under each
+   heading now does that job, so a rule immediately before a heading
+   is noise. The element stays in the DOM: index templates split on
+   the first <hr>.
+   ------------------------------------------------------------ */
+body.gki-docs-page .gki-page hr:has(+ h2),
+body.gki-docs-page .gki-page hr:has(+ h3),
+body.gki-docs-page .gki-page .gki-below-cards hr:first-child { display: none; }
+
+/* Sub-headings on non-metric content pages get the same hairline
+   rhythm as metric pages (rule 6b applies to .gki-page > h3). The
+   getting-started pages nest H3s under one H2, so the first H3
+   after an H2 should not double up the top margin. */
+body.gki-docs-page .gki-page > h2:not([class]) + h3:not([class]) { margin-top: 1.5rem !important; }
+
+/* ============================================================
+   6d. AUTH GATE
+   ------------------------------------------------------------
+   templates/gki-gate.php reuses <main class="gki-layout">, which is
+   the three-column docs grid. With .gki-gate as its only child the
+   card was being laid into the 240px nav track (measured 176px wide
+   at 1280). Span every track and let the flex centring inside
+   .gki-gate do the rest.
+   ============================================================ */
+.gki-layout > .gki-gate {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: min(80vh, 720px);
+}
+
+/* The gate's H1 and links sit outside .gki-page, where the Elementor
+   overrides live, so the kit was painting the title near-white (#F1F1F1
+   at 32px) and the footer links hot pink. Measured on the local import. */
+body.gki-docs-page .gki-gate-title {
+  color: var(--gki-text) !important;
+  font-size: var(--gki-fs-xl) !important;
+  font-weight: 700 !important;
+  line-height: var(--gki-lh-snug) !important;
+  letter-spacing: -0.015em !important;
+  margin: 0 0 0.75rem !important;
+  text-wrap: balance;
+}
+body.gki-docs-page .gki-gate-message { color: var(--gki-text-secondary) !important; }
+body.gki-docs-page .gki-gate-footer a:link,
+body.gki-docs-page .gki-gate-footer a:visited,
+body.gki-docs-page .gki-gate-switch a:link,
+body.gki-docs-page .gki-gate-switch a:visited {
+  color: var(--gki-accent) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid currentColor;
+}
+body.gki-docs-page .gki-gate-footer a:hover,
+body.gki-docs-page .gki-gate-switch a:hover { color: var(--gki-accent-hover) !important; }
+body.gki-docs-page .gki-gate-button--primary:link,
+body.gki-docs-page .gki-gate-button--primary:visited,
+body.gki-docs-page .gki-gate-button--primary:hover { color: #EBF1FF !important; text-decoration: none !important; }
+
+.gki-gate-card {
+  border-radius: var(--gki-radius-lg);
+  box-shadow: 0 24px 60px -28px rgba(24, 26, 38, 0.28), 0 1px 3px rgba(24, 26, 38, 0.06);
+}
+[data-theme="dark"] .gki-gate-card {
+  box-shadow: 0 24px 60px -28px rgba(0, 0, 0, 0.7), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================
+   7. RESPONSIVE
+   ============================================================ */
+@media (max-width: 1100px) {
+  .gki-sandbox { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+}
+@media (max-width: 640px) {
+  .gki-spec dl { grid-template-columns: minmax(0, 1fr); }
+  .gki-family { grid-template-columns: minmax(0, 1fr); }
+  body.gki-docs-page .gki-path { border-right: 0; padding-right: 0; }
+  .gki-readout-value { font-size: 2.1rem; }
+  .gki-prec-row { grid-template-columns: 1.6rem minmax(0, 1fr); }
+  .gki-prec-row p { grid-column: 2; }
+  body.gki-docs-page .gki-page ul.gki-surfaces > li { grid-template-columns: minmax(0, 1fr); gap: 0.2rem; }
+  body.gki-docs-page .gki-page ul.gki-tier-list > li { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
+  body.gki-docs-page .gki-page ul.gki-legend { grid-template-columns: minmax(0, 1fr); }
+}

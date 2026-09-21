@@ -1,7 +1,10 @@
 # Help Center Page Breakout Plan
 
-> **Status:** Approved — pending visual design discussion before execution  
-> **Date:** September 1, 2026  
+> **Status:** Executed (Phase 3, v1.7.0) and since extended — historical.
+> The five metric family pages listed under "Keep as-is" were later broken out
+> too: each is now a family sub-index plus one page per metric (21 metric pages),
+> for 50 files total. See `PROJECT-STATUS.md` → Content Map for the current inventory.
+> **Original date:** September 1, 2026  
 > **Scope:** Break dense pages into standalone pages; add frontmatter tags for auto-built side nav
 
 ---

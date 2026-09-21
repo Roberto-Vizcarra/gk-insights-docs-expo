@@ -36,17 +36,17 @@ In **Data Connections**, add a **Claude Code & Codex** data source, then open **
 - **Authentication token** — your organization's OTel auth token. The **same token covers both tools**, so if you've already connected one, you reuse the credential for the other.
 - **Claude Code config** (JSON) and **OpenAI Codex config** (TOML) — ready-to-paste snippets with your endpoint and token already filled in.
 
-Always copy the real snippet from the connection page rather than retyping the examples below.
-
-> **Keep the auth token private.** It authenticates telemetry for your whole organization — treat it like any other secret credential.
-
-> **Data appears on the next fresh session.** There's no backfill — usage starts flowing the next time each developer runs Claude Code or Codex after the settings are applied. (Claude Code OTel instrumentation began March 5, 2026; activity before that date isn't available.)
-
 <!-- FLAG FOR HUMAN REVIEW: the Collector endpoint in claude-code-codex-setup.png reads otel-devex-dev.gitkraken.com, because the capture was taken against the dev collector. The secrets are masked, so only that hostname differs from production. Retake against production if that matters. -->
 <figure>
   <img src="/wp-content/uploads/claude-code-codex-setup.png" class="help-center-img img-bordered" alt="The Claude Code and Codex setup page in GitKraken Insights, showing the shared org auth token with its Collector endpoint and masked Authentication token, followed by a masked Claude Code config field and a masked OpenAI Codex config field, each with reveal and copy buttons" />
   <figcaption>The Claude Code &amp; Codex setup page — one org auth token, plus a ready-to-copy config for each tool.</figcaption>
 </figure>
+
+Always copy the real snippet from the connection page rather than retyping the examples below.
+
+> **Keep the auth token private.** It authenticates telemetry for your whole organization — treat it like any other secret credential.
+
+> **Data appears on the next fresh session.** There's no backfill — usage starts flowing the next time each developer runs Claude Code or Codex after the settings are applied. (Claude Code OTel instrumentation began March 5, 2026; activity before that date isn't available.)
 
 ### Claude Code — organization-managed settings
 
@@ -218,14 +218,14 @@ Classic tokens start with `ghp_…`. Fine-grained tokens are **not** supported f
    - **GitHub Enterprise slug** — your enterprise slug, for example `my-enterprise`.
 5. Click **Connect**.
 
-> **GitHub suppresses data for small teams.** GitHub only returns Copilot usage for a given day if the team had **five or more members with active Copilot licenses** on that day, evaluated at the end of the day. Teams below that threshold will see gaps regardless of how the connection is configured.
-
-References: [GitHub — REST API endpoints for Copilot metrics](https://docs.github.com/en/rest/copilot/copilot-metrics) and [GitHub — Managing your personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-
 <figure>
   <img src="/wp-content/uploads/connect-copilot-modal-aug-2026.png" class="help-center-img img-bordered" alt="Connect GitHub Copilot modal in GitKraken Insights showing an optional connection name field, a Required scopes panel with Organization and Enterprise tabs listing the read:org scope and the token-owner and usage-metrics-policy prerequisites, a GitHub personal access token field with a Create a classic token link, and a GitHub Organization name field" />
   <figcaption>The Connect GitHub Copilot modal — the required scope and prerequisites, a shortcut for creating the classic token, and the organization name.</figcaption>
 </figure>
+
+> **GitHub suppresses data for small teams.** GitHub only returns Copilot usage for a given day if the team had **five or more members with active Copilot licenses** on that day, evaluated at the end of the day. Teams below that threshold will see gaps regardless of how the connection is configured.
+
+References: [GitHub — REST API endpoints for Copilot metrics](https://docs.github.com/en/rest/copilot/copilot-metrics) and [GitHub — Managing your personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
 ---
 

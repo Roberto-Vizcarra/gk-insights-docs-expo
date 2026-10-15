@@ -207,7 +207,7 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 ### Nav Sections (frontmatter-driven, sorted by nav_order)
 1. **Home** — `expo-ai-adoption-home.md` (main-index, card grid of section indexes)
 2. **Getting Started** — 6 pages (index + first-dashboard, for-executives, for-engineering-leaders, for-team-leads, for-admins)
-3. **Connect Your Data** — 7 pages (index + github, bitbucket, azure-devops, gitlab, ai-tools, jira-bamboohr)
+3. **Connect Your Data** — 8 pages (index + github, bitbucket, azure-devops, gitlab, ai-tools, otel, jira-bamboohr)
 4. **Metrics** — 26 pages total:
    - `expo-ai-adoption-metrics.md` (section index)
    - **Adoption & Agentic** — sub-index + 5 metric pages (adoption-score, autonomy-score, ai-tier, maturity-factor, cursor-boost)
@@ -216,9 +216,9 @@ Full explanations in `LOCAL-DEV.md`. The short version:
    - **DORA & Quality** — sub-index + 4 metric pages (deployment-frequency, lead-time, change-failure-rate, mttr)
    - **AI Impact & Cost** — sub-index + 4 metric pages (productivity-uplift, ai-assisted-percentage, capex-opex, spend-by-tier)
 5. **Playbooks** — 5 pages (index + tier-weights, ai-rollout, slow-cycle-time, high-cfr)
-6. **Admin & API** — 3 pages (index + settings, manual-releases-api)
+6. **Admin & API** — 4 pages (index + settings, security-permissions, manual-releases-api)
 
-Plus 1 hidden redirect: `expo-ai-adoption.md` (nav_category: hidden)
+Plus 2 hidden pages (nav_category: hidden): `expo-ai-adoption.md` (redirect) and `expo-ai-adoption-manual-critical-defects-api.md` (draft, pending API-key availability)
 
 ### Page Types
 - `main-index` — the home page; Pass C hero + role paths + metric map, then remaining content

@@ -19,7 +19,7 @@ custom_fields:
     nav_parent: expo-ai-adoption-metrics
     page_type: index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 
 This family answers: **what is your team shipping, and how much of it is substantive work?**
@@ -32,10 +32,10 @@ It is the dashboard's "delivered output" lens — distinct from Flow (how fast?)
 
 | Metric | What it captures |
 | --- | --- |
-| [**Output Score**](#output-score) | The headline. Effort-weighted shipping rate per developer or per team. Replaces the older raw "Velocity" count. |
-| [**Throughput**](#throughput) | Raw PR count — merged PRs per week, per developer or per team. |
-| [**Direct Commits**](#direct-commits) | Commits pushed straight to a default branch without a PR. Counted as output with a configurable weight. |
-| [**Effort Score (Complexity)**](#effort-score-complexity) | The 0.1–0.9 per-PR / per-commit complexity estimate that powers Output Score. |
+| [**Output Score**](/insights-expo/expo-ai-adoption-output-output-score) | The headline. Effort-weighted shipping rate per developer or per team. Replaces the older raw "Velocity" count. |
+| [**Throughput**](/insights-expo/expo-ai-adoption-output-throughput) | Raw PR count — merged PRs per week, per developer or per team. |
+| [**Direct Commits**](/insights-expo/expo-ai-adoption-output-direct-commits) | Commits pushed straight to a default branch without a PR. Counted as output with a configurable weight. |
+| [**Effort Score (Complexity)**](/insights-expo/expo-ai-adoption-output-effort-score) | The 0.1–0.9 per-PR / per-commit complexity estimate that powers Output Score. |
 
 ---
 
@@ -70,9 +70,9 @@ The LLM rubric is intentionally LOC-blind. Two PRs of the same line count can ha
 
 ```
 Output Score (per developer)
-  = SUM(PR effort)
-  + DCWeight     × SUM(DC effort)
-  + ReviewWeight × SUM(reviewed-PR effort)
+  = MergedPRWeight × SUM(PR effort)
+  + DCWeight       × SUM(DC effort)
+  + ReviewWeight   × SUM(reviewed-PR effort)
 
 Output Score (per team)
   = team total / active team developers
@@ -80,13 +80,15 @@ Output Score (per team)
 
 The three terms are:
 
-* **PR effort** — the developer's own merged PRs in the window. Each PR's effort is `COALESCE(effort_score, auto_effort_score, 0)`.
+* **PR effort** — the developer's own merged PRs in the window. Each PR's effort is `COALESCE(effort_score, auto_effort_score, 0)`, weighted by `MergedPRWeight` (the **Merged PR Weight** setting, default 1).
 * **DC effort** — the developer's direct commits in the window, weighted by `DCWeight` (default 0.5). Settable per-org as `direct_commit_weight`.
 * **Reviewed-PR effort** — the effort of PRs the developer formally reviewed (approved or requested changes), weighted by `ReviewWeight` (default 0.5). Settable per-org as `review_weight`. Set to 0 to disable the review-credit term entirely.
 
 When "Exclude Chore from Output Score" is on (the default), Chore-category items are subtracted from the effort sums — but **PR and commit counts shown in the cell stay raw**, always reflecting true shipping volume.
 
-When the score is rate-normalized for AI Tier (Output Norm), the per-dev sum is divided by working weeks in the window and compared to the org P90 rate. The cohort and benchmark scope widen automatically for sub-week windows so the rate still has meaningful resolution.
+PRs that match an [exclusion rule](/insights-expo/expo-ai-adoption-settings#exclusion-rules) — for example, release merges into `master` — add no effort to anyone's Output Score and earn their reviewers no review credit, though they still count toward the author's merged pull requests.
+
+When the score is rate-normalized for AI Tier (Output Norm), the per-dev sum is divided by working weeks in the window and compared to the org P90 rate (or to the **Output Rate Target**, if an admin has set one under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks)). The cohort and benchmark scope widen automatically for sub-week windows so the rate still has meaningful resolution.
 
 ---
 

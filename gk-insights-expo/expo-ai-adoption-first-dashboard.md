@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 10
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 <!-- NOTE: The Confluence Glossary page was intentionally not migrated. All terms it defines are documented in their dedicated metric pages; the cross-cutting terms (active developer, window, P90, Maturity Factor) are summarized in the "Glossary refresher" section below. -->
 
@@ -51,7 +51,7 @@ A composite "is this team set up to succeed with AI?" rating. Combines repositor
 
 The mean Agent Adoption Score across the team's active developers. A team average of 50 means a healthy mix; 80+ means a high-adoption team.
 
-→ [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score)
+→ [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score)
 
 #### Tier mix
 
@@ -59,13 +59,13 @@ Bars showing the team's distribution across Power User / Regular / Explorer / Em
 
 #### Cycle Time
 
-Average hours from a PR's first commit to merge. Lower is generally better, but not always — see the [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) section for nuance.
+Average hours from a PR's first commit to merge. Lower is generally better, but not always — see the [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) section for nuance.
 
 #### Output Score (per active dev)
 
 Effort-weighted shipping rate, divided by the number of active developers on the team. A team that ships fewer but bigger PRs can have the same Output Score as a team that ships many small ones. Read this alongside the PR/DC count breakdown to know which pattern you're seeing.
 
-→ [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score)
+→ [Output Score](/insights-expo/expo-ai-adoption-output-output-score)
 
 #### Power User %
 
@@ -119,4 +119,4 @@ Now that you've read /teams, here are the obvious follow-up pages depending on w
 * **Active developer:** is_active = true _and_ shipped at least one PR or direct commit in the window _and_ wasn't fully on PTO.
 * **Window:** the date range you selected at the top.
 * **P90:** 90th-percentile cap computed across your whole active org. Sets the ceiling for normalized scores.
-* **Maturity Factor:** an org-wide scaling knob (default 0.75). At 0.75, a P90 developer scores 75. Adjusts everyone's tier ceiling.
+* **Maturity Factor:** an org-wide scaling knob, set as **Company AI Readiness (%)** in Settings (default 100%). At 100%, a P90 developer scores 100; at 75%, they score 75. Adjusts everyone's tier ceiling.

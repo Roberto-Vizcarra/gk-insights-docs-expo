@@ -87,12 +87,12 @@ The dashboard's job is to give you the first two. The third one is your call.
 
 * **Don't show individual developer scores in your monthly report.** It will get someone fired by a different chain of command than the dashboard was designed for. Aggregate by team or by tier mix instead.
 * **Don't read a single week.** Engineering work has 2–4 week natural cycles. Read trends, not weeks.
-* **Don't quote ROI to the dollar.** The [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-metrics#productivity-uplift) number is a directional estimate. Use it for order-of-magnitude statements ("low single-digit millions in annualized productivity gain"), not for finance.
+* **Don't quote ROI to the dollar.** The [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift) number is a directional estimate. Use it for order-of-magnitude statements ("low single-digit millions in annualized productivity gain"), not for finance.
 
 ### Where to drill further
 
 If you want one more level of detail:
 
-* **For "is AI actually paying off?"** → [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-metrics#productivity-uplift)
+* **For "is AI actually paying off?"** → [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift)
 * **For "where are we slow?"** → `/ai-adoption/ai-impact` (Cycle Time phase breakdown)
 * **For "which team needs attention?"** → `/ai-adoption/teams`

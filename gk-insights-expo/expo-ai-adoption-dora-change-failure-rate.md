@@ -86,10 +86,10 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 | Metric | Relationship |
 | --- | --- |
-| [Deployment Frequency](#deployment-frequency) | The DORA velocity pair. CFR is the stability counterweight. |
-| [MTTR](#mean-time-to-recovery-mttr) | The other stability metric — how fast you recover when CFR strikes. |
-| [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-metrics#first-pass-rate) | High First-Pass + rising CFR = rubber-stamping risk. |
-| [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) | The CFR-by-Tier breakdown on /ai-adoption/ai-impact tells you whether AI adoption changes stability. |
+| [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | The DORA velocity pair. CFR is the stability counterweight. |
+| [MTTR](/insights-expo/expo-ai-adoption-dora-mttr) | The other stability metric — how fast you recover when CFR strikes. |
+| [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-first-pass-rate) | High First-Pass + rising CFR = rubber-stamping risk. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) | The CFR-by-Tier breakdown on /ai-adoption/ai-impact tells you whether AI adoption changes stability. |
 
 ### How to improve it
 

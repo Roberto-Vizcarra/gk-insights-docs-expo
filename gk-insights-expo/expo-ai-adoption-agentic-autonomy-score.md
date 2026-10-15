@@ -25,29 +25,35 @@ custom_fields:
 
 ### At a glance
 
-Where the [Agent Adoption Score](#agent-adoption-score) measures _how consistently_ a developer uses AI, the Autonomy Score measures _how autonomously_. High autonomy means the developer is running AI in agentic mode — multi-step sessions where AI is calling tools, reading files, editing code, running commands. Low autonomy means AI is being used as a Q&A interface ("how do I X?"). Both are valid uses; tracking them separately surfaces a different kind of adoption depth.
+Where the [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) measures _how consistently_ a developer uses AI, the Autonomy Score measures _how autonomously_. High autonomy means the developer is running AI in agentic mode — multi-step sessions where AI is calling tools, reading files, editing code, running commands. Low autonomy means AI is being used as a Q&A interface ("how do I X?"). Both are valid uses; tracking them separately surfaces a different kind of adoption depth.
 
 ### Formula
 
 ```
-Agentic Score = min(intensity / OrgP90Intensity, 1.0) × 100 × Maturity Factor
+Agentic Score = min(Σ(tool autonomy score × tool weight), 100) × Company AI readiness
+
+  Claude Code, Codex: min(intensity / OrgP90Intensity, 1.0) × 100
+  Cursor:             Agent-mode usage score (0–100)
+  Copilot:            Copilot autonomy score (0–100)
 ```
 
-Where `intensity` is a developer-level count of tool executions from Claude Code and Codex sessions that ran 10 or more tools. Returns 0 when the org has no P90 intensity (no data).
+For Claude Code and Codex, `intensity` is a developer-level count of that tool's executions from sessions that ran 10 or more tools; each tool is normalized on its own. A tool's term is 0 when the org has no P90 intensity (no data). Each tool score is multiplied by that tool's [Provider Weight](/insights-expo/expo-ai-adoption-agentic-cursor-boost) (default 1.0).
 
 ### How GitKraken Insights calculates it
 
 **What counts as an "agentic session."** We define an agentic session as one where the AI ran at least 10 tool executions (tool calls such as reading a file, editing code, running a command, or searching the web) within a single session. It's the total number of tool calls, not the number of _distinct_ tool types — ten uses of the same tool still qualifies. The 10-tool threshold is the heuristic that separates "I asked Claude a question and it called a tool to answer" from "Claude is doing real multi-step work."
 
-**Providers included.** Only Claude Code and Codex sessions contribute to Agentic intensity (the backend filters on `provider IN ('claude_code', 'codex')`). Cursor activity is excluded because Cursor's event stream doesn't expose per-session tool calls in a way we can score; Cursor still contributes to the [Agent Adoption Score](#agent-adoption-score) via the Cursor Boost.
+**Providers included.** Claude Code, Codex, Cursor, and Copilot each contribute their own autonomy score. Claude Code and Codex are scored from agentic sessions, as described below. Cursor doesn't expose per-session tool calls, so it is scored from its Agent-mode usage instead: how many days the developer made Agent requests, and how many accepted AI-written lines landed per agent-active day. Copilot contributes its own autonomy score from its agent activity.
 
-**Intensity.** For each developer, we total the tool executions from their agentic sessions over the window. The result is a single intensity number — higher means more agentic activity.
+**Intensity.** For each developer and each of Claude Code and Codex, we total the tool executions from their agentic sessions over the window. The result is an intensity number per tool — higher means more agentic activity.
 
-**Normalization.** We compute the **org-wide P90 intensity** across all active developers in the window. The developer's intensity is divided by the org P90 and capped at 1.0. This is the same normalization pattern as Adoption — the bar is your team, not an industry average.
+**Normalization.** We compute the **org-wide P90 intensity** across all active developers in the window. The developer's intensity is divided by the org P90 and capped at 1.0. If an admin has set an **Agentic Intensity Target** under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks), the target replaces the org P90. This is the same normalization pattern as Adoption — the bar is your team, not an industry average.
+
+**Combining tools.** Each tool's autonomy score is multiplied by its [Provider Weight](/insights-expo/expo-ai-adoption-agentic-cursor-boost) (default 1.0), and the weighted scores are added and capped at 100.
 
 **Critical:** the org P90 is **always org-wide**, never team-filtered. A developer's Autonomy Score does not change when an admin toggles team filters.
 
-**Maturity scaling.** The capped ratio × 100 × Maturity Factor produces the final 0–100 score. At the default 0.75 Maturity Factor, a developer at the org's P90 on agentic intensity scores 75.
+**Maturity scaling.** The capped sum × Maturity Factor (labeled **Company AI Readiness (%)** in Settings) produces the final 0–100 score. At the default 100%, a developer at the org's P90 on agentic intensity in one tool scores 100; at 75%, the same developer scores 75.
 
 ### Why it matters
 
@@ -78,16 +84,18 @@ A team average above 40 is a strong signal that agentic workflows have taken roo
 
 ### Settings that affect it
 
-* [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — multiplies the final score (default 0.75).
+* [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — labeled **Company AI Readiness (%)**; multiplies the final score (default 100%).
+* [**Provider Weights**](/insights-expo/expo-ai-adoption-settings#provider-weights) — how much each tool's autonomy score counts (0–1, default 1.0). The same weights apply to the Adoption Score.
+* [**Benchmarks**](/insights-expo/expo-ai-adoption-settings#benchmarks) — an optional **Agentic Intensity Target (per week)** that replaces the org P90 intensity.
 * The **agentic threshold** (10 tools per session) is not currently configurable. Ask your account manager if you need it tunable.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Agent Adoption Score](#agent-adoption-score) | Parallel adoption measure. Adoption = consistency. Agentic = depth of autonomous use. |
-| [AI Tier](#ai-tier) | Agentic is one of three inputs into the composite Tier (default weight 0.2). See [How the metrics fit together](#how-the-metrics-fit-together) for the canonical composite formula and per-org configuration story. |
-| [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-metrics#productivity-uplift) | Most productivity gains correlate with rising Autonomy, not Adoption. |
+| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) | Parallel adoption measure. Adoption = consistency. Agentic = depth of autonomous use. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) | Agentic is one of three inputs into the composite Tier (default weight 0.2). See [How the metrics fit together](/insights-expo/expo-ai-adoption-agentic-metrics#how-the-metrics-fit-together) for the canonical composite formula and per-org configuration story. |
+| [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift) | Most productivity gains correlate with rising Autonomy, not Adoption. |
 
 ### How to improve it
 
@@ -100,7 +108,7 @@ A team average above 40 is a strong signal that agentic workflows have taken roo
 
 * **The 10-tool threshold is heuristic.** A developer running 9-tool sessions all day will score lower than one running occasional 10-tool sessions.
 * **Tool count ≠ value.** A 50-tool session that achieved nothing scores higher than a 10-tool session that shipped a feature. Use Autonomy alongside Output Score for the full picture.
-* **Cursor does not contribute to Autonomy.** Cursor's API doesn't expose per-session tool-call events in a way we can score, so the agentic intensity sum filters to `provider = 'claude_code'` and `provider = 'codex'` only. Cursor still feeds Agent Adoption via the Cursor Boost.
+* **Cursor and Copilot are scored differently.** Cursor's API doesn't expose per-session tool-call events, so the 10-tool session rule applies to Claude Code and Codex only. Cursor contributes through its Agent-mode usage score and Copilot through its own autonomy score, each at its Provider Weight.
 * **Org P90 moves with the cohort.** As your team matures, the bar rises.
 
 ### FAQ

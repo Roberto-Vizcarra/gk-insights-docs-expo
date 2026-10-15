@@ -21,7 +21,7 @@ custom_fields:
 
 Connect Azure DevOps Cloud or Azure DevOps Server to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
-> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
+> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start-gather-access) on the Connect Your Data overview.
 
 ---
 
@@ -33,8 +33,8 @@ Connect Azure DevOps if your repositories live in an Azure DevOps organization. 
 2. Name the token, select the **organization** it applies to, set an expiration, and select the **Code → Read** and **Build → Read** scopes (add **Work Items → Read** if you sync work items). If you don't see a section, click **Show all scopes**.
 3. Select **Create**, then copy the token immediately — Azure DevOps shows it only once.
 4. In gitkraken.dev, open **Insights → Settings → Data Connections** and, under **Add data source**, click **+** next to **Azure DevOps**.
-5. Give the connection a name, enter the **Host domain** — your organization URL, for example `https://dev.azure.com/yourOrgName` — paste the **Azure API token**, and click **Validate**.
-6. Optionally narrow what syncs with the project filter or the **Repositories to skip** list, then click **Connect**.
+5. Optionally give the connection a **Name**, enter the **Host domain** — your organization URL, for example `https://dev.azure.com/yourOrgName` — paste the **Azure API token**, and click **Validate**. The **View all your organizations** link next to Host domain lists the organizations your Azure DevOps account belongs to.
+6. Optionally add **Repositories to skip** — type a full `<org>/<project>/<repo>` path or pick from the list — then click **Connect**.
 
 <figure>
   <img src="/wp-content/uploads/azure-devops-pat-tokens-menu.png" class="help-center-img img-bordered" alt="Azure DevOps user settings menu open in the top-right corner, listing Preview features, Profile, Time and Locale, Permissions, Notifications, Theme, Usage, Personal access tokens, and SSH public keys" />
@@ -42,6 +42,10 @@ Connect Azure DevOps if your repositories live in an Azure DevOps organization. 
 </figure>
 
 > Legacy `https://yourOrgName.visualstudio.com` URLs are also accepted as the host domain.
+
+> **Note — Projects (optional) doesn't change what syncs.** Leave it empty to include every project. Projects you add there filter the repository list you browse under **Repositories to skip**; if you sync work items, they scope the work-item sync instead. Either way, they don't change which repositories are synced — use **Repositories to skip** for that.
+
+> **Keep the PAT private.** It authenticates as your user account — treat it like a password.
 
 > **PATs expire**, and org administrators can enforce a maximum lifetime (commonly 90 days). When the PAT expires, syncing stops — create a new one and update the connection.
 
@@ -58,7 +62,7 @@ Connect Azure DevOps Server to pull activity from a self-hosted collection.
 **Requirements:**
 
 - **Azure DevOps Server 2022 or newer**, reachable from GitKraken over `https` with a **publicly-trusted certificate**.
-- A personal access token with **Code (Read)** — create it the same way as for Azure DevOps above.
+- A personal access token with **Code (Read)** and **Build (Read)** — plus **Work Items (Read)** if you sync work items. Create it the same way as for Azure DevOps above.
 
 1. In **Data Connections**, click **+** next to **Azure DevOps Server**.
 2. Optionally name the connection, then enter the **Server URL** — for example `https://azuredevops.yourcompany.com`.

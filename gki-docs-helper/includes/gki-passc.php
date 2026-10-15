@@ -1435,7 +1435,7 @@ function gki_passc_metric_map() {
         /* A "modifier" changes other scores rather than being a score of its
            own. Both are named as such in their own documentation, so this is
            a read of the content, not a judgement about it. */
-        $derived = (bool) preg_match( '/maturity factor|cursor boost/i', $label );
+        $derived = (bool) preg_match( '/maturity factor|cursor boost|provider weights/i', $label );
 
         $families[ $parent ]['metrics'][] = array(
             'label'   => $label,

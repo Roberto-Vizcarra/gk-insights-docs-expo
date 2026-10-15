@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor]
+integrations: [Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode]
 status: GA
 taxonomy:
     category: insights-expo

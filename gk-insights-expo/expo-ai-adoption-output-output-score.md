@@ -31,9 +31,9 @@ Output Score replaces the older "Velocity" count on the developer table with a m
 
 ```
 Output Score (per developer)
-  = SUM(PR effort)
-  + DCWeight     × SUM(DC effort)
-  + ReviewWeight × SUM(reviewed-PR effort)
+  = MergedPRWeight × SUM(PR effort)
+  + DCWeight       × SUM(DC effort)
+  + ReviewWeight   × SUM(reviewed-PR effort)
 
 Output Score (per team)
   = team total / active team developers
@@ -44,6 +44,7 @@ Where:
 * **PR effort** = `COALESCE(effort_score, auto_effort_score, 0)` summed over PRs the developer authored and merged in the window.
 * **DC effort** = same COALESCE, summed over direct commits the developer authored in the window.
 * **Reviewed-PR effort** = same COALESCE, summed over PRs where the developer left a formal review (state `APPROVED` or `CHANGES_REQUESTED`). Each PR counts once per reviewer.
+* **MergedPRWeight** = Merged PR Weight setting (default 1; range 0–1). Set to 0 to score on direct commits and reviews only.
 * **DCWeight** = Direct Commit Weight setting (`direct_commit_weight`; default 0.5; range 0–1).
 * **ReviewWeight** = Review Weight setting (`review_weight`; default 0.5; range 0–1). Set to 0 to disable the review-credit term entirely.
 * **Chore filtering** — when "Exclude Chore from Output Score" is on (default), Chore-category items drop out of the effort sums (but not the displayed counts).
@@ -67,7 +68,7 @@ Effort comes from an LLM classifier (`auto_effort_score`) and can be manually ov
 1. Sum effort across their authored merged PRs (drafts and bots excluded; optionally Chore-excluded).
 2. Sum effort across their authored direct commits (bots and empty commits excluded; optionally Chore-excluded).
 3. Sum effort across PRs they formally reviewed (state `APPROVED` or `CHANGES_REQUESTED`; the same PR can credit multiple reviewers).
-4. Multiply DC sum by `DCWeight` and review sum by `ReviewWeight`.
+4. Multiply the PR sum by `MergedPRWeight`, the DC sum by `DCWeight`, and the review sum by `ReviewWeight`.
 5. Add the three terms.
 
 > **Why "Reviewed" here won't match GitHub's review count.** Insights credits a review only when a developer left a formal **Approve** or **Request changes** — plain comments don't count — and credits each PR once per reviewer no matter how many reviews they left, excluding self-reviews and bots. GitHub's own "reviews" number is broader, so the two will legitimately differ.
@@ -86,7 +87,7 @@ Output Score is the dashboard's answer to the chronic problem that raw PR counts
 
 The review-credit term matters for the same reason. A senior engineer who spent the window doing high-quality reviews on substantive PRs has produced real value; the older Velocity metric ignored that work entirely.
 
-Output Score also threads cleanly into the [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) composite. Normalized to org P90 and scaled by Maturity Factor (we call that derived value **Output Norm**), it becomes the "shipping" leg of the composite alongside Adoption and Agentic.
+Output Score also threads cleanly into the [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) composite. Normalized to org P90 and scaled by Maturity Factor (we call that derived value **Output Norm**), it becomes the "shipping" leg of the composite alongside Adoption and Agentic.
 
 For leaders, the most useful reading is **Output Score over time alongside Adoption Score over time**. AI rollouts almost always show Adoption rising first, then Output rising 4–12 weeks later.
 
@@ -117,20 +118,22 @@ For teams, the per-active-dev rate is what to compare. A team averaging Output S
 
 ### Settings that affect it
 
+* [**Merged PR Weight**](/insights-expo/expo-ai-adoption-settings#merged-pr-weight) — scales authored-PR contribution (default 1). Set to 0 to score on direct commits and reviews only.
 * [**Direct Commit Weight**](/insights-expo/expo-ai-adoption-settings#direct-commit-weight) — scales DC contribution (default 0.5).
 * [**Review Weight**](/insights-expo/expo-ai-adoption-settings#review-weight) — scales review-credit contribution (default 0.5). Set to 0 to disable the review-credit term.
-* [**Exclude Chore from Output Score**](/insights-expo/expo-ai-adoption-settings#exclude-chore-from-output-score) — strips Chore effort from the sums (default on).
+* [**Exclude Chore from Output Score**](/insights-expo/expo-ai-adoption-settings#exclude-chore-from-output-score) — strips Chore effort from the sums (default on). Which categories count as Chore is set in [work categories](/insights-expo/expo-ai-adoption-settings#work-categories).
+* [**Exclusion rules**](/insights-expo/expo-ai-adoption-settings#exclusion-rules) — leave PRs that match a branch pattern (for example, release merges into `master`) out of Output Score entirely. Matching PRs add no effort, are left out of the org benchmark, and earn their reviewers no review credit; they still count toward the author's merged pull requests. No rules by default.
 * [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — does _not_ affect raw Output Score, but does affect **Output Norm** (the variant that feeds into AI Tier).
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Effort Score](#effort-score-complexity) | The per-PR / per-commit weights that Output Score sums over. |
-| [Throughput](#throughput) | Raw merged PR count. Use for same-team trend reading. Output Score is for cross-team comparison. |
-| [Direct Commits](#direct-commits) | The DC term of the formula. |
-| [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) | Output Norm is the Output leg of the composite. |
-| [CapEx / OpEx Split](/insights-expo/expo-ai-adoption-impact-cost-metrics#capex-opex-split) | Categorizes the same effort sums for capitalization accounting. |
+| [Effort Score](/insights-expo/expo-ai-adoption-output-effort-score) | The per-PR / per-commit weights that Output Score sums over. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | Raw merged PR count. Use for same-team trend reading. Output Score is for cross-team comparison. |
+| [Direct Commits](/insights-expo/expo-ai-adoption-output-direct-commits) | The DC term of the formula. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) | Output Norm is the Output leg of the composite. |
+| [CapEx / OpEx Split](/insights-expo/expo-ai-adoption-impact-cost-capex-opex) | Categorizes the same effort sums for capitalization accounting. |
 
 ### How to improve it
 
@@ -145,7 +148,7 @@ For teams, the per-active-dev rate is what to compare. A team averaging Output S
 * **Effort is an LLM estimate, not a measurement.** Manual overrides exist for the most miscategorized cases.
 * **The score is a sum, so window length matters.** A 14-day Output Score and a 90-day Output Score are not directly comparable.
 * **Chore filtering changes the score, not the counts.** This is intentional but trips people up.
-* **Direct Commit Weight or Review Weight at 0 hides that term entirely from the score.**
+* **Merged PR Weight, Direct Commit Weight, or Review Weight at 0 hides that term entirely from the score.**
 * **Bots and drafts are excluded.**
 
 ### FAQ
@@ -154,7 +157,7 @@ For teams, the per-active-dev rate is what to compare. A team averaging Output S
 A: Velocity treated all PRs as equal-weight and ignored review work. That worked when PRs were uniform in size and scope. It stopped working as AI tooling enabled developers to ship dramatically larger changes. Output Score scales with effort, not count, and credits reviewers for substantive review work.
 
 **Q: How is Effort Score assigned?**
-A: An LLM classifier worker reads each PR or commit diff and assigns one of five effort tiers. The rubric ignores LOC and focuses on the change's apparent scope, intent, and complexity. See [Effort Score](#effort-score-complexity).
+A: An LLM classifier worker reads each PR or commit diff and assigns one of five effort tiers. The rubric ignores LOC and focuses on the change's apparent scope, intent, and complexity. See [Effort Score](/insights-expo/expo-ai-adoption-output-effort-score).
 
 **Q: Why is my Output Score 0 even though I shipped a big PR?**
 A: Three common causes: (1) the PR's `auto_effort_score` hasn't been computed yet, (2) the PR's category is Chore and the "Exclude Chore" toggle is on, or (3) the PR merged outside the window you selected.

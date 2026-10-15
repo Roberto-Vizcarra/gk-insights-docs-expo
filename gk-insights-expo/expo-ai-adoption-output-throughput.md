@@ -25,7 +25,7 @@ custom_fields:
 
 ### At a glance
 
-Throughput is the raw count metric — how many PRs your team merged. It is the simpler, older sibling of [Output Score](#output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
+Throughput is the raw count metric — how many PRs your team merged. It is the simpler, older sibling of [Output Score](/insights-expo/expo-ai-adoption-output-output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
 
 ### Formula
 
@@ -72,22 +72,22 @@ The "right" number depends on PR size discipline. A team shipping 0.5-effort PRs
 
 ### Settings that affect it
 
-None. Throughput is a raw count — no admin knobs change it. If you want effort-weighted shipping with knobs, see [Output Score](#output-score).
+None. Throughput is a raw count — no admin knobs change it. If you want effort-weighted shipping with knobs, see [Output Score](/insights-expo/expo-ai-adoption-output-output-score).
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](#output-score) | The effort-weighted version of the same shipping activity. |
-| [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) | The "how fast" pair to Throughput's "how many." Read them together. |
-| [WIP](/insights-expo/expo-ai-adoption-flow-metrics#work-in-progress-wip) | Number of currently-open PRs. Throughput is the _outflow_; WIP is the _backlog_. |
-| [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-metrics#deployment-frequency) | DORA's release-based sibling — same concept, counted from release events instead of merges. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | The effort-weighted version of the same shipping activity. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | The "how fast" pair to Throughput's "how many." Read them together. |
+| [WIP](/insights-expo/expo-ai-adoption-flow-wip) | Number of currently-open PRs. Throughput is the _outflow_; WIP is the _backlog_. |
+| [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | DORA's release-based sibling — same concept, counted from release events instead of merges. |
 
 ### How to improve it
 
 * **Right-size PRs.** Teams shipping fewer-but-huge PRs often have low Throughput. The fix is usually upstream: smaller, more frequent merges. Track via Cycle Time alongside Throughput.
 * **Clear stale open PRs.** A high WIP with low Throughput is the classic review-bottleneck pattern. Walk the oldest open PRs each week.
-* **Reduce review cycles.** If every PR averages 2+ "changes requested" rounds, Throughput stalls. See [Review Cycles](/insights-expo/expo-ai-adoption-flow-metrics#review-cycles).
+* **Reduce review cycles.** If every PR averages 2+ "changes requested" rounds, Throughput stalls. See [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles).
 
 ### Limitations and gotchas
 

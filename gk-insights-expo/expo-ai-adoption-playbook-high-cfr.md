@@ -84,7 +84,7 @@ A single spike that's already resolved. Often a bad release that's been hot-patc
 
 Genuine quality drift.
 
-**Action:** Pause non-critical feature work for the affected team for one sprint. Sample the recent bug reports — look for a common root cause. Strengthen pre-merge review on the affected repo(s). Consider mandatory reviewers if you've been relaxed about review. Look at [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-metrics#first-pass-rate) over the same window. A First-Pass climbing alongside CFR is the rubber-stamping pattern — your reviewers aren't catching things.
+**Action:** Pause non-critical feature work for the affected team for one sprint. Sample the recent bug reports — look for a common root cause. Strengthen pre-merge review on the affected repo(s). Consider mandatory reviewers if you've been relaxed about review. Look at [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-first-pass-rate) over the same window. A First-Pass climbing alongside CFR is the rubber-stamping pattern — your reviewers aren't catching things.
 
 ### Pattern: Suddenly stepped up
 
@@ -117,7 +117,7 @@ A reasonable expectation after intervening on a real CFR climb:
 
 ## Related metric pages
 
-* [Change Failure Rate (CFR)](/insights-expo/expo-ai-adoption-dora-metrics#change-failure-rate-cfr)
-* [MTTR](/insights-expo/expo-ai-adoption-dora-metrics#mean-time-to-recovery-mttr)
-* [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-metrics#first-pass-rate)
-* [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier)
+* [Change Failure Rate (CFR)](/insights-expo/expo-ai-adoption-dora-change-failure-rate)
+* [MTTR](/insights-expo/expo-ai-adoption-dora-mttr)
+* [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-first-pass-rate)
+* [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier)

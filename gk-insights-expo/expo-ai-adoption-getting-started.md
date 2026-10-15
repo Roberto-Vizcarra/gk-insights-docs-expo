@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: how-to
 audience: all
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, Jira Cloud]
+integrations: [GitHub, GitHub Enterprise Server, GitLab, GitLab Self-Managed, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode, Jira Cloud, BambooHR]
 status: GA
 taxonomy:
     category: insights-expo
@@ -18,7 +18,7 @@ custom_fields:
     nav_order: 10
     page_type: index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 GitKraken Insights is the dashboard your engineering organization uses to see — in one place — how AI tools, code delivery, and team capacity actually interact. This section gets you oriented in about ten minutes.
 

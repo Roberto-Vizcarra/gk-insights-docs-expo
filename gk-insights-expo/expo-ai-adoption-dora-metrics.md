@@ -35,10 +35,10 @@ DORA emerged from the DevOps Research & Assessment program at Google and is the 
 
 | Metric | Bucket | What it captures |
 | --- | --- | --- |
-| [**Deployment Frequency**](#deployment-frequency) | Velocity | How often you ship to production. |
-| [**Lead Time for Changes**](#lead-time-for-changes) | Velocity | How long it takes from a developer's first commit to that change reaching production. |
-| [**Change Failure Rate (CFR)**](#change-failure-rate-cfr) | Stability | What percent of releases produce a customer-reported bug. |
-| [**Mean Time to Recovery (MTTR)**](#mean-time-to-recovery-mttr) | Stability | How long it takes to recover from a production incident. |
+| [**Deployment Frequency**](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | Velocity | How often you ship to production. |
+| [**Lead Time for Changes**](/insights-expo/expo-ai-adoption-dora-lead-time) | Velocity | How long it takes from a developer's first commit to that change reaching production. |
+| [**Change Failure Rate (CFR)**](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | Stability | What percent of releases produce a customer-reported bug. |
+| [**Mean Time to Recovery (MTTR)**](/insights-expo/expo-ai-adoption-dora-mttr) | Stability | How long it takes to recover from a production incident. |
 
 DORA splits these into two velocity metrics and two stability metrics. A high-performing team scores well on **both** sides — fast and reliable. A team that is fast but unreliable, or reliable but slow, has unfinished work to do.
 

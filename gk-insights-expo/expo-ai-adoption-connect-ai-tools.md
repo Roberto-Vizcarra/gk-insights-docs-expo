@@ -1,189 +1,114 @@
 ---
 title: Connect AI Coding Tools
-description: Connect Claude Code, Codex, Cursor, Devin, and GitHub Copilot to GitKraken Insights — setup instructions for each tool.
+description: Connect Cursor, GitHub Copilot, and Devin to GitKraken Insights through their APIs — setup instructions for each tool, plus where to set up Claude Code, Codex, and Copilot telemetry.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor, Devin, GitHub Copilot]
+integrations: [Cursor, Devin, GitHub Copilot]
 status: GA
 taxonomy:
     category: insights-expo
 custom_fields:
     card_color: blue
-    card_description: Claude Code, Codex, Cursor, Copilot, and Devin
+    card_description: Cursor, GitHub Copilot, and Devin
     card_icon: robot
     nav_category: connect-your-data
     nav_label: AI Coding Tools
     nav_order: 50
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 Connect **at least one** AI provider — this is what lets Insights *measure* adoption instead of guessing at it. Connect as many as your team uses.
 
-> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
+This page covers the tools GitKraken reads through their APIs — Cursor, GitHub Copilot, and Devin. Claude Code, OpenAI Codex, and GitHub Copilot telemetry are set up through **Agent OTel Data** — see [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel).
+
+> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start-gather-access) on the Connect Your Data overview.
 
 ---
 
 ## Claude Code and Codex (OpenTelemetry)
 
-Claude Code and Codex both report usage through OpenTelemetry (OTel), and both read their configuration from a snippet GitKraken generates for you.
+Claude Code, OpenAI Codex, and GitHub Copilot telemetry now share one connection, **Agent OTel Data**. Setup for each agent — the org auth token, each agent's config, and what the telemetry contains — is on its own page: [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel).
 
-In **Data Connections**, add a **Claude Code & Codex** data source, then open **View setup** on the new connection. That setup page gives you:
+- [Claude Code](/insights-expo/expo-ai-adoption-connect-otel#claude-code) — team config or Claude apps gateway
+- [OpenAI Codex](/insights-expo/expo-ai-adoption-connect-otel#openai-codex) — `config.toml` via MDM or on each machine
+- [GitHub Copilot (OpenTelemetry)](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry) — managed settings, CLI, or VS Code
+- [OpenCode](/insights-expo/expo-ai-adoption-connect-otel#opencode) — available on request; a plugin config each developer adds
 
-- **Collector endpoint** — the URL telemetry is sent to.
-- **Authentication token** — your organization's OTel auth token. The **same token covers both tools**, so if you've already connected one, you reuse the credential for the other.
-- **Claude Code config** (JSON) and **OpenAI Codex config** (TOML) — ready-to-paste snippets with your endpoint and token already filled in.
-
-<!-- FLAG FOR HUMAN REVIEW: the Collector endpoint in claude-code-codex-setup.png reads otel-devex-dev.gitkraken.com, because the capture was taken against the dev collector. The secrets are masked, so only that hostname differs from production. Retake against production if that matters. -->
+<!-- FLAG FOR HUMAN REVIEW: claude-code-codex-setup.png predates the Agent OTel Data setup view (it shows the older "Claude Code & Codex" page with one config field per tool, not the Choose your agent cards). It was also captured against the dev collector, so its Collector endpoint reads otel-devex-dev.gitkraken.com. Retake against production. -->
 <figure>
   <img src="/wp-content/uploads/claude-code-codex-setup.png" class="help-center-img img-bordered" alt="The Claude Code and Codex setup page in GitKraken Insights, showing the shared org auth token with its Collector endpoint and masked Authentication token, followed by a masked Claude Code config field and a masked OpenAI Codex config field, each with reveal and copy buttons" />
-  <figcaption>The Claude Code &amp; Codex setup page — one org auth token, plus a ready-to-copy config for each tool.</figcaption>
+  <figcaption>The setup page — one org auth token, plus a ready-to-copy config for each agent.</figcaption>
 </figure>
-
-Always copy the real snippet from the connection page rather than retyping the examples below.
-
-> **Keep the auth token private.** It authenticates telemetry for your whole organization — treat it like any other secret credential.
-
-> **Data appears on the next fresh session.** There's no backfill — usage starts flowing the next time each developer runs Claude Code or Codex after the settings are applied. (Claude Code OTel instrumentation began March 5, 2026; activity before that date isn't available.)
-
-### Claude Code — organization-managed settings
-
-The recommended rollout is server-managed settings in claude.ai: an Owner pastes the snippet once and every developer's Claude Code picks it up automatically. This requires a **Claude for Teams or Enterprise** plan.
-
-1. Copy the **Claude Code config** snippet from the connection page.
-2. As an organization Owner, go to **Admin Settings → Claude Code → Managed settings** ([claude.ai/admin-settings/claude-code](https://claude.ai/admin-settings/claude-code)).
-3. Paste the snippet into the managed settings JSON. If managed settings already exist, **merge the `"env"` keys** into the existing `"env"` block rather than replacing the configuration — everything here applies org-wide.
-4. Save.
-
-The snippet looks like this, with your own endpoint and token filled in:
-
-```json
-{
-  "env": {
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
-    "OTEL_EXPORTER_OTLP_ENDPOINT": "https://otel-devex.gitkraken.com",
-    "OTEL_EXPORTER_OTLP_HEADERS": "Authorization=Basic <YOUR_ORG_AUTH_TOKEN>",
-    "OTEL_EXPORTER_OTLP_PROTOCOL": "http/protobuf",
-    "OTEL_LOGS_EXPORTER": "otlp",
-    "OTEL_RESOURCE_ATTRIBUTES": "service.name=claude-code"
-  }
-}
-```
-
-> **This requires the Claude Code organization Owner.** Admins do not have permission to change org-managed settings. If the Managed settings link redirects you elsewhere, your account doesn't have the Owner role.
-
-> **Clients need a restart.** Claude Code also polls hourly, but OpenTelemetry configuration specifically takes effect on the next full restart.
-
-> **Heads-up for your developers — warn them first.** The moment org telemetry settings change, Anthropic notifies *every developer* on their next Claude Code session that organization settings were modified, and the notice uses deliberately cautious wording (it warns that changed settings *could* run code). Custom environment variables require a one-time security approval, so accepting it is expected and required. This is Anthropic's standard behavior, not GitKraken's. Send your team a quick message ahead of time so no one is surprised. Suggested note:
->
-> > *"Heads up — we're turning on Claude Code usage telemetry for the team so we can measure AI adoption. On your next Claude Code session you'll see a notice that org settings changed; that's expected — go ahead and accept it. We are not collecting your prompts."*
-
-> **Privacy:** the default snippet collects usage and session telemetry (tokens used, duration, tool calls) — **not prompt content**. Anthropic publishes documentation on this telemetry, and there is a separate opt-in flag some orgs add to capture prompts; the snippet we generate does **not** enable it.
-
-> Managed settings take precedence over developers' own user and project settings, so individual configs can't accidentally turn the telemetry off.
-
-> **If your organization already sends Claude Code metrics to another vendor,** contact GitKraken support for a combined example.
-
-**Alternative — file-based managed settings.** Server-managed settings only reach sessions that authenticate through claude.ai (or a direct API key). If your developers run Claude Code through **Amazon Bedrock, Google Vertex, Microsoft Foundry, or a custom gateway**, deploy the same snippet as a file instead, via MDM or your endpoint manager:
-
-| Platform | Path |
-| --- | --- |
-| macOS | `/Library/Application Support/ClaudeCode/managed-settings.json` |
-| Linux / WSL | `/etc/claude-code/managed-settings.json` |
-| Windows | `C:\Program Files\ClaudeCode\managed-settings.json` |
-
-> **The two mechanisms don't merge.** If the claude.ai managed settings deliver *any* keys, the on-disk file is ignored entirely for that session. Keep the telemetry config in whichever source your organization actually uses.
-
-### Codex — config.toml on each developer's machine
-
-The Codex CLI reads its settings from a `config.toml` file in a `.codex` directory in the user's home folder:
-
-| Platform | Path |
-| --- | --- |
-| macOS | `~/.codex/config.toml` |
-| Linux | `~/.codex/config.toml` |
-| Windows | `%USERPROFILE%\.codex\config.toml` |
-
-Create the directory and file if they don't exist. If the file already has other settings, **append** the `[otel]` block rather than overwriting the file. The snippet is identical on every platform — only the location differs:
-
-```toml
-[otel]
-environment = "prod"
-
-# Logs
-exporter = { otlp-http = {
-  endpoint = "https://otel-devex.gitkraken.com/v1/logs",
-  protocol = "binary",
-  headers = { Authorization = "Basic <YOUR_ORG_AUTH_TOKEN>" }
-}}
-```
-
-**Option A — managed rollout via MDM (recommended for organizations).** Because the token is the same for the whole organization, a single managed configuration works for every developer on a given platform:
-
-1. Copy the **OpenAI Codex config** snippet from the connection page.
-2. Package it as a managed file deployed to the per-user Codex path — `~/.codex/config.toml` on macOS and Linux, `%USERPROFILE%\.codex\config.toml` on Windows. Merge it into an existing `config.toml` if your developers already use one.
-3. Push the profile to your fleet with your MDM tool — Jamf, Kandji, or Intune for macOS; Intune, Group Policy, or your endpoint manager for Windows.
-4. Confirm the file landed on a sample machine.
-
-**Option B — individual developer setup.** Any developer can connect their own machine in under a minute.
-
-On macOS or Linux:
-
-```bash
-mkdir -p ~/.codex
-nano ~/.codex/config.toml   # or: open -e ~/.codex/config.toml on macOS
-```
-
-On Windows, in PowerShell:
-
-```powershell
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.codex" | Out-Null
-notepad "$env:USERPROFILE\.codex\config.toml"
-```
-
-Paste the snippet, then save. New Codex sessions start sending telemetry automatically.
-
-> **Windows — watch the file extension.** In Notepad's Save dialog, set **Save as type** to *All Files* so the file is saved as `config.toml` and not `config.toml.txt`.
 
 ---
 
 ## Cursor (API key)
 
-1. In Cursor, go to **Settings → API Keys → Create New Key**.
-2. Create a **team-level** key with **admin scope** (this grants access to *team usage events* and the *member directory*). Name it something recognizable, e.g. "GitKraken Insights."
-3. Copy the key immediately — Cursor only shows it once.
-4. Back in **Data Connections**, add a **Cursor** data source, paste the key, and connect.
+GitKraken pulls Cursor usage centrally through the Cursor Teams API, using a **team API key**. There's nothing for individual developers to install or configure, and the first sync includes usage from before you connected.
 
-> A **personal** key, or a key from a non-admin account, won't have access to team usage data. It must be a team-level admin key.
+1. Go to your Cursor dashboard's API section: [cursor.com/dashboard/api → Team API keys](https://cursor.com/dashboard/api?section=team-keys#team-api-keys). The **Get your API key** link in GitKraken's connection dialog opens the same page.
+2. Create a new **team** API key and give it a name that describes its purpose, for example "GitKraken Insights."
+3. Copy the key immediately and store it somewhere secure, such as a password manager — Cursor shows it only once. Team API keys start with `sk-…`.
+4. In **Data Connections**, click **+** next to **Cursor**, optionally give the connection a **Name**, paste the **Cursor API key**, and click **Connect**.
+
+> **It must be a team key, not a personal one.** GitKraken reads team-scoped endpoints, and a personal key can't see them.
+
+> **Keep the API key private.** It grants read access to your Cursor team's usage data — treat it like a password.
+
+**What GitKraken reads.** The integration is read-only — GitKraken never writes anything back to Cursor. It uses the key for:
+
+- **Usage events** — per-request activity, including model, token counts, and cost where Cursor reports it.
+- **Daily usage data** — Cursor's per-day rollup of team activity.
+- **Team members** — your Cursor team directory, used to match Cursor usage to the right developer.
+
+**Matching usage to developers.** Cursor usage is matched to developers by email. A teammate whose Cursor email differs from their git-provider email may appear as a separate person — merge the identities in **Settings → Developers**.
+
+**Rotating or revoking the key.** If the key is exposed or due for rotation, create a new team API key in Cursor and paste it into the existing connection with **Edit** — don't create a second connection. Revoking the key in Cursor stops the sync; existing data stays in your dashboards, but no new usage arrives until a valid key is supplied.
+
+For when Cursor data first appears and how far back it goes, see [When your AI tool data appears](/insights-expo/expo-ai-adoption-connect-your-data#when-your-ai-tool-data-appears).
 
 ---
 
 ## Devin
+
+> **Note — available on request.** The Devin connection isn't turned on for every organization. To enable it, contact your GitKraken account team. Once it's enabled, **Devin** appears in the **AI Coding Agents** group under **Add data source**.
 
 Devin usage comes through the Devin API, authenticated with a **service-user API key**.
 
 1. Log in at [devin.ai](https://devin.ai) and open your **organization's settings** in the top left.
 2. Go to the **Devin API** section and click **Provision Service User**. Provision a user with the **Admin** role and set an expiration — pick the longest expiry your policy allows, and set a reminder to rotate it.
 3. Copy the generated token and store it securely. While you're on this page, note the **Organization ID** shown at the top.
-4. In **Data Connections**, click **+** next to **Devin**, give the connection a name, enter the **Devin API key** and your **Devin Organization ID**, then click **Connect**.
+4. In **Data Connections**, click **+** next to **Devin**, give the connection a name, enter the **Devin API key** and your **Devin organization ID** — type each ID and press **Enter** to add it — then click **Connect**.
 
 > **Keep the API key private.** It grants API access to your Devin organization — treat it like a password.
 
 > The key belongs to the provisioned service user rather than a personal account, so it won't break when an individual teammate leaves. To rotate it, provision a new service-user key in Devin and update the connection.
 
+**When Devin data appears.** The connection starts syncing as soon as you click **Connect**:
+
+- **First data** usually appears within **4 hours**.
+- **The first sync** pulls the last 90 days of Devin session activity and finishes within **24 hours**. The 90 days are counted by last activity, so a session that started earlier but was worked on inside the window is included — Devin history can reach back further than 90 days.
+- **No reporting lag.** Devin data stays current to the present, and the connection keeps refreshing in the background.
+
+If nothing appears after 24 hours, re-check the API key, confirm it belongs to a service user with the **Admin** role, and confirm the organization ID. See [When your AI tool data appears](/insights-expo/expo-ai-adoption-connect-your-data#when-your-ai-tool-data-appears).
+
 ---
 
 ## GitHub Copilot
 
-Connect GitHub Copilot to pull Copilot usage metrics for your organization or enterprise. Copilot returns a narrower set of data than Claude Code, Codex, or Cursor, so some metrics will be partial.
+Connect GitHub Copilot to pull Copilot usage metrics for your organization or enterprise from GitHub's Copilot metrics API. Copilot returns a narrower set of data than Claude Code, Codex, or Cursor, so some metrics will be partial.
+
+> **Note — Copilot telemetry is a separate connection.** To also capture per-session telemetry from developers' Copilot CLI and VS Code, set up GitHub Copilot under **Agent OTel Data**. You can use either or both — see [Copilot telemetry and the GitHub Copilot connection](/insights-expo/expo-ai-adoption-connect-otel#copilot-telemetry-and-the-github-copilot-connection).
 
 You can connect at **organization** or **enterprise** level. The connection modal's **Required scopes** panel has a tab for each, and your choice changes both the token scope and the last field you fill in:
 
 | | Organization | Enterprise |
 | --- | --- | --- |
-| **Token scope** | `read:org` | `read:enterprise` (`manage_billing:copilot` also works) |
+| **Classic token scope** | `read:org` | `read:enterprise` (`manage_billing:copilot` also works) |
+| **Fine-grained token permission** | **Organization Copilot metrics: Read-only** | Not documented — use a classic token |
 | **Token owner must be** | An organization owner, or a member with permission to view organization Copilot metrics | An enterprise owner, or a member with permission to view enterprise Copilot metrics |
 | **Policy enabled on** | The organization | The enterprise |
 | **Last field** | **GitHub Organization name** | **GitHub Enterprise slug** |
@@ -198,15 +123,19 @@ Two prerequisites matter more than the token itself: the **Copilot usage metrics
 
 Without this policy, the metrics API returns no data even with a valid token.
 
-**2. Create a classic personal access token.** The fastest route is the **Create a classic token** link in the connection modal — it opens GitHub's token form with the description and the `read:org` scope already filled in. To do it by hand:
+**2. Create a personal access token.** A classic token works at both levels; an organization connection can also use a fine-grained token.
+
+**Classic token.** The fastest route is the **Create a classic token** link in the connection modal — it opens GitHub's token form with the description and your level's scope already filled in. To do it by hand:
 
 1. On GitHub, go to **Settings → Developer settings → Personal access tokens → Tokens (classic)**.
 2. Select **Generate new token → Generate new token (classic)**, name it in the **Note** field, and set an **Expiration**.
 3. Select the scope for your level — **`read:org`** (under `admin:org`) for an organization, or **`read:enterprise`** for an enterprise. Either grants read access to membership and Copilot metrics, and no other scopes are needed.
 4. Click **Generate token** and copy it immediately — GitHub won't show it again.
-5. **If your organization uses SAML single sign-on:** click **Configure SSO** next to the token and authorize it for your organization. Without this, the token can't read org data.
+5. **If your organization uses SAML single sign-on:** click **Configure SSO** next to the token and authorize it for your organization. Without this, the classic token can't read org data.
 
-Classic tokens start with `ghp_…`. Fine-grained tokens are **not** supported for this connection.
+Classic tokens start with `ghp_…`.
+
+**Fine-grained token (organization connections).** On GitHub, go to **Settings → Developer settings → Personal access tokens → Fine-grained tokens** and generate a new token. Set the **Resource owner** to your organization, set an expiration, and under organization permissions grant **Organization Copilot metrics: Read-only**. The token owner needs the same permission to view organization Copilot metrics as for a classic token. For an **enterprise** connection, use a classic token — the connection modal lists classic scopes only, and no fine-grained permission is documented for enterprise Copilot metrics.
 
 **3. Connect in GitKraken:**
 
@@ -218,12 +147,18 @@ Classic tokens start with `ghp_…`. Fine-grained tokens are **not** supported f
    - **GitHub Enterprise slug** — your enterprise slug, for example `my-enterprise`.
 5. Click **Connect**.
 
+Each connection covers one organization or one enterprise; add another GitHub Copilot connection for each additional target. An enterprise connection covers every organization in the enterprise, so connecting one of its member organizations separately adds nothing — each developer is counted once per day either way.
+
 <figure>
   <img src="/wp-content/uploads/connect-copilot-modal-aug-2026.png" class="help-center-img img-bordered" alt="Connect GitHub Copilot modal in GitKraken Insights showing an optional connection name field, a Required scopes panel with Organization and Enterprise tabs listing the read:org scope and the token-owner and usage-metrics-policy prerequisites, a GitHub personal access token field with a Create a classic token link, and a GitHub Organization name field" />
   <figcaption>The Connect GitHub Copilot modal — the required scope and prerequisites, a shortcut for creating the classic token, and the organization name.</figcaption>
 </figure>
 
 > **GitHub suppresses data for small teams.** GitHub only returns Copilot usage for a given day if the team had **five or more members with active Copilot licenses** on that day, evaluated at the end of the day. Teams below that threshold will see gaps regardless of how the connection is configured.
+
+> **Copilot data runs two to three days behind.** GitKraken waits for GitHub's daily usage report to settle before pulling it, so neither today nor yesterday appears — a new connection showing nothing for today is working correctly. The first sync pulls up to the last 90 days. See [When your AI tool data appears](/insights-expo/expo-ai-adoption-connect-your-data#when-your-ai-tool-data-appears).
+
+> **Keep the token private.** A personal access token grants access to everything its owner can see within the granted scopes or permissions — treat it like a password.
 
 References: [GitHub — REST API endpoints for Copilot metrics](https://docs.github.com/en/rest/copilot/copilot-metrics) and [GitHub — Managing your personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
@@ -233,14 +168,12 @@ References: [GitHub — REST API endpoints for Copilot metrics](https://docs.git
 
 | Symptom | What's happening | Fix |
 | --- | --- | --- |
-| **Can't create the Cursor key / no usage data** | Key isn't team-level admin, or your Cursor role is too low | Have a Cursor team admin create a **team-level admin** key |
-| **Can't change Claude Code org settings** | You're an admin, not the org Owner | Only the Anthropic org **Owner** can apply the telemetry snippet |
-| **Claude Code settings applied but no telemetry** | Clients pick up OTel config on a full restart; or an on-disk `managed-settings.json` is being ignored | Have developers restart Claude Code — and keep the config in one source, since claude.ai managed settings override the file entirely |
-| **No Codex telemetry** | The snippet is in the wrong path, Notepad saved it as `config.toml.txt`, or the developer is running a pre-release build of the Codex desktop app | Verify the per-OS `config.toml` path and the file extension, and have developers run a stable Codex build — pre-release and alpha builds can drop OTel events |
-| **Copilot connects but no metrics appear** | The **Copilot usage metrics** policy is off, the token owner can't view Copilot metrics, or the team had fewer than five active Copilot licenses | Enable the policy in org **Settings → Copilot → Policies**, use an org owner or a role with **View Organization Copilot Metrics**, and check the license count |
-| **Copilot token rejected** | A fine-grained token was used, or SAML SSO isn't authorized | Create a **classic** token with `read:org`, then **Configure SSO** on it |
+| **No Cursor usage data after 24 hours** | The key is a personal key rather than a team key, or it was revoked in Cursor | Create a **team** API key in the Cursor dashboard and paste it into the existing connection |
+| **A developer appears twice after connecting Cursor** | Their Cursor email differs from their git-provider email | Merge the identities in **Settings → Developers** |
+| **Copilot connects but no metrics appear** | The **Copilot usage metrics** policy is off, the token owner can't view Copilot metrics, the team had fewer than five active Copilot licenses, or the data is still inside GitHub's two-to-three-day reporting lag | Enable the policy in org **Settings → Copilot → Policies**, use an org owner or a role with **View Organization Copilot Metrics**, check the license count and the organization slug, and allow for the lag |
+| **Copilot token rejected** | The token lacks the Copilot metrics permission for your level, a fine-grained token was used for an enterprise connection, or SAML SSO isn't authorized | Use a **classic** token with `read:org` (organization) or `read:enterprise` (enterprise), or a fine-grained token with **Organization Copilot metrics: Read-only** for an organization. For a classic token, also **Configure SSO** on it |
 
-For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
+For Claude Code, Codex, and Copilot telemetry, see [Troubleshooting](/insights-expo/expo-ai-adoption-connect-otel#troubleshooting) on the Agent OTel Data page. For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
 
 ---
 

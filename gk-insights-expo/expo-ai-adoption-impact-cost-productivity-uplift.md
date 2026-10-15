@@ -37,8 +37,8 @@ All three are **estimates**, built from rate comparisons that each carry uncerta
 
 ```
 VolumeSpeedupFactor          = TreatmentChangesPerDevPerWeek / ControlChangesPerDevPerWeek
-EstimatedHoursSavedPerDevWeek = (VolumeSpeedupFactor − 1) × 40-hour work week
-EstimatedValueSaved          = EstimatedHoursSavedPerDevWeek × Developer Hourly Rate × dev count
+EstimatedHoursSavedPerDevWeek = (VolumeSpeedupFactor − 1) × Working Hours Per Week (default 40)
+EstimatedValueSaved          = EstimatedHoursSavedPerDevWeek × sum of developer hourly rates
 
 PerDevUpliftPct        = (ActiveAvgChangesPerDev − OtherAvgChangesPerDev) / OtherAvgChangesPerDev × 100
 PowerUserPerDevUpliftPct = (PowerUserAvgChangesPerDev − BelowPowerAvgChangesPerDev) / BelowPowerAvgChangesPerDev × 100
@@ -47,11 +47,11 @@ PotentialUpliftPct     = additional org-wide changes if all developers moved to 
 
 ### How GitKraken Insights calculates it
 
-**Step 1 — Establish the baseline.** The baseline period is set in Settings → General (default November 1 of the previous year through the start of the current month). The current window is compared against a same-length window from the baseline period.
+**Step 1 — Establish the baseline.** The baseline is a single reference month, set in Settings → General as [Baseline Period](/insights-expo/expo-ai-adoption-settings#baseline-period). Where it can be detected, it's set automatically to a month about 90 days before your organization first connected a repository; an admin can pick a different month. Rates are compared per developer per week, so the current window and the baseline month compare directly.
 
 **Step 2 — Compute the volume speedup.** We measure changes-per-developer-per-week in both windows. If the baseline rate is at least 1 change per dev per week (a guard against divide-by-near-zero — see the minimum-baseline guard below), the ratio gives the volume speedup factor. A factor of 1.5 means the team is shipping 50% more changes per dev per week than baseline.
 
-**Step 3 — Estimate hours and dollars saved.** Multiply `(VolumeSpeedupFactor − 1)` by a 40-hour standard work week to get hours saved per dev per week. Multiply that by Developer Hourly Rate and developer count to get the dollar figure.
+**Step 3 — Estimate hours and dollars saved.** Multiply `(VolumeSpeedupFactor − 1)` by your org's [Working Hours Per Week](/insights-expo/expo-ai-adoption-settings#working-hours-per-week) (default 40) to get hours saved per dev per week. Multiply that by the sum of the developers' hourly rates to get the dollar figure — each developer counts at their own [hourly rate](/insights-expo/expo-ai-adoption-settings#per-developer-hourly-rate) if one is set, and at the org's [Developer Hourly Rate](/insights-expo/expo-ai-adoption-settings#developer-hourly-rate) otherwise.
 
 **Step 4 — Compute the within-window comparisons.** Independently of the baseline comparison, we compute uplift percentages within the current window: active developers vs. other developers, and Power Users vs. the rest. These don't require baseline data and answer slightly different questions.
 
@@ -84,26 +84,29 @@ Don't quote the dollar value to two decimal places. "About $50K per week in annu
 
 ### Settings that affect it
 
-* [**Baseline Period**](/insights-expo/expo-ai-adoption-settings#baseline-period) — sets the historical comparison window. Move it when you have launched a new tool and want to anchor uplift to a specific pre-launch month.
-* [**Developer Hourly Rate**](/insights-expo/expo-ai-adoption-settings#developer-hourly-rate) — translates additional hours into additional dollars.
+* [**Baseline Period**](/insights-expo/expo-ai-adoption-settings#baseline-period) — sets the reference month for the comparison. Move it when you have launched a new tool and want to anchor uplift to a specific pre-launch month.
+* [**Developer Hourly Rate**](/insights-expo/expo-ai-adoption-settings#developer-hourly-rate) — translates additional hours into additional dollars for developers without their own rate.
+* [**Per-developer hourly rate**](/insights-expo/expo-ai-adoption-settings#per-developer-hourly-rate) (Settings → Developers) — overrides the org rate for individual developers.
+* [**Working Hours Per Week**](/insights-expo/expo-ai-adoption-settings#working-hours-per-week) — the work week used to turn the speedup into hours saved. Default 40.
+* [**AI cost rates**](/insights-expo/expo-ai-adoption-settings#ai-cost-rates) — scale the AI spend that the ROI figure divides by.
 * [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — indirectly, by shifting the underlying Adoption / Output baselines that feed the active vs. other comparison.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) | The shipping-rate signal that underpins changes-per-dev-per-week. |
-| [AI-Assisted Percentage](#ai-assisted-percentage) | Confirms that the output gain came from AI-touched work. |
-| [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) | Lower Cycle Time generally accompanies the speedup story. |
-| [Spend by Tier](#spend-by-tier) | Pairs with uplift for ROI math. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | The shipping-rate signal that underpins changes-per-dev-per-week. |
+| [AI-Assisted Percentage](/insights-expo/expo-ai-adoption-impact-cost-ai-assisted-percentage) | Confirms that the output gain came from AI-touched work. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | Lower Cycle Time generally accompanies the speedup story. |
+| [Spend by Tier](/insights-expo/expo-ai-adoption-impact-cost-spend-by-tier) | Pairs with uplift for ROI math. |
 
 ### How to improve it
 
 The honest answer: improve the inputs.
 
-* **Raise changes per dev per week** by following the [Output Score improvement guidance](/insights-expo/expo-ai-adoption-output-metrics#output-score).
+* **Raise changes per dev per week** by following the [Output Score improvement guidance](/insights-expo/expo-ai-adoption-output-output-score).
 * **Raise AI-Assisted %** by deepening adoption in the cohort that is already using AI lightly — see the [Agent Adoption Score playbook](/insights-expo/expo-ai-adoption-playbook-ai-rollout).
-* **Lower Cycle Time** via review process and PR-size discipline ([Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time)).
+* **Lower Cycle Time** via review process and PR-size discipline ([Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time)).
 * **Don't try to improve uplift directly.** It is a derived metric. Optimizing the inputs is the only way to move it honestly.
 
 ### Limitations and gotchas
@@ -117,7 +120,7 @@ The honest answer: improve the inputs.
 ### FAQ
 
 **Q: How precise is the dollar figure?**
-A: Order-of-magnitude. The percentage speedup is more trustworthy than the absolute dollars — dollars depend on Developer Hourly Rate × the 40-hour work-week assumption. Cite the percentage and let the audience do the rough math if they want a dollar feel.
+A: Order-of-magnitude. The percentage speedup is more trustworthy than the absolute dollars — dollars depend on the hourly rates × the Working Hours Per Week setting (default 40). Cite the percentage and let the audience do the rough math if they want a dollar feel.
 
 **Q: A team has 5% volume speedup but high AI adoption. Is something wrong?**
 A: Possibly. Common causes: (1) adoption is broad but shallow, (2) the baseline period was anomalously productive, (3) the team works in a domain where AI helps less. Investigate before drawing conclusions.
@@ -126,7 +129,7 @@ A: Possibly. Common causes: (1) adoption is broad but shallow, (2) the baseline 
 A: Yes — filter the /ai-adoption/ai-impact page by team, and the Productivity hero cards recompute for that scope.
 
 **Q: Will these metrics work if my org just installed Insights?**
-A: Only weakly. The baseline period defaults to November 1 last year, so you need at least a few months of historical data to compute meaningful deltas. If the baseline rate is below the minimum-baseline floor, the dashboard shows an empty state rather than an inflated number.
+A: Only weakly. The baseline is a single month that, where it can be detected, is set automatically to about 90 days before you first connected a repository — so the comparison depends on how much history your first sync brought in. If the baseline rate is below the minimum-baseline floor, the dashboard shows an empty state rather than an inflated number.
 
 **Q: How do I explain this to my CFO?**
 A: "This is our directional estimate of productivity gain attributable to AI adoption. The percentage is reliable for trend reading. The dollar figure is order-of-magnitude — don't book it as financial guidance, but it is defensible for narrative."

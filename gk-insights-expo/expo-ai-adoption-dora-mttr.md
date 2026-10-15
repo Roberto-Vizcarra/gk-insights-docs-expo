@@ -26,7 +26,7 @@ custom_fields:
 
 ### At a glance
 
-MTTR is "when things break, how fast do you fix them?" It is the second DORA stability metric, alongside [CFR](#change-failure-rate-cfr). Where CFR asks "how often does shipping cause problems?", MTTR asks "when shipping does cause problems, how fast do you recover?" Together they describe your stability profile.
+MTTR is "when things break, how fast do you fix them?" It is the second DORA stability metric, alongside [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate). Where CFR asks "how often does shipping cause problems?", MTTR asks "when shipping does cause problems, how fast do you recover?" Together they describe your stability profile.
 
 A team with high CFR but low MTTR is shipping bugs but fixing them fast — uncomfortable, but recoverable. A team with low CFR but high MTTR ships clean most of the time but struggles when something does go wrong — unusual but possible. The healthiest profile is low on both.
 
@@ -76,8 +76,8 @@ For most product engineering teams, **High** is the realistic target. Elite requ
 
 | Metric | Relationship |
 | --- | --- |
-| [CFR](#change-failure-rate-cfr) | The "how often" stability metric. MTTR is the "how fast to recover" sibling. |
-| [Lead Time](#lead-time-for-changes) | The velocity equivalent. Lead Time and MTTR are sometimes confused — Lead Time covers shipping changes; MTTR covers recovering from incidents. |
+| [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | The "how often" stability metric. MTTR is the "how fast to recover" sibling. |
+| [Lead Time](/insights-expo/expo-ai-adoption-dora-lead-time) | The velocity equivalent. Lead Time and MTTR are sometimes confused — Lead Time covers shipping changes; MTTR covers recovering from incidents. |
 
 ### How to improve it
 

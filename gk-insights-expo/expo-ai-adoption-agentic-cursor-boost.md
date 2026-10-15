@@ -1,6 +1,6 @@
 ---
-title: "Cursor Boost"
-description: "How the Cursor Boost rate affects Agent Adoption Score in GitKraken Insights."
+title: "Provider Weights (formerly Cursor Boost)"
+description: "How Provider Weights combine scores from multiple AI tools into the Agent Adoption and Agent Autonomy Scores in GitKraken Insights. Replaces the earlier Cursor Boost."
 product: GitKraken Insights
 content_type: reference
 audience: all
@@ -9,69 +9,68 @@ taxonomy:
     category: insights-expo
 custom_fields:
     card_color: green
-    card_description: "Configuration, interpretation, and FAQ for the Cursor Boost rate"
+    card_description: "How multiple AI tools combine into one score, and how to weight each tool"
     card_icon: user-check
     nav_category: metrics
-    nav_label: "Cursor Boost"
+    nav_label: "Provider Weights"
     nav_order: 15
     nav_parent: expo-ai-adoption-agentic-metrics
     page_type: content
 ---
-## Cursor Boost
+## Provider Weights
 
-> _The 25% (default) multiplier applied to a developer's Cursor adoption score before it layers into the headline Agent Adoption Score._
+> _A per-tool weight (0–1, default 1.0) that sets how much each AI tool's score counts toward a developer's headline Agent Adoption and Agent Autonomy Scores. Replaces the fixed 25% Cursor Boost._
 
-**Family:** Adoption & Agentic · **Where it appears:** Behind the scenes in the Adoption Score on /developers, /teams, /executive
+**Family:** Adoption & Agentic · **Where it appears:** Settings → General → Tier and provider weights; behind the scenes in the Adoption and Autonomy Scores on /developers, /teams, /executive
 
 ### At a glance
 
-GitKraken Insights treats Claude Code and Codex as "primary" AI tools and Cursor as a "secondary" one. Primary tools have their events unioned at the factor level into one combined score. Cursor is scored independently and _added_ to that primary score at a discount — the Cursor Boost rate — before the final score is capped at 100. The default discount is 25%, configurable via an environment variable.
+GitKraken Insights scores each AI tool a developer uses on its own, then adds the tool scores together to produce the headline score. Provider Weights decide how much each tool's score counts in that sum. Every tool starts at a weight of 1.0 (full weight); an admin can lower a tool's weight to de-emphasize it, or set it to 0 to leave that tool out of the score entirely.
 
-This page exists so admins understand why a developer's Cursor activity contributes meaningfully to their Adoption Score but doesn't dominate it.
+This replaces the earlier **Cursor Boost** model, where Claude Code and Codex were merged into one "primary" score and Cursor was added on top at a fixed 25% rate. Today no tool is treated as secondary by default: Claude Code, Codex, Cursor, Copilot, Devin, and OpenCode each contribute their own score at their own weight.
+
+One weight per tool applies to both the [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) and the [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score).
 
 ### Formula
 
 ```
-Final Adoption (pre-maturity) = min(Primary + secondaryBoost × Cursor, 100)
-  Primary = blend(Claude ∪ Codex)
-  Cursor  = blend(Cursor events alone)
-  secondaryBoost = 0.25 (default)
+headline = min(Σ(tool score × tool weight), 100) × Company AI readiness
+  tool score  = that tool's own 0–100 score
+  tool weight = Provider Weight for that tool (0–1, default 1.0)
 ```
 
-If Cursor data is absent (`nil`), the boost term is dropped entirely — no Cursor activity, no boost.
+If a developer has no activity in a tool, that tool's score is 0 and it adds nothing — no activity, no contribution.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Per-provider scoring for Cursor runs the same four-factor blend (Daily Regularity, Hourly Spread, Prompt Depth, Token Output) used for Claude and Codex — see [Agent Adoption Score](#agent-adoption-score) for the mechanics.
+**Step 1 — Score each tool on its own.** For the Adoption Score, Claude Code, Codex, and Cursor are each scored on the four factors (Daily Regularity, Hourly Spread, Prompt Depth, Token Output); Copilot is scored on its own usage bands. See [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) for the mechanics. For the Autonomy Score, each tool contributes its own 0–100 autonomy score — see [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score).
 
-**Step 2.** The resulting Cursor score (0–100) is multiplied by the `secondaryBoost` rate (default 0.25 = 25%). So a developer at Cursor=80 contributes 80 × 0.25 = 20 points of additional adoption.
+**Step 2 — Weight each tool score.** Each tool score is multiplied by that tool's Provider Weight. At the default 1.0, a Cursor score of 60 contributes 60 points; at 0.5 it contributes 30.
 
-**Step 3.** The boosted value is added to the Primary score (Claude ∪ Codex) and the sum is capped at 100 before Maturity Factor scaling.
+**Step 3 — Add and cap.** The weighted tool scores are added together and the sum is capped at 100.
 
-**Edge case: primary is zero.** If a developer has _no_ Claude/Codex activity but has Cursor activity, they still get the Cursor boost as their entire pre-maturity score. So a dev with Primary=0, Cursor=80 gets 0 + 20 = 20 pre-maturity, which becomes 15 at the default Maturity Factor of 0.75. They land in Emerging but at the high end — visible as "trying Cursor only."
+**Step 4 — Scale by Company AI readiness.** The capped sum is multiplied by the org's [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-maturity-factor) (labeled **Company AI Readiness (%)** in Settings, default 100%).
 
-### Why the asymmetric treatment
+**Edge case: one tool only.** A developer who uses only Cursor gets their Cursor score at Cursor's weight as their whole score. At default settings, a Cursor-only developer with a Cursor score of 60 scores 60 — the same as a Claude Code-only developer with a Claude Code score of 60.
 
-Claude Code and Codex export OpenTelemetry traces with detailed prompt/response/token/tool data. Cursor's API exports a less complete event stream — fewer fields, sparser timing, no token counts in some cases. We use Cursor data as **confirmatory signal** rather than primary evidence:
+### Why it matters
 
-* If a developer is using Cursor consistently, we want their Adoption Score to reflect that.
-* But we don't trust Cursor data enough to make it a 1:1 substitute for Claude / Codex.
-
-The 25% boost rate is the empirical middle ground — high enough that Cursor power-users score meaningfully, low enough that incomplete data doesn't mask gaps in primary-tool adoption.
+Different orgs standardize on different tools. Because every tool is scored on its own and starts at the same weight, a developer gets the same credit for the same level of use whichever supported tool they use. Provider Weights then let an admin de-emphasize a tool the org is phasing out or doesn't want to count as heavily.
 
 ### How to read it
 
-You don't typically read the Cursor Boost in isolation. What you read is the breakdown on a developer's expanded detail panel:
+You don't typically read Provider Weights in isolation. What you read is the breakdown on a developer's expanded detail panel, which lists each tool's contribution. At default settings (every weight 1.0, Company AI Readiness 100%):
 
-* A developer with Claude=70, Cursor=80 has Primary=70 + boost=20 → pre-maturity 90 (capped at 100), final 67.5 at MF=0.75.
-* A developer with Claude=70, no Cursor data has Primary=70, no boost → pre-maturity 70, final 52.5.
+* A developer with Claude Code = 50 and Cursor = 30 scores 50 + 30 = 80.
+* The same developer with Cursor's weight set to 0.5 scores 50 + 15 = 65.
+* A developer with Claude Code = 70 and Cursor = 50 reaches 120 before the cap, so they score 100.
 
-The difference (15 points) is what Cursor adoption is contributing in that developer's case.
+The difference between the first two cases (15 points) is what the Cursor weight change is doing in that developer's case.
 
 ### Where it appears
 
-* **/developers** — expanded panel breaks down "Claude contribution" / "Codex contribution" / "Cursor contribution" so you can see what each tool is doing for a developer's score.
-* **Behind the scenes** in every Adoption Score on the dashboard.
+* **/developers** — the expanded panel breaks down each tool's contribution so you can see what each tool is doing for a developer's score. The "How is the Agent Adoption Score calculated?" card lists the current weight for each tool.
+* **Behind the scenes** in every Adoption and Autonomy Score on the dashboard.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-developers.png" class="help-center-img img-bordered" alt="Developers page in GitKraken Insights showing the Top 10 developers widget, score trend chart, and the developer table with Adoption, Agentic, Providers, and Output Score columns" />
@@ -80,40 +79,41 @@ The difference (15 points) is what Cursor adoption is contributing in that devel
 
 ### Settings that affect it
 
-* `SCORE_SECONDARY_BOOST` environment variable. Default 0.25. Range 0.0 to 1.0+. Changing it requires a backend restart.
-
-The Cursor Boost rate is not currently exposed in the Settings UI. Ask your account manager if you need it tunable.
+* [**Provider Weights**](/insights-expo/expo-ai-adoption-settings#provider-weights) — Settings → General → **Tier and provider weights**. One weight per tool, range 0–1, default 1.0. Applies to both the Adoption and Autonomy Scores. The form lists a row for each of **Claude**, **Codex**, **Cursor**, **Copilot**, **Devin**, and **OpenCode** for every organization. The [Devin](/insights-expo/expo-ai-adoption-connect-ai-tools#devin) and [OpenCode](/insights-expo/expo-ai-adoption-connect-otel#opencode) connections are available on request — contact your GitKraken account team. Until a tool is connected and has activity, its weight has no effect.
+* [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — labeled **Company AI Readiness (%)**. Scales the weighted, capped sum.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Agent Adoption Score](#agent-adoption-score) | Cursor Boost is one of two terms in the Adoption Score formula. |
-| [AI Tier](#ai-tier) | Indirectly — Cursor adoption shows up here via Adoption Score. |
+| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) | Provider Weights set how each tool's adoption score combines into the headline Adoption Score. |
+| [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score) | The same weights set how each tool's autonomy score combines into the headline Autonomy Score. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) | Indirectly — through Adoption and Autonomy. |
 
 ### How to use it
 
-Cases where you might want to change the boost rate:
+Cases where you might want to change a tool's weight:
 
-* **You've standardized on Cursor as a primary tool.** If your org has gone "Cursor-first" rather than "Claude-first," consider raising the boost to 0.5 or higher so Cursor adoption contributes proportionally.
-* **You want Cursor to count equally with Claude / Codex.** Set the boost to 1.0. Now a Cursor-only developer can score the same as a Claude-only developer.
-* **You want to phase Cursor out.** Set the boost to 0. Cursor data is ignored in adoption math (it still appears in /data and other detail views).
+* **You want to phase a tool out.** Set its weight to 0. That tool no longer counts toward Adoption or Autonomy (its data still appears in other detail views).
+* **You trust one tool's signal less.** Lower its weight (for example, to 0.5) so heavy use of that tool alone can't carry a developer to the top of the scale.
+* **Your developers use several tools side by side and scores are hitting the cap.** Because weighted tool scores are added together, a developer active in two tools can reach 100 quickly. Lowering the weights of overlapping tools spreads the scores back out.
 
-In most orgs, the default 0.25 is the right answer. Touch it only when your provider mix has genuinely shifted.
+In most orgs, the default 1.0 for every tool is the right answer. Change a weight only when your provider mix has genuinely shifted.
 
 ### Limitations and gotchas
 
-* **No agentic score from Cursor.** Cursor's events don't expose tool-call data in a way we can score for the [Agent Autonomy Score](#agent-autonomy-score). So a developer doing all their autonomous AI work in Cursor will look low-Autonomy in the dashboard regardless of their actual practice.
-* **Boost is additive, not blended.** We don't union Cursor events with Claude/Codex at the factor level (the way we do for Claude+Codex). Cursor is scored separately and then layered on.
-* **Pre-cap addition.** Because we cap at 100 _after_ the boost is added, a developer at Primary=95 + Cursor=80 caps at 100 — the last 15 points of potential Cursor contribution are wasted.
+* **Scores add, they don't average.** A developer active in two tools gets credit from both. This avoids penalizing multi-tool developers, but it means multi-tool developers reach the 100 cap sooner.
+* **Cap before scaling.** The sum is capped at 100 _before_ Company AI readiness is applied, so contributions above 100 are absorbed by the cap.
+* **One weight covers both scores.** You can't weight a tool differently for Adoption and for Autonomy.
+* **A weight of 0 removes the tool entirely** from both scores, not just from the headline display.
 
 ### FAQ
 
-**Q: Why isn't Cursor unioned with Claude / Codex?**
-A: Their event streams aren't comparable enough at the field level. We'd need consistent prompt counts, token counts, and tool counts across all three providers to union them; Cursor doesn't currently export that consistently. As Cursor's API matures, this could change.
+**Q: What happened to the Cursor Boost?**
+A: It was replaced by Provider Weights. Cursor is no longer added on top of a combined Claude Code + Codex score at a fixed 25% rate. Every tool — Cursor included — is scored on its own and counts at its own weight, which defaults to 1.0.
 
-**Q: A developer uses Cursor exclusively and shows score 15. Is that right?**
-A: At default settings, yes. Cursor=80 × 0.25 boost × 0.75 Maturity Factor = 15. If your org is Cursor-first, raise `SCORE_SECONDARY_BOOST` to 0.75 or 1.0 to give Cursor users a fair share of the score.
+**Q: A developer uses Cursor exclusively. Why did their score go up?**
+A: Under the old Cursor Boost, a Cursor-only developer's score was discounted to 25% of their Cursor score. With Provider Weights at the default 1.0, Cursor counts at full weight, so the same activity now produces a higher score. Lower Cursor's weight if you want the old discount back.
 
-**Q: Why default 25% and not 50%?**
-A: Empirically, the data we get from Cursor today is roughly a quarter as rich as what we get from Claude / Codex OTEL traces. 25% reflects "Cursor counts about as much as the data we have on it." If Cursor's event coverage improves, we'd raise the default.
+**Q: Where do I see the current weights?**
+A: In Settings → General → **Tier and provider weights**, and on the "How is the Agent Adoption Score calculated?" card on /developers, which lists each tool's weight.

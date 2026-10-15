@@ -81,9 +81,9 @@ Don't read direct commits in isolation — read them as part of the Output Score
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](#output-score) | Direct commits are the DC term of the formula. |
-| [Effort Score](#effort-score-complexity) | Each direct commit gets one. |
-| [Throughput](#throughput) | Throughput counts PRs only; direct commits live in this metric. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | Direct commits are the DC term of the formula. |
+| [Effort Score](/insights-expo/expo-ai-adoption-output-effort-score) | Each direct commit gets one. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | Throughput counts PRs only; direct commits live in this metric. |
 
 ### How to use the weight
 

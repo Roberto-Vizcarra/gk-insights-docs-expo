@@ -77,15 +77,15 @@ The total dollar number is also informative: divide by total developers and you 
 
 ### Settings that affect it
 
-* AI license cost configuration is not currently exposed in the Settings UI. License costs are configured at deploy time. Ask your account manager if you need to adjust them.
-* API usage cost comes from the `cost_usd` field on `api_request` events — sourced directly from the provider.
+* [**AI cost rates**](/insights-expo/expo-ai-adoption-settings#ai-cost-rates) (Settings → General) — a multiplier per provider that adjusts estimated AI costs to match what you pay, for example after a negotiated discount (0.8 for a 20% discount, 1 for no adjustment). Each rate has an effective-from date, so a past date recalculates that provider's cost figures from then on. Default 1× for every provider.
+* API usage cost comes from the `cost_usd` field on `api_request` events — sourced directly from the provider — and is then multiplied by the provider's AI cost rate.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) | The grouping dimension. |
-| [Productivity Uplift](#productivity-uplift) | Spend / Uplift = ROI. Most healthy rollouts have uplift >> spend by an order of magnitude. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) | The grouping dimension. |
+| [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift) | Spend / Uplift = ROI. Most healthy rollouts have uplift >> spend by an order of magnitude. |
 
 ### How to use it
 
@@ -95,7 +95,7 @@ The total dollar number is also informative: divide by total developers and you 
 
 ### Limitations and gotchas
 
-* **License cost is whatever's configured.** We don't know your actual contract terms. If you're paying a different rate, the absolute dollar values will be off — but the _distribution across tiers_ is still accurate.
+* **Costs are estimates until you adjust them.** We don't know your actual contract terms. If you're paying a different rate, the absolute dollar values will be off until you set [AI cost rates](/insights-expo/expo-ai-adoption-settings#ai-cost-rates) to match — but the _distribution across tiers_ is still accurate.
 * **Usage-based costs depend on event coverage.** API costs from Claude / Codex come through OTEL events, and Copilot AI-credit consumption comes from the Copilot connection. Cursor's API doesn't expose costs at the same granularity, so Cursor spend is license-based only.
 * **Emerging doesn't mean "didn't use AI ever."** A developer can be Emerging in this window but a Regular last quarter. License seats are usually paid annually — even if their utilization is bad this window, they have the seat. The decision is about future renewal, not retroactive credit.
 
@@ -108,4 +108,4 @@ A: Probably not as a first move. Most Emerging cohorts respond to re-engagement 
 A: /data → AI Events tab → filter by event type. `api_request` events carry `cost_usd`; license costs are computed from seat counts.
 
 **Q: We don't pay per-developer for Claude — we pay enterprise. Does this work?**
-A: Yes, but you'll need to manually allocate the enterprise cost back to developers (e.g. divide by headcount). Talk to your account manager about the configuration option.
+A: Yes, but you'll need to manually allocate the enterprise cost back to developers (e.g. divide by headcount). If your effective price differs from the estimated costs, set that provider's [AI cost rate](/insights-expo/expo-ai-adoption-settings#ai-cost-rates) multiplier in Settings → General so the dollar figures match what you pay.

@@ -35,7 +35,7 @@ In order:
 - [ ] **PTO sync is on.** `WHOS_OUT_ICAL_URL` is set to your BambooHR iCal feed. The sync runs every 6 hours.
 - [ ] **CFR sync is on (optional).** `JIRA_CUSTOMER_BUG_FIELD_ID` is set if you want to track customer bugs on /ai-adoption/ai-impact.
 - [ ] **AI provider data is flowing.** Open `/ai-adoption/data-explorer`, filter to `event_name = user_prompt`, confirm rows for the last 24 hours.
-- [ ] **Maturity Factor is sized for your org.** Default 0.75 works for most. If you are early in rollout, consider 0.6. If you are mature, 0.85.
+- [ ] **Maturity Factor is sized for your org.** Set as **Company AI Readiness (%)** in Settings → General; the default is 100% (no scaling). If you are early in rollout, consider 60%. If you are in active rollout, consider 75–85%.
 
 ### The data freshness chain
 
@@ -44,7 +44,7 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 | Sync | Source | Interval | Owns |
 | --- | --- | --- | --- |
 | **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server, Azure DevOps Server, and GitLab Self-Managed connections | Every few minutes | PRs, direct commits, reviews |
-| **AI events sync** | OpenTelemetry export from your AI tools (Claude Code / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
+| **AI events sync** | [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel) — OpenTelemetry export from your AI tools (Claude Code / Codex / GitHub Copilot / OpenCode) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
 | **Cursor sync** | Cursor API | Every 5 min, with 12 h safety lag | Cursor adoption |
 | **CFR sync** | Jira | Every hour | Customer bugs, CFR %, MTTR |
 | **Release sync** | GitHub Releases / configured release event / releases pushed with the manual releases API | Every few minutes | Deployment Frequency, Lead Time |
@@ -81,9 +81,12 @@ The single biggest cause of "this number looks weird" tickets is roster drift. C
 
 | Setting | Default | Where | When to revisit |
 | --- | --- | --- | --- |
-| **Maturity Factor** | 0.75 | Settings → General (slider) | When AI Adoption % plateaus or when your org's actual maturity has clearly outgrown 0.75 |
-| **Developer Hourly Rate** | $75 | Settings → General (input) | Annually, when your finance team updates the loaded rate |
-| **Baseline Period** | Nov 1 last year | Settings → General (month picker) | When you launch a new AI tool and want uplift relative to a specific pre-launch month |
+| **Maturity Factor** | 100% | Settings → General → **Company AI Readiness (%)** (input) | When AI Adoption % plateaus or when your org's actual maturity has clearly outgrown the value you set |
+| **Developer Hourly Rate** | $75 | Settings → General (input) | Annually, when your finance team updates the loaded rate. Developers with their own rate in Settings → Developers use that instead. |
+| **Working Hours Per Week** | 40 | Settings → General (input, 1–80) | When your org's standard work week changes |
+| **Baseline Period** | Detected automatically where possible (about 90 days before your first repository connection) | Settings → General (month picker) | When you launch a new AI tool and want uplift relative to a specific pre-launch month |
+| **Cycle Time Max Days** | 30 | Settings → General (input, 1–365) | When long-running PRs are being dropped from Cycle Time that you want counted, or outliers still dominate |
+| **AI cost rates** | 1× per provider | Settings → General → **AI cost rates** | When your negotiated AI pricing changes |
 | **Default Department** | None | Settings → General (dropdown) | When your org structure shifts |
 | **Tier Weights** | 0.5 / 0.2 / 0.3 | Settings → General | When you move from "rolling out" to "extracting value" — see the [Set tier weights playbook](/insights-expo/expo-ai-adoption-playbook-tier-weights) |
 | **Direct Commit Weight** | 0.5 | Settings → General | When your team's direct-commit workflow changes (e.g. moving to TBD) |

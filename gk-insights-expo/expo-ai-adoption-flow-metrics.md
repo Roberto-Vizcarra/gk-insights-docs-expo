@@ -31,10 +31,10 @@ Where the Output family asks "how much shipped?", Flow asks "how smooth was the 
 
 | Metric | What it captures |
 | --- | --- |
-| [**Cycle Time**](#cycle-time) | Total hours from first commit to merge (or deploy). The headline flow metric. Broken into four phases: Coding, Pickup, Review, Deploy. |
-| [**Review Cycles**](#review-cycles) | Average rounds of "changes requested" per PR before merge. A signal of PR size and review fit. |
-| [**First-Pass Rate**](#first-pass-rate) | Percent of PRs merged with zero "changes requested" reviews. The clean-merge rate. |
-| [**WIP**](#work-in-progress-wip) | Number of currently open PRs. The work-in-progress backlog. |
+| [**Cycle Time**](/insights-expo/expo-ai-adoption-flow-cycle-time) | Total hours from first commit to merge (or deploy). The headline flow metric. Broken into four phases: Coding, Pickup, Review, Deploy. |
+| [**Review Cycles**](/insights-expo/expo-ai-adoption-flow-review-cycles) | Average rounds of "changes requested" per PR before merge. A signal of PR size and review fit. |
+| [**First-Pass Rate**](/insights-expo/expo-ai-adoption-flow-first-pass-rate) | Percent of PRs merged with zero "changes requested" reviews. The clean-merge rate. |
+| [**WIP**](/insights-expo/expo-ai-adoption-flow-wip) | Number of currently open PRs. The work-in-progress backlog. |
 
 ---
 

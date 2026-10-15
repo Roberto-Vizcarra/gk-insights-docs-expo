@@ -101,9 +101,9 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 
 | Metric | Relationship |
 | --- | --- |
-| [Lead Time for Changes](#lead-time-for-changes) | The other DORA velocity metric. Velocity = "fast and often" needs both. |
-| [CFR](#change-failure-rate-cfr) | Stability counterweight. High Deployment Frequency with low CFR is the goal. |
-| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | The merged-PR count metric. Often correlated with Deployment Frequency but measures merges, not releases. |
+| [Lead Time for Changes](/insights-expo/expo-ai-adoption-dora-lead-time) | The other DORA velocity metric. Velocity = "fast and often" needs both. |
+| [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | Stability counterweight. High Deployment Frequency with low CFR is the goal. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | The merged-PR count metric. Often correlated with Deployment Frequency but measures merges, not releases. |
 
 ### How to improve it
 

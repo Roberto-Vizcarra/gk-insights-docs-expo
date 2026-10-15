@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 > _You're launching (or accelerating) Claude Code, Codex, or Cursor across your org. This playbook is how to use the dashboard as the operational backbone of that rollout._
 
@@ -43,7 +43,7 @@ Three operational views — each has a different cadence:
 
 **Goal:** Establish where you are _before_ the rollout intervention starts.
 
-1. **Set Maturity Factor to 0.65 in Settings → General.** Lower than the 0.75 default. In the first 3 months, you want the tier ladder to feel achievable. A dev who picks up Claude this month and uses it consistently for 4 weeks should land in Regular, not get stuck in Explorer because the org P90 hasn't shifted yet. Raise back to 0.75 in month 4.
+1. **Set Maturity Factor to 65% in Settings → General** (the **Company AI Readiness (%)** field). Lower than the 100% default. In the first 3 months, you want the tier ladder to feel achievable. A dev who picks up Claude this month and uses it consistently for 4 weeks should land in Regular, not get stuck in Explorer because the org P90 hasn't shifted yet. Raise it to 75% in month 4.
 2. **Keep Tier Weights at defaults** (0.5 / 0.2 / 0.3). Adoption-heavy is right for early rollouts.
 3. **Take a baseline snapshot.** Note the org's Adoption %, Power User %, AI Adoption %. Write them in your rollout doc. You'll cite these in month 3 and month 6.
 4. **Roll out licenses to your launch cohort.** A pilot team or two is usually the right scope. Don't try org-wide on day one.
@@ -68,7 +68,7 @@ Three operational views — each has a different cadence:
 
 **Goal:** Make sure the pilot cohort doesn't regress.
 
-1. **Raise Maturity Factor to 0.75** (the default). The pilot cohort has earned the standard ceiling.
+1. **Raise Maturity Factor to 75%.** The pilot cohort has earned a higher ceiling.
 2. **Watch the pilot cohort weekly.** Some developers will regress (the tool stops being novel; they fall back to old habits). Catch the regression in /developers — the trend sparkline shows it before the score does.
 3. **Re-engage regressors.** Same playbook: pairing, office hours, audit their toolchain.
 
@@ -77,7 +77,7 @@ Three operational views — each has a different cadence:
 **Goal:** Make AI tools the default, not the opt-in.
 
 1. **All new developers get licenses on day 1.** Built into onboarding. New hires landing in Emerging after 8 weeks is a process flag.
-2. **Watch the Maturing-team cohort.** Some teams will plateau at "everyone's an Explorer, no one's a Power User." That's the "broad but shallow" pattern — start working on the [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-autonomy-score) by running agentic-pattern workshops.
+2. **Watch the Maturing-team cohort.** Some teams will plateau at "everyone's an Explorer, no one's a Power User." That's the "broad but shallow" pattern — start working on the [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score) by running agentic-pattern workshops.
 
 ### Month 6 — Strategic review
 
@@ -109,14 +109,14 @@ If your trajectory has _Adoption climbing but Uplift flat at month 4+_, your rol
 
 * **Org-wide on day 1.** Spreads adoption too thin to track. Pilot, prove, then expand.
 * **Ignoring the trajectory in favor of the snapshot.** Adoption % at 30% is a great number if it was 5% three months ago. It's a bad number if it's been 30% for six months.
-* **Treating tier as a performance metric.** Read [How to think about developer scores](/insights-expo/expo-ai-adoption-getting-started#how-to-think-about-developer-scores) before any 1:1 about a developer's tier.
-* **Not adjusting Maturity Factor with the rollout.** Default 0.75 is calibrated for active rollout. In month 1, lower it. In month 12, raise it. It's a knob for a reason.
+* **Treating tier as a performance metric.** Read [How to read scores fairly](/insights-expo/expo-ai-adoption-for-engineering-leaders#how-to-read-scores-fairly) before any 1:1 about a developer's tier.
+* **Not adjusting Maturity Factor with the rollout.** The default of 100% applies no scaling. In month 1, lower it. As the rollout matures, raise it back toward 100%. It's a knob for a reason.
 * **Picking AI adoption as the only metric to watch.** Pair it with Cycle Time and CFR. If you ship faster but break more things, you haven't won.
 
 ## Related pages
 
-* [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score)
-* [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-autonomy-score)
-* [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-metrics#maturity-factor)
+* [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score)
+* [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score)
+* [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-maturity-factor)
 * [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
 * [For Engineering Leaders](/insights-expo/expo-ai-adoption-for-engineering-leaders)

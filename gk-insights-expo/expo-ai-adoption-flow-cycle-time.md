@@ -53,7 +53,9 @@ For a team or org view, Cycle Time is shown as an average (mean) across PRs in t
 
 **Aggregation.** For a team or org row, we average the phase durations across all PRs merged in the window. Drafts are excluded. Bot-authored PRs are excluded.
 
-**Outlier handling.** The metric does not trim outliers automatically. A PR that sat open for 90 days will heavily skew a 30-day average. The phase-breakdown views visualize the distribution so you can spot the long tail, and the median is shown on hover as a check against outlier-skewed means.
+**Outlier handling.** PRs whose work-start-to-merge duration exceeds the org's [Cycle Time Max Days](/insights-expo/expo-ai-adoption-settings#cycle-time-max-days) setting (default 30 days) are left out of Cycle Time. Within that cap, the metric does not trim outliers: a PR that sat open for 25 days still pulls up a short window's average. The phase-breakdown views visualize the distribution so you can spot the long tail, and the median is shown on hover as a check against outlier-skewed means.
+
+**Bot reviews.** By default, a review from a GitHub app or bot account counts as review activity, so it can end the Pickup phase. Turn on [Ignore reviews from GitHub bot accounts](/insights-expo/expo-ai-adoption-settings#ignore-reviews-from-github-bot-accounts) to stop bot reviews from stopping the clock on pickup, review, and cycle time.
 
 ### Why it matters
 
@@ -98,6 +100,8 @@ Median industry numbers for typical web and services engineering teams:
 * **"Include JIRA start time" toggle** (on Cycle Time charts). Requires JIRA integration. Default: on.
 * **JIRA integration** (instance-level config) — without it, the JIRA-extended Coding phase is unavailable.
 * **Release detection** — without configured releases, the Deploy phase is omitted.
+* [**Cycle Time Max Days**](/insights-expo/expo-ai-adoption-settings#cycle-time-max-days) (Settings → General) — PRs whose work-start-to-merge duration exceeds this many days are excluded. Default 30, range 1–365.
+* [**Ignore reviews from GitHub bot accounts**](/insights-expo/expo-ai-adoption-settings#ignore-reviews-from-github-bot-accounts) (Settings → General) — when on, reviews from GitHub app or bot accounts don't stop the clock on pickup, review, or cycle time. Default off. GitHub only.
 
 No other admin settings affect Cycle Time. It is a measurement.
 
@@ -105,11 +109,11 @@ No other admin settings affect Cycle Time. It is a measurement.
 
 | Metric | Relationship |
 | --- | --- |
-| [Review Cycles](#review-cycles) | The cause of long Review phase. Read together. |
-| [First-Pass Rate](#first-pass-rate) | Inversely correlated with Review phase length. |
-| [WIP](#work-in-progress-wip) | High WIP often causes high Pickup (reviewers overloaded). |
-| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | Outflow rate vs. how-long-each-takes. |
-| [Lead Time for Changes](/insights-expo/expo-ai-adoption-dora-metrics#lead-time-for-changes) | DORA's first-commit-to-deploy version. Similar but production-scoped. |
+| [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles) | The cause of long Review phase. Read together. |
+| [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-first-pass-rate) | Inversely correlated with Review phase length. |
+| [WIP](/insights-expo/expo-ai-adoption-flow-wip) | High WIP often causes high Pickup (reviewers overloaded). |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | Outflow rate vs. how-long-each-takes. |
+| [Lead Time for Changes](/insights-expo/expo-ai-adoption-dora-lead-time) | DORA's first-commit-to-deploy version. Similar but production-scoped. |
 
 ### How to improve it
 
@@ -123,7 +127,7 @@ Listed by leverage — start at the top:
 
 ### Limitations and gotchas
 
-* **One outlier skews the mean badly.** A PR that sat open for 60 days will dominate a monthly Cycle Time average. Always cross-check with the median.
+* **One outlier skews the mean badly.** PRs longer than Cycle Time Max Days (default 30 days) are excluded, but a PR just under the cap can still dominate a monthly Cycle Time average. Always cross-check with the median.
 * **Cycle Time can't see commits before the PR is opened that aren't on a tracked branch.** If a developer codes for three days on a local branch with no pushes, their Coding phase reads as \~0.
 * **JIRA-extended Coding requires discipline.** If your team marks issues "In Progress" inconsistently, the JIRA-extended Coding phase becomes noisy.
 * **Deploy phase is binary — present or absent.** Without release detection configured, the Deploy phase is just omitted.
@@ -141,4 +145,4 @@ A: Pre-release weeks accumulate PRs that were held back for the release. They me
 A: Median tells you "what is typical." Mean tells you "what is the headline number including outliers." For leadership reports, lead with median; mention mean as a tail signal.
 
 **Q: How is Cycle Time different from Lead Time?**
-A: Cycle Time is first commit → merge. [Lead Time](/insights-expo/expo-ai-adoption-dora-metrics#lead-time-for-changes) (DORA) is first commit → production deploy.
+A: Cycle Time is first commit → merge. [Lead Time](/insights-expo/expo-ai-adoption-dora-lead-time) (DORA) is first commit → production deploy.

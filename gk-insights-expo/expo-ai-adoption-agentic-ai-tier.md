@@ -49,9 +49,9 @@ Tier:
 
 **The three inputs.**
 
-1. **Adoption** — the developer's [Agent Adoption Score](#agent-adoption-score), 0–100.
-2. **Agentic** — the developer's [Agent Autonomy Score](#agent-autonomy-score), 0–100 (Claude Code + Codex sessions only; Cursor excluded).
-3. **Output Norm** — a normalized version of the developer's Output Score. Computed as `min(devRate / OrgP90Rate, 1.0) × 100 × MaturityFactor`, where `devRate = OutputScore / weeks`. Capped at 1.0 before scaling so outlier shippers don't blow past 100.
+1. **Adoption** — the developer's [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score), 0–100.
+2. **Agentic** — the developer's [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score), 0–100 (Claude Code, Codex, Cursor, and Copilot, each at its Provider Weight).
+3. **Output Norm** — a normalized version of the developer's Output Score. Computed as `min(devRate / OrgP90Rate, 1.0) × 100 × MaturityFactor`, where `devRate = OutputScore / weeks`. Capped at 1.0 before scaling so outlier shippers don't blow past 100. If an admin has set an **Output Rate Target** under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks), it replaces `OrgP90Rate`.
 
 All three are already on the same 0–100 scale, and all three are already scaled by the Maturity Factor. They're directly comparable.
 
@@ -121,10 +121,10 @@ If **On PTO % is unusually high** (>15%), check whether your PTO sync is working
 
 | Metric | Relationship |
 | --- | --- |
-| [Agent Adoption Score](#agent-adoption-score) | Input #1. Default weight 0.5. |
-| [Agent Autonomy Score](#agent-autonomy-score) | Input #2. Default weight 0.2. |
-| [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) | Input #3 (via Output Norm). Default weight 0.3. |
-| [Maturity Factor](#maturity-factor) | Scales all three inputs uniformly. |
+| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) | Input #1. Default weight 0.5. |
+| [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score) | Input #2. Default weight 0.2. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | Input #3 (via Output Norm). Default weight 0.3. |
+| [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-maturity-factor) | Scales all three inputs uniformly. |
 
 ### How to improve it
 

@@ -19,13 +19,13 @@ custom_fields:
 ---
 ## Maturity Factor
 
-> _An org-wide scaling knob (default 0.75) that adjusts the ceiling on every P90-based score so the tier distribution fits your organization's actual AI maturity._
+> _An org-wide scaling knob (labeled Company AI Readiness (%) in Settings, default 100%) that adjusts the ceiling on every P90-based score so the tier distribution fits your organization's actual AI maturity._
 
 **Family:** Adoption & Agentic (org-level setting) · **Where it appears:** Settings → General; affects every score on /ai-adoption/developers, /ai-adoption/teams, /ai-adoption/executive
 
 ### At a glance
 
-The Maturity Factor is a single number from 0.01 to 1.00 that scales every P90-normalized score in the dashboard. At its default of 0.75, a developer at the org's 90th percentile scores 75 — leaving headroom to grow into the Power User band (≥80). At 1.00, the same developer would score 100, and a much larger chunk of your team would land in Power User. The setting exists so you can match the tier ceiling to where your org actually is in its AI rollout.
+The Maturity Factor is a single percentage — entered in Settings as **Company AI Readiness (%)**, 1–100 — that scales every P90-normalized score in the dashboard. At its default of 100% (a factor of 1.00), a developer at the org's 90th percentile scores 100. At 75% (0.75), the same developer scores 75 — leaving headroom to grow into the Power User band (≥80), so a much smaller chunk of your team lands in Power User. The setting exists so you can match the tier ceiling to where your org actually is in its AI rollout.
 
 It is the single most consequential admin setting in the product. Changing it shifts the entire tier distribution for everyone in your org overnight, so it should be discussed before you change it.
 
@@ -35,16 +35,16 @@ It is the single most consequential admin setting in the product. Changing it sh
 ScoreAfterMaturity = ScoreBeforeMaturity × MaturityFactor
 
 Applied to:
-  Adoption    = min(Primary + 0.25 × Cursor, 100) × MaturityFactor
-  Agentic     = min(intensity / OrgP90, 1.0) × 100 × MaturityFactor
+  Adoption    = min(Σ(tool score × tool weight), 100) × MaturityFactor
+  Agentic     = min(Σ(tool autonomy score × tool weight), 100) × MaturityFactor
   OutputNorm  = min(devRate / OrgP90Rate, 1.0) × 100 × MaturityFactor
 ```
 
 ### How GitKraken Insights applies it
 
-It is not calculated — it is set. Admins choose a value in Settings → General under the label **"Company AI Readiness %"**.
+It is not calculated — it is set. Admins choose a value in Settings → General under the label **"Company AI Readiness (%)"**, as a whole-number percentage from 1 to 100.
 
-The setting is stored in the `app_settings` table as `maturity_factor`. The backend reads it dynamically and threads it through every score computation. If the setting is absent or invalid (outside \[0.01, 1.0\]), the default 0.75 is used.
+The setting is stored in the `app_settings` table as `maturity_factor`. The backend reads it dynamically and threads it through every score computation. If the setting is absent or invalid (outside \[0.01, 1.0\] — that is, below 1% or above 100%), the default 1.0 (100%) is used. Enter at least 1% — a lower value behaves like 100%.
 
 There is no per-team, per-developer, or per-page override. It is one value, applied uniformly.
 
@@ -65,11 +65,11 @@ It is the dial that prevents premature "everyone is a Power User!" inflation in 
 | **0.80 – 0.90** | "We are mature. Our top 10% genuinely are world-class AI users." |
 | **0.95 – 1.00** | "We have fully internalized AI. The Power User band is the working baseline." |
 
-The default (0.75) is calibrated for "active rollout" — the most common state we see.
+Settings takes these values as percentages (0.75 = 75%). The default is 100% (1.00), which applies no scaling; lower it to the row that describes where your org is.
 
 ### Where it appears
 
-* **Settings → General → "Company AI Readiness (%)"** — the input that controls it. Shows a live preview ("At this maturity, a perfect score is X points").
+* **Settings → General → Scoring baseline → "Company AI Readiness (%)"** — the input that controls it. The value you enter is the maximum possible score: a "perfect" developer scores this percentage, not 100.
 * **Affects every page that displays Adoption, Agentic, or Output Norm scores.** Including /ai-adoption/developers, /ai-adoption/teams, /ai-adoption/executive, /ai-adoption/ai-tools-comparison, /ai-adoption/ai-impact.
 
 <figure>
@@ -81,10 +81,10 @@ The default (0.75) is calibrated for "active rollout" — the most common state 
 
 | Metric | Relationship |
 | --- | --- |
-| [Agent Adoption Score](#agent-adoption-score) | Multiplied by Maturity Factor as the final step. |
-| [Agent Autonomy Score](#agent-autonomy-score) | Multiplied by Maturity Factor as the final step. |
-| [Output Score → Output Norm](/insights-expo/expo-ai-adoption-output-metrics#output-score) | Output Norm is multiplied by Maturity Factor. Raw Output Score itself is not. |
-| [AI Tier](#ai-tier) | Indirectly — the tier thresholds (25 / 55 / 80) stay fixed, but the inputs scale. |
+| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) | Multiplied by Maturity Factor as the final step. |
+| [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score) | Multiplied by Maturity Factor as the final step. |
+| [Output Score → Output Norm](/insights-expo/expo-ai-adoption-output-output-score) | Output Norm is multiplied by Maturity Factor. Raw Output Score itself is not. |
+| [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) | Indirectly — the tier thresholds (25 / 55 / 80) stay fixed, but the inputs scale. |
 
 ### How to use it
 
@@ -102,8 +102,8 @@ The default (0.75) is calibrated for "active rollout" — the most common state 
 
 ### FAQ
 
-**Q: Why default to 0.75 instead of 1.00?**
-A: Most orgs running Insights are in active rollout, not at full maturity. 0.75 is calibrated for that state. If we defaulted to 1.0, every early-stage customer would see "100% Power User" within weeks and the tier signal would become useless.
+**Q: What is the default, and when should I lower it?**
+A: The default is 100% (a factor of 1.00), which applies no scaling: a developer at the org P90 on every factor scores 100. Lower it to keep the top tier aspirational while your org is earlier in its rollout — for example, if a large share of your team lands in Power User within weeks — and increase it again as your org's AI maturity grows.
 
 **Q: When should I raise it to 1.0?**
 A: When your team's working baseline genuinely is high-autonomy, daily-use AI integration. A useful threshold: if you can credibly tell your CTO "we have reached the point where AI is the default mode of working, not the exception," it is time to raise Maturity Factor.

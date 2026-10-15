@@ -26,7 +26,7 @@ custom_fields:
 
 ### At a glance
 
-Lead Time for Changes is "how long does it take a change to go from first keystroke to live in production?" It is the end-to-end sibling of [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time). Cycle Time stops at merge; Lead Time keeps counting until the change is actually in production.
+Lead Time for Changes is "how long does it take a change to go from first keystroke to live in production?" It is the end-to-end sibling of [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time). Cycle Time stops at merge; Lead Time keeps counting until the change is actually in production.
 
 It is the DORA metric most often confused with Cycle Time. The difference matters: shipping fast (low Cycle Time) without actually deploying (high Lead Time) is the classic "engineering ships, ops sits on it" anti-pattern.
 
@@ -89,8 +89,8 @@ For most product engineering teams, High is the target. Elite requires fully-aut
 
 | Metric | Relationship |
 | --- | --- |
-| [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) | The first-commit-to-merge portion. Lead Time extends to the delivering release. |
-| [Deployment Frequency](#deployment-frequency) | The other DORA velocity metric. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | The first-commit-to-merge portion. Lead Time extends to the delivering release. |
+| [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | The other DORA velocity metric. |
 
 ### How to improve it
 

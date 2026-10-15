@@ -1,17 +1,17 @@
 ---
 title: Adoption & Agentic Metrics in GitKraken Insights
-description: Learn about Adoption & Agentic metrics in GitKraken Insights, including Agent Adoption Score, Agent Autonomy Score, AI Tier, Maturity Factor, and Cursor Boost.
+description: Learn about Adoption & Agentic metrics in GitKraken Insights, including Agent Adoption Score, Agent Autonomy Score, AI Tier, Maturity Factor, and Provider Weights.
 product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor, Devin, GitHub Copilot]
+integrations: [Claude Code, Codex, Cursor, GitHub Copilot]
 status: GA
 taxonomy:
     category: insights-expo
 custom_fields:
     card_color: green
-    card_description: Adoption Score, Autonomy, AI Tier, Maturity Factor, Cursor Boost
+    card_description: Adoption Score, Autonomy, AI Tier, Maturity Factor, Provider Weights
     card_icon: user-check
     nav_category: metrics
     nav_label: Adoption & Agentic
@@ -32,33 +32,33 @@ It's the most-read group of metrics in the dashboard because it surfaces the rol
 
 | Metric | What it captures |
 | --- | --- |
-| [**Agent Adoption Score**](#agent-adoption-score) | 0–100 per developer. Combines daily consistency, hourly spread, prompt volume, and token output across Claude Code and Codex, with optional Cursor boost. The headline number on /ai-adoption/developers. |
-| [**Agent Autonomy Score**](#agent-autonomy-score) | 0–100 per developer. Measures depth of _autonomous_ AI use — sessions with 10+ tool calls across Claude Code and Codex (Cursor not included). Separates "asking AI a question" from "letting AI do real work." |
-| [**AI Tier**](#ai-tier) | Power User / Regular / Explorer / Emerging / On PTO. The composite category. Computed by weighting Adoption, Agentic, and Output Norm together (defaults 0.5 / 0.2 / 0.3). |
-| [**Maturity Factor**](#maturity-factor) | 0.01–1.00 org-wide ceiling knob (default 0.75). Adjusts all P90 scores so the tier ceiling fits your org's actual maturity. |
-| [**Cursor Boost**](#cursor-boost) | 25% by default. How much Cursor adoption layers on top of Claude / Codex in the headline Adoption Score. |
+| [**Agent Adoption Score**](/insights-expo/expo-ai-adoption-agentic-adoption-score) | 0–100 per developer. Combines daily consistency, hourly spread, prompt volume, and token output across Claude Code, Codex, Cursor, and Copilot, each tool at its Provider Weight. The headline number on /ai-adoption/developers. |
+| [**Agent Autonomy Score**](/insights-expo/expo-ai-adoption-agentic-autonomy-score) | 0–100 per developer. Measures depth of _autonomous_ AI use — sessions with 10+ tool calls in Claude Code and Codex, plus Cursor Agent-mode usage and Copilot autonomy. Separates "asking AI a question" from "letting AI do real work." |
+| [**AI Tier**](/insights-expo/expo-ai-adoption-agentic-ai-tier) | Power User / Regular / Explorer / Emerging / On PTO. The composite category. Computed by weighting Adoption, Agentic, and Output Norm together (defaults 0.5 / 0.2 / 0.3). |
+| [**Maturity Factor**](/insights-expo/expo-ai-adoption-agentic-maturity-factor) | Org-wide ceiling knob, set in Settings as **Company AI Readiness (%)** (1–100%, default 100%). Adjusts all P90 scores so the tier ceiling fits your org's actual maturity. |
+| [**Provider Weights**](/insights-expo/expo-ai-adoption-agentic-cursor-boost) | 0–1 per AI tool, default 1.0. How much each tool's score counts toward the headline Adoption and Autonomy Scores. Replaces the earlier Cursor Boost. |
 
 ---
 
 ## How the metrics fit together
 
-Adoption Score is built from per-provider scoring (Claude, Codex, Cursor) using a four-factor blend:
+Adoption Score is built from per-provider scoring (Claude Code, Codex, Cursor) using a four-factor blend, with these default weights:
 
-1. **Daily Regularity** — how consistently AI shows up across the working days in the window
-2. **Hourly Spread** — how much of the workday AI is woven into
-3. **Prompt Depth** — volume of interactions per active day
-4. **Token Output** — depth of AI output per active day
+1. **Daily Regularity (35%)** — how consistently AI shows up across the working days in the window
+2. **Hourly Spread (25%)** — how much of the workday AI is woven into
+3. **Prompt Depth (25%)** — volume of interactions per active day
+4. **Token Output (15%)** — depth of AI output per active day
 
-Claude Code and Codex events are _unioned_ at the factor level (days, hours, prompts, tokens merged together — not averaged) and scored as one **primary** score. Cursor is scored independently and added as a **secondary boost** (default 25% of the Cursor score).
+Copilot is scored on its own usage bands. Each tool's score is multiplied by its **Provider Weight** (default 1.0), and the weighted scores are added and capped at 100 — tools are not averaged, so using several tools isn't penalized.
 
-Then everything scales by **Maturity Factor**, which is your org-wide ceiling knob.
+Then everything scales by **Maturity Factor** (Company AI Readiness), which is your org-wide ceiling knob.
 
 ```
-Primary score   = blend(Claude ∪ Codex)
-Final headline  = min(Primary + 0.25 × Cursor, 100) × Maturity Factor
+Tool score      = four-factor score per tool (usage bands for Copilot)
+Final headline  = min(Σ(tool score × tool weight), 100) × Company AI readiness
 ```
 
-Agentic is a separate, parallel measurement that runs against **Claude Code and Codex sessions only** — Cursor doesn't currently feed Autonomy because Cursor's event stream doesn't expose per-session tool calls in a way we can score. Agentic does not roll into Adoption. Both feed into the **AI Tier** composite alongside Output Norm.
+Agentic is a separate, parallel measurement: Claude Code and Codex are scored from agentic sessions (10+ tool calls), Cursor from its Agent-mode usage, and Copilot from its own autonomy score, combined with the same Provider Weights. Agentic does not roll into Adoption. Both feed into the **AI Tier** composite alongside Output Norm.
 
 ### Tier composite (default; org-configurable)
 
@@ -68,7 +68,7 @@ tierScore = (0.5 × Agent Adoption) + (0.2 × Agent Autonomy) + (0.3 × Output N
 
 Each weight is read from `analytics.app_settings` per organization (keys: `tier_weight_adoption`, `tier_weight_agentic`, `tier_weight_output`) and renormalized to sum to 1.0. The tier-badge tooltip in the app renders the live values for every developer so the breakdown is always transparent.
 
-**What admins can change in Settings → General:** Maturity Factor, Developer Hourly Rate, Baseline Period, and Default Department, plus the tier composite weights (`tier_weight_*`) and the Output Score sub-weights (`direct_commit_weight`, `review_weight`, `output_score_exclude_chore`). All are per-org settings stored in `app_settings` and editable directly in the settings form.
+**What admins can change in Settings → General:** Maturity Factor (Company AI Readiness), Developer Hourly Rate, Baseline Period, and Default Department, plus the tier composite weights (`tier_weight_*`), Provider Weights, Benchmarks targets, and the Output Score sub-weights (Merged PR Weight, `direct_commit_weight`, `review_weight`, `output_score_exclude_chore`). All are per-org settings stored in `app_settings` and editable directly in the settings form. See the [Settings reference](/insights-expo/expo-ai-adoption-settings) for every setting, including the ones that affect cost, ROI, and cycle-time metrics.
 
 ---
 
@@ -78,9 +78,9 @@ Three things to remember:
 
 1. **The Adoption Score is about behavior, not skill.** A developer can be brilliant and Emerging (their work this quarter doesn't suit AI). The score is descriptive, not evaluative.
 2. **Org P90 is the ceiling, not 100.** Because we normalize against the org's 90th percentile, a single developer can't game the system by spamming prompts. The ceiling moves with the org.
-3. **Maturity Factor sets the headroom.** At 0.75, even a perfect (P90) developer scores 75. That's intentional — it leaves room for the _org_ to grow into higher numbers without retiering everyone overnight.
+3. **Maturity Factor sets the headroom.** At the default 100%, a perfect (P90) developer scores 100. Lower it — at 75%, the same developer scores 75 — to leave room for the _org_ to grow into higher numbers without retiering everyone overnight.
 
-See [How to think about developer scores](/insights-expo/expo-ai-adoption-getting-started#how-to-think-about-developer-scores) before drawing individual conclusions.
+See [How to read scores fairly](/insights-expo/expo-ai-adoption-for-engineering-leaders#how-to-read-scores-fairly) before drawing individual conclusions.
 
 ---
 
@@ -88,7 +88,7 @@ See [How to think about developer scores](/insights-expo/expo-ai-adoption-gettin
 
 * **/ai-adoption/developers** — primary surface. Each row has Adoption, Agentic, Tier, and a heatmap.
 * **/ai-adoption/teams** — team averages and tier mix bars.
-* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users). **Devin** is its own cohort here, scored on adoption and autonomy alongside Copilot, Cursor, and Claude rather than blended into another tool's cohort.
+* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users).
 * **/ai-adoption/executive** — hero KPI ("AI Adoption %") and trend lines.
 * **/ai-adoption/ai-impact** — autonomy deep dive and Business Impact / ROI.
 * Adjacent surfaces in the same nav family: **/ai-adoption/board-metrics**, **/ai-adoption/capex**, **/ai-adoption/data-connections**, **/ai-adoption/data-explorer**, **/ai-adoption/settings/\***.

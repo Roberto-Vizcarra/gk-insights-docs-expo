@@ -3,7 +3,7 @@
  * Plugin Name: GKI Docs Helper
  * Plugin URI:  https://gitkraken.com
  * Description: Custom styling, Parsedown cleanup, and JS support for GitKraken Insights Help Center pages in the "insights-expo" category.
- * Version:     1.17.2
+ * Version:     1.17.3
  * Author:      GitKraken
  * Author URI:  https://gitkraken.com
  * License:     GPL-2.0-or-later
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-define( 'GKI_DOCS_VERSION', '1.17.2' );
+define( 'GKI_DOCS_VERSION', '1.17.3' );
 define( 'GKI_DOCS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'GKI_DOCS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -68,9 +68,25 @@ function gki_docs_enqueue_assets() {
         return;
     }
 
-    // Use file modification time for cache busting — auto-updates on deploy
+    // Cache busting. Production: the plugin version, which every release
+    // bumps. Local (WP_DEBUG on, gki-docs-helper/ bind-mounted): the version
+    // plus the newest mtime across our CSS/JS, so an edit under an unshipped
+    // version number is picked up on plain reload. Without this, a browser
+    // that loaded 1.17.3 assets once kept them through every later edit to
+    // 1.17.3 — the landing search rendered as a bare form with no styling
+    // and no palette hook while the files on disk were correct.
     $css_ver = GKI_DOCS_VERSION;
     $js_ver  = GKI_DOCS_VERSION;
+    if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+        $mtime = 0;
+        foreach ( array( 'css/gki-docs.css', 'css/gki-passc.css', 'js/gki-docs.js', 'js/gki-passc.js' ) as $rel ) {
+            $mtime = max( $mtime, (int) @filemtime( GKI_DOCS_PATH . $rel ) );
+        }
+        if ( $mtime ) {
+            $css_ver = GKI_DOCS_VERSION . '.' . $mtime;
+            $js_ver  = $css_ver;
+        }
+    }
 
     // Tabler Icons webfont — used for card icons on index pages
     wp_enqueue_style(
@@ -792,6 +808,29 @@ function gki_docs_get_child_pages() {
     } );
 
     return $cards;
+}
+
+/**
+ * Render the landing-page search field (Home hero and every index page).
+ *
+ * A real search form: without JavaScript it submits to WordPress search
+ * (`?s=`), which the lockdown already filters for unentitled viewers. With
+ * JavaScript, gki-passc.js turns it into a front door for the command
+ * palette — focusing or typing opens the palette seeded with the text, so
+ * results, keyboard navigation and ranking are the same as Ctrl-K.
+ *
+ * @since 1.17.3
+ * @param string $context 'home' or 'index' — only a modifier class.
+ */
+function gki_docs_render_landing_search( $context = 'index' ) {
+    $context = $context === 'home' ? 'home' : 'index';
+    ?>
+    <form class="gki-landing-search gki-landing-search--<?php echo $context; ?>" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+      <svg class="gki-landing-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="search" name="s" class="gki-landing-search-input" placeholder="<?php esc_attr_e( 'What are you looking for?', 'gki-docs-helper' ); ?>" aria-label="<?php esc_attr_e( 'Search documentation', 'gki-docs-helper' ); ?>" autocomplete="off" spellcheck="false">
+      <span class="gki-landing-search-kbd" aria-hidden="true"></span>
+    </form>
+    <?php
 }
 
 /**

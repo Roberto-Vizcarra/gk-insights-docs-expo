@@ -600,6 +600,79 @@ body.gki-docs-page .gki-palette-input {
 }
 .gki-palette-foot span { display: flex; align-items: center; gap: 0.3rem; }
 
+/* Landing search — the palette's front door on Home and index pages.
+   Rendered by gki_docs_render_landing_search(). Elementor styles every
+   <input> and <form>, hence the body prefix and !important, same as the
+   trigger above. */
+.gki-landing-search {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 640px;
+  min-height: 3.25rem;
+  padding: 0 1rem 0 1.05rem;
+  margin: 0;
+  background: var(--gki-bg);
+  border: 1px solid var(--gki-border-strong);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(24, 26, 38, 0.04),
+              0 8px 24px -16px rgba(24, 26, 38, 0.18);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.gki-landing-search:hover { border-color: var(--gki-text-dim); }
+.gki-landing-search:focus-within {
+  border-color: var(--gki-accent);
+  box-shadow: var(--gki-focus-ring);
+}
+[data-theme="dark"] .gki-landing-search {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3),
+              0 8px 24px -16px rgba(0, 0, 0, 0.6);
+}
+.gki-landing-search-icon { flex: none; color: var(--gki-text-dim); }
+.gki-landing-search:focus-within .gki-landing-search-icon { color: var(--gki-accent); }
+
+body.gki-docs-page .gki-landing-search-input,
+body.gki-docs-page .gki-landing-search input[type="search"] {
+  flex: 1;
+  min-width: 0;
+  height: 3.1rem;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  font-family: var(--gki-font) !important;
+  font-size: 1.0625rem !important;
+  font-weight: 400 !important;
+  line-height: 1.4 !important;
+  color: var(--gki-text) !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+body.gki-docs-page .gki-landing-search-input::placeholder { color: var(--gki-text-dim); opacity: 1; }
+.gki-landing-search-input::-webkit-search-decoration,
+.gki-landing-search-input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+
+/* The kbd hint is empty until the palette script fills it, so a page
+   without JS shows a plain search box, not a stray chip. */
+.gki-landing-search-kbd:empty { display: none; }
+.gki-landing-search .gki-kbd { flex: none; cursor: pointer; }
+
+/* Placement. Home: last thing in the hero, after the intro copy. Index:
+   between the intro and the card grid, with the grid's own top margin
+   doing the spacing below. */
+.gki-home-hero .gki-landing-search { margin-top: 1.5rem; }
+.gki-landing-search--index { margin: 1.25rem 0 1.75rem; }
+
+@media (max-width: 640px) {
+  .gki-landing-search { min-height: 2.9rem; padding: 0 0.85rem; border-radius: 10px; }
+  body.gki-docs-page .gki-landing-search-input { height: 2.8rem; font-size: 1rem !important; }
+  .gki-landing-search .gki-kbd { display: none; }
+}
+
 /* ============================================================
    6. HOME LANDING
    ============================================================ */

@@ -4,26 +4,28 @@
 
 This repo contains the **GitKraken Insights AI Adoption Help Center** — ~50 Markdown content pages and a custom WordPress plugin (GKI Docs Helper) that provides the template, CSS, JS, and Elementor overrides for the Help Center at `help.gitkraken.com/insights-expo/`.
 
-## Current State (September 16, 2026)
+## Current State (September 23, 2026)
 
-Phases 1–6 are complete. The active work is the **Pass C redesign** on branch
-`pass-c-structural` (plugin **v1.17.1**), which turns metric pages into
-reference objects and carries one component language through every page.
-`main` holds the last stable pre-redesign build (**v1.14.2**, tag
-`v1.14.2-stable`, archived in `plugin-archive/`). Pass C has been verified on
-the local import only; it has not been deployed.
+Phases 1–6 and the **Pass C redesign** are complete and merged to `main`
+(PR #2). Production runs **v1.17.2**; **v1.17.3** (built, not yet uploaded)
+adds the auth-gate lockdown. `v1.14.2-stable` remains the pre-redesign
+rollback tag; every shipped zip is in `plugin-archive/`.
+
+The auth gate is **enabled on production** as of 2026-09-23. The site is
+being locked down *before* restricted content is added; nothing published so
+far is confidential.
 
 ### Branches
 | Branch | Plugin | What it is |
 |---|---|---|
-| `main` | 1.14.2 | Stable build. Rollback point. |
+| `main` | 1.17.3 | Pass C merged (PR #2). **Current.** Prod runs 1.17.2. |
+| `pass-c-structural` | 1.17.2 | Merged into `main`; kept for history. |
 | `Taste-design-expo` | 1.15.x | Pass A/B exploration with the three-way design switch. Superseded; kept for reference. |
-| `pass-c-structural` | 1.17.1 | Pass A+B folded into the baseline, Pass C on top, plus the C.2 page-body pass and gate fixes. **Current.** |
 
 ### What the plugin does today (pass-c-structural)
 - ~50 Markdown files in `gk-insights-expo/` synced to WordPress via Git It Write
 - 3-column layout: collapsible left nav (nested section → sub-index → page), center content, right TOC
-- Command palette (Ctrl/Cmd-K, `/`) over the server-built search index; legacy search inputs kept hidden
+- Command palette (Ctrl/Cmd-K, `/`) over the server-built search index; legacy search inputs kept hidden. Home and every index page also carry a **landing search field** ("What are you looking for?") that is the palette's front door — focusing or typing opens the palette seeded with the text (`gki_docs_render_landing_search()`, `initLandingSearch()` in `gki-passc.js`); without JS it is a real form that submits to `?s=`.
 - Card grid index pages with tinted icons (auto-rendered from frontmatter); Intro → Cards → Overview, split at the first `<hr>`
 - Home: hero, role-based entry paths, metric map — all from frontmatter
 - **Metric pages are restructured server-side** (`includes/gki-passc.php`): definition lede, spec panel, canonical section order, formula panel + sandbox inside the Formula section, numbered step rail, tier scale, FAQ pairs, path-token "Where it appears" at the foot, hero screenshot under At a glance. No content files were changed to achieve this.
@@ -35,14 +37,14 @@ the local import only; it has not been deployed.
 ### Plugin Location
 ```
 gki-docs-helper/
-  gki-docs-helper.php       # Main plugin: hooks, enqueue, template override, nav/cards/breadcrumbs (v1.17.1)
-  includes/gki-auth.php     # Auth gate: OAuth2 login endpoint + callback, entitlement check, settings page
+  gki-docs-helper.php       # Main plugin: hooks, enqueue, template override, nav/cards/breadcrumbs (v1.17.3)
+  includes/gki-auth.php     # Auth gate: OAuth2 login + callback, entitlement check, settings page, lockdown (REST/oEmbed/feeds/search/sitemaps/robots)
   includes/gki-passc.php    # Pass C: metric-page pipeline + general-page components (the_content filters, priority 16/17)
   css/gki-docs.css          # Baseline: tokens, layout, Elementor overrides, Pass A craft + Pass B ambition rules (CRLF file)
   css/gki-passc.css         # Pass C: spec/formula/instruments/palette/Home + all C.2 components + gate fixes (LF file)
   js/gki-docs.js            # TOC, nav collapse, theme toggle, lightbox, progress bar, legacy search
   js/gki-passc.js           # Command palette, instruments, entry reveal
-  templates/single-gki.php  # 3-column page template
+  templates/single-gki.php  # 3-column page template (Home hero + index pages call gki_docs_render_landing_search)
   templates/gki-gate.php    # Auth gate page (login / no-access variants)
   gki-docs-helper.zip       # Installable archive — built ONLY by build-plugin.py
 
@@ -149,6 +151,7 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 
 ### CSS Traps (measured, do not re-introduce)
 - **`.gki-related` is a Pass B entry-reveal target.** Anything given that class fades in on scroll. Tables use `.gki-related-table`.
+- **Asset versions are the plugin version — so re-editing under an unshipped version serves stale files.** A browser that loaded `gki-passc.css?ver=1.17.3` once keeps it through every later edit to 1.17.3; the symptom (2026-09-23) was the landing search rendering as a bare form, unstyled and submitting to `?s=`, while the files on disk were correct. Since 1.17.3 the enqueue appends the newest CSS/JS mtime when `WP_DEBUG` is on, so the local site busts on plain reload; prod is unaffected because every upload bumps the version. If you see the old build locally anyway, hard-refresh.
 - **`gki-docs.css` is CRLF; `gki-passc.css` is LF.** Editing the CRLF file with a tool that normalises line endings produces a 5,600-line phantom diff. Check `git diff --stat` before committing; if the whole file shows as changed, the line endings were flipped.
 - **`hr` elements are hidden, not removed.** `hr:has(+ h2)` hides the redundant `---` rules; the elements stay in the DOM because `single-gki.php` splits index-page content on the first `<hr>` to place the card grid.
 - **PowerShell scripts in this repo are plain ASCII.** Windows PowerShell 5.1 reads a BOM-less `.ps1` as ANSI; an em dash in a string mangles into a quote and the whole file fails to parse.
@@ -182,7 +185,7 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 - Upload zip to WP Admin → Plugins after each version bump.
 - The sandbox shell used by AI sessions cannot reach `localhost:8420` (network allowlist) and can wedge mid-session; the build then has to be run from a real PowerShell. Verify the version inside the zip afterwards.
 
-### Auth Gate (v1.12.0+, fixes in v1.17.1)
+### Auth Gate (v1.12.0+, fixes in v1.17.1, lockdown in v1.17.3)
 - All `/insights-expo/` pages are gated behind GitKraken OAuth2 + Insights subscription entitlement, enforced on `template_redirect` at priority 5.
 - **The OAuth flow is built into the plugin** (`includes/gki-auth.php`). The OpenID Connect Generic Client plugin was replaced in v1.12.0 and is no longer required or installed. Login endpoint `/insights-expo/login/` redirects to `https://gitkraken.dev/login`; callback is `admin-ajax.php?action=gki-oauth-callback`; token exchange is `POST api.gitkraken.dev/oauth/access_token`; userinfo is `GET api.gitkraken.dev/user`. The callback URL must be registered as the client's `redirect_uri` — only production's is.
 - Off by default. Options: `gki_auth_enabled`, `gki_auth_client_id`, `gki_auth_licensing_endpoint`, `gki_auth_cache_ttl` (hours, default 24), `gki_auth_upgrade_url`. Settings → GKI Auth Gate in WP Admin, with a debug log.
@@ -191,6 +194,10 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 - Gate template (`templates/gki-gate.php`) has two variants: `login` (401) and `no-access` (403). It reuses `<main class="gki-layout">`, so `.gki-layout > .gki-gate` must span all grid tracks (fixed 1.17.1 — the card had been rendering 176px wide inside the nav column since the gate shipped).
 - **The gate page enqueues stylesheets only.** `gki_auth_show_gate()` defines `GKI_GATE_ACTIVE`; `gki_docs_enqueue_assets()` returns before the scripts when it is set. Before 1.17.1 the gate shipped `gkiSearchData` (title, URL and excerpt of every gated page) and a working Ctrl-K palette to signed-out visitors.
 - Local testing: the real sign-in cannot complete against localhost (unregistered redirect URI), and the team has chosen not to register one. The three gate states can be driven from the database instead — recipe in `LOCAL-DEV.md`. `setup.ps1` forces `gki_auth_enabled` off (it set the wrong option name until 1.17.1).
+- **The template gate is not the only door.** `gki_auth_gate_check()` only runs for `is_single()`. Until 1.17.3 the REST API served the full content of every gated post to anyone (`/wp-json/wp/v2/posts?categories=83`), oEmbed served titles, the core sitemap listed every URL, no page carried `noindex`, and Cloudflare kept serving the pre-gate copy of the home page. The **lockdown** section of `gki-auth.php` closes each of these with filters (`rest_post_query`, `rest_prepare_post`, `rest_post_search_query`, `oembed_response_data`, `pre_get_posts`, `wp_sitemaps_*`, `wp_robots` + Yoast/Rank Math equivalents, `X-Robots-Tag`, `nocache_headers()` at `template_redirect` priority 4). Everything keys off `gki_auth_should_hide()` = gate enabled **and** viewer not entitled; robots directives apply to everyone. The gated category archive is now a gated page too. Any new route that can render a post must be added here.
+- **Things the plugin cannot fix** (see the checklist in `AUTH-GATE-PLAN.md`): Cloudflare's old cached copies must be purged by hand, search engines already indexed the pages (Search Console removal), SearchWP indexes independently, uploads are public URLs, and `/gk-insights/` is ungated. The content repos are public on GitHub **by choice for now** — nothing confidential is in them — and must go private before the first restricted page is committed.
+- **This is a sandbox category.** Everything keys on `insights-expo` / `expo-ai-adoption-*`. The build is expected to fold back into the main `/gk-insights/` category later; `MERGE-PLAN.md` inventories every place that changes (one constant, several hard-coded login paths, 50 slugs, 166 links, `nav_parent`, Git It Write mapping, redirects, CDN rule, SearchWP) and the gate-scope decision that has to come first. Do not start that merge without reading it.
+- Verification recipe: `LOCAL-DEV.md` → "Verifying the lockdown".
 - See `AUTH-GATE-PLAN.md` for the original design and the WordPress hardening checklist (noindex, sitemap, page cache, feeds).
 
 ---

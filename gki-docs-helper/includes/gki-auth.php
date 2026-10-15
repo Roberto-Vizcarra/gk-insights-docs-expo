@@ -812,18 +812,305 @@ function gki_auth_debug_http( $response, $context, $class, $parsed_args, $url ) 
 }
 
 /* =========================================================================
+   LOCKDOWN — every route other than the page template that can expose a
+   gated post. The template gate above only covers is_single(); WordPress
+   also serves post content through the REST API, oEmbed, feeds, site
+   search, archives and sitemaps, and tells crawlers about all of it.
+   Everything in this section is active only while the gate is enabled and
+   only for viewers who are not entitled (admins and entitled subscribers
+   see the normal behaviour). Verified against production 2026-09-23: the
+   REST API alone returned the full content of all 50 posts anonymously.
+
+   @since 1.17.3
+   ========================================================================= */
+
+/**
+ * Whether the current viewer may see gated content. Cached per request.
+ * Mirrors the order of checks in gki_auth_gate_check().
+ */
+function gki_auth_viewer_is_entitled() {
+    static $result = null;
+    if ( $result !== null ) {
+        return $result;
+    }
+    if ( ! is_user_logged_in() ) {
+        return $result = false;
+    }
+    if ( current_user_can( 'manage_options' ) ) {
+        return $result = true;
+    }
+    return $result = (bool) gki_auth_check_entitlement( get_current_user_id() );
+}
+
+/**
+ * True when gated content must be hidden from the current viewer.
+ */
+function gki_auth_should_hide() {
+    return gki_auth_is_enabled() && ! gki_auth_viewer_is_entitled();
+}
+
+/**
+ * Whether a post belongs to the gated category.
+ *
+ * @param int|WP_Post|null $post
+ */
+function gki_auth_post_is_gated( $post ) {
+    $post = get_post( $post );
+    if ( ! $post || $post->post_type !== 'post' ) {
+        return false;
+    }
+    return has_category( GKI_DOCS_CATEGORY, $post );
+}
+
+/**
+ * Term ID of the gated category, or 0 if it does not exist.
+ */
+function gki_auth_gated_category_id() {
+    static $id = null;
+    if ( $id === null ) {
+        $term = get_category_by_slug( GKI_DOCS_CATEGORY );
+        $id   = $term ? (int) $term->term_id : 0;
+    }
+    return $id;
+}
+
+/**
+ * Add the gated category to a query-args array's category__not_in.
+ *
+ * @param array $args WP_Query-style args.
+ * @return array
+ */
+function gki_auth_exclude_gated_category( $args ) {
+    $cat = gki_auth_gated_category_id();
+    if ( ! $cat ) {
+        return $args;
+    }
+    $not_in = isset( $args['category__not_in'] ) ? (array) $args['category__not_in'] : array();
+    $not_in[] = $cat;
+    $args['category__not_in'] = array_values( array_unique( array_map( 'intval', $not_in ) ) );
+    return $args;
+}
+
+/* --- REST API: /wp-json/wp/v2/posts and /wp-json/wp/v2/search ------------ */
+
+add_filter( 'rest_post_query', 'gki_auth_rest_exclude_gated', 10, 2 );
+add_filter( 'rest_post_search_query', 'gki_auth_rest_exclude_gated', 10, 2 );
+
+/**
+ * Drop gated posts from REST collection and search queries.
+ */
+function gki_auth_rest_exclude_gated( $args, $request ) {
+    if ( gki_auth_should_hide() ) {
+        $args = gki_auth_exclude_gated_category( $args );
+    }
+    return $args;
+}
+
+add_filter( 'rest_prepare_post', 'gki_auth_rest_block_single', 10, 3 );
+
+/**
+ * Refuse a single gated post (GET /wp/v2/posts/<id>, ?slug=, embeds).
+ */
+function gki_auth_rest_block_single( $response, $post, $request ) {
+    if ( gki_auth_should_hide() && gki_auth_post_is_gated( $post ) ) {
+        return new WP_Error(
+            'gki_auth_required',
+            'Sign in with a GitKraken account that has an Insights subscription to read this page.',
+            array( 'status' => 401 )
+        );
+    }
+    return $response;
+}
+
+/* --- oEmbed ---------------------------------------------------------------- */
+
+add_filter( 'oembed_response_data', 'gki_auth_oembed_block', 10, 2 );
+
+/**
+ * Return no oEmbed data for gated posts. The oEmbed REST controller turns a
+ * falsy result into a 404 (oembed_invalid_url).
+ */
+function gki_auth_oembed_block( $data, $post ) {
+    if ( gki_auth_should_hide() && gki_auth_post_is_gated( $post ) ) {
+        return false;
+    }
+    return $data;
+}
+
+/* --- Feeds, site search, archives (front-end main query) ------------------ */
+
+add_action( 'pre_get_posts', 'gki_auth_main_query_exclude_gated' );
+
+/**
+ * Keep gated posts out of every listing an anonymous visitor can reach:
+ * RSS/Atom feeds (site, category, per-post comment feeds), ?s= search
+ * results, and date/author/tag archives and the blog index. The gated
+ * category's own archive is handled by gki_auth_gate_check() instead, so it
+ * shows the gate rather than an empty page.
+ */
+function gki_auth_main_query_exclude_gated( $query ) {
+    if ( is_admin() || ! $query->is_main_query() ) {
+        return;
+    }
+    if ( ! gki_auth_should_hide() ) {
+        return;
+    }
+    if ( $query->is_feed() || $query->is_search() || $query->is_home() || $query->is_archive() ) {
+        $cat = gki_auth_gated_category_id();
+        if ( $cat ) {
+            $not_in   = (array) $query->get( 'category__not_in' );
+            $not_in[] = $cat;
+            $query->set( 'category__not_in', array_values( array_unique( array_map( 'intval', $not_in ) ) ) );
+        }
+    }
+}
+
+/* --- Sitemaps -------------------------------------------------------------- */
+
+add_filter( 'wp_sitemaps_posts_query_args', 'gki_auth_sitemap_exclude_posts', 10, 2 );
+
+/**
+ * Core sitemaps (/wp-sitemap-posts-post-N.xml): leave gated posts out.
+ */
+function gki_auth_sitemap_exclude_posts( $args, $post_type ) {
+    if ( $post_type === 'post' && gki_auth_is_enabled() ) {
+        $args = gki_auth_exclude_gated_category( $args );
+    }
+    return $args;
+}
+
+add_filter( 'wp_sitemaps_taxonomies_query_args', 'gki_auth_sitemap_exclude_term', 10, 2 );
+
+/**
+ * Core sitemaps: leave the gated category term out of the taxonomy sitemap.
+ */
+function gki_auth_sitemap_exclude_term( $args, $taxonomy ) {
+    if ( $taxonomy === 'category' && gki_auth_is_enabled() ) {
+        $cat = gki_auth_gated_category_id();
+        if ( $cat ) {
+            $exclude   = isset( $args['exclude'] ) ? (array) $args['exclude'] : array();
+            $exclude[] = $cat;
+            $args['exclude'] = array_values( array_unique( array_map( 'intval', $exclude ) ) );
+        }
+    }
+    return $args;
+}
+
+// Yoast SEO and Rank Math build their own sitemaps; feed them the same list.
+add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', 'gki_auth_sitemap_exclude_ids' );
+add_filter( 'rank_math/sitemap/posts_to_exclude', 'gki_auth_sitemap_exclude_ids' );
+
+/**
+ * IDs of every gated post, for SEO plugins' exclusion filters.
+ *
+ * @param array $ids
+ * @return array
+ */
+function gki_auth_sitemap_exclude_ids( $ids ) {
+    if ( ! gki_auth_is_enabled() ) {
+        return $ids;
+    }
+    $cat = gki_auth_gated_category_id();
+    if ( ! $cat ) {
+        return $ids;
+    }
+    $gated = get_posts( array(
+        'post_type'        => 'post',
+        'post_status'      => 'any',
+        'cat'              => $cat,
+        'posts_per_page'   => -1,
+        'fields'           => 'ids',
+        'no_found_rows'    => true,
+        'suppress_filters' => true,
+    ) );
+    return array_values( array_unique( array_merge( (array) $ids, array_map( 'intval', $gated ) ) ) );
+}
+
+/* --- Crawler directives ---------------------------------------------------- */
+
+add_filter( 'wp_robots', 'gki_auth_robots_noindex', 20 );
+add_filter( 'wpseo_robots', 'gki_auth_robots_noindex_string', 20 );
+add_filter( 'rank_math/frontend/robots', 'gki_auth_robots_noindex_array', 20 );
+
+/**
+ * Whether the current request should carry noindex: any gated post, the
+ * gated category archive, and the gate page itself. Applies to entitled
+ * viewers too — a crawler is never entitled, and a signed-in admin's view
+ * must not differ in what it tells search engines.
+ */
+function gki_auth_request_is_noindex() {
+    if ( ! gki_auth_is_enabled() ) {
+        return false;
+    }
+    if ( defined( 'GKI_GATE_ACTIVE' ) ) {
+        return true;
+    }
+    return gki_auth_is_gated_page();
+}
+
+/** Core `wp_robots` (array of directive => value). */
+function gki_auth_robots_noindex( $robots ) {
+    if ( gki_auth_request_is_noindex() ) {
+        unset( $robots['index'], $robots['follow'], $robots['max-image-preview'], $robots['max-snippet'], $robots['max-video-preview'] );
+        $robots['noindex']   = true;
+        $robots['nofollow']  = true;
+        $robots['noarchive'] = true;
+    }
+    return $robots;
+}
+
+/** Yoast `wpseo_robots` (comma-separated string). */
+function gki_auth_robots_noindex_string( $robots ) {
+    if ( gki_auth_request_is_noindex() ) {
+        return 'noindex, nofollow, noarchive';
+    }
+    return $robots;
+}
+
+/** Rank Math `rank_math/frontend/robots` (array of directive => directive). */
+function gki_auth_robots_noindex_array( $robots ) {
+    if ( gki_auth_request_is_noindex() ) {
+        return array( 'noindex' => 'noindex', 'nofollow' => 'nofollow', 'noarchive' => 'noarchive' );
+    }
+    return $robots;
+}
+
+add_action( 'template_redirect', 'gki_auth_gated_page_headers', 4 );
+
+/**
+ * Runs just before the gate. On any gated request: an X-Robots-Tag header
+ * (search engines honour it even when the HTML never renders), no-store so
+ * neither Cloudflare nor a page-cache plugin keeps a copy, and no head
+ * links that advertise the REST/oEmbed routes for this post.
+ */
+function gki_auth_gated_page_headers() {
+    if ( ! gki_auth_is_enabled() || ! gki_auth_is_gated_page() ) {
+        return;
+    }
+    header( 'X-Robots-Tag: noindex, nofollow, noarchive', true );
+    nocache_headers();
+    remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+    remove_action( 'wp_head', 'rest_output_link_wp_head' );
+    remove_action( 'wp_head', 'wp_shortlink_wp_head' );
+    remove_action( 'template_redirect', 'rest_output_link_header', 11 );
+    remove_action( 'template_redirect', 'wp_shortlink_header', 11 );
+}
+
+/* =========================================================================
    HELPER FUNCTIONS
    ========================================================================= */
 
 /**
- * Check whether the current request is for a gated GKI docs page.
- * Uses the same detection as the main plugin but works before template_include.
+ * Check whether the current request is for a gated GKI docs page: a post in
+ * the gated category (including its /embed/ and comment-feed variants, which
+ * are still is_single()), or the gated category's own archive, whose
+ * excerpts would otherwise be readable by anyone.
  */
 function gki_auth_is_gated_page() {
-    if ( ! is_single() ) {
-        return false;
+    if ( is_single() ) {
+        return has_category( GKI_DOCS_CATEGORY );
     }
-    return has_category( GKI_DOCS_CATEGORY );
+    return is_category( GKI_DOCS_CATEGORY );
 }
 
 /**

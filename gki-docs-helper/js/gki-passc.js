@@ -814,20 +814,64 @@
     window.location.href = p.url;
   }
 
-  function openPalette() {
+  function openPalette(seed) {
     if (!palette.root) return;
     palette.lastFocus = document.activeElement;
     palette.root.hidden = false;
-    palette.input.value = '';
+    palette.input.value = typeof seed === 'string' ? seed : '';
     palette.active = 0;
     renderResults();
     palette.input.focus();
+    if (palette.input.value) {
+      palette.input.setSelectionRange(palette.input.value.length, palette.input.value.length);
+    }
   }
 
   function closePalette() {
     if (!palette.root) return;
     palette.root.hidden = true;
-    if (palette.lastFocus && palette.lastFocus.focus) palette.lastFocus.focus();
+    var back = palette.lastFocus;
+    palette.lastFocus = null;
+    // Returning focus to a landing search field would reopen the palette
+    // (it opens on focus), so blur it instead and leave focus on the page.
+    if (back && back.classList && back.classList.contains('gki-landing-search-input')) {
+      back.blur();
+      return;
+    }
+    if (back && back.focus) back.focus();
+  }
+
+  /* Landing search fields (Home hero, index pages). Server-rendered as a
+     real form so they still work without JS (they submit to ?s=). With
+     the palette present they become its front door: focusing or typing
+     opens the palette seeded with whatever was typed, so the results and
+     keys are identical to Ctrl-K. */
+  function initLandingSearch() {
+    var forms = document.querySelectorAll('.gki-landing-search');
+    if (!forms.length) return;
+    var hint = isMac() ? '⌘K' : 'Ctrl K';
+    for (var i = 0; i < forms.length; i++) {
+      (function (form) {
+        var input = form.querySelector('.gki-landing-search-input');
+        var kbd = form.querySelector('.gki-landing-search-kbd');
+        if (!input) return;
+        if (kbd) { kbd.className = 'gki-kbd gki-landing-search-kbd'; kbd.textContent = hint; }
+        form.classList.add('gki-landing-search--palette');
+
+        function hand() {
+          var seed = input.value;
+          input.value = '';
+          openPalette(seed);
+        }
+        form.addEventListener('submit', function (e) { e.preventDefault(); hand(); });
+        input.addEventListener('focus', function () { if (palette.root.hidden) hand(); });
+        input.addEventListener('input', function () { if (palette.root.hidden) hand(); });
+        form.addEventListener('mousedown', function (e) {
+          // Clicking the icon or the kbd hint, not just the input, opens it.
+          if (e.target !== input) { e.preventDefault(); hand(); }
+        });
+      })(forms[i]);
+    }
   }
 
   function buildPaletteTrigger() {
@@ -941,6 +985,8 @@
       else if (key === 'ArrowUp') { e.preventDefault(); palette.active = Math.max(palette.active - 1, 0); paintResults(); }
       else if (key === 'Enter') { e.preventDefault(); choosePalette(); }
     });
+
+    initLandingSearch();
   }
 
   /* =========================================================

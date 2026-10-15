@@ -18,12 +18,14 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<!-- FLAG FOR HUMAN REVIEW: API key creation (gkDotDevApiKeys) is not confirmed released to all customers; unhide by moving into the admin nav once confirmed. -->
+<!-- FLAG FOR HUMAN REVIEW: API key creation (gkDotDevApiKeys) is treated as not widely available (Viz, 2026-10-15). The page stays visible with an available-on-request note; revisit once availability is clarified. -->
 <kbd>Last updated: October 2026</kbd>
 
 The Manual Releases API lets you record releases in GitKraken Insights that aren't captured automatically from your git provider — for example, releases cut by an external CI/CD system, deploys to a platform GitKraken doesn't read, or historical releases you want to backfill.
 
 Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency).
+
+> **Note — available on request.** Creating API keys isn't turned on for every organization yet. To use the Manual Releases API, contact your GitKraken account team to enable API keys for your organization. Once it's enabled, you can create keys under **API keys** in your account's **Security** settings.
 
 > **Plan:** GitKraken Insights
 > **Role:** An account that can create API keys for your organization

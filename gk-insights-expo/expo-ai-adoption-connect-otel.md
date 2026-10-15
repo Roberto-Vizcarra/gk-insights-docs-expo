@@ -179,13 +179,17 @@ Paste the snippet, then save. New Codex sessions start sending telemetry automat
 
 > **Note — available on request.** OpenCode telemetry isn't turned on for every organization. To enable it, contact your GitKraken account team. Once it's enabled, **OpenCode** appears under **Choose your agent** in the Agent OTel Data setup view.
 
-OpenCode reports through a GitKraken plugin that you add to your OpenCode config. Each developer sets their own email in the snippet.
+OpenCode reports through a GitKraken plugin. **Setup is a per-developer action:** there is no team-wide rollout, so each developer installs the plugin and adds the configuration on their own machine, with their own email. When your account team enables OpenCode, they provide the plugin package and its install steps.
 
-1. In the setup view, choose **OpenCode** and copy the **OpenCode config** snippet.
-2. Drop the snippet into your OpenCode config.
-3. Replace `YOUR_EMAIL` with the developer's own email address, so their usage is attributed to them.
+Requires OpenCode 1.18.0 or later.
 
-The snippet looks like this, with your own token filled in:
+1. Install the plugin package from your account team, following the install steps that come with it.
+2. In the setup view, choose **OpenCode** and copy the **OpenCode config** snippet.
+3. Add it to your global OpenCode config — `~/.config/opencode/opencode.json` on macOS and Linux, `%USERPROFILE%\.config\opencode\opencode.json` on Windows. Create the file if it doesn't exist; if it does, merge the `plugin` entry into it rather than replacing the file.
+4. Replace `YOUR_EMAIL` with your own email address, so your usage is attributed to you.
+5. Start a new OpenCode session.
+
+The snippet looks like this, with your own token filled in. If the plugin's install steps tell you to reference it by its installed location instead of by name, use that path as the first entry in the `plugin` list:
 
 ```json
 {
@@ -205,8 +209,6 @@ The snippet looks like this, with your own token filled in:
   ]
 }
 ```
-
-<!-- FLAG FOR HUMAN REVIEW: the product copy says only "Drop the snippet into your OpenCode config" — confirm whether to name the OpenCode config file location (global vs. per-project) and whether every developer needs the snippet on their own machine. -->
 
 ---
 

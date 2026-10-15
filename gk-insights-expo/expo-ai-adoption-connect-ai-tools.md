@@ -137,6 +137,8 @@ Classic tokens start with `ghp_…`.
 
 **Fine-grained token (organization connections).** On GitHub, go to **Settings → Developer settings → Personal access tokens → Fine-grained tokens** and generate a new token. Set the **Resource owner** to your organization, set an expiration, and under organization permissions grant **Organization Copilot metrics: Read-only**. The token owner needs the same permission to view organization Copilot metrics as for a classic token. For an **enterprise** connection, use a classic token — the connection modal lists classic scopes only, and no fine-grained permission is documented for enterprise Copilot metrics.
 
+> **Using SAML single sign-on?** Whichever token type you create, authorize it for the GitHub organization you're connecting before you paste it into GitKraken. Until it's authorized for that organization, the token can't read its Copilot metrics.
+
 **3. Connect in GitKraken:**
 
 1. In **Data Connections**, click **+** next to **GitHub Copilot**.

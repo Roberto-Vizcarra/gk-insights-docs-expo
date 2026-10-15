@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 10
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 > _The default Tier Weights (0.5 Adoption / 0.2 Agentic / 0.3 Output) are tuned for orgs in active AI rollout. This playbook helps you decide whether to keep them or change them._
 
@@ -94,7 +94,7 @@ Don't optimize for one of these unless you have actually decided that is the org
 ## Things to know before you change weights
 
 1. **Weights are renormalized to sum to 1.0 on every read.** So setting 1.0 / 0.5 / 0.5 yields effective 0.5 / 0.25 / 0.25. Most people find it clearer to choose values that already sum to 1.
-2. **All three weights must be strictly positive.** Zero or negative values are rejected; the default for that key is used instead. There is never a "100% output, 0% everything else" state.
+2. **Output must be greater than 0; Adoption and Autonomy can be 0.** The Settings form rejects a zero, negative, or non-numeric Output weight. Setting Adoption and Autonomy both to 0 bases tiers on Output alone — rarely what you want (see the pitfalls below).
 3. **Changes affect every developer immediately.** No retroactive recomputation of historical snapshots, but the _current_ window updates as soon as the keys are set. Plan an announcement.
 4. **The tier thresholds (25 / 55 / 80) don't move.** Changing weights _will_ re-tier some developers. Some will move up, some down.
 

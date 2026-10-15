@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 Connect Bitbucket Cloud or Bitbucket Data Center to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
@@ -32,7 +32,7 @@ Connect Bitbucket if your repositories live in a Bitbucket workspace. Like GitHu
 1. In gitkraken.dev, open **Insights → Settings → Data Connections**.
 2. Under **Add data source**, click **+** next to **Bitbucket**.
 3. In the **Connect Bitbucket** modal, optionally give the connection a **Name**, then enter your **Atlassian account email** and a **Bitbucket API token** (see scopes below).
-4. Click **Validate**. Insights lists the workspaces the token can see — select the ones to sync, then click **Connect**.
+4. Click **Validate**. Insights lists the workspaces the token can see — under **Workspaces to sync**, select the ones to sync. If a workspace isn't listed, type its slug to add it. Optionally add **Repositories to skip**, then click **Connect**.
 
 <figure>
   <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights showing an optional connection name field, the list of scoped Atlassian API token scopes required, and the Atlassian account email and Bitbucket API token fields" />

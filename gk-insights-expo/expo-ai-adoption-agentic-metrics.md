@@ -19,7 +19,7 @@ custom_fields:
     nav_parent: expo-ai-adoption-metrics
     page_type: index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 
 This family answers a single question: **how much is your team actually using AI, and how deeply?**
@@ -44,10 +44,10 @@ It's the most-read group of metrics in the dashboard because it surfaces the rol
 
 Adoption Score is built from per-provider scoring (Claude, Codex, Cursor) using a four-factor blend:
 
-1. **Daily Use** — consistency across the window
-2. **Hourly Spread** — diversity within days
-3. **Prompts** — volume of interactions
-4. **Output** — token production depth
+1. **Daily Regularity** — how consistently AI shows up across the working days in the window
+2. **Hourly Spread** — how much of the workday AI is woven into
+3. **Prompt Depth** — volume of interactions per active day
+4. **Token Output** — depth of AI output per active day
 
 Claude Code and Codex events are _unioned_ at the factor level (days, hours, prompts, tokens merged together — not averaged) and scored as one **primary** score. Cursor is scored independently and added as a **secondary boost** (default 25% of the Cursor score).
 

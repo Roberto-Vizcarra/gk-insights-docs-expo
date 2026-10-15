@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 30
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 Connect Azure DevOps Cloud or Azure DevOps Server to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
@@ -27,10 +27,10 @@ Connect Azure DevOps Cloud or Azure DevOps Server to sync repository, pull reque
 
 ## Azure DevOps
 
-Connect Azure DevOps if your repositories live in an Azure DevOps organization. It connects with a **Personal Access Token (PAT)** scoped to **Code (Read)**.
+Connect Azure DevOps if your repositories live in an Azure DevOps organization. It connects with a **Personal Access Token (PAT)** with **Code (Read)** and **Build (Read)** — plus **Work Items (Read)** if you sync work items.
 
 1. Sign in at `https://dev.azure.com/{yourOrgName}`, open **user settings** (top right) → **Personal access tokens**, and select **+ New Token**. Direct link: `https://dev.azure.com/{yourOrgName}/_usersSettings/tokens`.
-2. Name the token, select the **organization** it applies to, set an expiration, and select the **Code → Read** scope. If you don't see the Code section, click **Show all scopes**. No other scopes are needed.
+2. Name the token, select the **organization** it applies to, set an expiration, and select the **Code → Read** and **Build → Read** scopes (add **Work Items → Read** if you sync work items). If you don't see a section, click **Show all scopes**.
 3. Select **Create**, then copy the token immediately — Azure DevOps shows it only once.
 4. In gitkraken.dev, open **Insights → Settings → Data Connections** and, under **Add data source**, click **+** next to **Azure DevOps**.
 5. Give the connection a name, enter the **Host domain** — your organization URL, for example `https://dev.azure.com/yourOrgName` — paste the **Azure API token**, and click **Validate**.
@@ -72,7 +72,7 @@ Connect Azure DevOps Server to pull activity from a self-hosted collection.
 | Symptom | What's happening | Fix |
 | --- | --- | --- |
 | **An Azure DevOps project is missing after Validate** | The token's account can't access it | Check that account's permissions in Azure DevOps |
-| **Azure DevOps sync stopped** | The PAT expired, or (Entra ID orgs) its owner hasn't signed in for 90 days | Create a new PAT with **Code (Read)** and use an account that logs in regularly |
+| **Azure DevOps sync stopped** | The PAT expired, or (Entra ID orgs) its owner hasn't signed in for 90 days | Create a new PAT with the same scopes and use an account that logs in regularly |
 | **Azure DevOps Server won't validate** | GitKraken can't reach it, or its certificate isn't publicly trusted | Confirm the **Server URL** is reachable over `https` from outside your network with a publicly-trusted certificate — self-signed and internal CAs won't work. Azure DevOps Server must be 2022 or newer |
 
 For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.

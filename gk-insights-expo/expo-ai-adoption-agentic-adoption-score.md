@@ -36,25 +36,25 @@ Adoption Score = min(Primary + 0.25 × Cursor, 100) × Maturity Factor
         Cursor  = four-factor blend of Cursor (added if non-null)
 ```
 
-The four factors per provider, each capped at the org's P90 and weighted into the 100-point scale, are:
+The four factors per provider, weighted into the 100-point scale, are:
 
-* **Daily Use** — weekdays with ≥1 event / effective weekdays
-* **Hourly Spread** — avg distinct hours per day with ≥2 prompts / org P90 spread
-* **Prompts** — prompts per weekday / org P90 prompts
-* **Output Tokens** — output tokens per weekday / org P90 tokens
+* **Daily Regularity** — weekdays with ≥1 prompt ÷ effective weekdays. This factor is a straight share of your working days — it is _not_ normalized to the org P90.
+* **Hourly Spread** — avg distinct hours per active day with ≥2 prompts ÷ org P90 spread
+* **Prompt Depth** — prompts per active weekday ÷ org P90 prompts
+* **Token Output** — output tokens per active weekday ÷ org P90 tokens
 
 ### How GitKraken Insights calculates it
 
 **Step 1 — Per-provider scoring.** For each provider (Claude Code, Codex, Cursor), we compute four normalized factors:
 
-* **Daily Use:** the fraction of effective weekdays in the window where the developer had at least one AI event. Effective weekdays subtracts weekdays before the provider was instrumented (Claude Code data starts March 5, 2026) and subtracts PTO weekdays.
+* **Daily Regularity:** the fraction of effective weekdays in the window where the developer sent at least one prompt. Effective weekdays subtracts weekdays before the provider was instrumented (Claude Code data starts March 5, 2026) and subtracts PTO weekdays. Unlike the other three factors, this is a raw fraction of working days — it is not benchmarked against the org P90.
 * **Hourly Spread:** the average number of distinct hours per active weekday where the developer ran ≥2 prompts. Captures "AI is integrated into their workday" vs. "AI is one batch at the end of the day."
-* **Prompts:** total prompts divided by active weekdays.
-* **Output Tokens:** total output tokens divided by active weekdays. A proxy for the _depth_ of each AI interaction.
+* **Prompt Depth:** total prompts divided by active weekdays.
+* **Token Output:** total output tokens divided by active weekdays. A proxy for the _depth_ of each AI interaction.
 
-Each factor is divided by the corresponding **org P90 cap** (the 90th-percentile value across all active developers in the window) and capped at 1.0. So a developer at the org's 90th percentile or above on a factor scores the max contribution for that factor.
+The last three factors are each divided by the corresponding **org P90 cap** (the 90th-percentile value across all active developers in the window) and capped at 1.0, so a developer at or above the org's 90th percentile on a factor scores the max contribution for it. (Daily Regularity is already a 0–1 share of working days, so it isn't P90-normalized.)
 
-The four normalized factors are then weighted (DailyUse, HourlySpread, Prompts, Output) and summed to a 0–100 provider score.
+The four normalized factors are then weighted (Daily Regularity, Hourly Spread, Prompt Depth, Token Output) and summed to a 0–100 provider score.
 
 **Step 2 — Union Claude + Codex into the Primary score.** We don't average the two providers — we _union_ their events at the factor level. A developer using Claude in the morning and Codex in the afternoon gets credit for the combined daily spread, not two separate fractional scores. This avoids penalizing devs who use multiple tools.
 
@@ -100,7 +100,8 @@ A team average of 50–65 means a healthy mix with most developers in Explorer/R
 
 * [**Maturity Factor**](/insights-expo/expo-ai-adoption-settings#maturity-factor) — multiplies the final score. Lowering it lowers the tier ceiling for everyone.
 * **Cursor secondary boost** (env var `SCORE_SECONDARY_BOOST`, default 0.25) — how heavily Cursor contributes alongside Claude / Codex.
-* **Provider weights** (env vars `SCORE_WEIGHT_*`) — how much DailyUse / HourlySpread / Prompts / Output each contribute within a provider's score.
+* **Provider weights** (env vars `SCORE_WEIGHT_*`) — how much Daily Regularity / Hourly Spread / Prompt Depth / Token Output each contribute within a provider's score.
+* [**Provider Weights**](/insights-expo/expo-ai-adoption-settings#provider-weights) — how much each connected provider counts relative to the others (0–1, default 1.0). Editable in Settings → General.
 
 The four-factor weighting per provider is not currently exposed in the Settings UI. Ask your account manager if you need it tunable.
 
@@ -142,4 +143,4 @@ A: Check (1) the developer's `is_active` flag, (2) whether their email aliases a
 A: Cursor's event stream is more sparse and less structured than the OTEL exports from Claude / Codex. We use it as confirmatory signal rather than primary evidence — hence the 25% boost rate. Adjustable via env var.
 
 **Q: Can I see the four-factor breakdown for a single developer?**
-A: Yes. Click any developer on /developers to expand them. The agentic panel shows DailyUse, HourlySpread, Prompts, and Output as bars with the developer's value and the org P90 cap.
+A: Yes. Click any developer on /developers to expand them. The agentic panel shows Daily Regularity, Hourly Spread, Prompt Depth, and Token Output as bars with the developer's value and, for the three P90-normalized factors, the org P90 cap.

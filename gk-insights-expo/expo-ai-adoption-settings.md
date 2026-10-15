@@ -18,7 +18,7 @@ custom_fields:
     nav_order: 10
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 Every admin-configurable setting that affects AI Adoption scores in GitKraken Insights, organized by where it lives in the product, plus a one-line "what it changes."
 
@@ -26,7 +26,7 @@ This page covers only the settings that affect AI Adoption scores. For product-w
 
 If you came from a metric page to look up a specific setting, jump to the anchor of the same name.
 
-**Where these settings live.** All of the per-org settings on this page are editable in the Settings → General form and stored in the `app_settings` table. Alongside the core fields (`maturity_factor`, `developer_hourly_rate`, `baseline_period_start`, `default_department`), the form also exposes **Tier Weights**, **Direct Commit Weight**, **Review Weight**, and **Exclude Chore from Output Score**.
+**Where these settings live.** All of the per-org settings on this page are editable in the Settings → General form and stored in the `app_settings` table. Alongside the core fields (`maturity_factor`, `developer_hourly_rate`, `baseline_period_start`, `default_department`), the form also exposes **Tier Weights**, **Provider Weights**, **Direct Commit Weight**, **Review Weight**, and **Exclude Chore from Output Score**.
 
 ---
 
@@ -61,7 +61,7 @@ Also labeled **"Company AI Readiness %"** in the General tab. _In Settings UI: y
 
 ### Tier Weights
 
-Three positive numbers that say how much Adoption, Agentic, and Output each count toward the [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) composite. _In Settings UI: yes._
+Three weights that say how much Adoption, Agentic, and Output each count toward the [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) composite. _In Settings UI: yes._
 
 | Weight | Default | App-settings key | What it emphasizes |
 | --- | --- | --- | --- |
@@ -69,17 +69,35 @@ Three positive numbers that say how much Adoption, Agentic, and Output each coun
 | **Agentic** | 0.2 | `tier_weight_agentic` | Autonomous multi-step AI work |
 | **Output** | 0.3 | `tier_weight_output` | Effort-weighted shipping rate |
 
-**Range:** Each weight is any positive number (we store raw values, then renormalize to sum to 1.0 on read).
+**Range:** Adoption and Agentic (labeled **Autonomy** in Settings) accept 0 or more; Output must be greater than 0. We store raw values, then renormalize to sum to 1.0 on read — the form shows a live preview of the resulting percentages.
 
 **What it does.** The three weights compete for the 100% budget. The tier-badge tooltip in the app shows the live percentages for every developer.
 
 **How to think about tuning.** - Adoption-heavy (e.g. 0.7 / 0.1 / 0.2): "We care that everyone is _trying_ AI. Output will follow." - Output-heavy (e.g. 0.3 / 0.1 / 0.6): "We've moved past the rollout phase — now we care about delivery." - Balanced (the default): A signal that AI use without output is incomplete, and output without AI is the old way.
 
-**Guardrails.** If you set all three to zero we fall back to the defaults (0.5 / 0.2 / 0.3) — never a "100% output, 0% everything else" boost. Negative or NaN values are rejected and the default for that key is used.
+**Guardrails.** Output must be greater than 0 — the Settings form rejects 0, negatives, and non-numbers for it, so the composite is never empty. Adoption and Autonomy can be 0; setting both to 0 bases tiers on Output alone.
 
 **Affects:** [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier) — and through it, the developer table sorting, the Top 10 widget, the executive ranking, and every breakdown chart that buckets by AI Tier.
 
 → See also: [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
+
+---
+
+### Provider Weights
+
+_In Settings UI: yes._ Settings → General, under **Tier and provider weights**.
+
+|  |  |
+| --- | --- |
+| **Default** | 1.0 for every provider |
+| **Range** | 0.0 – 1.0 |
+| **Type** | Float, one per AI provider |
+
+**What it does.** When your org connects more than one AI provider, Provider Weights control how much each provider counts toward a developer's **Agent Adoption Score** and **Agent Autonomy Score**. One weight per provider applies to both scores. At 1.0 a provider counts at full weight; lower it to de-emphasize a provider; 0 turns off that provider's contribution.
+
+**Not the same as the four-factor blend.** Provider Weights decide how providers combine _with each other_. The four-factor blend (Daily Regularity / Hourly Spread / Prompt Depth / Token Output) that produces each provider's own score is fixed and isn't exposed in Settings.
+
+**Affects:** [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score), [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-autonomy-score), and through them [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier).
 
 ---
 

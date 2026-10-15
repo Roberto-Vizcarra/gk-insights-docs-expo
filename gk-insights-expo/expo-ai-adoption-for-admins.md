@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 50
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 ## For admins
 
@@ -44,7 +44,7 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 | Sync | Source | Interval | Owns |
 | --- | --- | --- | --- |
 | **Git provider sync** | GitHub, Bitbucket, Azure DevOps, or GitLab token — including the self-hosted GitHub Enterprise Server, Azure DevOps Server, and GitLab Self-Managed connections | Every few minutes | PRs, direct commits, reviews |
-| **AI events sync** | Snowflake OTEL export (Claude / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
+| **AI events sync** | OpenTelemetry export from your AI tools (Claude Code / Codex) | Every 5 min, with 12 h safety lag | Adoption, agentic, AI-assisted detection |
 | **Cursor sync** | Cursor API | Every 5 min, with 12 h safety lag | Cursor adoption |
 | **CFR sync** | Jira | Every hour | Customer bugs, CFR %, MTTR |
 | **Release sync** | GitHub Releases / configured release event / releases pushed with the manual releases API | Every few minutes | Deployment Frequency, Lead Time |

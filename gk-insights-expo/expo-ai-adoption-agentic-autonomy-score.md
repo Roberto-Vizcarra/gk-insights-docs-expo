@@ -33,15 +33,15 @@ Where the [Agent Adoption Score](#agent-adoption-score) measures _how consistent
 Agentic Score = min(intensity / OrgP90Intensity, 1.0) × 100 × Maturity Factor
 ```
 
-Where `intensity` is a developer-level aggregate of `tool_result` events from Claude Code and Codex sessions with at least 10 tools used. Returns 0 when the org has no P90 intensity (no data).
+Where `intensity` is a developer-level count of tool executions from Claude Code and Codex sessions that ran 10 or more tools. Returns 0 when the org has no P90 intensity (no data).
 
 ### How GitKraken Insights calculates it
 
-**What counts as an "agentic session."** We define an agentic session as one where the developer used at least 10 distinct tools (e.g. file_read, file_edit, bash_run, web_search, etc.) within a single session. The 10-tool threshold is the heuristic that separates "I asked Claude a question and it called a tool to answer" from "Claude is doing real multi-step work."
+**What counts as an "agentic session."** We define an agentic session as one where the AI ran at least 10 tool executions (tool calls such as reading a file, editing code, running a command, or searching the web) within a single session. It's the total number of tool calls, not the number of _distinct_ tool types — ten uses of the same tool still qualifies. The 10-tool threshold is the heuristic that separates "I asked Claude a question and it called a tool to answer" from "Claude is doing real multi-step work."
 
 **Providers included.** Only Claude Code and Codex sessions contribute to Agentic intensity (the backend filters on `provider IN ('claude_code', 'codex')`). Cursor activity is excluded because Cursor's event stream doesn't expose per-session tool calls in a way we can score; Cursor still contributes to the [Agent Adoption Score](#agent-adoption-score) via the Cursor Boost.
 
-**Intensity.** For each developer, we aggregate `tool_result` events from their agentic sessions over the window. The result is a single intensity number — higher means more agentic activity.
+**Intensity.** For each developer, we total the tool executions from their agentic sessions over the window. The result is a single intensity number — higher means more agentic activity.
 
 **Normalization.** We compute the **org-wide P90 intensity** across all active developers in the window. The developer's intensity is divided by the org P90 and capped at 1.0. This is the same normalization pattern as Adoption — the bar is your team, not an industry average.
 

@@ -42,7 +42,7 @@ If Cursor data is absent (`nil`), the boost term is dropped entirely — no Curs
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Per-provider scoring for Cursor runs the same four-factor blend (Daily Use, Hourly Spread, Prompts, Output) used for Claude and Codex — see [Agent Adoption Score](#agent-adoption-score) for the mechanics.
+**Step 1.** Per-provider scoring for Cursor runs the same four-factor blend (Daily Regularity, Hourly Spread, Prompt Depth, Token Output) used for Claude and Codex — see [Agent Adoption Score](#agent-adoption-score) for the mechanics.
 
 **Step 2.** The resulting Cursor score (0–100) is multiplied by the `secondaryBoost` rate (default 0.25 = 25%). So a developer at Cursor=80 contributes 80 × 0.25 = 20 points of additional adoption.
 

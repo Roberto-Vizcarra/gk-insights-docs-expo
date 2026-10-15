@@ -18,7 +18,7 @@ custom_fields:
     nav_order: 60
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 Neither of these is required to see data, but both sharpen it. You can add them now or any time later.
 
@@ -59,12 +59,16 @@ Set it to the custom Jira field your team uses to flag customer-reported defects
 
 > **This is the most common reason CFR shows zeros.** If the field ID is blank, no Jira issues are attributed as customer bugs, so CFR can't be calculated — even with Jira fully connected.
 
-**2. Make sure releases are being tracked.** CFR is *failing releases ÷ total releases*, so Insights needs to know what counts as a release. Go to **Settings → Releases** and set the **Signal** for each repository:
+**2. Make sure releases are being tracked.** CFR is *failing releases ÷ total releases*, so Insights needs to know what counts as a release. Go to **Settings → Releases** and set the **Signal** for each repository. The options depend on the repo's git provider:
 
-- **Auto-detect** (default) — tries GitHub Releases first, then falls back to your CD workflow.
-- **GitHub Releases** — use the GitHub Releases API explicitly.
-- **Workflow file** — watch a specific GitHub Actions workflow (e.g. `cd.yaml`).
+- **Auto-detect** (default) — picks the release source the repo's provider offers. The **Detected** column shows what it found on the last sync.
+- **GitHub** repos: **GitHub releases**, **Git tags**, **Workflow file** (a GitHub Actions workflow, e.g. `cd.yaml`), or **Release branch merge**.
+- **Azure DevOps** repos: **Git tags**, **Azure pipeline** (a pipeline definition), or **Release branch merge**.
+- **GitLab** repos: **GitLab releases**, **Git tags**, **GitLab pipeline** (a pipeline name), or **Release branch merge**.
+- **Bitbucket** repos: **Git tags**, **Bitbucket Pipelines** (Bitbucket Cloud only), or **Release branch merge**.
 - **Skip** — don't track releases for that repo.
+
+> **Release branch merge** needs a **base branch** per repository, so it isn't offered in the bulk action — set it one repo at a time.
 
 Once syncing completes, confirm the **# Releases** column shows a non-zero count.
 

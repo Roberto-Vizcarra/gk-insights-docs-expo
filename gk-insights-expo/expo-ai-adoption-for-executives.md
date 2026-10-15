@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 ## For executives
 
@@ -43,6 +43,8 @@ Percent of your active developers at Explorer tier or above (score ≥ 25). This
 #### 2. AI-Assisted %
 
 Percent of _changes_ (PRs + direct commits, weighted by lines changed) where the developer used AI in or around the change. Different from Adoption %: a developer can have AI installed (counts toward Adoption) without using it on a given change (doesn't count toward AI-Assisted).
+
+> **How this is detected — and why it can read low.** AI-Assisted is inferred by _association_: a change counts when it carries an AI co-author trailer **or** the developer had AI activity within the [AI Correlation Window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window) of the change. Teams whose developers use AI without the `Co-authored-by` trailer — or whose AI tool isn't connected as a provider — will see AI-Assisted read lower than reality.
 
 **Read it as:** a behavioral indicator. The closer this gets to AI Adoption %, the more thoroughly AI is integrated into actual work.
 

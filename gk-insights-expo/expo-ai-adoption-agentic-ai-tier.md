@@ -59,7 +59,7 @@ All three are already on the same 0–100 scale, and all three are already scale
 
 **Where to change them.** The Settings → General form exposes tier weights alongside `maturity_factor`, `developer_hourly_rate`, `baseline_period_start`, and `default_department`. Edit the `tier_weight_*` values there and the change takes effect on the next read.
 
-If you set all three weights to zero (or negative), we fall back to defaults rather than producing a NaN. There's never a "100% output, 0% everything else" boost run.
+Output must be greater than 0 (the Settings form rejects 0, negatives, and non-numbers for it). Adoption and Autonomy can be set to 0 — setting both bases tiers on Output alone.
 
 **Classification.** Once the composite score is computed, it's mapped to a tier: 80+ = **Power User**, 55–79 = **Regular**, 25–54 = **Explorer**, <25 = **Emerging**. The Emerging label is used consistently across the backend enum, the UI badge, the onboarding tour, and the Top-10 widget.
 

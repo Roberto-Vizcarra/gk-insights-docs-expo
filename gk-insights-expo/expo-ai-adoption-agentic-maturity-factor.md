@@ -91,7 +91,6 @@ The default (0.75) is calibrated for "active rollout" — the most common state 
 * **Announce before you change.** Lowering Maturity Factor from 0.85 → 0.75 will move a chunk of Regulars down to Explorer overnight. Tell people _before_ the next /ai-adoption/teams snapshot is taken.
 * **Pair changes with milestones.** "We have hit 70% Regular+. We are raising the Maturity Factor to 0.85 to reflect that the bar has been reached. Some of you will drop a tier; that is by design — we are raising the ceiling because you have earned it."
 * **Don't change it more than twice a year.** It is a strategic setting, not a tactical knob.
-* **Use it intentionally during demos.** Demo profiles ship with Maturity Factor 0.75 so the headline tier distribution looks like a real org. Don't reset it for show-and-tell.
 
 ### Limitations and gotchas
 

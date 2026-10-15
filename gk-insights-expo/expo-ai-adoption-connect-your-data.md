@@ -1,6 +1,6 @@
 ---
 title: Connect Your Data — Setting Up AI Adoption
-description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted server), your AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot, Devin), Jira, and BambooHR, map developer identities, and invite your team.
+description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted server), your AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot, Devin), Jira, and BambooHR, map developer identities, organize teams, and invite your team.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
@@ -18,7 +18,7 @@ custom_fields:
     nav_order: 20
     page_type: index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 This is the hands-on setup guide for AI Adoption in GitKraken Insights. By the end, your organization's git-provider activity and AI coding-tool telemetry will be flowing into the dashboard, your developers will be mapped to a single identity, and your team will have access.
 
@@ -58,6 +58,16 @@ A few business inputs let Insights translate engineering activity into ROI. Conf
 ### Map developer identities
 
 After your git provider has been processing (~12 hours), open **Settings → Developers**. Review detected identities, merge duplicates, and add missing emails. AI code-review bots (GitHub Copilot review, Rovo) can be excluded from the roster here.
+
+### Organize your teams
+
+Teams are how Insights groups developers for analysis. They power the **By Team** view, team cohorts in **By AI Tool & Model**, and the team filters across the dashboard. The **Default Department** setting pre-selects a department's teams in the filter bar when people first open the dashboard.
+
+Open **Settings → Teams** and click **Add team**. Give the team a **Name** (for example, "Platform"), optionally choose or create a **Department** and add a team icon, pick its **Developers**, then click **Add team**. Repeat for each team — usually one per function or org unit. You can change membership any time from **Settings → Teams**.
+
+Only developers included in **Settings → Developers** can be added to a team; hidden or excluded developers aren't offered. As later syncs detect new commit authors, they become available to assign.
+
+> **Teams only need to be set up once** — they're reused across every view and filter. Start with your real org structure; you can split or merge teams later.
 
 ### Invite your team
 

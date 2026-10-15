@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 30
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 ## For engineering leaders
 
@@ -61,7 +61,7 @@ The dashboard's job is to surface the questions. The answers come from the team.
 
 #### Step 4 — Investment review (10 min)
 
-Open `/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ saved per week, AI-Assisted % of lines changed.
+Open `/ai-adoption/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ saved per week, AI-Assisted % of lines changed.
 
 **Question to answer:** Is the AI tooling spend still returning more value than it costs? For most orgs running Claude Code + Cursor, breakeven happens in single-digit weeks. If yours hasn't, look at adoption depth — the math fails when adoption is shallow even if it's broad.
 

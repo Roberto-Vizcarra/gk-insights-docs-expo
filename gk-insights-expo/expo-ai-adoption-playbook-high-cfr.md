@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 40
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 > _Your Change Failure Rate spiked. Before you sound the alarm, walk this playbook to figure out whether it's a real quality problem or an artifact._
 
@@ -31,7 +31,7 @@ The dashboard's CFR is honest about what it's measuring (customer-reported bugs 
 
 ### Step 1 — Look at the trend, not the snapshot (3 min)
 
-Open `/impact`. Look at the **CFR trend chart** (left side, severity-stacked).
+Open `/ai-adoption/board-metrics`. Look at the **High & Highest Customer Bugs** trend chart (severity-stacked, with the previous period for comparison).
 
 * **If the spike is one week and CFR is back to baseline before and after**, you have a localized incident, not a trend.
 * **If CFR has been climbing for 3+ weeks**, you have a real quality drift.
@@ -62,7 +62,7 @@ Patterns to spot:
 
 ### Step 4 — Look at AI Tier breakdown (5 min)
 
-This is where the dashboard does something unique. Click into `/ai-impact` and look at **CFR by AI Tier**.
+This is where the dashboard does something unique. Click into `/ai-adoption/ai-impact` and look at **Customer Bugs by AI Tier**.
 
 The question: **does CFR scale with AI tier?**
 

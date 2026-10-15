@@ -19,7 +19,7 @@ custom_fields:
     nav_parent: expo-ai-adoption-metrics
     page_type: index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 > **Note:** This page covers the **DORA & Quality** family of the AI Adoption dashboard. For DORA metrics on the classic Insights dashboards — Deploy Frequency, Change Lead Time, Mean Time to Repair/Recover, and Defect Rate, which use different definitions and calculation logic — see [DORA Metrics](/insights-expo/expo-ai-adoption-dora-metrics).
 
@@ -48,7 +48,7 @@ DORA splits these into two velocity metrics and two stability metrics. A high-pe
 
 A few practical adaptations worth knowing:
 
-* **Deployment Frequency** counts tagged releases (or configured release events) per window. You need release detection configured for each repo — without it, the metric shows an empty state.
+* **Deployment Frequency** counts release events per window, using each repo's configured [release signal](/insights-expo/expo-ai-adoption-dora-deployment-frequency#release-signals-by-provider). You need release detection configured for each repo — without it, the metric shows an empty state.
 * **Lead Time** measures from _first commit_ to _delivering release_. It does not start at issue creation. If you enable JIRA integration with the "Include JIRA start time" option, Lead Time extends backward to include time from the issue's in-progress transition.
 * **CFR** is the rate of _releases that produced a customer-reported bug_, not the rate of all bugs. The signal is your Jira "Customer Bug = Yes" field. Internal bugs caught in QA don't count — a deliberate choice so CFR focuses on bugs that actually shipped and reached customers.
 * **MTTR** measures mean hours from Jira incident open to resolved. It uses the same Jira customer-bug stream as CFR.
@@ -80,4 +80,4 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 ## Required integrations
 
 * **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr).
-* **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (tagged releases, GitHub Releases, or a configured release event) or through releases you push with the [Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api). Without either, both metrics show an empty state.
+* **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (a release signal set per repo in **Settings → Releases** — see [Release signals by provider](/insights-expo/expo-ai-adoption-dora-deployment-frequency#release-signals-by-provider)) or through releases you push with the [Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api). Without either, both metrics show an empty state.

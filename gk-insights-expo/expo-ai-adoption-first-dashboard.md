@@ -25,11 +25,6 @@ custom_fields:
 
 A guided 10-minute walkthrough of `/teams`, the page you land on when you log in. By the end you'll know what every column means and where to click next.
 
-<figure>
-  <img src="/wp-content/uploads/gki-team-lead-flow-01-v4@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput (6.1), Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Changes Volume by Dimension chart in Total view: Opened, Merged and Direct commits bars for each team (Platform, Payments, Growth, Mobile) under a header of Avg Delivered 6.1 /dev/wk, 195 opened, 155 merged and 90 direct, each card with a Total / Trend switch and a more-options menu" />
-  <figcaption>Team Lead Insights — the filter bar with Timeframe, Granularity, and Filters, the team-pulse KPI strip, and the Flow tab's Cycle Time by phase and Changes Volume by Dimension charts.</figcaption>
-</figure>
-
 ### Set the scope first
 
 Before you read anything, set two filters at the top of the page:

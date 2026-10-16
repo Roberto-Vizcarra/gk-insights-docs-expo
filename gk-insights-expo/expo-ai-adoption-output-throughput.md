@@ -19,28 +19,28 @@ custom_fields:
 ---
 ## Throughput
 
-> _Number of merged PRs in the window, expressed per week per developer for cross-team comparison._
+> _Merged PRs plus direct commits in the window, expressed per active developer per week for cross-team comparison._
 
 **Family:** Output & Throughput · **Cadence:** Window-based · **Where it appears:** /ai-adoption/executive, /ai-adoption/ai-tools-comparison, /ai-adoption/ai-impact
 
 ### At a glance
 
-Throughput is the raw count metric — how many PRs your team merged. It is the simpler, older sibling of [Output Score](/insights-expo/expo-ai-adoption-output-output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
+Throughput is the raw count metric — how many changes your team shipped, counting merged PRs and direct commits. It is the simpler, older sibling of [Output Score](/insights-expo/expo-ai-adoption-output-output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
 
 ### Formula
 
 ```
-Throughput (per active dev per week) = merged PRs / active developers / weeks in window
-Throughput (team total)              = SUM(merged PRs in window)
+Throughput (per active dev per week) = (merged PRs + direct commits) / active developers / weeks in window
+Throughput (team total)              = SUM(merged PRs + direct commits in window)
 ```
 
-Drafts and bot-authored PRs are excluded.
+Drafts and bot-authored PRs are excluded. The Executive View's Throughput tile reads "Merged + direct per dev per week", and its sparkline and the PR Volume card's per-developer figure use the same formula.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded.
+**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded. Add the [direct commits](/insights-expo/expo-ai-adoption-output-direct-commits) pushed in the same window.
 
-**Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is PRs per active dev per week — the comparison-ready rate.
+**Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is merged PRs plus direct commits per active dev per week — the comparison-ready rate.
 
 **Step 3.** Per-developer Throughput is the raw count of that developer's merged PRs in the window. The /ai-adoption/developers cell shows it as a clickable breakdown (X opened · Y merged · Z direct); clicking opens the drill-down sheet.
 

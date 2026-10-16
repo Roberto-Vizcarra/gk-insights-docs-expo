@@ -32,22 +32,23 @@ Where the [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoptio
 ```
 Agentic Score = min(Σ(tool autonomy score × tool weight), 100) × Company AI readiness
 
-  Claude Code, Codex: min(intensity / OrgP90Intensity, 1.0) × 100
+  Claude Code, Codex, OpenCode: min(intensity / OrgP90Intensity, 1.0) × 100
   Cursor:             Agent-mode usage score (0–100)
-  Copilot:            Copilot autonomy score (0–100)
+  Copilot:            agentic sessions (Agent OTel Data), or its
+                      connection's agent signals vs org P90 (0–100)
 ```
 
-For Claude Code and Codex, `intensity` is a developer-level count of that tool's executions from sessions that ran 10 or more tools; each tool is normalized on its own. A tool's term is 0 when the org has no P90 intensity (no data). Each tool score is multiplied by that tool's [Provider Weight](/insights-expo/expo-ai-adoption-agentic-cursor-boost) (default 1.0).
+For Claude Code, Codex, and OpenCode, `intensity` is a developer-level count of that tool's executions from sessions that ran 10 or more tools; each tool is normalized on its own. A tool's term is 0 when the org has no P90 intensity (no data). Each tool score is multiplied by that tool's [Provider Weight](/insights-expo/expo-ai-adoption-agentic-cursor-boost) (default 1.0).
 
 ### How GitKraken Insights calculates it
 
 **What counts as an "agentic session."** We define an agentic session as one where the AI ran at least 10 tool executions (tool calls such as reading a file, editing code, running a command, or searching the web) within a single session. It's the total number of tool calls, not the number of _distinct_ tool types — ten uses of the same tool still qualifies. The 10-tool threshold is the heuristic that separates "I asked Claude a question and it called a tool to answer" from "Claude is doing real multi-step work."
 
-**Providers included.** Claude Code, Codex, Cursor, and Copilot each contribute their own autonomy score. Claude Code and Codex are scored from agentic sessions, as described below. Cursor doesn't expose per-session tool calls, so it is scored from its Agent-mode usage instead: how many days the developer made Agent requests, and how many accepted AI-written lines landed per agent-active day. Copilot contributes its own autonomy score from its agent activity.
+**Providers included.** Claude Code, Codex, OpenCode, Cursor, and GitHub Copilot each contribute their own autonomy score. Claude Code, Codex, and OpenCode are scored from agentic sessions, as described below. OpenCode is available on request — contact your GitKraken account team. Cursor doesn't expose per-session tool calls, so it is scored from its Agent-mode usage instead: how many days the developer made Agent requests, and how many accepted AI-written lines landed per agent-active day. Copilot is scored from one source per developer, the same one that drives its Adoption Score. When its activity comes through [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry), it's scored from agentic sessions like Claude Code. Otherwise its [GitHub Copilot connection's](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot) agent activity signals are each measured against your org's 90th percentile. The score hover labels the Copilot source **OTEL** or **PAT**.
 
-**Intensity.** For each developer and each of Claude Code and Codex, we total the tool executions from their agentic sessions over the window. The result is an intensity number per tool — higher means more agentic activity.
+**Intensity.** For each developer and each of Claude Code, Codex, and OpenCode, we total the tool executions from their agentic sessions over the window. The result is an intensity number per tool — higher means more agentic activity.
 
-**Normalization.** We compute the **org-wide P90 intensity** across all active developers in the window. The developer's intensity is divided by the org P90 and capped at 1.0. If an admin has set an **Agentic Intensity Target** under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks), the target replaces the org P90. This is the same normalization pattern as Adoption — the bar is your team, not an industry average.
+**Normalization.** We compute the **org-wide P90 intensity** across all active developers in the window. The developer's intensity is divided by the org P90 and capped at 1.0. If an admin has set an **Agentic Intensity Target** under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks), the target replaces the org P90. This is the same normalization pattern as Adoption — the bar is your team, not an industry average. Developers with time off in part of the window are measured against a benchmark scaled to their working days.
 
 **Combining tools.** Each tool's autonomy score is multiplied by its [Provider Weight](/insights-expo/expo-ai-adoption-agentic-cursor-boost) (default 1.0), and the weighted scores are added and capped at 100.
 
@@ -73,13 +74,13 @@ A team average above 40 is a strong signal that agentic workflows have taken roo
 
 ### Where it appears
 
-* **/ai-adoption/developers** — separate column or panel next to Adoption. The expanded developer detail breaks down agentic activity by session count and tool diversity.
+* **/ai-adoption/developers** — the Agent Autonomy Score column on the [Developers](/insights-expo/expo-ai-adoption-developers) table, next to Adoption; hover a score to see each tool's share. The expanded developer detail breaks down agentic activity by tool, session count, and tool diversity.
 * **/ai-adoption/ai-impact** — deep-dive autonomy analysis: tools-per-session distribution, top tools by usage, ranking of high-autonomy developers.
 * **/ai-adoption/executive** — trend line showing org agentic adoption over time.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-developers.png" class="help-center-img img-bordered" alt="Developers page in GitKraken Insights showing the Top 10 developers widget, score trend chart, and the developer table with Adoption, Agentic, Providers, and Output Score columns" />
-  <figcaption>Developers page — Top 10 developers, score trend, and the full developer table with Adoption, Agentic, Providers, and Output Score columns.</figcaption>
+  <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value, and $ / Output columns.</figcaption>
 </figure>
 
 ### Settings that affect it
@@ -108,7 +109,7 @@ A team average above 40 is a strong signal that agentic workflows have taken roo
 
 * **The 10-tool threshold is heuristic.** A developer running 9-tool sessions all day will score lower than one running occasional 10-tool sessions.
 * **Tool count ≠ value.** A 50-tool session that achieved nothing scores higher than a 10-tool session that shipped a feature. Use Autonomy alongside Output Score for the full picture.
-* **Cursor and Copilot are scored differently.** Cursor's API doesn't expose per-session tool-call events, so the 10-tool session rule applies to Claude Code and Codex only. Cursor contributes through its Agent-mode usage score and Copilot through its own autonomy score, each at its Provider Weight.
+* **Cursor and Copilot are scored differently.** Cursor's API doesn't expose per-session tool-call events, so the 10-tool session rule applies to Claude Code, Codex, OpenCode, and to Copilot only when its activity comes through Agent OTel Data. Cursor contributes through its Agent-mode usage score, and Copilot from the GitHub Copilot connection contributes through its agent activity measured against the org P90, each at its Provider Weight.
 * **Org P90 moves with the cohort.** As your team matures, the bar rises.
 
 ### FAQ

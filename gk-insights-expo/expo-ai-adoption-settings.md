@@ -1,6 +1,6 @@
 ---
 title: AI Adoption Settings in GitKraken Insights
-description: Reference for the admin settings that affect scores and metrics in GitKraken Insights, including Maturity Factor, Tier Weights, Provider Weights, Output Score weights and exclusion rules, Cycle Time Max Days, AI-to-Commit Correlation Window, Developer Hourly Rate, Working Hours Per Week, Baseline Period, AI cost rates, and work categories.
+description: Reference for the admin settings that affect scores and metrics in GitKraken Insights, including Maturity Factor, Tier Weights, Provider Weights, Output Score weights and exclusion rules, Cycle Time Max Days, AI-to-Commit Correlation Window, Developer Hourly Rate, Working Hours Per Week, Baseline Period, AI cost rates, developer visibility and suggested merges, departments and business units, work categories, and repository teams and readiness checks.
 product: GitKraken Insights
 content_type: reference
 audience: admin
@@ -26,7 +26,7 @@ This page covers the settings that change how scores and metrics are calculated.
 
 If you came from a metric page to look up a specific setting, jump to the anchor of the same name.
 
-**Where these settings live.** Most of the per-org settings on this page are editable in the Settings → General form and stored in the `app_settings` table. The form is grouped into **Scoring baseline** (`maturity_factor`, `developer_hourly_rate`, Working Hours Per Week, `baseline_period_start`, Cycle Time Max Days, AI Correlation Window, and Ignore reviews from GitHub bot accounts), **Benchmarks**, **Defaults** (`default_department`), **Output score** (Merged PR Weight, Direct Commit Weight, Review Weight, Exclude Chore from Output Score, and Exclusion rules), **Access to Insights**, **Tier and provider weights**, and **AI cost rates**. Two settings live on other Settings tabs: per-developer hourly rates (Settings → Developers) and work categories (Settings → Categorization).
+**Where these settings live.** Most of the per-org settings on this page are editable in the Settings → General form and stored in the `app_settings` table. The form is grouped into **Scoring baseline** (`maturity_factor`, `developer_hourly_rate`, Working Hours Per Week, `baseline_period_start`, Cycle Time Max Days, AI Correlation Window, and Ignore reviews from GitHub bot accounts), **Benchmarks**, **Defaults** (`default_department`), **Output score** (Merged PR Weight, Direct Commit Weight, Review Weight, Exclude Chore from Output Score, and Exclusion rules), **Access to Insights**, **Tier and provider weights**, and **AI cost rates**. The rest live on other Settings tabs: per-developer hourly rates, developer visibility, and suggested merges (Settings → Developers), your organization structure (Settings → Departments), work categories (Settings → Categorization), and repository teams and readiness checks (Settings → Repositories).
 
 **Who can change them.** Changing these settings requires permission to manage organization settings (organization owners and admins have it). Without it, you see the form read-only, with a note to ask an organization admin or owner. Settings in the form take effect when you click **Save changes**; exclusion rules and AI cost rates save immediately.
 
@@ -253,6 +253,8 @@ Enter a target branch, a source branch, or both; a branch left empty matches any
 
 **Managing rules.** The rules table lists each rule's name, source → target branches, repositories, and who last updated it. Use the **On** toggle to turn a rule off without deleting it, and **Edit** or **Delete** to change or remove it. Changes save immediately — no **Save changes** click needed — and apply to every time period, not just new activity. A rule limited to selected repositories whose repositories have all been removed matches nothing; open **Edit** and pick repositories to use it again.
 
+**Seeing what a rule excluded.** In the [Output Score](/insights-expo/expo-ai-adoption-output-output-score) drill-down, a pull request that a rule leaves out carries an **Excluded** badge. Hover the badge to see the name of the rule.
+
 **Affects:** [Output Score](/insights-expo/expo-ai-adoption-output-output-score), [Output Norm](/insights-expo/expo-ai-adoption-output-output-score), and downstream [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier).
 
 ---
@@ -401,7 +403,9 @@ _In Settings UI: yes._ Settings → General, under **Access to Insights**.
 | **Default** | Off |
 | **Type** | Checkbox ("Turn on for everyone in the organization") |
 
-**What it does.** Gives everyone in your organization their own GitKraken Insights for Developers page — their adoption, autonomy, and outcomes, benchmarked against anonymized organization averages. Turning it on lets each person see their own data in the organization; it does not give anyone access to another person's data.
+**What it does.** Gives members of your organization who don't have org-wide access to Insights their own [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers) page: where their AI spend goes, the sessions and models they use, and how ready the repositories they work in are for agents. Turning it on lets each person see their own data in the organization; it does not give anyone access to another person's data. Owners, Admins, and Managers already see everyone's data on the org-wide pages, so the personal page isn't offered to them. When the setting is off, the personal page isn't available to anyone.
+
+A member with no synced AI activity yet sees a **No adoption data to show** message on the page until their activity syncs.
 
 **Who can change it.** Only an organization owner or admin. Other roles — including roles that can change the rest of the General settings — see the checkbox disabled, with a note saying so.
 
@@ -419,7 +423,7 @@ _In Settings UI: yes._ Settings → General, under **AI cost rates**. Shown only
 | **Range** | Greater than 0, up to 10, with up to 4 decimal places |
 | **Type** | Multiplier per provider, with an effective-from date |
 
-**What it does.** Adjusts estimated AI costs to match what you pay each provider — for example, after a negotiated discount. Each provider's estimated costs are multiplied by its rate: use 0.8 for a 20% discount, or 1 for no adjustment. The section lists **Claude Code** (includes Cowork), **Codex**, **Cursor**, **Copilot**, and **OpenCode**. Each row shows the current multiplier, a **Default** or **Custom** badge, and — for a custom rate — the date it has applied since.
+**What it does.** Adjusts estimated AI costs to match what you pay each provider — for example, after a negotiated discount. Each provider's estimated costs are multiplied by its rate: use 0.8 for a 20% discount, or 1 for no adjustment. The section lists **Claude Code** (includes Cowork), **Codex**, **Cursor**, **Copilot**, and **OpenCode**, plus **Devin** when the Devin connection is turned on for your organization (available on request — contact your GitKraken account team). Each row shows the current multiplier, a **Default** or **Custom** badge, and — for a custom rate — the date it has applied since.
 
 **How to change a rate.** Click **Edit** on the provider's row, then set:
 
@@ -428,7 +432,9 @@ _In Settings UI: yes._ Settings → General, under **AI cost rates**. Shown only
 
 Click **Save rate**. The change saves immediately — no **Save changes** click needed. If you pick a date in the past, the form warns you that the provider's cost figures from that date onward (or up to the next rate change) will be recalculated with the new multiplier.
 
-**History and reset.** **History** lists every rate change for a provider, with when it was made, and lets you delete one. **Reset to default** sets the provider back to 1× from today.
+**History and reset.** **History** lists every rate change for a provider, with when it was made, and lets you delete one. Each multiplier applies from its date until the next change. Deleting a change recalculates the cost figures it covered with the previous multiplier, or with 1 if there's no earlier change. **Reset to default** sets the provider back to 1× from today.
+
+**How to spot an adjusted figure.** A cost figure that includes a custom rate for the selected period shows an **Adjusted** badge, or a small icon in narrow table column headers. Hover it to see which providers' custom rates the figure includes. The badge names the providers, never the rate.
 
 **Affects:** Every AI spend figure built from estimated provider costs — including [Spend by Tier](/insights-expo/expo-ai-adoption-impact-cost-spend-by-tier), total AI spend, and the AI Impact ROI cards that divide by it.
 
@@ -454,6 +460,77 @@ _In Settings UI: yes._ Settings → Developers — open a developer with **Edit*
 
 ---
 
+### Developer visibility
+
+_In Settings UI: yes._ Settings → Developers, in the **Visibility** column — or select several developers and use the **Include**, **Hide**, or **Exclude** bulk action.
+
+|  |  |
+| --- | --- |
+| **Default** | Included |
+| **Type** | One of Included, Hidden, or Excluded, per developer |
+
+**What it does.** Controls whether a developer appears in lists and counts in metrics:
+
+* **Included** — the developer appears in lists and counts in metrics.
+* **Hidden** — the developer is kept out of lists but still counts in metrics.
+* **Excluded** — the developer is dropped from both lists and metrics. Use it for accounts that aren't people, such as AI code-review bots.
+
+**Finding excluded developers.** The roster shows Included and Hidden developers by default, so an excluded developer drops out of view. To see excluded developers again — for example, to include a bot you excluded by mistake — add **Excluded** to the **Visibility** filter. Clearing the filter returns it to the default. When a change moves a developer out of the current view, a message confirms the change and offers **Undo**.
+
+**Affects:** Every list and metric that includes developers — the developer table, team rosters, and the scores and team metrics built from them.
+
+---
+
+### Suggested merges
+
+_In Settings UI: yes._ Settings → Developers. Owners and admins only.
+
+When one person shows up as several developer records — for example, a different email or login on each git provider or AI tool — GitKraken Insights suggests merging them. Settings → Developers shows **N suggested merges · Review** when it has suggestions.
+
+**How to review them.** Click **Review** to open the suggestions:
+
+* **Ready to merge** — groups that match exactly. Their records are already selected.
+* **Needs your review** — likely matches for you to check.
+
+Each suggestion shows the evidence for it, such as the same email, the same login on a provider, or a similar name. Select the groups you want, click **Merge selected**, then confirm with **Merge records**. Merging keeps one record and permanently removes the others. **Merges can't be undone.**
+
+**Finding more matches.** Click **Find merges** (or **Find more merges** when suggestions are already listed) to use GitKraken AI to process your developer records and look for more possible merges. GitKraken AI can't search for more merges on every roster — the sheet tells you when it can't.
+
+**The suggested-merges banner.** When suggestions are waiting, owners and admins also see a banner on other Insights pages that opens the same review. To dismiss the banner, click its close button. The banner comes back when more records become mergeable, or after a while if suggestions are still waiting. The count stays available on the Developers settings page either way.
+
+**Affects:** The developer roster. A merge combines the selected records into one developer.
+
+---
+
+## Departments settings
+
+Settings → Departments shows your organization structure in three columns: **Business units**, the **Departments** in the selected business unit, and the **Teams** in the selected department. Use **Search departments or teams** to find one. The Team filter on Insights pages follows this structure: it groups teams by business unit, then by department.
+
+_In Settings UI: yes._ Changing the structure requires permission to manage organization settings. Without it, you see the structure read-only, with a note to ask an organization admin or owner.
+
+### Business units
+
+A business unit groups departments. The **Business units** column lists **All departments**, each business unit, and **Unassigned** for departments that don't belong to a business unit.
+
+* **Create one.** Click **New business unit**, name it, and optionally choose its departments. A department belongs to one business unit at most, so adding a department here moves it out of any other business unit.
+* **Rename or delete one.** Use the business unit's menu. Deleting a business unit deletes no departments or teams; its departments are left with no business unit.
+
+### Departments
+
+A department groups teams. The **Departments** column lists the departments in the selected business unit, plus **No department** for teams that aren't in a department.
+
+* **Create one.** Click **New department**, name it, and optionally choose its teams. You can create an empty department and add teams later.
+* **Move one to another business unit.** Use the department's menu and choose a **Business unit**, or choose **No business unit**.
+* **Rename or delete one.** Use the department's menu. Deleting a department deletes no teams; its teams become unassigned (**No department**).
+
+### Teams in a department
+
+Select a department to see its teams. Click **Add teams** to add more, or remove a team from the department. Removing a team from a department doesn't delete the team; it moves to **No department**. To create or edit the teams themselves, use Settings → Teams.
+
+**Affects:** How teams are grouped in the Team filter, and which teams the [Default Department](#default-department) setting selects.
+
+---
+
 ## Categorization settings
 
 ### Work categories
@@ -476,7 +553,57 @@ In the defaults, Feature, Enhancement, and Refactor are flagged CapEx; Chore is 
 
 **Changing the list.** Rename, reorder, or reword categories, change their flags, or add new ones, then save. Deleting a category may ask you to choose another category to move its items to. Every save creates a new version; the **History** table lists each version, who saved it, and its categories, and you can open any version to see it.
 
+**Changing a description re-classifies existing work.** When you save a changed description, GitKraken Insights re-classifies existing pull requests and commits against the new descriptions. A banner on the tab shows how many items are still being re-classified, and charts update as items finish.
+
 **Affects:** [CapEx / OpEx Split](/insights-expo/expo-ai-adoption-impact-cost-capex-opex), [Output Score](/insights-expo/expo-ai-adoption-output-output-score) (through the Chore flag), and the category shown on PRs and commits throughout the dashboard.
+
+---
+
+## Repositories settings
+
+Settings → Repositories lists every repository GitKraken Insights syncs, with its **Team**, **Readiness**, and **Score**. Use **Search repositories** to find one, then select a repository to change its teams or its readiness checks. To change several at once, select them and use **Bulk edit**. For what the readiness checks measure, see [Repositories](/insights-expo/expo-ai-adoption-repositories).
+
+<figure>
+  <img src="/wp-content/uploads/gki-settings-repositories-team-assignment-01.png" class="help-center-img img-bordered" alt="The Repositories tab of Insights Settings, with a Search repositories box and a list of example-org repositories showing their Team (each marked Assigned), Readiness and Score, and the Team assignment panel for example-org/analytics-pipeline with the Growth and Platform teams chosen, a Delivery attribution picker set to Growth with its explanation, and Cancel and Apply buttons" />
+  <figcaption>Settings → Repositories — assigning a repository to two teams, with Delivery attribution set to one of them.</figcaption>
+</figure>
+
+### Team assignment
+
+_In Settings UI: yes._ Settings → Repositories — select a repository to open its **Team assignment** panel, or select several and use **Bulk edit**.
+
+|  |  |
+| --- | --- |
+| **Default** | No team assigned (the team is inferred from contributions) |
+| **Type** | One or more teams per repository |
+
+**What it does.** Says which teams a repository belongs to. With no team assigned, GitKraken Insights infers the team from who contributed to the repository over the last 90 days, and the **Team** column marks it **Inferred**. Assigning a team replaces the contribution-based one, and the column marks it **Assigned**. The assigned teams drive the Team column and the team filters on the [Repositories](/insights-expo/expo-ai-adoption-repositories) page.
+
+**How to assign teams.** Select a repository, choose one or more **Teams**, and click **Apply**. To change several repositories at once, select them, use **Bulk edit** (**Bulk assign teams** if you can only assign teams), choose **Add** or **Remove** as the **Action**, choose the teams, and click **Apply**. Bulk **Add** and **Remove** change only the teams you choose, and leave each repository's other teams in place.
+
+If the repository currently appears under a team only because of contribution history, the assignment removes it from that team's repository, readiness, and coverage views. Insights asks you to confirm with **Assign anyway**. To go back to the inferred team, remove every assignment; contribution inference takes over again.
+
+**Delivery attribution.** When a repository is assigned to more than one team, one of them has to own its delivery metrics. Pick that team in **Delivery attribution**. Releases, change failure rate, and bug escape rate count toward the team you pick, and only that team. Ownership, readiness, and coverage still count for every assigned team. Leave it on **No override — use contribution** to let contributions decide.
+
+**Who can assign teams.** Anyone who can manage Insights data, including team leads who can't change organization settings. Editing readiness checks still requires permission to manage organization settings. Without either, you see the tab read-only, with a note to ask an organization admin or owner.
+
+**Affects:** Which team each repository counts toward on the [Repositories](/insights-expo/expo-ai-adoption-repositories) page and in team views, and — through Delivery attribution — which team a shared repository's releases and [Change Failure Rate](/insights-expo/expo-ai-adoption-dora-change-failure-rate) count toward.
+
+---
+
+### Readiness checks
+
+_In Settings UI: yes._ Settings → Repositories — select a repository and use **Edit checks**, or select several and use **Bulk edit**.
+
+|  |  |
+| --- | --- |
+| **Type** | Enabled or Disabled, per check and repository |
+
+**What it does.** Turns individual readiness checks on or off for a repository — for example, a check that can't detect how your team works. Skills managed outside the repository, such as in dev containers or user-level config, can't be detected, so you can disable the **Skills / Commands** check for those repositories. In the bulk editor, a check left on **No change** keeps each repository's current value. Each group of checks also has **Enable all**, **Disable all**, and **Reset**.
+
+**Who can change them.** Changing readiness checks requires permission to manage organization settings.
+
+**Affects:** The repository's readiness on the [Repositories](/insights-expo/expo-ai-adoption-repositories) page.
 
 ---
 

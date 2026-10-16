@@ -1,11 +1,11 @@
 ---
 title: Credential Security and Integration Permissions
-description: How GitKraken Insights protects the credentials you enter in Data Connections, who can manage connections, what each integration stores, and the permissions each one needs.
+description: How GitKraken Insights protects the credentials you enter in Data Connections, who can view Insights and manage connections, what each integration stores, and the permissions each one needs.
 product: GitKraken Insights
 content_type: reference
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, GitHub Copilot, GitLab, GitLab Self-Managed, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, Jira Cloud, Cursor, Devin, BambooHR, Claude Code, Codex, OpenCode]
+integrations: [GitHub, GitHub Enterprise Server, GitHub Copilot, GitLab, GitLab Self-Managed, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, Jira Cloud, Linear, YouTrack, YouTrack Server, Cursor, Devin, BambooHR, Claude Code, Codex, OpenCode]
 status: GA
 taxonomy:
     category: insights-expo
@@ -20,7 +20,7 @@ custom_fields:
 ---
 <kbd>Last updated: October 2026</kbd>
 
-When you connect a data source in **Settings → Data Connections**, GitKraken Insights stores the credential it needs to sync that source. This page explains how those credentials are protected, who can manage them, and the access each integration needs. For setup steps, see [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data).
+When you connect a data source in **Settings → Data Connections**, GitKraken Insights stores the credential it needs to sync that source. This page explains how those credentials are protected, who can view Insights and manage connections, and the access each integration needs. For setup steps, see [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data).
 
 ---
 
@@ -33,6 +33,16 @@ Insights encrypts every connection's credential before storing it, using industr
 - **Stored secrets aren't shown back to you.** Connection views return masked values instead — when you edit a connection, leave the credential blank to keep the current one, or paste a new one to replace it.
 - **Secret-bearing fields are redacted from application logs** to reduce accidental exposure.
 - **Non-secret settings are kept apart from the credential where possible** — for example, which organizations, workspaces, or projects to sync.
+
+---
+
+## Who can view Insights
+
+The org-wide Insights pages, which show data for every team, developer, and repository, are available to the **Owners**, **Admins**, and **Managers** of your GitKraken organization. Other members can't open them.
+
+When an owner or admin turns on [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-settings#gitkraken-insights-for-developers), members without org-wide access land on their own [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers) page instead. That page shows only the member's own data. Owners, Admins, and Managers aren't offered the personal page, because they already see everyone's data on the org-wide pages.
+
+If part of a page needs access that your role doesn't include, that part shows a message saying so, and asks you to have an organization admin update your access.
 
 ---
 
@@ -57,6 +67,8 @@ Insights stores the minimum it needs to run each integration:
 | **Bitbucket Data Center** | HTTP access token | Server URL, projects to sync, repositories to skip |
 | **Azure DevOps / Azure DevOps Server** | Personal access token | Host domain or server URL and collection, projects, repositories to skip |
 | **Jira Cloud** | API token and account email | Jira instance and project settings |
+| **Linear** | Personal API key | Workspace URL, team keys to sync and to skip, and defect detection settings |
+| **YouTrack / YouTrack Server** | Permanent token | Instance URL, projects to sync and to skip, in-progress states, and defect detection settings |
 | **Cursor** | Team API key | — |
 | **Devin** (available on request) | Service-user API key | Devin organization IDs |
 | **BambooHR** | The authenticated Who's Out iCal feed URL | — |
@@ -117,6 +129,13 @@ A Jira Cloud API token — created with **Create API token**, not the scoped opt
 - Customer bug fields, when you choose to include them
 
 Insights doesn't need Jira write access. See [Connect Jira & BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr).
+
+### Linear and YouTrack
+
+- **Linear:** a personal API key, created from Linear settings → **Security & access**. Insights reads issues only from the teams whose keys you list.
+- **YouTrack and YouTrack Server:** a permanent token, created from your YouTrack profile → **Account Security** → **Authentication**. Insights reads issues only from the projects you list.
+
+See [Connect Linear & YouTrack](/insights-expo/expo-ai-adoption-connect-linear-youtrack).
 
 ### Cursor
 

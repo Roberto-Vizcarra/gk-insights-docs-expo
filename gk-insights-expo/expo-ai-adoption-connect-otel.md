@@ -277,7 +277,8 @@ GitHub Copilot has two separate connections, and you can connect either or both:
 | **Set up with** | A personal access token (classic, or fine-grained for an organization), in the **GitHub Copilot** tile | The Copilot config from the Agent OTel Data setup view, on each device or through managed settings |
 | **What it reports** | GitHub's daily Copilot usage metrics for an organization or enterprise | Telemetry from each developer's Copilot CLI and VS Code, grouped into sessions |
 | **History** | Up to the last 90 days | None — starts with each developer's next session |
-| **AI Sessions** | Not grouped into sessions, so its activity appears on the other AI Adoption pages | Included |
+| **Cost** | An estimated seat-level cost only, so no per-model Copilot spend is shown | Per-model cost for the usage it captures |
+| **[AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions)** | Not grouped into sessions, so its activity appears on the other AI Adoption pages | Included |
 
 Both report as **GitHub Copilot** in Insights. To set up the API connection, see [GitHub Copilot](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot) on the AI Coding Tools page.
 

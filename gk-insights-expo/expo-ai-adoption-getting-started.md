@@ -42,6 +42,23 @@ It connects your git provider, your AI coding tool telemetry, your Jira customer
 | **/developers** | When you want to drill into individuals: who's a Power User, who's struggling to adopt, who needs onboarding. |
 | **/executive** | Monthly or quarterly reports up the chain. Pre-shaped for execs with hero KPIs and trend lines. |
 
+## Explore by developer, repository, tool, and session
+
+The **Agent Leaderboard** pages in the sidebar each look at AI adoption from one angle:
+
+| Page | What it shows |
+| --- | --- |
+| [By Developer](/insights-expo/expo-ai-adoption-developers) | Every developer's scores, spend, and AI sessions, with a detail view for each person. |
+| [By Repository](/insights-expo/expo-ai-adoption-repositories) | How ready each repository is for agents, and which teams it belongs to. |
+| [By AI Tool & Model](/insights-expo/expo-ai-adoption-ai-tools-comparison) | Side-by-side cohorts of developers by AI tool and by model. |
+| [By AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions) | Every AI coding session, and how sessions roll up into pull requests and issues. |
+
+[Surveys](/insights-expo/expo-ai-adoption-surveys) lists your organization's surveys and their results. Members without org-wide access get their own page, [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers), once an Owner or Admin turns it on.
+
+## Adjust table columns
+
+Most AI Adoption tables have a **Columns** menu. To choose which columns appear, open **Columns** and select or clear each column under **Visible columns**. To bring every column back, click **Show all**. To resize a column, drag the edge of its header, or focus the edge and use the arrow keys. To undo your resizing, click **Reset widths** in the **Columns** menu. Insights remembers your column choices in this browser. On narrow screens, columns can't be hidden or resized.
+
 ## A note on benchmarks
 
 You'll see ranges throughout the help center labeled "Strong / Fair / Needs attention." These reflect our defaults and what we see across the orgs running Insights. They are not industry benchmarks — every team's context matters too much — so treat the ranges as a starting frame, not a verdict.

@@ -64,7 +64,7 @@ GitKraken pulls Cursor usage centrally through the Cursor Teams API, using a **t
 - **Daily usage data** — Cursor's per-day rollup of team activity.
 - **Team members** — your Cursor team directory, used to match Cursor usage to the right developer.
 
-**Matching usage to developers.** Cursor usage is matched to developers by email. A teammate whose Cursor email differs from their git-provider email may appear as a separate person — merge the identities in **Settings → Developers**.
+**Matching usage to developers.** Cursor usage is matched to developers by email. A teammate whose Cursor email differs from their git-provider email may appear as a separate person — review the suggested merges in **Settings → Developers**, or merge the identities yourself. See [Map developer identities](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities).
 
 **Rotating or revoking the key.** If the key is exposed or due for rotation, create a new team API key in Cursor and paste it into the existing connection with **Edit** — don't create a second connection. Revoking the key in Cursor stops the sync; existing data stays in your dashboards, but no new usage arrives until a valid key is supplied.
 
@@ -160,6 +160,8 @@ Each connection covers one organization or one enterprise; add another GitHub Co
 
 > **Copilot data runs two to three days behind.** GitKraken waits for GitHub's daily usage report to settle before pulling it, so neither today nor yesterday appears — a new connection showing nothing for today is working correctly. The first sync pulls up to the last 90 days. See [When your AI tool data appears](/insights-expo/expo-ai-adoption-connect-your-data#when-your-ai-tool-data-appears).
 
+**Where Copilot AI credits appear.** When Copilot is connected and GitHub reports credit data, the **By Developer** and **By Team** tables add an **AI Credits Used** column: the premium-model credits consumed through Copilot in the selected window, as reported by GitHub, with input and output token counts when GitHub provides them. A team's value is the sum of its members. The same figure appears under **AI Credits Used** on an expanded developer's **Developer Environment** tab. See [By Developer](/insights-expo/expo-ai-adoption-developers).
+
 > **Keep the token private.** A personal access token grants access to everything its owner can see within the granted scopes or permissions — treat it like a password.
 
 References: [GitHub — REST API endpoints for Copilot metrics](https://docs.github.com/en/rest/copilot/copilot-metrics) and [GitHub — Managing your personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
@@ -171,7 +173,7 @@ References: [GitHub — REST API endpoints for Copilot metrics](https://docs.git
 | Symptom | What's happening | Fix |
 | --- | --- | --- |
 | **No Cursor usage data after 24 hours** | The key is a personal key rather than a team key, or it was revoked in Cursor | Create a **team** API key in the Cursor dashboard and paste it into the existing connection |
-| **A developer appears twice after connecting Cursor** | Their Cursor email differs from their git-provider email | Merge the identities in **Settings → Developers** |
+| **A developer appears twice after connecting Cursor** | Their Cursor email differs from their git-provider email | Review the suggested merges in **Settings → Developers**, or merge the identities yourself — see [Map developer identities](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities) |
 | **Copilot connects but no metrics appear** | The **Copilot usage metrics** policy is off, the token owner can't view Copilot metrics, the team had fewer than five active Copilot licenses, or the data is still inside GitHub's two-to-three-day reporting lag | Enable the policy in org **Settings → Copilot → Policies**, use an org owner or a role with **View Organization Copilot Metrics**, check the license count and the organization slug, and allow for the lag |
 | **Copilot token rejected** | The token lacks the Copilot metrics permission for your level, a fine-grained token was used for an enterprise connection, or SAML SSO isn't authorized | Use a **classic** token with `read:org` (organization) or `read:enterprise` (enterprise), or a fine-grained token with **Organization Copilot metrics: Read-only** for an organization. For a classic token, also **Configure SSO** on it |
 

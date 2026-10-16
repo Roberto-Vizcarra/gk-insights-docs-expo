@@ -162,7 +162,7 @@ Manual defects are counted the same way as defects synced from your issue tracke
 
 **Mean Time to Recovery.** A defect contributes only when `fixReleasedAt` is set. The resolution time is measured from `detectedAt` to `fixReleasedAt`.
 
-**Repository team assignment matters.** Attribution depends on the repository resolving to a team. If the repository you name has no team, the defect is still recorded and still appears in defect counts, but it isn't attributed to any release and doesn't affect Change Failure Rate. Assigning the team afterwards doesn't update existing defects — delete the defect and create it again so the team is resolved.
+**Repository team assignment matters.** Attribution runs through the team that owns the repository you name. If that repository has no team, the defect is attributed to releases of repositories that also have no team, so it can still affect Change Failure Rate; it isn't attributed to releases of repositories that belong to a team. Assigning the team afterwards doesn't update existing defects — delete the defect and create it again so the team is resolved.
 
 **Reporting windows.** Because a defect attaches to the release that was current when it was detected, a report window that starts after that release began won't show the attribution. Widen the date range to include the release that was live at `detectedAt`.
 

@@ -19,7 +19,7 @@ custom_fields:
 ---
 ## Agent Adoption Score
 
-> _A 0–100 measure of how consistently and how deeply a developer is using AI coding tools (Claude Code, Codex, Cursor, Copilot) over the selected window._
+> _A 0–100 measure of how consistently and how deeply a developer is using AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot, OpenCode) over the selected window._
 
 **Family:** Adoption & Agentic · **Cadence:** Window-based (refreshes with date range) · **Where it appears:** /developers, /teams, /comparison, /executive, /ai-impact
 
@@ -32,8 +32,9 @@ The Agent Adoption Score is the dashboard's headline answer to "is this develope
 ```
 Adoption Score = min(Σ(tool score × tool weight), 100) × Company AI readiness
 
-  where tool score  = four-factor score for Claude Code, Codex, Cursor;
-                      usage-band score for Copilot
+  where tool score  = four-factor score for Claude Code, Codex, Cursor,
+                      and OpenCode; for Copilot, the four factors (Agent
+                      OTel Data) or its connection signals vs org P90
         tool weight = Provider Weight for that tool (default 1.0)
         Company AI readiness = Maturity Factor (default 100%)
 ```
@@ -47,7 +48,7 @@ The four factors per provider, and their default weights in the 100-point scale,
 
 ### How GitKraken Insights calculates it
 
-**Step 1 — Per-provider scoring.** For each provider (Claude Code, Codex, Cursor), we compute four normalized factors. Copilot is scored on its own usage bands instead.
+**Step 1 — Per-provider scoring.** For each provider (Claude Code, Codex, Cursor, and OpenCode), we compute four normalized factors. GitHub Copilot is scored from one source per developer. When its activity comes through [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry), it gets the same four factors as the other tools. Otherwise it's scored from the [GitHub Copilot connection's](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot) own signals (active days, interactions, and lines added), each measured against your org's 90th percentile for that signal. The score hover and breakdown label which Copilot source was used: **OTEL** or **PAT**. OpenCode is available on request — contact your GitKraken account team.
 
 * **Daily Regularity:** the fraction of effective weekdays in the window where the developer sent at least one prompt. Effective weekdays subtracts weekdays before the provider was instrumented (Claude Code data starts March 5, 2026) and subtracts PTO weekdays. Unlike the other three factors, this is a raw fraction of working days — it is not benchmarked against the org P90.
 * **Hourly Spread:** the average number of distinct hours per active weekday where the developer ran ≥2 prompts. Captures "AI is integrated into their workday" vs. "AI is one batch at the end of the day."
@@ -87,15 +88,15 @@ A team average of 50–65 means a healthy mix with most developers in Explorer/R
 
 ### Where it appears
 
-* **/developers** — primary surface. Headline column on the developer table, plus an expanded panel showing the four-factor breakdown and the per-provider contribution (Claude vs. Codex vs. Cursor).
-* **/teams** — team average column on the main table; expandable rows show per-developer scores.
+* **/developers** — primary surface. The Agent Adoption Score column on the [Developers](/insights-expo/expo-ai-adoption-developers) table; hover a score to see each tool's contribution. Expand a developer to see the four-factor breakdown and the per-provider contribution. The **Agent Adoption** tab shows one activity-trend card per AI tool, benchmarked against the org's developers who use that same tool.
+* **/teams** — the Agent Adoption Score column shows the team average; expand a team to see per-developer scores. The team **Tier** blends Adoption with Autonomy and Output — see [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier).
 * **/comparison** — distribution by cohort (e.g. by team, by AI tool, by primary model).
 * **/executive** — hero KPI card "AI Adoption %" (percentage of devs at score ≥ 25) and a trend line.
 * **/ai-impact** — used as the cohort dimension for the productivity uplift analysis.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-developers.png" class="help-center-img img-bordered" alt="Developers page in GitKraken Insights showing the Top 10 developers widget, score trend chart, and the developer table with Adoption, Agentic, Providers, and Output Score columns" />
-  <figcaption>Developers page — Top 10 developers, score trend, and the full developer table with Adoption, Agentic, Providers, and Output Score columns.</figcaption>
+  <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value, and $ / Output columns.</figcaption>
 </figure>
 
 ### Settings that affect it

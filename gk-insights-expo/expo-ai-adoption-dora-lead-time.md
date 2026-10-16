@@ -46,7 +46,7 @@ Lead Time (hours) = released_at − first_commit_at  (clamped at 0)
 
 **Lead Time per PR.** Once the delivering release is identified, Lead Time is the hours between the PR's first commit and the release's `released_at`, clamped at 0.
 
-**Aggregation.** Mean across PRs that delivered in the window. Drafts excluded.
+**Aggregation.** Median across merged non-bot PRs that delivered in the window. Drafts excluded.
 
 **Release detection required.** If a repo has no release events, its PRs have no delivering release and therefore no Lead Time. The metric shows an empty state for those repos. Lead Time is not silently substituted with Cycle Time.
 
@@ -77,7 +77,7 @@ For most product engineering teams, High is the target. Elite requires fully-aut
 
 ### Where it appears
 
-* **/ai-adoption/board-metrics** — Lead Time as one of the four DORA cards.
+* **/ai-adoption/board-metrics** — the Change Lead Time tile and chart. Select a point on the chart to see the releases delivered in that period, with each release's repo, type, release date, and tag or branch.
 * **/ai-adoption/ai-impact** — implicit in the Cycle Time breakdown when a delivering release is present.
 
 ### Settings that affect it
@@ -103,7 +103,7 @@ For most product engineering teams, High is the target. Elite requires fully-aut
 * **Release detection required.** Repos without release events contribute nothing to Lead Time. The fix is configuration, not data.
 * **Monorepo over-attribution.** When one repo holds multiple services and one service's release ships, that release is attributed to PRs touching _any_ service in the repo. Median aggregation mitigates this somewhat; per-service attribution would require commit-in-release data we don't have today.
 * **Release branch and hotfix attribution.** A release cut from a commit older than the merge can attach to the PR retroactively. Documented behavior, not a bug.
-* **Long-tail outliers skew the mean.** Same caveat as Cycle Time — a single PR that sat for a quarter can drag the average noticeably.
+* **Recent periods can read low.** Changes that are slow to release haven't been delivered yet, so the most recent periods may understate the median until those releases happen.
 
 ### FAQ
 

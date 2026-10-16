@@ -1,11 +1,11 @@
 ---
 title: Connect Your Data — Setting Up AI Adoption
-description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted server), your AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode), Jira, and BambooHR, map developer identities, organize teams, and invite your team.
+description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted server), your AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode), your issue tracker (Jira, Linear, or YouTrack), and BambooHR, map developer identities, organize teams, and invite your team.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode, Jira Cloud, BambooHR]
+integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode, Jira Cloud, Linear, YouTrack, YouTrack Server, BambooHR]
 status: GA
 taxonomy:
     category: insights-expo
@@ -47,11 +47,15 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | **Cursor** | A Cursor **team admin** |
 | **Devin** (available on request) | An admin of your Devin organization, to provision a service user with the **Admin** role |
 | **Jira** (optional) | A Jira admin |
+| **Linear** (optional) | A Linear account that can see the teams you want to sync, to create a personal API key |
+| **YouTrack** or **YouTrack Server** (optional) | A YouTrack account that can see the projects you want to sync, to create a permanent token |
 | **BambooHR** (optional) | Someone who sees the whole company's Who's Out calendar |
 
 > **Note — Devin and OpenCode are available on request.** To enable either one for your organization, contact your GitKraken account team.
 
 > **Start your git-provider token request now.** In larger orgs, getting approval can take days. Kick it off before anything else.
+
+For issue trackers, see [Connect Jira and BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr) and [Connect Linear and YouTrack](/insights-expo/expo-ai-adoption-connect-linear-youtrack).
 
 For exactly what each integration reads, the permissions it needs, and how GitKraken protects the credentials you enter, see [Credential Security and Integration Permissions](/insights-expo/expo-ai-adoption-security-permissions).
 
@@ -67,13 +71,28 @@ A few business inputs let Insights translate engineering activity into ROI. Conf
 
 After your git provider has been processing (~12 hours), open **Settings → Developers**. Review detected identities, merge duplicates, and add missing emails. AI code-review bots (GitHub Copilot review, Rovo) can be excluded from the roster here.
 
+* **Review suggested merges.** When several records look like the same person, Settings → Developers shows **N suggested merges · Review**, and owners and admins see a suggested-merges banner on the other AI Adoption pages. Click **Review** to open the suggestions. Groups under **Ready to merge** are already selected; groups under **Needs your review** show the evidence for each match, such as the same email or a similar name. When nothing is suggested, **Find merges** uses GitKraken AI to process your developer records and find more possible merges. Merges cannot be undone.
+* **Dismiss the banner.** Click **×** on the suggested-merges banner to hide it. It comes back when more records become mergeable, and the count stays on Settings → Developers.
+* **Check visibility.** Each developer is **Included** (appears in lists and counts in metrics), **Hidden** (kept out of lists but still counts in metrics), or **Excluded** (dropped from both). The roster shows Included and Hidden developers by default. To find an excluded developer again, for example a bot you want to re-include, add **Excluded** to the **Visibility** filter.
+
+For details, see [Suggested merges](/insights-expo/expo-ai-adoption-settings#suggested-merges) and [Developer visibility](/insights-expo/expo-ai-adoption-settings#developer-visibility) in the Settings reference.
+
 ### Organize your teams
 
 Teams are how Insights groups developers for analysis. They power the **By Team** view, team cohorts in **By AI Tool & Model**, and the team filters across the dashboard. The **Default Department** setting pre-selects a department's teams in the filter bar when people first open the dashboard.
 
 Open **Settings → Teams** and click **Add team**. Give the team a **Name** (for example, "Platform"), optionally choose or create a **Department** and add a team icon, pick its **Developers**, then click **Add team**. Repeat for each team — usually one per function or org unit. You can change membership any time from **Settings → Teams**.
 
+A developer can belong to more than one team. Adding developers to a team keeps their other team memberships.
+
+You can also assign teams from **Settings → Developers**:
+
+* **One developer:** edit the developer and choose their **Teams**. With two or more teams, pick a **Primary team** — the team their work counts toward for delivery metrics. The roster's **Team** column lists the primary team first, with a **Primary** badge.
+* **Several developers:** select them and use **Add to team** or **Remove from team**. Each action adds or removes one team and leaves the developers' other teams in place.
+
 Only developers included in **Settings → Developers** can be added to a team; hidden or excluded developers aren't offered. As later syncs detect new commit authors, they become available to assign.
+
+To group teams into departments and business units, open **Settings → Departments**. The Team filter then groups teams by business unit, then department. See [Departments settings](/insights-expo/expo-ai-adoption-settings#departments-settings).
 
 > **Teams only need to be set up once** — they're reused across every view and filter. Start with your real org structure; you can split or merge teams later.
 
@@ -83,9 +102,11 @@ From the gk.dev sidebar, open **Users** → **Add users**. Give each person at l
 
 ## What to expect after setup
 
-* **Git data:** the last month typically appears within a few hours; a full year within one to two days.
+* **Git data:** the last month typically appears within a few hours, and older history follows within one to two days. How far back the first import reaches depends on your git provider.
 * **AI tool data:** depends on the tool — telemetry starts with each developer's next session, while Cursor, GitHub Copilot, and Devin backfill recent history. See [When your AI tool data appears](#when-your-ai-tool-data-appears).
 * **Sync status:** each connection on Data Connections shows health. A degraded status during the first sync is usually normal (API rate limits during backfill).
+* **Data through dates:** when the data behind a card or table stops short of the range you selected, that card shows a **Data through** date with how far its data reaches. Each card reflects only the sources it reads, so one connection that falls behind flags only the cards that use it. Check that connection's **Status** on **Data Connections**.
+* **Ranges ahead of the data:** if the whole range you select is later than the available data, views such as an expanded developer show **This range is ahead of the available data**, with the date the data reaches. Choose an earlier range.
 
 ### When your AI tool data appears
 
@@ -110,6 +131,6 @@ Telemetry-based tools report as developers work, so nothing appears until they s
 | **Read-only banner** on Data Connections | Ask an org Owner or Admin to connect, or grant you access |
 | **"Degraded" during first sync** | Usually rate-limit throttling during backfill — let it finish |
 | **"Not yet synced"** | Expected right after connecting; for Agent OTel Data, confirm each agent's config is applied and developers have started a fresh session |
-| **Developer appears twice** | Merge identities in Settings → Developers |
+| **Developer appears twice** | Review suggested merges in Settings → Developers, or merge the records yourself — see [Map developer identities](#map-developer-identities) |
 
 For provider-specific troubleshooting, see the individual connection pages. If a problem persists, contact your GitKraken account team.

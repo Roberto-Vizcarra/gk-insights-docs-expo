@@ -48,7 +48,7 @@ Expressed as deploys per day, week, or month depending on cadence and team activ
 
 **What counts as a release.** A tagged release, a GitHub Release, any other release event the writer captures for the repo, or a release pushed to Insights with the manual releases API. Pre-releases are excluded.
 
-**Aggregation.** For a team, we count all releases across the team's repos. For an org, all releases across all repos in the filter.
+**Aggregation.** For a team, we count every release credited to that team. A release can be credited to more than one team, so per-team counts can add up to more than the organization total; repository counts don't overlap. For an org, we count each release across all repos in the filter once.
 
 ### Release signals by provider
 
@@ -62,6 +62,7 @@ Release detection is set per repository in **Settings → Releases**. Leave it o
 | **Bitbucket Cloud** | Git tags · Bitbucket Pipelines · Release branch merge |
 | **Bitbucket Data Center** | Git tags · Release branch merge |
 
+- For **Workflow file**, **Azure pipeline**, and **GitLab pipeline**, pick one of the repository's CI workflows or pipelines from the list, or type a name.
 - **Git tags** can be narrowed with an optional tag pattern. **Release branch merge** needs a base branch and accepts an optional branch pattern, and is set one repo at a time.
 - **Skip** turns off release detection for a repo — its deployments won't count toward Deployment Frequency, Lead Time, or CFR.
 
@@ -88,8 +89,8 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 
 ### Where it appears
 
-* **/ai-adoption/board-metrics** — primary surface for DORA. Deployment Frequency is one of the four headline cards.
-* **/ai-adoption/executive** — Deployment Frequency as a hero trend line.
+* **/ai-adoption/board-metrics** — primary surface for DORA. The Deployment Frequency tile and chart, against the previous period.
+* **/ai-adoption/executive** — the Deploy Frequency card, by team or repository as bars, or as a trend line. Select a bar, or a point on the overall trend line, to see the releases behind it, with each release's repo, type, release date, and tag or branch.
 * **/ai-adoption/ai-impact** — can be broken down by repo, team, or AI Tier.
 
 ### Settings that affect it

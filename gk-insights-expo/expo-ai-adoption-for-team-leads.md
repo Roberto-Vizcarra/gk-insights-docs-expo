@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 40
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 ## For team leads
 
@@ -25,7 +25,7 @@ You run one team day-to-day. You want a pulse on flow, blockers, and review heal
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="Team Lead Insights view in GitKraken Insights with flow KPI cards, cycle time by phase trend, and average changes per developer chart" />
-  <figcaption>Team-pulse view — cycle-time-by-phase, changes-by-type, and adoption trend together.</figcaption>
+  <figcaption>Team Lead Insights — flow KPI cards above the Cycle Time chart by phase and Avg Changes / Developer, each with a Total / Trend switch and a ⋯ menu.</figcaption>
 </figure>
 
 ### Your weekly home: `/ai-adoption/teams`
@@ -34,11 +34,11 @@ Open `/ai-adoption/teams` with the date range set to the last 14 days. The team 
 
 1. **Per-developer roster** — Adoption Score, Output Score, AI Tier, and direct commits for every developer on the team. A clickable Tier badge surfaces the live tier composite for each person.
 2. **System Metrics** — Cycle Time and PR Volume trends with a dimension dropdown (Phase, Author, AI Tier, PR Category). The Cycle Time phase breakdown is where you spend most of your time.
-3. **Repos** — per-repo readiness scores. Useful when one specific repo is dragging your team's Readiness down.
+3. **Repos** — per-repo readiness scores for every repository that belongs to your team. A repository belongs to the teams an admin assigned it to, or, with none assigned, to the team that contributed the most to it recently, so a shared repository can appear under several teams. Useful when one specific repo needs a config update.
 
 Drill into deeper analyses on `/ai-adoption/ai-impact`:
 
-* Cycle Time breakdown with Totals / Trends toggle and a phase-by-phase trend.
+* Cycle Time breakdown — on `/ai-adoption/flow-delivery` (Team Lead Insights) and `/ai-adoption/throughput-quality` — with a **Total / Trend** switch and a phase-by-phase trend. To change the breakdown, open the card's **⋯** menu and choose **View**.
 * PR Volume by Effort, Category, Author, or AI Tier.
 * Review Cycles bucketed (0 / 1 / 2 / 3+).
 * WIP trend.
@@ -61,7 +61,7 @@ The metrics that matter most for a team lead, in priority order:
 
 A 15-minute Monday review:
 
-1. **Open** `/ai-adoption/teams` and expand your team. Note anything visibly off — a Readiness gone red, an Output Score down 30% week-over-week, an unfamiliar developer in the roster.
+1. **Open** `/ai-adoption/teams` and expand your team. Note anything visibly off — a team Tier that dropped a band, an Output Score down 30% week-over-week, an unfamiliar developer in the roster.
 2. **Open the Cycle Time phase breakdown.** Which phase is biggest? If Pickup dominates, your review queue is the problem and you need a clearing ritual. If Review dominates, your PRs are too big. If Coding dominates, look at WIP and developer-level activity for stalled work.
 3. **Walk your team's open PR queue** in your repo's native PR list. Look at the oldest 5. For each, decide: ship, deadline, or close.
 4. **Spot the outlier.** Did anyone have a noticeably high or low Output Score this week? Five-second mention to yourself, not a public callout. Worth a check-in if it persists into next week.

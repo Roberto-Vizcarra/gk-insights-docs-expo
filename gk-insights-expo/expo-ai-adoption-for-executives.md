@@ -25,7 +25,7 @@ You don't have time to learn the product. You have time for four numbers and a s
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-executive-view.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with hero KPI cards for cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage" />
-  <figcaption>Executive view — hero KPI strip with cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage.</figcaption>
+  <figcaption>Executive view — hero KPI strip with cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage, above the Cycle Time and PR Volume breakdown charts.</figcaption>
 </figure>
 
 ### The four numbers
@@ -50,21 +50,21 @@ Percent of _changes_ (PRs + direct commits, weighted by lines changed) where the
 
 #### 3. Cycle Time
 
-Average hours from a PR's first commit to merge. The single best operational health metric in the dashboard.
+Median time from a PR's first commit to merge. The single best operational health metric in the dashboard.
 
 **Read it as:** a trailing indicator of flow. If cycle time creeps up, look at WIP and review-cycle counts.
 
 #### 4. Throughput
 
-Number of merged PRs per week, normalized per active developer.
+Merged PRs plus direct commits per week, normalized per active developer. The card's sparkline plots the same figure over the window.
 
 **Read it as:** volume of shipped work. Read alongside Output Score (effort-weighted) — Throughput is "how many things"; Output Score is "how much stuff."
 
-The fifth card, **Power User Growth**, is your quarter-over-quarter trend on how many developers moved into the top tier.
+The fifth card, **Deploy Freq**, counts releases across the selected period, with the weekly rate underneath. See [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency).
 
 ### How to read the trend lines
 
-The executive view has six trend lines below the hero cards: Cycle Time, Throughput, Deployment Frequency, CFR, AI Adoption, and (when configured) Customer Bugs.
+Below the hero cards, the executive view shows Cycle Time, PR Volume, Deployment Frequency, and (when configured) Customer Bugs charts, followed by the AI adoption bar and the team rankings. When more than one defect source is connected, a **Definition** picker on the Customer Bugs chart narrows it to one source; **All definitions** is the default.
 
 The single most useful reading pattern: **look at adoption trend and cycle time trend together.**
 

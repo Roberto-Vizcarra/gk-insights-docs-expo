@@ -86,6 +86,8 @@ The ratio shifts predictably with team type. SRE teams are mostly OpEx by design
 
 * **/ai-adoption/capex** — primary surface. Grid view with monthly columns and developer rows. Expandable rows show per-PR detail and a per-month trend chart. A velocity column shows the PR + commit breakdown. CSV export is available.
 
+**Why a PR was capitalized or expensed.** In the per-PR detail, the **Reasoning** column summarizes each PR's classification on one line. Hover it for a preview, or select **See more** to expand a card with the **Decision** (Capitalized or Expensed), the work **Category**, and — when it applied — the **Customer evidence** finding (customer-reported, or no customer evidence). Select **See less** to collapse it. Reasoning that doesn't follow this pattern shows as plain text, and a dash means there is no reasoning for that PR.
+
 ### Settings that affect it
 
 * [**Work categories**](/insights-expo/expo-ai-adoption-settings#work-categories) (Settings → Categorization) — the categories PRs and commits are sorted into, and which of them count as CapEx (the **CapEx** and **Customer evidence** flags).
@@ -111,6 +113,7 @@ The ratio shifts predictably with team type. SRE teams are mostly OpEx by design
 * **Hours estimate is empirical, not timesheet-based.** Developers aren't asked to log time. The effort-to-hours conversion is a tuned constant.
 * **Doesn't account for non-shipping work.** Time spent in meetings, planning, design review, or on-call doesn't land in PRs or commits.
 * **Jurisdiction matters.** US GAAP, IFRS, and country-specific standards have different rules for what is capitalizable.
+* **Developers on several teams appear once per team.** When a developer belongs to more than one team, the grid lists them once under each team, so adding up team rows — or re-pivoting the CSV by team — counts that developer's work once per team. Organization-wide totals count it once.
 * **Test-only work is Chore by default.** With the default categories, a PR that only changes tests is classified as Chore, so it counts as OpEx even when the tests cover a new feature. Tests that ship in the same PR as the feature take that PR's category.
 
 ### FAQ
@@ -122,7 +125,7 @@ A: As a starting point, yes — the per-PR audit trail is the strongest feature.
 A: Effort Score (0.1 to 0.9) maps to an internal hours-per-effort-point constant calibrated against teams that have tracked time. It is an estimate. Order-of-magnitude reliable, not down-to-the-hour.
 
 **Q: We want to track CapEx by project, not by developer. Is that possible?**
-A: Currently the grid is per-developer per-month. Project-level rollup isn't directly supported — filter by team (if your projects map to teams) or use the CSV export and re-pivot.
+A: Currently the grid is per-developer per-month. Project-level rollup isn't directly supported — filter by team (if your projects map to teams) or use the CSV export and re-pivot. A developer on more than one team appears once under each team, so totals summed across teams count that developer's work more than once.
 
 **Q: My PR is misclassified as CapEx but it's really maintenance. How do I fix it?**
 A: /ai-adoption/data-explorer → PRs tab → click the row → set `capex_opex` to OpEx. Saves immediately. Future aggregations will reflect the override.

@@ -38,7 +38,7 @@ DORA emerged from the DevOps Research & Assessment program at Google and is the 
 | [**Deployment Frequency**](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | Velocity | How often you ship to production. |
 | [**Lead Time for Changes**](/insights-expo/expo-ai-adoption-dora-lead-time) | Velocity | How long it takes from a developer's first commit to that change reaching production. |
 | [**Change Failure Rate (CFR)**](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | Stability | What percent of releases produce a customer-reported bug. |
-| [**Mean Time to Recovery (MTTR)**](/insights-expo/expo-ai-adoption-dora-mttr) | Stability | How long it takes to recover from a production incident. |
+| [**Mean Time to Recovery (MTTR)**](/insights-expo/expo-ai-adoption-dora-mttr) | Stability | How long it takes to recover from a production incident. MTTR isn't currently shown on the standard Insights pages. |
 
 DORA splits these into two velocity metrics and two stability metrics. A high-performing team scores well on **both** sides — fast and reliable. A team that is fast but unreliable, or reliable but slow, has unfinished work to do.
 
@@ -50,8 +50,8 @@ A few practical adaptations worth knowing:
 
 * **Deployment Frequency** counts release events per window, using each repo's configured [release signal](/insights-expo/expo-ai-adoption-dora-deployment-frequency#release-signals-by-provider). You need release detection configured for each repo — without it, the metric shows an empty state.
 * **Lead Time** measures from _first commit_ to _delivering release_. It does not start at issue creation. If you enable JIRA integration with the "Include JIRA start time" option, Lead Time extends backward to include time from the issue's in-progress transition.
-* **CFR** is the rate of _releases that produced a customer-reported bug_, not the rate of all bugs. The signal is your Jira "Customer Bug = Yes" field. Internal bugs caught in QA don't count — a deliberate choice so CFR focuses on bugs that actually shipped and reached customers.
-* **MTTR** measures mean hours from Jira incident open to resolved. It uses the same Jira customer-bug stream as CFR.
+* **CFR** is the rate of _releases that produced a customer-reported bug_, not the rate of all bugs. The signal is the customer bugs from your connected issue tracker — Jira, Linear, YouTrack, or Azure Boards — identified by that connection's defect detection. Internal bugs caught in QA don't count — a deliberate choice so CFR focuses on bugs that actually shipped and reached customers.
+* **MTTR** measures median hours from a customer bug being opened to resolved. It uses the same customer bugs from your connected issue tracker as CFR. MTTR isn't currently shown on the standard Insights pages.
 
 ---
 
@@ -71,13 +71,38 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 
 ## Where this family shows up
 
-* **/ai-adoption/board-metrics** — all four DORA metrics in one canonical view.
-* **/ai-adoption/ai-impact** — CFR is the prominent stability metric. CFR KPI card, trend chart, severity-stacked view, and the CFR-by-AI-Tier breakdown.
+* **/ai-adoption/board-metrics** — Deployment Frequency, Change Lead Time, and CFR in one leadership view. See [Board Metrics page](#board-metrics-page).
+* **/ai-adoption/throughput-quality** — the Customer Bugs & Change Failure Rate card and the Customer Bugs breakdown card.
+* **/ai-adoption/ai-impact** — Customer Bugs by AI Tier.
 * **/ai-adoption/executive** — Deployment Frequency and CFR as hero trend lines.
+
+---
+
+## Board Metrics page
+
+Board Metrics (**Reporting → Board Metrics** in the sidebar, `/ai-adoption/board-metrics`) collects engineering health indicators for leadership reporting on one page. Set **Timeframe**, **Granularity**, **Filters**, and **Teams** at the top, or select **Export CSV** to download the figures.
+
+The KPI tiles across the top show **Cycle Time**, **Change Lead Time**, **Deployment Frequency**, **CFR** (with "N failed / M releases"), **Agent Adoption**, and **PRs / Dev / Week**, each against the previous period.
+
+The charts below show:
+
+* **Cycle Time** — median cycle time, summing the coding, pickup, and review phases.
+* **Change Lead Time** — median time from a change's first commit to the release that delivered it. Select a point to see the releases behind it.
+* **Deployment Frequency** — production releases per week, against the previous period.
+* **Customer Bugs & Change Failure Rate** — the change failure rate with failed and total releases, then Customer Bugs by Priority (Highest, High, Medium, Low, and Other). On Board Metrics this card always shows all defect definitions, so it matches the CFR tile.
+* **Avg Changes / Developer** — average merged PRs plus direct commits per active developer per week, compared against the previous period.
+* **Agent Adoption** — how many developers fall in each AI tier.
+
+MTTR isn't on Board Metrics.
+
+<figure>
+  <img src="/wp-content/uploads/gki-board-metrics-page-01.png" class="help-center-img img-bordered" alt="The Board Metrics page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI tiles for Cycle Time, Change Lead Time, Deployment Frequency, CFR (7.8%, 5 failed / 64 releases), Agent Adoption and PRs / Dev / Week, charts for Cycle Time, Change Lead Time and Deployment Frequency against the previous period, the Customer Bugs & Change Failure Rate card with its Change Failure Rate section and its Customer Bugs by Priority section of Highest, High, Medium, Low and Other pills above weekly bars, the Avg Changes / Developer chart, and an Agent Adoption card splitting developers into 5 Power User and 5 Regular" />
+  <figcaption>Board Metrics — KPI tiles, then the Cycle Time, Change Lead Time, Deployment Frequency, Customer Bugs & Change Failure Rate, Avg Changes / Developer, and Agent Adoption charts.</figcaption>
+</figure>
 
 ---
 
 ## Required integrations
 
-* **CFR & MTTR** require the Jira integration with the **Customer bug field ID** configured on the Jira connection. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr).
+* **CFR & MTTR** require defect detection on a connected issue tracker (Jira, Linear, YouTrack, or Azure Boards): select **Enable defect detection** on the connection and choose how to **Match by**. Without it, both metrics show an empty state. See [Configure Change Failure Rate (CFR)](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#configure-change-failure-rate-cfr).
 * **Lead Time and Deployment Frequency** require releases to be tracked per repo — through release detection (a release signal set per repo in **Settings → Releases** — see [Release signals by provider](/insights-expo/expo-ai-adoption-dora-deployment-frequency#release-signals-by-provider)) or through releases you push with the [Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api). Without either, both metrics show an empty state.

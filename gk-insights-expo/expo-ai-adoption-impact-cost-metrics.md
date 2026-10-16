@@ -19,7 +19,7 @@ custom_fields:
     nav_parent: expo-ai-adoption-metrics
     page_type: index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 > **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/insights-expo/expo-ai-adoption-impact-cost-metrics).
 
@@ -41,6 +41,8 @@ These numbers are _estimates_, not measurements. The dashboard is honest about t
 | [**AI-Assisted Percentage**](/insights-expo/expo-ai-adoption-impact-cost-ai-assisted-percentage) | What % of shipped _changes_ (PRs + commits) had AI assistance. Weighted by lines changed. |
 | [**CapEx / OpEx Split**](/insights-expo/expo-ai-adoption-impact-cost-capex-opex) | Software capitalization breakdown. Which work counts as capitalizable engineering investment? |
 | [**Spend by Tier**](/insights-expo/expo-ai-adoption-impact-cost-spend-by-tier) | AI tooling cost allocated across AI Tiers. Where is the money going, and is it landing on Power Users? |
+
+For AI cost per developer, the Developers table on /ai-adoption/developers adds two columns. **Token Usage Value** is a developer's AI API spend across your connected AI coding tools in the selected window. **$ / Output** is AI API spend per point of output the developer shipped in that window: lower means more shipped effort per AI dollar, and $0.00 means the output shipped without billed AI usage. A dash means there's no scored output to divide by — for example, for a developer on PTO for the whole window. The developers CSV export includes **$ / Output** too.
 
 ---
 
@@ -66,7 +68,12 @@ Three rules:
 
 ## Where this family shows up
 
-* **/ai-adoption/ai-impact** — the dedicated home for this family. Productivity hero cards, AI Insight banner, Cycle Time and PR Volume by AI Tier, Spend by Tier, CFR by AI Tier.
+* **/ai-adoption/ai-impact** — the dedicated home for this family. Productivity hero cards, AI Insight banner, Cycle Time and PR Volume by AI Tier, AI Spend by Tier, AI Spend by Developer, CFR by AI Tier. Open **Filters** and choose **Developer** to scope the whole page to specific people.
 * **/ai-adoption/executive** — Productivity Uplift in the hero KPI strip and the executive insight banner.
 * **/ai-adoption/capex** — CapEx / OpEx split as the primary surface.
 * **/ai-adoption/teams**, **/ai-adoption/developers** — AI-Assisted % appears in trend lines and breakdowns.
+
+<figure>
+  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.00" />
+  <figcaption>AI Spend by Developer on /ai-adoption/ai-impact — each developer's AI spend, merged PRs, and cost per merged PR.</figcaption>
+</figure>

@@ -1,6 +1,6 @@
 ---
 title: Reading Your First Dashboard
-description: A guided walkthrough of the /teams page in GitKraken Insights — what every column means, how to read tier mix and cycle time, and where to click next.
+description: A guided walkthrough of the /teams page in GitKraken Insights — what every column means, how to read team tiers and scores, and where to click next.
 product: GitKraken Insights
 content_type: how-to
 audience: all
@@ -27,57 +27,89 @@ A guided 10-minute walkthrough of `/teams`, the page you land on when you log in
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="Flow and Delivery view in GitKraken Insights with the team-pulse KPI strip, cycle time by phase trend, and average changes per developer chart" />
-  <figcaption>Flow & Delivery — hero KPI strip with team-pulse cards, plus the Flow tab's cycle-time-by-phase and changes-by-type charts.</figcaption>
+  <figcaption>Team Lead Insights — the filter bar with Timeframe, Granularity, and Filters, the team-pulse KPI strip, and the Flow tab's cycle-time-by-phase and changes-by-type charts.</figcaption>
 </figure>
 
 ### Set the scope first
 
 Before you read anything, set two filters at the top of the page:
 
-1. **Date range.** Default is the last 14 days. For weekly reviews keep it at 14 days. For a quarter-end review, switch to 90 days. Sub-7-day windows force some rates to zero, so don't pick "yesterday" expecting full data.
-2. **Department or team.** Pick the slice of the org you care about. If you have a `Default Department` set in Settings, this comes pre-filled.
+1. **Date range.** Default is the last 7 days. For a two-week review, switch to 14 days. For a quarter-end review, switch to 90 days. Sub-7-day windows force some rates to zero, so don't pick "yesterday" expecting full data. Rolling ranges such as **Last 14 days** end on the last day your data has fully synced and keep their length, so a range can end a day or two before today. When that happens, an info icon beside the date picker shows the **Data through** date.
+2. **Department or team.** Open **Filters** → **Team** and pick the slice of the org you care about. A filter shows on the bar as a chip only once it's set. If you have a `Default Department` set in Settings, this comes pre-filled.
 
 Everything below this point will reflect those two filters.
 
+**Surface toggle (Claude Cowork orgs).** Once your organization's Claude Code telemetry includes Claude Cowork activity, the Teams and Developers pages also show a **Surface** toggle: **All**, **Claude Code**, or **Cowork**. It narrows only the expanded developer detail; scores and tables always include all activity.
+
 ### The team table — column by column
 
-The main view is one row per team. Here's what each column tells you:
+The main view is one row per team, under a strip of four KPI cards:
 
-#### Readiness
+* **Avg Adoption** — the mean Agent Adoption Score across teams, where each team is the average of its members' scores.
+* **Avg Autonomy** — the same for Agent Autonomy Score.
+* **Avg Output** — the mean Output Score across teams, as a per-working-week rate.
+* **% Power Teams** — the share of teams whose tier is Power User. Teams with every member on PTO are left out.
 
-A composite "is this team set up to succeed with AI?" rating. Combines repository readiness (do they have AI tools wired in?), behavior (are developers actively using AI?), and outcomes (cycle time, output). Read as: green = no help needed, yellow = friction worth investigating, red = blocked.
+<figure>
+  <img src="/wp-content/uploads/gki-teams-table-01.png" class="help-center-img img-bordered" alt="The Teams page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Teams, and the All Teams table listing Platform, Payments, Growth and Mobile with their Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk and Token Usage Value" />
+  <figcaption>The Teams page: the KPI strip above the team table.</figcaption>
+</figure>
 
-#### Avg Adoption
+Use **Filter by name** above the table to find a team. Here's what each column tells you:
 
-The mean Agent Adoption Score across the team's active developers. A team average of 50 means a healthy mix; 80+ means a high-adoption team.
+#### Team
+
+The team name and its developer count. Every score in the row is aggregated from these members.
+
+#### Tier
+
+The team's tier, from the average of its members' composite tier scores (Agent Adoption, Agent Autonomy, and Output, weighted as configured in Settings → General). Members on PTO are left out. The bands are the same as for developers: Power User (80 and above), Regular (55 to 79), Explorer (25 to 54), and Emerging (below 25).
+
+→ [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier)
+
+#### Agent Adoption Score
+
+The average Agent Adoption Score of the team's members. A team average of 50 means a healthy mix; 80+ means a high-adoption team.
 
 → [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score)
 
-#### Tier mix
+#### Agent Autonomy Score
 
-Bars showing the team's distribution across Power User / Regular / Explorer / Emerging. A team can have a great average and still be lopsided — e.g. half Power Users, half Emerging. The tier mix surfaces that.
+The average Agent Autonomy Score of the team's members: how autonomously they work with AI agents.
 
-#### Cycle Time
+→ [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score)
 
-Average hours from a PR's first commit to merge. Lower is generally better, but not always — see the [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) section for nuance.
+#### Output Score /wk
 
-#### Output Score (per active dev)
-
-Effort-weighted shipping rate, divided by the number of active developers on the team. A team that ships fewer but bigger PRs can have the same Output Score as a team that ships many small ones. Read this alongside the PR/DC count breakdown to know which pattern you're seeing.
+Effort-weighted shipping rate per working week. A team that ships fewer but bigger PRs can have the same Output Score as a team that ships many small ones.
 
 → [Output Score](/insights-expo/expo-ai-adoption-output-output-score)
 
-#### Power User %
+#### Token Usage Value
 
-Percentage of the team's active developers in the Power User tier. Useful for tracking "where is AI adoption already mature" at a glance.
+AI API spend across your connected AI coding tools over the selected window.
+
+#### AI Credits Used
+
+Shown when your organization uses GitHub Copilot and has credit data. The premium-model credits the team's members consumed through Copilot in the window, as reported by GitHub, with input and output token counts below when GitHub reports them.
+
+**Choose and size columns.** Open **Columns** above the table to show or hide columns; **Show all** brings every column back. Drag a column edge to resize it, and use **Reset widths** to undo. Your browser remembers the choices for each table. The same **Columns** menu appears on the other Insights tables, such as Developers and Repositories, and in drill-downs. Hiding and resizing aren't available on narrow screens.
+
+Below the table, the **Score Tiers** card and the score explainers show how the tiers and scores are calculated.
 
 ### Expand a row to drill in
 
-Click any team row to expand it. You'll see three tabs:
+Click any team row to expand it.
+
+**Team Adoption Insight.** Above the tabs, the **Team Adoption Insight** card writes a short AI-generated read of the team's adoption profile when you click its lightbulb. It appears only when GitKraken AI features are turned on for your organization and the team has enough developers for a meaningful summary.
+
+Below the card, the row has four tabs:
 
 #### Repos
 
-Per-repo readiness. Helpful when a team's Readiness score is dragged down by one specific repo that needs a config update.
+Per-repo readiness, with each repository's score, readiness tier, and assessment checks.
+
+**Which repositories belong to a team.** A repository belongs to the teams an organization admin assigned it to. With no team assigned, it falls back to the team whose developers contributed the most pull requests and direct commits to it over the past 90 days. One repository can belong to several teams. When a shared repository's releases, change failure rate, and bug escape rate count toward another team, the Repos tab marks it **Attributed to** that team; it still counts as one of this team's repositories for ownership, readiness, and coverage. Repositories assigned to the team that have never been scanned for readiness appear separately under **Assigned, not yet assessed**.
 
 #### Developers
 
@@ -87,14 +119,18 @@ The full developer roster for that team with individual Adoption Scores, Output 
 
 Cycle Time + PR Volume trends for the team. Use the dimension dropdown to break either chart down by author, AI tier, or PR category.
 
+#### Releases
+
+The team's releases.
+
 ### What to look at first
 
 In order, every time:
 
-1. **Tier mix bars.** Are any teams disproportionately Emerging? That's the leading edge of an adoption problem.
-2. **Avg Adoption vs Output Score.** A team with high adoption and low output (or vice versa) deserves a conversation.
-3. **Cycle Time outliers.** Anyone over 4 days? That's almost always a review-bottleneck or WIP problem, not a coding problem.
-4. **Readiness reds.** A red Readiness usually means a missing integration or a stale roster — quick to fix.
+1. **Tier column and % Power Teams.** Are any teams sitting at Explorer or Emerging? That's the leading edge of an adoption problem. Expand the row and check the Developers tab to see who is pulling the average down.
+2. **Agent Adoption Score vs Output Score /wk.** A team with high adoption and low output (or vice versa) deserves a conversation.
+3. **Cycle Time outliers.** Expand a team and open System Metrics. Anyone over 4 days? That's almost always a review-bottleneck or WIP problem, not a coding problem.
+4. **Repos tab gaps.** Repositories under **Assigned, not yet assessed** have no readiness score yet, and repositories with failing checks usually mean a missing integration or config — quick to fix.
 
 ### Where to go next
 

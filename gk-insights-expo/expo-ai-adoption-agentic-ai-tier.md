@@ -27,7 +27,7 @@ custom_fields:
 
 The AI Tier is the dashboard's headline classification — every active developer lands in one of five tiers each window. It's a deliberate composite of three signals: how _consistently_ the developer is using AI (Adoption), how _autonomously_ (Agentic), and how _productively_ (Output Norm). The weights are configurable per-org in Settings → General (defaults 0.5 / 0.2 / 0.3) — see "The weighted blend" below.
 
-The tier is what drives the Top 10 widget, the executive ranking, the breakdown charts that bucket by AI Tier, and the team-level tier mix bars on /ai-adoption/teams. If you only learn one composite metric in the dashboard, learn this one.
+The tier is what drives the Top 10 widget, the executive ranking, the breakdown charts that bucket by AI Tier, and the team Tier on /ai-adoption/teams, which averages its members' composite tier scores. If you only learn one composite metric in the dashboard, learn this one.
 
 ### Formula
 
@@ -50,8 +50,8 @@ Tier:
 **The three inputs.**
 
 1. **Adoption** — the developer's [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score), 0–100.
-2. **Agentic** — the developer's [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score), 0–100 (Claude Code, Codex, Cursor, and Copilot, each at its Provider Weight).
-3. **Output Norm** — a normalized version of the developer's Output Score. Computed as `min(devRate / OrgP90Rate, 1.0) × 100 × MaturityFactor`, where `devRate = OutputScore / weeks`. Capped at 1.0 before scaling so outlier shippers don't blow past 100. If an admin has set an **Output Rate Target** under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks), it replaces `OrgP90Rate`.
+2. **Agentic** — the developer's [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score), 0–100 (Claude Code, Codex, Cursor, GitHub Copilot, and OpenCode, each at its Provider Weight; OpenCode is available on request — contact your GitKraken account team).
+3. **Output Norm** — a normalized version of the developer's Output Score. Computed as `min(devRate / OrgP90Rate, 1.0) × 100 × MaturityFactor`, where `devRate` is the developer's Output Score — their effort per working week, PTO excluded. Capped at 1.0 before scaling so outlier shippers don't blow past 100. If an admin has set an **Output Rate Target** under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks), it replaces `OrgP90Rate`.
 
 All three are already on the same 0–100 scale, and all three are already scaled by the Maturity Factor. They're directly comparable.
 
@@ -63,11 +63,11 @@ Output must be greater than 0 (the Settings form rejects 0, negatives, and non-n
 
 **Classification.** Once the composite score is computed, it's mapped to a tier: 80+ = **Power User**, 55–79 = **Regular**, 25–54 = **Explorer**, <25 = **Emerging**. The Emerging label is used consistently across the backend enum, the UI badge, the onboarding tour, and the Top-10 widget.
 
-**The PTO override.** If a developer was on PTO for _every_ weekday in the selected window, they're forced to the **On PTO** tier regardless of underlying scores. PTO override is checked first — if `ptoFlag` is true, we return `(0, OnPTO)` immediately and skip the composite math.
+**The PTO override.** If a developer was on PTO for _every_ weekday in the selected window, they're forced to the **On PTO** tier regardless of underlying scores. PTO override is checked first — if `ptoFlag` is true, we return `(0, OnPTO)` immediately and skip the composite math. Time off comes from [BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#bamboohr), or an admin can mark a day off by hand on the developer's activity heatmap on the [Developers](/insights-expo/expo-ai-adoption-developers) page.
 
-**Window length matters.** If the selected window is less than 7 days, the Output Norm is forced to zero (rates can't be computed over sub-week windows). Tier still works in that case, but it's effectively a 2-input composite for short windows.
+**Window length matters.** If the selected window is shorter than 7 days, the Output benchmark is taken from the trailing 7 days, so Output still counts toward the tier, and the tier tooltip says so. If no one in the org has output to benchmark against, Output drops out and the tier blends Adoption and Autonomy only.
 
-**Org P90 is always org-wide.** Just like Adoption and Agentic, the Output Norm benchmark is computed across the whole active org, not the team you're filtering to. A developer's tier doesn't change when an admin toggles team filters.
+**The Output benchmark ignores team filters.** Just like Adoption and Agentic, the Output Norm benchmark isn't narrowed to the team you're filtering to, so a developer's tier doesn't change when you toggle team filters. Filtering by **Repositories** or **Organizations** is different: the Output benchmark is then computed for just the selected repositories or organizations, so Output Norm and tiers can shift. The Adoption and Agentic benchmarks stay org-wide.
 
 ### Why it matters
 
@@ -95,19 +95,19 @@ If your **Power User % is below 5%**, your rollout has stalled or your org is ge
 
 If your **Emerging % is above 25%**, you have an onboarding or tooling-friction problem.
 
-If **On PTO % is unusually high** (>15%), check whether your PTO sync is working.
+If **On PTO % is unusually high** (>15%), check whether your BambooHR sync is working and whether days were marked off by hand on the Developers page.
 
 ### Where it appears
 
-* **/ai-adoption/developers** — primary surface. Tier badge on every row, sortable column.
-* **/ai-adoption/teams** — tier mix bars on every team row.
+* **/ai-adoption/developers** — primary surface. Tier badge on every row, sortable column. Expand a developer on the [Developers](/insights-expo/expo-ai-adoption-developers) page to see the **Overview** scorecard: the Tier panel lists each score, and clicking it shows the Composite Tier math — each normalized score times its weight, with the Output rate against the benchmark it was scaled to.
+* **/ai-adoption/teams** — the **Tier** column on every team row, from the average of its members' composite tier scores. Members on PTO are left out. **% Power Teams** is the share of teams whose tier is Power User.
 * **/ai-adoption/executive** — adoption tier bar (clickable tier labels deep-link into /ai-adoption/developers filtered to that tier).
 * **/ai-adoption/ai-tools-comparison** — cohort comparisons use tier as a key segmentation.
 * **/ai-adoption/ai-impact** — productivity analysis uses tier as the primary cohort dimension.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-executive-view.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with hero KPI cards for cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage" />
-  <figcaption>Executive view — hero KPI strip with cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage.</figcaption>
+  <figcaption>Executive View — KPI cards for cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage, above the Cycle Time trend and PR Volume by Dimension charts.</figcaption>
 </figure>
 
 ### Settings that affect it
@@ -136,7 +136,7 @@ If **On PTO % is unusually high** (>15%), check whether your PTO sync is working
 ### Limitations and gotchas
 
 * **Org P90 moves.** A developer with steady absolute numbers can drop a tier when the rest of the org catches up.
-* **Sub-7-day windows.** Output Norm forces to zero, so Tier in a 5-day window is effectively Adoption + Agentic only.
+* **Sub-7-day windows.** Output is benchmarked against the trailing 7 days, not the window itself, so a 5-day tier compares the developer's rate with a full week of org output.
 * **Composite hides imbalance.** A developer at Adoption=90 / Agentic=30 / OutputNorm=30 has the same composite (\~60, Regular) as one at 50/50/50. Always look at the expanded breakdown.
 * **PTO override is binary.** Partial-PTO developers (e.g. 2 weeks of a 4-week window) get _no_ override.
 * **Tier thresholds are fixed.** The 25/55/80 cutoffs don't move when you change Maturity Factor — only the inputs do.
@@ -150,7 +150,7 @@ A: Different orgs value different signals. An early-stage rollout cares mostly a
 A: On-PTO developers are excluded from average score, Power User %, active-adoption %, and the Top 10. They're still in the roster, just not in those aggregates.
 
 **Q: Can a single developer's tier change just because the org changed?**
-A: Yes. Tier is normalized to the org P90 for Output, and the P90 caps for Adoption / Agentic are also org-wide.
+A: Yes. Tier is normalized to the org P90 for Output, and the P90 caps for Adoption / Agentic are also org-wide. Team filters never move those benchmarks, but filtering by Repositories or Organizations computes the Output benchmark for just that scope, so a tier can change under those filters.
 
 **Q: I set Tier Weights to 0.7 / 0.0 / 0.3 — what happens to Agentic?**
 A: Agentic is silently weighted at 0 in the composite. Renormalization still works. Agentic Score still displays separately on the developer detail panel.

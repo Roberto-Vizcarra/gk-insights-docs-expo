@@ -43,7 +43,7 @@ If a developer has no activity in a tool, that tool's score is 0 and it adds not
 
 ### How GitKraken Insights calculates it
 
-**Step 1 — Score each tool on its own.** For the Adoption Score, Claude Code, Codex, and Cursor are each scored on the four factors (Daily Regularity, Hourly Spread, Prompt Depth, Token Output); Copilot is scored on its own usage bands. See [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) for the mechanics. For the Autonomy Score, each tool contributes its own 0–100 autonomy score — see [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score).
+**Step 1 — Score each tool on its own.** For the Adoption Score, Claude Code, Codex, Cursor, and OpenCode are each scored on the four factors (Daily Regularity, Hourly Spread, Prompt Depth, Token Output). Copilot is scored from one source per developer: through Agent OTel Data on the same four factors, or from the GitHub Copilot connection's own signals (active days, interactions, and lines added), each measured against your org's 90th percentile. See [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) for the mechanics. For the Autonomy Score, each tool contributes its own 0–100 autonomy score — see [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score).
 
 **Step 2 — Weight each tool score.** Each tool score is multiplied by that tool's Provider Weight. At the default 1.0, a Cursor score of 60 contributes 60 points; at 0.5 it contributes 30.
 
@@ -69,12 +69,12 @@ The difference between the first two cases (15 points) is what the Cursor weight
 
 ### Where it appears
 
-* **/developers** — the expanded panel breaks down each tool's contribution so you can see what each tool is doing for a developer's score. The "How is the Agent Adoption Score calculated?" card lists the current weight for each tool.
+* **/developers** — hover a developer's Agent Adoption or Agent Autonomy Score on the [Developers](/insights-expo/expo-ai-adoption-developers) table to see each tool's contribution, and expand the developer for the full breakdown. The "How is the Agent Adoption Score calculated?" card lists the current weight for each tool.
 * **Behind the scenes** in every Adoption and Autonomy Score on the dashboard.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-developers.png" class="help-center-img img-bordered" alt="Developers page in GitKraken Insights showing the Top 10 developers widget, score trend chart, and the developer table with Adoption, Agentic, Providers, and Output Score columns" />
-  <figcaption>Developers page — Top 10 developers, score trend, and the full developer table with Adoption, Agentic, Providers, and Output Score columns.</figcaption>
+  <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value, and $ / Output columns.</figcaption>
 </figure>
 
 ### Settings that affect it

@@ -22,33 +22,34 @@ custom_fields:
 
 > _The percent of releases that produce a customer-reported bug. The DORA stability metric._
 
-**Family:** DORA & Quality · **Cadence:** Per window, per team or org · **Where it appears:** /ai-adoption/ai-impact, /ai-adoption/board-metrics, /ai-adoption/executive
+**Family:** DORA & Quality · **Cadence:** Per window, per team or org · **Where it appears:** /ai-adoption/throughput-quality, /ai-adoption/board-metrics, /ai-adoption/flow-delivery, /ai-adoption/executive, /ai-adoption/ai-impact
 
 ### At a glance
 
 CFR is "what percent of our deploys cause customer pain?" High CFR means shipping is causing more problems than it's solving. Low CFR means you are shipping reliably. It is the stability counterweight to Deployment Frequency — together they tell the most credible story about whether your engineering organization is healthy.
 
-The dashboard uses your Jira "Customer Bug = Yes" field as the canonical signal for what counts. Internal bugs caught in QA don't count toward CFR. This is deliberate — CFR focuses on what hit customers, not what your QA caught.
+The dashboard counts the customer bugs in your connected issue tracker — Jira, Linear, YouTrack, or Azure Boards — that the connection's defect detection identifies (for Jira, for example, a "Customer Bug = Yes" field). Internal bugs caught in QA don't count toward CFR. This is deliberate — CFR focuses on what hit customers, not what your QA caught.
 
 ### Formula
 
 ```
 CFR = count(releases with ≥1 customer bug) / count(releases in window) × 100%
 
-  where customer bug = Jira issue with Customer Bug field = Yes
+  where customer bug = a tracker issue that defect detection
+                       identifies as a customer bug
 ```
 
 ### How GitKraken Insights calculates it
 
-**The Customer Bug field.** A background worker (the CFR syncer) queries Jira hourly for issues where your configured Customer Bug field is set to "Yes." The bugs are stored in the `jira_incidents` table along with severity, assignee, and create/resolve timestamps.
+**Customer bugs.** A background worker (the CFR syncer) reads issues from each connected tracker that has defect detection turned on — Jira, Linear, YouTrack, or Azure Boards — and keeps the ones that match the connection's defect detection. For Jira it queries hourly, and the bugs are stored in the `jira_incidents` table along with priority, assignee, and create/resolve timestamps. One tracker with defect detection is enough for CFR.
 
-**The integration requires the Customer bug field ID.** Set it on the Jira connection in Settings → Data Connections. Without it, CFR sync is skipped and the UI shows an empty state.
+**The integration requires defect detection.** On the tracker connection in **Settings → Data Connections**, select **Enable defect detection** and choose how to **Match by**. Without it, CFR isn't measured: the CFR cards show "Change Failure Rate isn't measured yet" and a **Configure defect detection** button that opens that connection's defect-detection settings.
 
-**Matching bugs to releases.** Each customer bug is matched to the release it shipped in. A release "fails" if it had at least one customer bug attributed to it.
+**Matching bugs to releases.** A release counts as failed when a customer bug is created after it ships and before the next release, within the selected period.
 
-**Severity.** Bugs are tracked with severity — Critical, High, Medium, Low. The CFR KPI card on /ai-adoption/ai-impact specifically shows **Critical & High Customer Bugs** — the bugs that actually hurt. The trend chart can show all severities stacked.
+**Priority.** Customer bugs are grouped by priority as Highest, High, Medium, and Low, plus Other for priorities that don't map to those four. Priority names other than the standard ones (for example, "Critical (P1)") are placed in these bands by their order in your tracker's priority scheme, most severe first. The **Customer Bugs & Change Failure Rate** card counts the same bugs that make releases fail, so its priority counts add up to the bugs behind the failed releases.
 
-**Aggregation.** CFR is `failing releases / total releases` over the window, expressed as a percent.
+**Aggregation.** CFR is `failing releases / total releases` over the window, expressed as a percent. Teams share releases, so per-team release counts don't add up to the organization total.
 
 ### Why it matters
 
@@ -71,14 +72,23 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 ### Where it appears
 
-* **/ai-adoption/ai-impact** — primary surface. CFR KPI card (Critical & High bugs), CFR trend chart (severity-stacked), CFR breakdown chart (dimension dropdown: None / Team / Priority / Assignee, with bars or trend lines). Drill-down table below. The CFR-by-AI-Tier breakdown also lives here.
-* **/ai-adoption/board-metrics** — CFR as one of the four DORA cards.
-* **/ai-adoption/executive** — CFR trend line as a stability indicator.
+* **/ai-adoption/throughput-quality** — primary surface. The **Customer Bugs & Change Failure Rate** card shows the rate with "N failed / M releases", then **Customer Bugs by Priority**: Highest, High, Medium, Low, and Other counts you can turn on or off, above a trend stacked by priority with the previous period alongside. The **Customer Bugs by** breakdown card groups bugs by Team, Department, Business Unit, Priority, or Assignee, as bars or trend lines.
+* **/ai-adoption/board-metrics** — the CFR tile, plus the same Customer Bugs & Change Failure Rate card, always for all definitions.
+* **/ai-adoption/flow-delivery** — CFR in the Team Lead Insights KPI strip.
+* **/ai-adoption/executive** — the Customer Bugs chart with its CFR readout, as a stability indicator.
+* **/ai-adoption/ai-impact** — Customer Bugs by AI Tier.
+
+When more than one defect source is connected, a **Definition** picker on the Throughput & Quality bug cards and the Customer Bugs chart narrows them to one source; **All definitions** is the default. Board Metrics always shows all definitions.
+
+<figure>
+  <img src="/wp-content/uploads/gki-cfr-customer-bugs-card-01.png" class="help-center-img img-bordered" alt="The Customer Bugs & Change Failure Rate card in GitKraken Insights: a Change Failure Rate section reading 7.8% with 5 failed / 64 releases, and a Customer Bugs by Priority section with Highest 2, High 9, Medium 9, Low 3 and Other 0 pills above weekly stacked bars of bugs by priority from Jun 1 to Jun 22, each beside a grey previous-period bar, crossed by a Claude Code rolled out to Mobile annotation" />
+  <figcaption>The Customer Bugs & Change Failure Rate card — the rate with failed and total releases, then the same bugs by priority.</figcaption>
+</figure>
 
 ### Settings that affect it
 
-* **Customer bug field ID** (Settings → Data Connections → the Jira connection → Edit → Advanced) — the Jira custom field for "Customer Bug = Yes." Required for CFR to populate at all.
-* **Multiple CFR configurations** — you can keep more than one Change Failure Rate configuration, one per Jira instance or per definition of a failed change.
+* **Enable defect detection** and **Match by** (Settings → Data Connections → the tracker connection) — how the connection identifies customer bugs; for Jira, for example, a custom field such as "Customer Bug = Yes." Required for CFR to populate at all. Changing **Enable defect detection** or **Match by** recalculates that connection's Change Failure Rate history, so past figures can change.
+* **More than one defect source** — each tracker connection, and each Jira instance, has its own defect detection.
 * **Release tracking** (Settings → Releases, or the manual releases API) — CFR is failing releases ÷ total releases, so it needs releases to divide by.
 * **Unmatched Jira assignees** (Settings → Developers) — assignees the sync couldn't match to a roster developer. CFR by-assignee dimension will under-count until these are resolved.
 
@@ -95,15 +105,15 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 
 * **Increase test coverage on high-risk code paths.** Code Climate, coverage tools, and other quality tools live alongside Insights, not inside it — but the rising CFR signal is what should send you there.
 * **Slow down on high-risk changes.** A team whose CFR is rising should not be sprinting — they should be tightening review on architecturally-sensitive PRs.
-* **Investigate the bug → PR mapping.** The /ai-adoption/ai-impact drill-down table shows the recent customer bugs. Walk through them. Are they hitting one repo? One team? One developer's PRs? Patterns tell you where to intervene.
+* **Investigate the bug → PR mapping.** The Customer Bugs by Team, Priority, or Assignee breakdown on /ai-adoption/throughput-quality shows where the bugs cluster; open those bugs in your tracker and walk through them. Are they hitting one repo? One team? One developer's PRs? Patterns tell you where to intervene.
 * **Pair CFR with First-Pass Rate.** If both are high, your reviews aren't catching real problems. Calibrate reviewer expectations.
 * **Don't trade velocity for stability blindly.** A team with elite Deployment Frequency and elite CFR is the goal — not high stability through low velocity.
 
 ### Limitations and gotchas
 
-* **Jira only.** CFR reads customer bugs from Jira. Organizations that track customer bugs in Azure DevOps work items instead can't populate CFR.
-* **Depends on Jira workflow discipline.** If your team marks customer bugs inconsistently, CFR is noisy. The fix is upstream — get Jira workflow consistent.
-* **No automatic severity assessment.** Severity comes from the Jira field directly. If your assignees set severity inconsistently (everyone's bug is "High"), the Critical & High view is misleading.
+* **Supported trackers.** CFR reads customer bugs from Jira, Linear, YouTrack, or Azure Boards (Azure DevOps with work-item sync on), whichever you have connected and set up to identify defects. Organizations that track customer bugs elsewhere can't populate CFR.
+* **Depends on tracker workflow discipline.** If your team marks customer bugs inconsistently, CFR is noisy. The fix is upstream — get your tracker workflow consistent.
+* **No automatic severity assessment.** Priority comes from your tracker directly. If your assignees set priority inconsistently (everyone's bug is "High"), the priority breakdown is misleading.
 * **Customer-only.** Internal bugs caught in QA don't count. This is deliberate — but it means CFR doesn't measure all quality, just user-visible quality.
 * **Lagging by issue-creation latency.** A bug that ships today but isn't reported by a customer for six weeks doesn't appear in this week's CFR. CFR is genuinely lagging in a way Deployment Frequency is not.
 * **Sync runs every hour.** Bugs created in the last hour may not be in CFR yet.
@@ -111,13 +121,13 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 ### FAQ
 
 **Q: We have a customer bug that wasn't caused by a code change. Does it count?**
-A: If it is marked Customer Bug = Yes in Jira, yes. The CFR metric does not try to distinguish code-caused bugs from infrastructure / data / config issues. If you need that distinction, use a separate Jira field and filter the dashboard view accordingly.
+A: If your tracker's defect detection identifies it as a customer bug, yes. The CFR metric does not try to distinguish code-caused bugs from infrastructure / data / config issues. If you need that distinction, mark code-caused bugs with their own field, label, or issue type and set defect detection's **Match by** to it.
 
 **Q: Our CFR keeps spiking on Monday mornings. Why?**
 A: Probably weekend-released bugs that don't get reported until the work week starts. Look at the create-timestamp of the bugs, not the merge-timestamp. The spike is artifact, not a real Monday quality problem.
 
 **Q: Can I see CFR for just one team?**
-A: Yes. Apply a team filter on the page; the breakdown chart also supports team as a dimension.
+A: Yes. Apply a team filter on the page; the breakdown chart also supports team as a dimension. A release can count for more than one team, so team-level CFR figures don't sum to the org figure.
 
 **Q: Why does CFR by AI Tier matter?**
 A: It tells you whether AI adoption is changing your stability profile. The hopeful answer is "Power Users have similar or lower CFR than Emerging devs." If Power Users have higher CFR, that's a flag — AI is enabling faster shipping at a quality cost.

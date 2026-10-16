@@ -102,7 +102,10 @@ The gate was switched on in production on 2026-09-23. First sign-in attempt died
 
 Outside the plugin, still open — see the checklist in `AUTH-GATE-PLAN.md`: Cloudflare purge + bypass rule for `/insights-expo/*`, Search Console removal, SearchWP category exclusion, `/gk-insights/` decision, and making the content repos private **before restricted content is committed** (they are public today by choice; nothing in them is confidential yet).
 
-## Content Map (50 files)
+### Phase 10 — Insights backfill audit (2026-10-15 → 2026-10-16, PR #3 open, v1.17.4)
+Synced the unmerged gk-insights-docs PRs #6/#8/#11. Then a parity pass against the customer setup docs and the product: the Agent OTel Data page, Security & Permissions, a hidden Manual Critical Defects API draft, and 181 heading anchors fixed. Then audited every Insights change from 2026-08-21 to gitkraken.dev `4e52b943e` (312 frontend commits, plus insights-service calculation changes). Added 7 new pages (By Developer, By Repository, By AI Tool & Model, By AI Sessions, Surveys, GitKraken Insights for Developers, Connect Linear & YouTrack) and 35 new or retaken screenshots. Plugin v1.17.4 = the v1.17.3 lockdown + updated sandboxes (35/25/25/15 weights, Company AI Readiness, Provider Weights). Every shipped image passed an adversarial visual review: 15 PASS, 20 PASS-POLISH accepted, 0 FAIL. The audit record (findings, specs, review runs) lives in gk-docs-automation; see its `docs/products/insights.md` → "Audit history".
+
+## Content Map (60 files)
 
 Nav labels come from `custom_fields.nav_label`; the table lists type and category, which are what the plugin branches on.
 
@@ -115,6 +118,12 @@ Nav labels come from `custom_fields.nav_label`; the table lists type and categor
 | expo-ai-adoption-for-engineering-leaders.md | content | getting-started |
 | expo-ai-adoption-for-team-leads.md | content | getting-started |
 | expo-ai-adoption-for-admins.md | content | getting-started |
+| expo-ai-adoption-developers.md | content | getting-started |
+| expo-ai-adoption-repositories.md | content | getting-started |
+| expo-ai-adoption-ai-tools-comparison.md | content | getting-started |
+| expo-ai-adoption-ai-sessions.md | content | getting-started |
+| expo-ai-adoption-surveys.md | content | getting-started |
+| expo-ai-adoption-insights-for-developers.md | content | getting-started |
 | expo-ai-adoption-connect-your-data.md | index | connect-your-data |
 | expo-ai-adoption-connect-github.md | content | connect-your-data |
 | expo-ai-adoption-connect-bitbucket.md | content | connect-your-data |
@@ -122,6 +131,8 @@ Nav labels come from `custom_fields.nav_label`; the table lists type and categor
 | expo-ai-adoption-connect-gitlab.md | content | connect-your-data |
 | expo-ai-adoption-connect-ai-tools.md | content | connect-your-data |
 | expo-ai-adoption-connect-jira-bamboohr.md | content | connect-your-data |
+| expo-ai-adoption-connect-otel.md | content | connect-your-data |
+| expo-ai-adoption-connect-linear-youtrack.md | content | connect-your-data |
 | expo-ai-adoption-metrics.md | index | metrics |
 | expo-ai-adoption-agentic-metrics.md | index (family) | metrics |
 | expo-ai-adoption-agentic-adoption-score.md | content (metric) | metrics |
@@ -157,6 +168,8 @@ Nav labels come from `custom_fields.nav_label`; the table lists type and categor
 | expo-ai-adoption-admin.md | index | admin |
 | expo-ai-adoption-settings.md | content | admin |
 | expo-ai-adoption-manual-releases-api.md | content | admin |
+| expo-ai-adoption-security-permissions.md | content | admin |
+| expo-ai-adoption-manual-critical-defects-api.md | content | hidden (draft: API keys not widely available) |
 | expo-ai-adoption.md | content | hidden (redirect) |
 
 All 21 metric pages share the same 12 H3 sections and the same opening block (`## Title`, italic definition blockquote, `**Family:** · **Cadence:** · **Where it appears:**` line, `### Formula` with one fenced block). The metric pipeline depends on this; a new metric page should copy an existing one.
@@ -221,13 +234,14 @@ Confirmed by the import, and previously unrecorded:
 
 ## Open Items
 
+- **Insights audit (PR #3):** upload plugin **v1.17.4**; before merging, check the PR #3 checklist (NG-1858/NG-1864 in production, render check of the 7 new pages). API-key pages wait on clarity about `gkDotDevApiKeys` availability: the Manual Releases API page is visible with an on-request note, and Manual Critical Defects API stays hidden.
 - Upload 1.17.3, then run `LOCAL-DEV.md` → "Verifying the lockdown" against production.
 - Manual hardening items in `AUTH-GATE-PLAN.md` → "Still outside the plugin".
 - Gate page renders in a system fallback font (Inter is not web-loaded; the gate enqueues stylesheets only). Cosmetic.
 - Local verification of the lockdown needs `gki_auth_enabled 1` on the local site (wp-cli recipe in `LOCAL-DEV.md`); the AI sandbox cannot flip it.
 - The Pass C mockup's sticky side-rail sandbox was rejected in favour of inline-under-formula; the mockup still shows the rail.
 - `PHASE-4-HANDOFF.md` and `BREAKOUT-PLAN.md` are historical.
-- **Fold-back into `/gk-insights/`** — not scheduled. Full inventory of what changes (category constant, hard-coded login path, 50 slugs, 166 links, `nav_parent`, Git It Write mapping, redirects, CDN rule, SearchWP, gate scope decision) is in `MERGE-PLAN.md`.
+- **Fold-back into `/gk-insights/`** — not scheduled. Full inventory of what changes (category constant, hard-coded login path, 50 slugs (counted before the 2026-10 audit added 10 pages; recount when scheduled), 166 links, `nav_parent`, Git It Write mapping, redirects, CDN rule, SearchWP, gate scope decision) is in `MERGE-PLAN.md`.
 
 ## Long-term Considerations
 

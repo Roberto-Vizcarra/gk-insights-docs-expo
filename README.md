@@ -1,6 +1,6 @@
 # gk-insights-docs-expo
 
-The **GitKraken Insights AI Adoption Help Center** — ~50 Markdown content pages
+The **GitKraken Insights AI Adoption Help Center** — ~60 Markdown content pages
 and the custom WordPress plugin that renders them at
 `help.gitkraken.com/insights-expo/`.
 
@@ -8,7 +8,7 @@ and the custom WordPress plugin that renders them at
 
 | Path | What it is |
 |---|---|
-| `gk-insights-expo/` | ~50 Markdown pages, synced to WordPress by Git It Write |
+| `gk-insights-expo/` | ~60 Markdown pages, synced to WordPress by Git It Write |
 | `gki-docs-helper/` | The WordPress plugin: template, CSS, JS, Elementor overrides, auth gate |
 | `local-dev/` | Dockerized WordPress for testing plugin changes off production |
 | `_images/` | Screenshots referenced by the Markdown pages |

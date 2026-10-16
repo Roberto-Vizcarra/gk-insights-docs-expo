@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This repo contains the **GitKraken Insights AI Adoption Help Center** — ~50 Markdown content pages and a custom WordPress plugin (GKI Docs Helper) that provides the template, CSS, JS, and Elementor overrides for the Help Center at `help.gitkraken.com/insights-expo/`.
+This repo contains the **GitKraken Insights AI Adoption Help Center** — ~60 Markdown content pages and a custom WordPress plugin (GKI Docs Helper) that provides the template, CSS, JS, and Elementor overrides for the Help Center at `help.gitkraken.com/insights-expo/`.
 
 ## Current State (September 23, 2026)
 
@@ -23,7 +23,7 @@ far is confidential.
 | `Taste-design-expo` | 1.15.x | Pass A/B exploration with the three-way design switch. Superseded; kept for reference. |
 
 ### What the plugin does today (pass-c-structural)
-- ~50 Markdown files in `gk-insights-expo/` synced to WordPress via Git It Write
+- ~60 Markdown files in `gk-insights-expo/` synced to WordPress via Git It Write
 - 3-column layout: collapsible left nav (nested section → sub-index → page), center content, right TOC
 - Command palette (Ctrl/Cmd-K, `/`) over the server-built search index; legacy search inputs kept hidden. Home and every index page also carry a **landing search field** ("What are you looking for?") that is the palette's front door — focusing or typing opens the palette seeded with the text (`gki_docs_render_landing_search()`, `initLandingSearch()` in `gki-passc.js`); without JS it is a real form that submits to `?s=`.
 - Card grid index pages with tinted icons (auto-rendered from frontmatter); Intro → Cards → Overview, split at the first `<hr>`
@@ -69,7 +69,7 @@ site-down incidents came from testing in prod.
 
 ### Content Location
 ```
-gk-insights-expo/           # ~50 Markdown files → WP posts via Git It Write
+gk-insights-expo/           # ~60 Markdown files → WP posts via Git It Write
 ```
 
 ---

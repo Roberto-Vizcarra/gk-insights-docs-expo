@@ -77,7 +77,7 @@ The **AI Spend by Developer** card lists every developer with recorded AI spend 
 To scope the whole AI Impact report — both spend cards included — to specific people, open **Filters** and choose **Developer**. If none of the selected developers are in the current roster, the page says so; clear the filter or pick someone else.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.00" />
+  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights, with an Adjusted badge beside its title and a Columns button, listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from The AI Spend by Developer card in GitKraken Insights listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.0062.00 down to alt="43.00" />
   <figcaption>AI Spend by Developer — each developer's AI spend, merged PRs, and cost per merged PR for the period.</figcaption>
 </figure>
 
@@ -89,7 +89,7 @@ To scope the whole AI Impact report — both spend cards included — to specifi
 When a cost figure includes a custom AI cost rate for the selected period, it shows an **Adjusted** badge — next to the **AI Spend by Tier** and **AI Spend by Developer** card titles, and as a small icon in table column headers such as **Token Usage Value** and **$ / Output** on the Developers table. Hover the badge to see which providers' custom rates are included, for example "Includes your organization's custom cost rate for Claude Code." The badge never shows the rate itself; see [AI cost rates](/insights-expo/expo-ai-adoption-settings#ai-cost-rates) for that.
 
 <figure>
-  <img src="/wp-content/uploads/gki-cost-adjusted-badge-01.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card on AI Impact in GitKraken Insights with its Adjusted badge hovered beside the card title, showing the tooltip Includes your organization's custom cost rate for Claude Code, above the first four developers' team, AI tier, spend, merged PRs and cost per PR" />
+  <img src="/wp-content/uploads/gki-cost-adjusted-badge-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card on AI Impact in GitKraken Insights with its Adjusted badge hovered beside the card title, showing the tooltip Includes your organization's custom cost rate for Claude Code, above the first four developers' team, AI tier, spend, merged PRs and cost per PR" />
   <figcaption>The Adjusted badge names the providers whose custom cost rates are included in a figure.</figcaption>
 </figure>
 

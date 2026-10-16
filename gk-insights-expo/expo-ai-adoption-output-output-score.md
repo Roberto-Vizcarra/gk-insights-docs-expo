@@ -118,7 +118,7 @@ For teams, compare the per-week rate directly. A team averaging an Output Score 
 * **/ai-adoption/capex** — Output Score with CapEx vs OpEx classification for the capitalization grid.
 
 <figure>
-  <img src="/wp-content/uploads/ai-adoption-developers.png" class="help-center-img img-bordered" alt="Developers page in GitKraken Insights showing the Top 10 developers widget, score trend chart, and the developer table with Adoption, Agentic, Providers, and Output Score columns" />
+  <img src="/wp-content/uploads/gki-developers-table-01-v2@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
   <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value, and $ / Output columns.</figcaption>
 </figure>
 
@@ -131,17 +131,17 @@ For teams, compare the per-week rate directly. A team averaging an Output Score 
 If a developer has no authored changes in the period, the drill-down says the score comes from reviews.
 
 <figure>
-  <img src="/wp-content/uploads/gki-output-score-drilldown-01.png" class="help-center-img img-bordered" alt="The Output Score drill-down for Sarah Chen (Jun 1 - Jun 28, 2026) on the Authored PRs (24) tab, beside Direct Commits (9) and Reviewed (6), with a search box, State and Category filters, a Columns button, the summary &quot;24 opened - 20 merged in this period&quot;, a table of her pull requests with Title, Author, State, Category, Size, Effort, Merged, Coding and Pickup columns, AI badges on AI-assisted PRs, pagination and Export CSV" />
+  <img src="/wp-content/uploads/gki-output-score-drilldown-01-v2@2x.png" class="help-center-img img-bordered" alt="The Output Score drill-down for Sarah Chen (Jun 1 - Jun 28, 2026) on the Authored PRs (24) tab, beside Direct Commits (9) and Reviewed (6), with a search box, State and Category filters, a Columns button, the summary &quot;24 opened - 20 merged in this period&quot;, a table of her pull requests with Title, Author, State, Category, Size, Effort, Merged, Coding and Pickup columns, AI badges on AI-assisted PRs, pagination and Export CSV" />
   <figcaption>Output Score drill-down — the Authored PRs tab.</figcaption>
 </figure>
 
 <figure>
-  <img src="/wp-content/uploads/gki-output-score-drilldown-commits-01.png" class="help-center-img img-bordered" alt="The Output Score drill-down for Sarah Chen on the Direct Commits (9) tab: a search box, a Category filter, Columns, and a table of nine direct commits, each with its repository and short SHA, Author, Category, Size, Effort and lines added and removed (that column cut at the drawer's edge), AI badges on AI-assisted commits, and Export CSV" />
+  <img src="/wp-content/uploads/gki-output-score-drilldown-commits-01-v2@2x.png" class="help-center-img img-bordered" alt="The Output Score drill-down for Sarah Chen on the Direct Commits (9) tab: a search box, a Category filter, Columns, and a table of nine direct commits, each with its repository and short SHA, Author, Category, Size, Effort and lines added and removed (that column cut at the drawer's edge), AI badges on AI-assisted commits, and Export CSV" />
   <figcaption>Output Score drill-down — the Direct Commits tab.</figcaption>
 </figure>
 
 <figure>
-  <img src="/wp-content/uploads/gki-output-score-drilldown-reviewed-01.png" class="help-center-img img-bordered" alt="The Output Score drill-down for Sarah Chen on the Reviewed (6) tab: a search box, a Category filter, Columns, and a table of six merged pull requests she reviewed, authored by alexjohnson and davidkim, with State, Category, Size, Effort, Merged and an Outcome column showing Approved for five and Changes requested for Split checkout API handlers, and Export CSV" />
+  <img src="/wp-content/uploads/gki-output-score-drilldown-reviewed-01-v2@2x.png" class="help-center-img img-bordered" alt="The Output Score drill-down for Sarah Chen on the Reviewed (6) tab: a search box, a Category filter, Columns, and a table of six merged pull requests she reviewed, authored by alexjohnson and davidkim, with State, Category, Size, Effort, Merged and an Outcome column showing Approved for five and Changes requested for Split checkout API handlers, and Export CSV" />
   <figcaption>Output Score drill-down — the Reviewed tab, with each review's outcome.</figcaption>
 </figure>
 

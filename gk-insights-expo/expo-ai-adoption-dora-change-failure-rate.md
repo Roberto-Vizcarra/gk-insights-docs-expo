@@ -81,7 +81,7 @@ A rising CFR trend is more concerning than a high baseline. Some teams have a le
 When more than one defect source is connected, a **Definition** picker on the Throughput & Quality bug cards and the Customer Bugs chart narrows them to one source; **All definitions** is the default. Board Metrics always shows all definitions.
 
 <figure>
-  <img src="/wp-content/uploads/gki-cfr-customer-bugs-card-01.png" class="help-center-img img-bordered" alt="The Customer Bugs & Change Failure Rate card in GitKraken Insights: a Change Failure Rate section reading 7.8% with 5 failed / 64 releases, and a Customer Bugs by Priority section with Highest 2, High 9, Medium 9, Low 3 and Other 0 pills above weekly stacked bars of bugs by priority from Jun 1 to Jun 22, each beside a grey previous-period bar, crossed by a Claude Code rolled out to Mobile annotation" />
+  <img src="/wp-content/uploads/gki-cfr-customer-bugs-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The Customer Bugs & Change Failure Rate card in GitKraken Insights: a Change Failure Rate section reading 7.8% with 5 failed / 64 releases, and a Customer Bugs by Priority section with Highest 2, High 9, Medium 9, Low 3 and Other 0 pills above weekly stacked bars of bugs by priority from Jun 1 to Jun 22, each beside a grey previous-period bar, crossed by a Claude Code rolled out to Mobile annotation" />
   <figcaption>The Customer Bugs & Change Failure Rate card — the rate with failed and total releases, then the same bugs by priority.</figcaption>
 </figure>
 

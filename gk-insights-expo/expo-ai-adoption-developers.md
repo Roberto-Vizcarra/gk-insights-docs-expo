@@ -33,7 +33,7 @@ The Developers page is a coaching view, not a ranking. Use it to find who needs 
 In the Insights sidebar, under **Agent Leaderboard**, click **By Developer**. The page opens with a filter bar, four KPI cards, an insight banner, and the **All Developers** table. Below the table, three explainer cards describe the scores: **Score Tiers**, **How is the Agent Adoption Score calculated?**, and **What is the Agent Autonomy Score?**
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-table-01.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
+  <img src="/wp-content/uploads/gki-developers-table-01-v2@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
   <figcaption>The Developers page: filter bar, KPI cards, insight banner, and the All Developers table.</figcaption>
 </figure>
 
@@ -50,7 +50,7 @@ Open **Filters** to add a filter. The menu lists these filters:
 * **AI Model**, which keeps a developer when they used any of the models you select in the window, not only their main model. **None** keeps developers with no model data.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-filters-01.png" class="help-center-img img-bordered" alt="The Filters dropdown on the Developers page open below the filter bar, listing Team (checked), Org, Workspace, Repositories, Developer, AI Tier, AI Tool and AI Model, beside the Timeframe, Granularity and Teams filters" />
+  <img src="/wp-content/uploads/gki-developers-filters-01-v2@2x.png" class="help-center-img img-bordered" alt="The Filters dropdown on the Developers page open below the filter bar, listing Team (checked), Org, Workspace, Repositories, Developer, AI Tier, AI Tool and AI Model, beside the Timeframe, Granularity and Teams filters" />
   <figcaption>The Filters menu on the Developers page.</figcaption>
 </figure>
 
@@ -105,7 +105,7 @@ Read **$ / Output** as cost efficiency: a lower figure means more shipped effort
 Click **Columns** above the table to choose which columns to show. The menu reads **Visible columns** with a count, and a checkbox for each column you can hide. After you hide a column, **Show all** brings every column back, and **Reset widths** restores the default widths. To resize a column, drag the edge of its header. Your browser remembers the visible columns and widths for this table. On narrow screens, columns can't be hidden or resized.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-columns-01.png" class="help-center-img img-bordered" alt="The Columns menu open over the All Developers table, showing Visible columns 7 of 7 with checked boxes for Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output (the longer names truncated), above the table header and the first three developer rows" />
+  <img src="/wp-content/uploads/gki-developers-columns-01-v2@2x.png" class="help-center-img img-bordered" alt="The Columns menu open over the All Developers table, showing Visible columns 7 of 7 with checked boxes for Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output (the longer names truncated), above the table header and the first three developer rows" />
   <figcaption>The Columns menu above the All Developers table.</figcaption>
 </figure>
 
@@ -143,7 +143,7 @@ The detail pane changes with the score you click:
 A developer on time off for the whole window shows **Fully on PTO for the selected window — scores are paused** instead of scores. **Key terms in the math** explains the terms the panels use, such as tool weight, org P90, Company AI readiness, deep session, and working weeks.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developer-overview-01.png" class="help-center-img img-bordered" alt="Sarah Chen's row expanded on the Developers page with the Overview tab selected: an Activity (Jun 1 - Jun 28) heatmap with 22 active days, a Cost Breakdown of $262.00 total spend, marked Adjusted, split between claude-sonnet-5 and claude-haiku-5, Agent Adoption, Agent Autonomy and Output cards with their share of the tier, a Tier panel showing Power User 96/100, and the Composite Tier breakdown of each score times its weight with the output rate scaled against the org-wide benchmark" />
+  <img src="/wp-content/uploads/gki-developer-overview-01-v2@2x.png" class="help-center-img img-bordered" alt="Sarah Chen's row expanded on the Developers page with the Overview tab selected: an Activity (Jun 1 - Jun 28) heatmap with 22 active days, a Cost Breakdown of Sarah Chen's row expanded on the Developers page with the Overview tab selected: an Activity (Jun 1 - Jun 28) heatmap with 22 active days, a Cost Breakdown of $262.00 total spend, marked Adjusted, split between claude-sonnet-5 and claude-haiku-5, Agent Adoption, Agent Autonomy and Output cards with their share of the tier, a Tier panel showing Power User 96/100, and the Composite Tier breakdown of each score times its weight with the output rate scaled against the org-wide benchmark62.00 total spend, marked Adjusted, split between claude-sonnet-5 and claude-haiku-5, Agent Adoption, Agent Autonomy and Output cards with their share of the tier, a Tier panel showing Power User 96/100, and the Composite Tier breakdown of each score times its weight with the output rate scaled against the org-wide benchmark" />
   <figcaption>The Overview tab of an expanded developer.</figcaption>
 </figure>
 
@@ -166,7 +166,7 @@ Each card groups its charts into up to five sections:
 Where a tool has benchmarks, each line is drawn against the org's developers who use the same tool. **Median (p50)** marks the middle of that group, **Top 10% (p90)** the level only 10% exceed, and the **Middle 50%** band (p25 to p75) where the middle half sit. Landing inside the band is typical. Charts without enough org data to benchmark, such as the Copilot (PAT) charts, show the developer's line alone. The charts follow the page's **Granularity**.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developer-agent-adoption-01.png" class="help-center-img img-bordered" alt="Aisha Patel's row expanded on the Developers page with the Agent Adoption tab selected: a Claude Code card with weekly Sessions, Prompts and Output Tokens, Tools / Prompt, Subagent Calls and Context Compactions, and Cache Hit % and Tool Failures % charts, and a Cursor card with Active Hours, Requests and Output Tokens per week, each line drawn against the org's Median (p50), Top 10% (p90) and Middle 50% (p25-p75) bands" />
+  <img src="/wp-content/uploads/gki-developer-agent-adoption-01-v2@2x.png" class="help-center-img img-bordered" alt="Aisha Patel's row expanded on the Developers page with the Agent Adoption tab selected: a Claude Code card with weekly Sessions, Prompts and Output Tokens, Tools / Prompt, Subagent Calls and Context Compactions, and Cache Hit % and Tool Failures % charts, and a Cursor card with Active Hours, Requests and Output Tokens per week, each line drawn against the org's Median (p50), Top 10% (p90) and Middle 50% (p25-p75) bands" />
   <figcaption>The Agent Adoption tab, with one card per AI tool.</figcaption>
 </figure>
 
@@ -184,7 +184,7 @@ The top of the tab shows four panels:
 The trends follow the page's **Granularity**.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developer-ai-sessions-01.png" class="help-center-img img-bordered" alt="Sarah Chen's row expanded on the Developers page with the AI Sessions tab selected, under the note &quot;Measured from Claude Code, GitHub Copilot and OpenCode sessions&quot;: a Token Value Trend chart ($262.00 overall, $166.60 skills), a Cost per Delivery bar chart with its trend line, the Selected Period panel ($166.60 on skills, 157 skill uses, 8 distinct skills, $0.81 token value per run, 20 merged PRs, 9 direct commits, 6 reviewed PRs, 10.7 pts delivered effort) and a Breakdown by Model donut of $262.00 split 87% claude-sonnet-5 and 13% claude-haiku-5" />
+  <img src="/wp-content/uploads/gki-developer-ai-sessions-01-v2@2x.png" class="help-center-img img-bordered" alt="Sarah Chen's row expanded on the Developers page with the AI Sessions tab selected, under the note &quot;Measured from Claude Code, GitHub Copilot and OpenCode sessions&quot;: a Token Value Trend chart (Sarah Chen's row expanded on the Developers page with the AI Sessions tab selected, under the note &quot;Measured from Claude Code, GitHub Copilot and OpenCode sessions&quot;: a Token Value Trend chart ($262.00 overall, $166.60 skills), a Cost per Delivery bar chart with its trend line, the Selected Period panel ($166.60 on skills, 157 skill uses, 8 distinct skills, $0.81 token value per run, 20 merged PRs, 9 direct commits, 6 reviewed PRs, 10.7 pts delivered effort) and a Breakdown by Model donut of $262.00 split 87% claude-sonnet-5 and 13% claude-haiku-562.00 overall, alt="66.60 skills), a Cost per Delivery bar chart with its trend line, the Selected Period panel (alt="66.60 on skills, 157 skill uses, 8 distinct skills, $0.81 token value per run, 20 merged PRs, 9 direct commits, 6 reviewed PRs, 10.7 pts delivered effort) and a Breakdown by Model donut of Sarah Chen's row expanded on the Developers page with the AI Sessions tab selected, under the note &quot;Measured from Claude Code, GitHub Copilot and OpenCode sessions&quot;: a Token Value Trend chart ($262.00 overall, $166.60 skills), a Cost per Delivery bar chart with its trend line, the Selected Period panel ($166.60 on skills, 157 skill uses, 8 distinct skills, $0.81 token value per run, 20 merged PRs, 9 direct commits, 6 reviewed PRs, 10.7 pts delivered effort) and a Breakdown by Model donut of $262.00 split 87% claude-sonnet-5 and 13% claude-haiku-562.00 split 87% claude-sonnet-5 and 13% claude-haiku-5" />
   <figcaption>The top of the AI Sessions tab for one developer.</figcaption>
 </figure>
 
@@ -208,7 +208,7 @@ When a session's git activity wasn't recorded, the timeline says so and shows th
 Sessions that spawned subagents list them under **Subagents**, grouped by agent type, with each type's cost and main model. The segment detail also shows **Subagents spawned**, with the share of requests they made. Click a subagent type to open its **Agent detail**: token value, requests, tool calls, tokens, cache hit rate, and models. A subagent always reads as **Autonomous**, because it takes no prompts of its own.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developer-session-timeline-01.png" class="help-center-img img-bordered" alt="The first session in Sarah Chen's All sessions table (Session, Top Skill, Skills, Models, Runs, Started and Token Value columns) expanded on the Developers page AI Sessions tab: Jun 5, 1:45 PM - 2:46 PM, $11.88 session token value, a banner for merged, authored PR #552 &quot;Add CODEOWNERS for mobile&quot; git-linked via its feature/add-codeowners-for-mobile branch, and the Session Timeline by Token Value with the work lane (No skill and /schema-diff bars with their cost and model) beside the git lane (branch switch, two commits and PR #552 opened, by time), a per-skill cost legend, and the Explore and test-runner subagents" />
+  <img src="/wp-content/uploads/gki-developer-session-timeline-01-v2@2x.png" class="help-center-img img-bordered" alt="The first session in Sarah Chen's All sessions table (Session, Top Skill, Skills, Models, Runs, Started and Token Value columns) expanded on the Developers page AI Sessions tab: Jun 5, 1:45 PM - 2:46 PM, alt="1.88 session token value, a banner for merged, authored PR #552 &quot;Add CODEOWNERS for mobile&quot; git-linked via its feature/add-codeowners-for-mobile branch, and the Session Timeline by Token Value with the work lane (No skill and /schema-diff bars with their cost and model) beside the git lane (branch switch, two commits and PR #552 opened, by time), a per-skill cost legend, and the Explore and test-runner subagents" />
   <figcaption>An expanded session with its two-lane timeline.</figcaption>
 </figure>
 
@@ -226,7 +226,7 @@ GitHub Copilot can have two cards. The card marked **OTEL** comes from Agent OTe
 Click the bulb on the **Environment Insight** card to generate an AI-written read of the developer's environment: the pattern, anything worth flagging, and one suggestion. Like the Agent Adoption Insight, it appears only when your organization has AI features enabled.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developer-environment-01.png" class="help-center-img img-bordered" alt="Aisha Patel's row expanded on the Developers page with the Developer Environment tab selected: a Claude Code card with 7,280 events showing OS / arch Darwin 25.1.0 arm64, the ghostty editor, Top Tools from Read (1,007) to TodoWrite (203) and the claude-sonnet-5 and claude-haiku-5 models, and a Cursor card with 2,511 events showing an Unknown OS, the cursor editor, no top tools and the claude-sonnet-5 and cursor-small models" />
+  <img src="/wp-content/uploads/gki-developer-environment-01-v2@2x.png" class="help-center-img img-bordered" alt="Aisha Patel's row expanded on the Developers page with the Developer Environment tab selected: a Claude Code card with 7,280 events showing OS / arch Darwin 25.1.0 arm64, the ghostty editor, Top Tools from Read (1,007) to TodoWrite (203) and the claude-sonnet-5 and claude-haiku-5 models, and a Cursor card with 2,511 events showing an Unknown OS, the cursor editor, no top tools and the claude-sonnet-5 and cursor-small models" />
   <figcaption>The Developer Environment tab, with one card per AI tool.</figcaption>
 </figure>
 

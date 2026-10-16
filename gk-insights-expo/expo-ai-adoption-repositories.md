@@ -74,7 +74,7 @@ Below the chart, the **All repos** table lists every repository. Use **Filter by
 | **Last active** | The most recent pull request or direct commit on the default branch in the window. |
 
 <figure>
-  <img src="/wp-content/uploads/gki-repositories-table-01.png" class="help-center-img img-bordered" alt="The All Repos table on the By Repository page in GitKraken Insights, under Timeframe, Filters, Teams, Active / Idle / All, Tier, Language, Team and AI activity filters and Export CSV, listing example-org repositories with their Provider (GitHub), Lang, Team, Repo Tier, Assessment check badges, AI Activity and Last Active" />
+  <img src="/wp-content/uploads/gki-repositories-table-01-v2@2x.png" class="help-center-img img-bordered" alt="The All Repos table on the By Repository page in GitKraken Insights, under Timeframe, Filters, Teams, Active / Idle / All, Tier, Language, Team and AI activity filters and Export CSV, listing example-org repositories with their Provider (GitHub), Lang, Team, Repo Tier, Assessment check badges, AI Activity and Last Active" />
   <figcaption>The All repos table on By Repository.</figcaption>
 </figure>
 
@@ -99,7 +99,7 @@ Click a check to see why it matters and an **Action item** for fixing it. For an
 The **Closest to next tier** card suggests the checks that would move the repository to the next tier. A repository already at the top tier reads **Already at the top tier — keep it up**.
 
 <figure>
-  <img src="/wp-content/uploads/gki-repositories-readiness-checks-01.png" class="help-center-img img-bordered" alt="An expanded repository row on the By Repository page in GitKraken Insights: example-org/refunds-service, team Payments, Basic at 61.0/100, with its Readiness breakdown of AI Instructions (AI Instructions passing), Dev Hygiene (CI/CD, README, CODEOWNERS and Branch Protection passing) and Content Quality (Test Config and Lint Config passing, Skills / Commands failing), and a Closest to next tier card suggesting Skills / Commands to reach Exemplary" />
+  <img src="/wp-content/uploads/gki-repositories-readiness-checks-01-v2@2x.png" class="help-center-img img-bordered" alt="An expanded repository row on the By Repository page in GitKraken Insights: example-org/refunds-service, team Payments, Basic at 61.0/100, with its Readiness breakdown of AI Instructions (AI Instructions passing), Dev Hygiene (CI/CD, README, CODEOWNERS and Branch Protection passing) and Content Quality (Test Config and Lint Config passing, Skills / Commands failing), and a Closest to next tier card suggesting Skills / Commands to reach Exemplary" />
   <figcaption>A repository's Readiness breakdown, with one check missing.</figcaption>
 </figure>
 

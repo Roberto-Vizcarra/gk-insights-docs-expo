@@ -52,7 +52,7 @@ For a team or org view, Cycle Time is shown as the median across PRs merged in t
 **PRs merged without a qualifying review.** A PR that merges without a qualifying review has no Pickup or Review time. In the PR drill-down, those two columns show a dash, and the time from PR open to merge appears under **Unattributed** instead. That way Coding + Pickup + Review + Unattributed still adds up to the PR's Total when work started before the PR was opened. Sort by Unattributed to find PRs that merged without review.
 
 <figure>
-  <img src="/wp-content/uploads/gki-cycle-time-pr-drilldown-01.png" class="help-center-img img-bordered" alt="The All PRs Cycle Time drill-down in GitKraken Insights with a 22.6h median, Search, State and Category filters, the Slower, Average, Fast and Elite scatterplot, and the PR table sorted by Unattributed: merged PRs without a qualifying review show a dash under Pickup and Review and their time under Unattributed, above reviewed PRs with Coding, Pickup, Review and Total times, with Columns and Export CSV" />
+  <img src="/wp-content/uploads/gki-cycle-time-pr-drilldown-01-v2@2x.png" class="help-center-img img-bordered" alt="The All PRs Cycle Time drill-down in GitKraken Insights with a 22.6h median, Search, State and Category filters, the Slower, Average, Fast and Elite scatterplot, and the PR table sorted by Unattributed: merged PRs without a qualifying review show a dash under Pickup and Review and their time under Unattributed, above reviewed PRs with Coding, Pickup, Review and Total times, with Columns and Export CSV" />
   <figcaption>The PR drill-down sorted by Unattributed: PRs merged without a qualifying review show a dash under Pickup and Review.</figcaption>
 </figure>
 
@@ -104,7 +104,7 @@ Median industry numbers for typical web and services engineering teams:
 On the breakdown cards, the **Total / Trend** switch in the card header toggles between totals and a trend over time. To change what the card breaks Cycle Time down by — for example Team, Department, or Business Unit — open the card's **⋯** menu and choose **View**.
 
 <figure>
-  <img src="/wp-content/uploads/ai-adoption-team-lead-flow.png" class="help-center-img img-bordered" alt="Flow view in GitKraken Insights showing the cycle time trend broken down by phase next to the average changes per developer chart" />
+  <img src="/wp-content/uploads/gki-team-lead-flow-01-v2@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Avg Changes / Developer chart of Opened, Merged and Direct commits, each with a Total / Trend switch and a more-options menu" />
   <figcaption>Team Lead Insights — the Cycle Time chart by phase beside Avg Changes / Developer, each with a Total / Trend switch.</figcaption>
 </figure>
 
@@ -159,7 +159,7 @@ The card covers issues resolved in the window, grouped by the date they were res
 **Org-scoped.** The team, repository, and author filters don't apply to Issue Cycle Time. It always covers the whole organization's issues.
 
 <figure>
-  <img src="/wp-content/uploads/gki-issue-cycle-time-card-01.png" class="help-center-img img-bordered" alt="The Issue Cycle Time card in GitKraken Insights showing a 55h median and 79 of 86 issues with an in-progress phase, All trackers and All issue types pickers, a chart of Backlog and Active time from Jun 1 to Jun 22 with a Claude Code rolled out to Mobile annotation, and when issues were last synced" />
+  <img src="/wp-content/uploads/gki-issue-cycle-time-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The Issue Cycle Time card in GitKraken Insights showing a 55h median and 79 of 86 issues with an in-progress phase, All trackers and All issue types pickers, a chart of Backlog and Active time from Jun 1 to Jun 22 with a Claude Code rolled out to Mobile annotation, and when issues were last synced" />
   <figcaption>The Issue Cycle Time card, split into Backlog and Active time.</figcaption>
 </figure>
 

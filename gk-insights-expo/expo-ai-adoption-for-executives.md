@@ -24,7 +24,7 @@ custom_fields:
 You don't have time to learn the product. You have time for four numbers and a story. This page is exactly that.
 
 <figure>
-  <img src="/wp-content/uploads/ai-adoption-executive-view.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with hero KPI cards for cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage" />
+  <img src="/wp-content/uploads/gki-executive-view-01-v2@2x.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Cycle Time, Throughput, Deploy Freq, AI Adoption and AI-Assisted %, a Stretch Goal banner, and the Cycle Time trend beside PR Volume by Dimension by team" />
   <figcaption>Executive view — hero KPI strip with cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage, above the Cycle Time and PR Volume breakdown charts.</figcaption>
 </figure>
 

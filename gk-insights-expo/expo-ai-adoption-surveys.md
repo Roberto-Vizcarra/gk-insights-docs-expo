@@ -62,7 +62,7 @@ The **Survey Results** tab lists every survey your organization has sent, with t
 * **Actions** — **Open results**, with a menu of more actions.
 
 <figure>
-  <img src="/wp-content/uploads/gki-surveys-results-list-01.png" class="help-center-img img-bordered" alt="The Survey Results tab, beside Survey Library, on the Surveys page in GitKraken Insights, with All Surveys, AI Adoption, Satisfaction & Sentiment and Workflows and Processes filters and a table of three surveys, Code Review Process, AI Tools Adoption and Developer Experience Pulse, showing Status, Recipients, Response rate, Schedule, Sent on, and Open results or View trend actions" />
+  <img src="/wp-content/uploads/gki-surveys-results-list-01-v2@2x.png" class="help-center-img img-bordered" alt="The Survey Results tab, beside Survey Library, on the Surveys page in GitKraken Insights, with All Surveys, AI Adoption, Satisfaction & Sentiment and Workflows and Processes filters and a table of three surveys, Code Review Process, AI Tools Adoption and Developer Experience Pulse, showing Status, Recipients, Response rate, Schedule, Sent on, and Open results or View trend actions" />
   <figcaption>The Survey Results tab on the Surveys page.</figcaption>
 </figure>
 
@@ -83,7 +83,7 @@ Click **Open results** to see a survey's results. Four tiles sit at the top:
 Below the tiles, each question has its own card. A rated question shows how many people answered, the average score, and the share of answers at each point from 1 to 5. A choice question shows the share of answers for each choice. A question with written answers lists the responses.
 
 <figure>
-  <img src="/wp-content/uploads/gki-survey-results-one-off-01.png" class="help-center-img img-bordered" alt="Results of the AI Tools Adoption survey in GitKraken Insights, with tiles for Overall score 3.9, Response rate 80%, Response rate trend and Average score, an Export menu, and four question cards each showing 8 responses, the question's average and the share of 1 to 5 answers" />
+  <img src="/wp-content/uploads/gki-survey-results-one-off-01-v2@2x.png" class="help-center-img img-bordered" alt="Results of the AI Tools Adoption survey in GitKraken Insights, with tiles for Overall score 3.9, Response rate 80%, Response rate trend and Average score, an Export menu, and four question cards each showing 8 responses, the question's average and the share of 1 to 5 answers" />
   <figcaption>The results of a survey, one card per question.</figcaption>
 </figure>
 

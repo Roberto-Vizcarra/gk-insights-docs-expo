@@ -74,6 +74,6 @@ Three rules:
 * **/ai-adoption/teams**, **/ai-adoption/developers** — AI-Assisted % appears in trend lines and breakdowns.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.00" />
+  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights, with an Adjusted badge beside its title and a Columns button, listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from The AI Spend by Developer card in GitKraken Insights listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.0062.00 down to alt="43.00" />
   <figcaption>AI Spend by Developer on /ai-adoption/ai-impact — each developer's AI spend, merged PRs, and cost per merged PR.</figcaption>
 </figure>

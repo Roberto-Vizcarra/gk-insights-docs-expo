@@ -61,7 +61,7 @@ A notice below the metric strip explains two things the figures can't show on th
 To hide the notice, click its close button. Your browser remembers the choice.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-metric-strip-01.png" class="help-center-img img-bordered" alt="The AI Sessions metric strip: six cards for Sessions (599), Avg parallel sessions (1.4 concurrent), Autonomous run (37m), Skills / session (1.8), Cost / session ($3.20) and Total usage value ($1.9k), each with its change from the previous period. Below it, the coverage notice lists the AI tools that report sessions and says pull requests, commits and issues are linked from the point each developer connects their environment." />
+  <img src="/wp-content/uploads/gki-ai-sessions-metric-strip-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Sessions metric strip: six cards for Sessions (599), Avg parallel sessions (1.4 concurrent), Autonomous run (37m), Skills / session (1.8), Cost / session (".20) and Total usage value (alt=".9k), each with its change from the previous period. Below it, the coverage notice lists the AI tools that report sessions and says pull requests, commits and issues are linked from the point each developer connects their environment." />
   <figcaption>The metric strip and the coverage notice on AI Sessions.</figcaption>
 </figure>
 
@@ -82,7 +82,7 @@ The tab holds these cards:
 If the cohort has no session activity in the period, the tab says so and keeps only the run distribution.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-overview-01.png" class="help-center-img img-bordered" alt="The Overview tab of AI Sessions, beside the Sessions, Pull Requests and Issues tabs. A note says the figures cover only the AI tools that report skill activity: Claude Code. Cards show the Token Value Trend, Cost per Output Score, a Breakdown by Model donut, Skills Invocation Trigger and Skill Source bars, the Top Skills by Token Value table and the Autonomous Run Distribution histogram." />
+  <img src="/wp-content/uploads/gki-ai-sessions-overview-01-v2@2x.png" class="help-center-img img-bordered" alt="The Overview tab of AI Sessions, beside the Sessions, Pull Requests and Issues tabs. A note says the figures cover only the AI tools that report skill activity: Claude Code. Cards show the Token Value Trend, Cost per Output Score, a Breakdown by Model donut, Skills Invocation Trigger and Skill Source bars, the Top Skills by Token Value table and the Autonomous Run Distribution histogram." />
   <figcaption>The Overview tab of AI Sessions.</figcaption>
 </figure>
 
@@ -122,7 +122,7 @@ Below that, the **Session timeline by token value** lays the session out in time
 A **context compaction** marker shows when the session's context window filled and older turns were summarized. When git activity wasn't recorded for a session, the git lane says so. Sessions from AI tools that don't report skills have no timeline to open.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-session-detail-01.png" class="help-center-img img-bordered" alt="The Sessions tab of AI Sessions: the All sessions table, with its Skills filter, session search and Columns menu, and David Kim's session expanded. The detail shows the session's time span and token value, token usage value by model and by skill, three linked merged pull requests marked Authored, and the session timeline: a Work lane of skill and no-skill runs with their token value beside a Git lane of commits and pull requests in time order. Two collapsed session rows and the pager follow." />
+  <img src="/wp-content/uploads/gki-ai-sessions-session-detail-01-v2@2x.png" class="help-center-img img-bordered" alt="The Sessions tab of AI Sessions: the All sessions table, with its Skills filter, session search and Columns menu, and David Kim's session expanded. The detail shows the session's time span and token value, token usage value by model and by skill, three linked merged pull requests marked Authored, and the session timeline: a Work lane of skill and no-skill runs with their token value beside a Git lane of commits and pull requests in time order. Two collapsed session rows and the pager follow." />
   <figcaption>An expanded session on the Sessions tab, with its two-lane timeline.</figcaption>
 </figure>
 
@@ -135,7 +135,7 @@ A pull request can be built by several sessions and developers, and a session ca
 To see the sessions behind a pull request, click its row. Each session shows its developer, top skill, start time, and the usage value allocated to this pull request. A **shared** badge marks a session that also worked on other pull requests.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-pull-requests-01.png" class="help-center-img img-bordered" alt="The Pull Requests tab of AI Sessions. A Many-to-many note explains that a pull request can be built by several sessions and that usage value is allocated per pull request by each session's commit share. The table lists pull requests with repository, contributors, state, sessions, commits, usage value and merge date, sorted by usage value, with an All states filter and a Columns menu." />
+  <img src="/wp-content/uploads/gki-ai-sessions-pull-requests-01-v2@2x.png" class="help-center-img img-bordered" alt="The Pull Requests tab of AI Sessions. A Many-to-many note explains that a pull request can be built by several sessions and that usage value is allocated per pull request by each session's commit share. The table lists pull requests with repository, contributors, state, sessions, commits, usage value and merge date, sorted by usage value, with an All states filter and a Columns menu." />
   <figcaption>The Pull Requests tab of AI Sessions.</figcaption>
 </figure>
 
@@ -148,7 +148,7 @@ An issue's usage value is the sum of its linked pull requests' allocated values.
 To see the pull requests and sessions behind an issue, click its row.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-issues-01.png" class="help-center-img img-bordered" alt="The Issues tab of AI Sessions. A Two hops, still no double-counting note explains that an issue's usage value is the sum of its linked pull requests' allocated values. The table lists issues with key, title, type, status, linked pull requests, sessions, developers and usage value, with an All statuses filter." />
+  <img src="/wp-content/uploads/gki-ai-sessions-issues-01-v2@2x.png" class="help-center-img img-bordered" alt="The Issues tab of AI Sessions. A Two hops, still no double-counting note explains that an issue's usage value is the sum of its linked pull requests' allocated values. The table lists issues with key, title, type, status, linked pull requests, sessions, developers and usage value, with an All statuses filter." />
   <figcaption>The Issues tab of AI Sessions.</figcaption>
 </figure>
 

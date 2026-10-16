@@ -62,7 +62,7 @@ The **Survey Results** tab lists every survey your organization has sent, with t
 * **Actions** — **Open results**, with a menu of more actions.
 
 <figure>
-  <img src="/wp-content/uploads/gki-surveys-results-list-01-v2@2x.png" class="help-center-img img-bordered" alt="The Survey Results tab, beside Survey Library, on the Surveys page in GitKraken Insights, with All Surveys, AI Adoption, Satisfaction & Sentiment and Workflows and Processes filters and a table of three surveys, Code Review Process, AI Tools Adoption and Developer Experience Pulse, showing Status, Recipients, Response rate, Schedule, Sent on, and Open results or View trend actions" />
+  <img src="/wp-content/uploads/gki-surveys-results-list-01-v2@2x.png" class="help-center-img img-bordered" alt="The Survey Results tab, beside Survey Library, on the Surveys page in GitKraken Insights, with All Surveys, AI Adoption, Satisfaction & Sentiment and Workflows and Processes filters and a table of three surveys, Code Review Process, AI Tools Adoption and Developer Experience Pulse, showing Status, Recipients, Response rate, Schedule, Sent on, and an Open results action for each" />
   <figcaption>The Survey Results tab on the Surveys page.</figcaption>
 </figure>
 

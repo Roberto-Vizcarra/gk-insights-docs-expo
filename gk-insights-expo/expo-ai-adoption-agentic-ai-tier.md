@@ -101,13 +101,13 @@ If **On PTO % is unusually high** (>15%), check whether your BambooHR sync is wo
 
 * **/ai-adoption/developers** — primary surface. Tier badge on every row, sortable column. Expand a developer on the [Developers](/insights-expo/expo-ai-adoption-developers) page to see the **Overview** scorecard: the Tier panel lists each score, and clicking it shows the Composite Tier math — each normalized score times its weight, with the Output rate against the benchmark it was scaled to.
 * **/ai-adoption/teams** — the **Tier** column on every team row, from the average of its members' composite tier scores. Members on PTO are left out. **% Power Teams** is the share of teams whose tier is Power User.
-* **/ai-adoption/executive** — adoption tier bar (clickable tier labels deep-link into /ai-adoption/developers filtered to that tier).
+* **/ai-adoption/executive** — the **Stretch Goal** banner under the KPI cards compares Power Users' output with everyone else's and estimates the uplift if every developer adopted Power User habits (shown below). Further down the page, below the charts, the adoption tier bar's clickable tier labels deep-link into /ai-adoption/developers filtered to that tier.
 * **/ai-adoption/ai-tools-comparison** — cohort comparisons use tier as a key segmentation.
 * **/ai-adoption/ai-impact** — productivity analysis uses tier as the primary cohort dimension.
 
 <figure>
   <img src="/wp-content/uploads/gki-executive-view-01-v2@2x.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Cycle Time, Throughput, Deploy Freq, AI Adoption and AI-Assisted %, a Stretch Goal banner, and the Cycle Time trend beside PR Volume by Dimension by team" />
-  <figcaption>Executive View — KPI cards for cycle time, throughput, deploy frequency, AI adoption, and AI-assisted percentage, above the Cycle Time trend and PR Volume by Dimension charts.</figcaption>
+  <figcaption>Executive View — the Stretch Goal banner below the KPI cards compares Power Users' changes per developer with everyone else's. The adoption tier bar is further down the page, below these charts.</figcaption>
 </figure>
 
 ### Settings that affect it

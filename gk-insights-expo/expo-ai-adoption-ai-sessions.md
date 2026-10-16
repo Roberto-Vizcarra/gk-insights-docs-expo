@@ -82,7 +82,7 @@ The tab holds these cards:
 If the cohort has no session activity in the period, the tab says so and keeps only the run distribution.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-overview-01-v3@2x.png" class="help-center-img img-bordered" alt="The Overview tab of AI Sessions, beside the Sessions, Pull Requests and Issues tabs. A note says the figures cover only the AI tools that report skill activity: Claude Code. Cards show the Token Value Trend, Cost per Output Score, a Breakdown by Model donut, Skills Invocation Trigger and Skill Source bars, the Top Skills by Token Value table and the Autonomous Run Distribution histogram." />
+  <img src="/wp-content/uploads/gki-ai-sessions-overview-01-v4@2x.png" class="help-center-img img-bordered" alt="The Overview tab of AI Sessions, beside the Sessions, Pull Requests and Issues tabs. A note says the figures cover only the AI tools that report skill activity: Claude Code. Cards show the Token Value Trend, Cost per Output Score, a Breakdown by Model donut, Skills Invocation Trigger and Skill Source bars, the Top Skills by Token Value table and the Autonomous Run Distribution histogram." />
   <figcaption>The Overview tab of AI Sessions.</figcaption>
 </figure>
 

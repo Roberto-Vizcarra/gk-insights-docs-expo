@@ -24,7 +24,7 @@ custom_fields:
 You run one team day-to-day. You want a pulse on flow, blockers, and review health. This page is your weekly toolkit.
 
 <figure>
-  <img src="/wp-content/uploads/gki-team-lead-flow-01-v3@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Avg Changes / Developer chart of Opened, Merged and Direct commits, each with a Total / Trend switch and a more-options menu" />
+  <img src="/wp-content/uploads/gki-team-lead-flow-01-v4@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput (6.1), Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Changes Volume by Dimension chart in Total view: Opened, Merged and Direct commits bars for each team (Platform, Payments, Growth, Mobile) under a header of Avg Delivered 6.1 /dev/wk, 195 opened, 155 merged and 90 direct, each card with a Total / Trend switch and a more-options menu" />
   <figcaption>Team Lead Insights — flow KPI cards above the Cycle Time chart by phase and Changes Volume by Dimension, each with a Total / Trend switch and a ⋯ menu.</figcaption>
 </figure>
 

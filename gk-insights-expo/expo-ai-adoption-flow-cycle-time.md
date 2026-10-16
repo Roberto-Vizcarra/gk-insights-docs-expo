@@ -105,7 +105,7 @@ On the breakdown cards, the **Total / Trend** switch in the card header toggles 
 
 <figure>
   <img src="/wp-content/uploads/gki-team-lead-flow-01-v3@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Avg Changes / Developer chart of Opened, Merged and Direct commits, each with a Total / Trend switch and a more-options menu" />
-  <figcaption>Team Lead Insights — the Cycle Time chart by phase beside Avg Changes / Developer, each with a Total / Trend switch.</figcaption>
+  <figcaption>Team Lead Insights — the Cycle Time chart by phase beside Changes Volume by Dimension, each with a Total / Trend switch.</figcaption>
 </figure>
 
 ### Settings that affect it

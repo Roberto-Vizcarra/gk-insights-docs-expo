@@ -10,3 +10,4 @@ then hard-refresh; the version string busts the CSS/JS cache.
 | 2026-09-16 10:25 | 1.14.2 | gki-docs-helper-v1.14.2.zip | 8F82A16ECEDA | main@9414de9 |
 | 2026-09-21 13:50 | 1.17.1 | gki-docs-helper-v1.17.1.zip | 0B0CA7DA823D | a9655c5 |
 | 2026-09-23 08:34 | 1.17.2 | gki-docs-helper-v1.17.2.zip | 808680594C6C | de5ef02 |
+| 2026-10-16 07:01 | 1.17.3 | gki-docs-helper-v1.17.3.zip | 01A103490D84 | 1140fdc |

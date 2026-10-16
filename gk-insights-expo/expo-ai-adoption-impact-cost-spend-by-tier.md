@@ -89,7 +89,7 @@ To scope the whole AI Impact report — both spend cards included — to specifi
 When a cost figure includes a custom AI cost rate for the selected period, it shows an **Adjusted** badge — next to the **AI Spend by Tier** and **AI Spend by Developer** card titles, and as a small icon in table column headers such as **Token Usage Value** and **$ / Output** on the Developers table. Hover the badge to see which providers' custom rates are included, for example "Includes your organization's custom cost rate for Claude Code." The badge never shows the rate itself; see [AI cost rates](/insights-expo/expo-ai-adoption-settings#ai-cost-rates) for that.
 
 <figure>
-  <img src="/wp-content/uploads/gki-cost-adjusted-badge-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card on AI Impact in GitKraken Insights with its Adjusted badge hovered beside the card title, showing the tooltip Includes your organization's custom cost rate for Claude Code, above the first four developers' team, AI tier, spend, merged PRs and cost per PR" />
+  <img src="/wp-content/uploads/gki-cost-adjusted-badge-01-v3@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card on AI Impact in GitKraken Insights with its Adjusted badge hovered beside the card title, showing the tooltip Includes your organization's custom cost rate for Claude Code, above the first four developers' team, AI tier, spend, merged PRs and cost per PR" />
   <figcaption>The Adjusted badge names the providers whose custom cost rates are included in a figure.</figcaption>
 </figure>
 

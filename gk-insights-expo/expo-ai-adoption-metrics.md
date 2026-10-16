@@ -33,7 +33,7 @@ Every chart card in GitKraken Insights has a **⋯** (chart options) menu in its
 * **View** — on breakdown charts, picks the dimension the chart is split by, such as Team or Department. The **Total / Trend** switch beside the menu toggles the same chart between totals and a trend over time.
 
 <figure>
-  <img src="/wp-content/uploads/gki-chart-options-menu-01-v2@2x.png" class="help-center-img img-bordered" alt="The Cycle Time chart card in GitKraken Insights, comparing the current and previous period in hours, with its more-options menu open listing Add annotation and Export graph data" />
+  <img src="/wp-content/uploads/gki-chart-options-menu-01-v3@2x.png" class="help-center-img img-bordered" alt="The Cycle Time chart card in GitKraken Insights, comparing the current and previous period in hours, with its more-options menu open listing Add annotation and Export graph data" />
   <figcaption>The ⋯ menu on a chart card, with Add annotation and Export graph data.</figcaption>
 </figure>
 
@@ -42,6 +42,6 @@ Every chart card in GitKraken Insights has a **⋯** (chart options) menu in its
 The **Granularity** control beside the timeframe sets how charts group their data over time: **Auto**, **Hourly**, **Daily**, **Weekly**, or **Monthly**. Auto picks a granularity that suits the selected timeframe and shows it in parentheses, for example **Auto (Weekly)**. If you pick a granularity the current timeframe can't show readably, Insights adjusts the timeframe to keep the chart readable. When you click a chart point, the drill-down covers just that bucket. The control doesn't appear on the AI Impact, CapEx/OpEx, or Repositories pages.
 
 <figure>
-  <img src="/wp-content/uploads/gki-granularity-control-01-v2@2x.png" class="help-center-img img-bordered" alt="The filter bar of an Insights page with the Granularity menu open, listing Auto (Weekly), Hourly, Daily, Weekly and Monthly under a search box, beside the Timeframe, Filters and Teams controls and Export CSV, over the top of the Cycle Time charts" />
+  <img src="/wp-content/uploads/gki-granularity-control-01-v3@2x.png" class="help-center-img img-bordered" alt="The filter bar of an Insights page with the Granularity menu open, listing Auto (Weekly), Hourly, Daily, Weekly and Monthly under a search box, beside the Timeframe, Filters and Teams controls and Export CSV, over the top of the Cycle Time charts" />
   <figcaption>The Granularity menu, open beside the timeframe.</figcaption>
 </figure>

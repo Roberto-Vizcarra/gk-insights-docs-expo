@@ -68,7 +68,7 @@ Three common patterns:
 **Throughput & Quality** (`/ai-adoption/throughput-quality`, under **Reporting** in the sidebar) brings this family's charts together with PR volume and change-failure trends. The filter bar at the top sets the timeframe, granularity, and scope for every card, and **Export CSV** exports the page.
 
 <figure>
-  <img src="/wp-content/uploads/gki-throughput-quality-page-01-v2@2x.png" class="help-center-img img-bordered" alt="The Throughput & Quality page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, a Cycle Time chart stacked by Coding, Pickup and Review beside a Cycle Time trend against the previous period with a Total / Trend switch, and the Issue Cycle Time chart of Backlog and Active time with All trackers and All issue types pickers" />
+  <img src="/wp-content/uploads/gki-throughput-quality-page-01-v3@2x.png" class="help-center-img img-bordered" alt="The Throughput & Quality page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, a Cycle Time chart stacked by Coding, Pickup and Review beside a Cycle Time trend against the previous period with a Total / Trend switch, and the Issue Cycle Time chart of Backlog and Active time with All trackers and All issue types pickers" />
   <figcaption>The top of Throughput & Quality: the two Cycle Time cards and Issue Cycle Time.</figcaption>
 </figure>
 

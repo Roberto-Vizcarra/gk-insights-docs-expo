@@ -564,7 +564,7 @@ In the defaults, Feature, Enhancement, and Refactor are flagged CapEx; Chore is 
 Settings → Repositories lists every repository GitKraken Insights syncs, with its **Team**, **Readiness**, and **Score**. Use **Search repositories** to find one, then select a repository to change its teams or its readiness checks. To change several at once, select them and use **Bulk edit**. For what the readiness checks measure, see [Repositories](/insights-expo/expo-ai-adoption-repositories).
 
 <figure>
-  <img src="/wp-content/uploads/gki-settings-repositories-team-assignment-01-v2@2x.png" class="help-center-img img-bordered" alt="The Repositories tab of Insights Settings, with a Search repositories box and a list of example-org repositories showing their Team (each marked Assigned), Readiness and Score, and the Team assignment panel for example-org/analytics-pipeline with the Growth and Platform teams chosen, a Delivery attribution picker set to Growth with its explanation, and Cancel and Apply buttons" />
+  <img src="/wp-content/uploads/gki-settings-repositories-team-assignment-01-v3@2x.png" class="help-center-img img-bordered" alt="The Repositories tab of Insights Settings, with a Search repositories box and a list of example-org repositories showing their Team (each marked Assigned), Readiness and Score, and the Team assignment panel for example-org/analytics-pipeline with the Growth and Platform teams chosen, a Delivery attribution picker set to Growth with its explanation, and Cancel and Apply buttons" />
   <figcaption>Settings → Repositories — assigning a repository to two teams, with Delivery attribution set to one of them.</figcaption>
 </figure>
 

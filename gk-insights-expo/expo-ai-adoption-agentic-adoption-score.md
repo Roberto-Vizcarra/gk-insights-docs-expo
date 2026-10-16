@@ -95,7 +95,7 @@ A team average of 50–65 means a healthy mix with most developers in Explorer/R
 * **/ai-impact** — used as the cohort dimension for the productivity uplift analysis.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-table-01-v2@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
+  <img src="/wp-content/uploads/gki-developers-table-01-v3@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
   <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value, and $ / Output columns.</figcaption>
 </figure>
 

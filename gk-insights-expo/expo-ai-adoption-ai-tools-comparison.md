@@ -57,7 +57,7 @@ Each cohort card lists these figures for its developers:
 * **Changes / Dev / Week** — merged pull requests plus direct commits per developer per week.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-tool-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Tools tab, below the Timeframe, Granularity, Filters and Teams controls: cohort cards for Claude Code, Claude + Cursor and Claude + Codex, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week and Changes / Dev / Week." />
+  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-tool-01-v3@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Tools tab, below the Timeframe, Granularity, Filters and Teams controls: cohort cards for Claude Code, Claude + Cursor and Claude + Codex, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week and Changes / Dev / Week." />
   <figcaption>Cohort cards on the AI Tools tab.</figcaption>
 </figure>
 
@@ -71,7 +71,7 @@ Model cards on the **AI Models** tab add two rows:
 Both count every developer who used the model, not only developers whose main model it is. A dash means the tool doesn't report tokens or cost per model.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Models tab, below the Timeframe, Granularity, Filters and Teams controls: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend." />
+  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v3@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Models tab, below the Timeframe, Granularity, Filters and Teams controls: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend." />
   <figcaption>Model cards on the AI Models tab, with Tokens and Spend.</figcaption>
 </figure>
 

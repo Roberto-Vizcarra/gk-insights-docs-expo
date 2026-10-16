@@ -26,7 +26,7 @@ custom_fields:
 A guided 10-minute walkthrough of `/teams`, the page you land on when you log in. By the end you'll know what every column means and where to click next.
 
 <figure>
-  <img src="/wp-content/uploads/gki-team-lead-flow-01-v2@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Avg Changes / Developer chart of Opened, Merged and Direct commits, each with a Total / Trend switch and a more-options menu" />
+  <img src="/wp-content/uploads/gki-team-lead-flow-01-v3@2x.png" class="help-center-img img-bordered" alt="Team Lead Insights in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters and Export CSV, KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR (7.8%, 5 failed / 64 releases) and AI Adoption, and the Flow tab's Cycle Time chart by Coding, Pickup and Review with an Include Jira start time in Coding phase checkbox beside the Avg Changes / Developer chart of Opened, Merged and Direct commits, each with a Total / Trend switch and a more-options menu" />
   <figcaption>Team Lead Insights — the filter bar with Timeframe, Granularity, and Filters, the team-pulse KPI strip, and the Flow tab's cycle-time-by-phase and changes-by-type charts.</figcaption>
 </figure>
 
@@ -51,7 +51,7 @@ The main view is one row per team, under a strip of four KPI cards:
 * **% Power Teams** — the share of teams whose tier is Power User. Teams with every member on PTO are left out.
 
 <figure>
-  <img src="/wp-content/uploads/gki-teams-table-01-v2@2x.png" class="help-center-img img-bordered" alt="The Teams page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Teams, and the All Teams table listing Platform, Payments, Growth and Mobile with their Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk and Token Usage Value" />
+  <img src="/wp-content/uploads/gki-teams-table-01-v3@2x.png" class="help-center-img img-bordered" alt="The Teams page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Teams, and the All Teams table listing Platform, Payments, Growth and Mobile with their Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk and Token Usage Value" />
   <figcaption>The Teams page: the KPI strip above the team table.</figcaption>
 </figure>
 

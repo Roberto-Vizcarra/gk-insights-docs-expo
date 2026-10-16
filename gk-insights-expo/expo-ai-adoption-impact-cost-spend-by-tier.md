@@ -77,7 +77,7 @@ The **AI Spend by Developer** card lists every developer with recorded AI spend 
 To scope the whole AI Impact report — both spend cards included — to specific people, open **Filters** and choose **Developer**. If none of the selected developers are in the current roster, the page says so; clear the filter or pick someone else.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights, with an Adjusted badge beside its title and a Columns button, listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from The AI Spend by Developer card in GitKraken Insights listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.0062.00 down to alt="43.00" />
+  <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights, with an Adjusted badge beside its title and a Columns button, listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.00" />
   <figcaption>AI Spend by Developer — each developer's AI spend, merged PRs, and cost per merged PR for the period.</figcaption>
 </figure>
 

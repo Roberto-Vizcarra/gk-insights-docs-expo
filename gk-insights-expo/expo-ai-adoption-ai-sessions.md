@@ -61,7 +61,7 @@ A notice below the metric strip explains two things the figures can't show on th
 To hide the notice, click its close button. Your browser remembers the choice.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-metric-strip-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Sessions metric strip: six cards for Sessions (599), Avg parallel sessions (1.4 concurrent), Autonomous run (37m), Skills / session (1.8), Cost / session (".20) and Total usage value (alt=".9k), each with its change from the previous period. Below it, the coverage notice lists the AI tools that report sessions and says pull requests, commits and issues are linked from the point each developer connects their environment." />
+  <img src="/wp-content/uploads/gki-ai-sessions-metric-strip-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Sessions metric strip: six cards for Sessions (599), Avg parallel sessions (1.4 concurrent), Autonomous run (37m), Skills / session (1.8), Cost / session ($3.20) and Total usage value ($1.9k), each with its change from the previous period. Below it, the coverage notice lists the AI tools that report sessions and says pull requests, commits and issues are linked from the point each developer connects their environment." />
   <figcaption>The metric strip and the coverage notice on AI Sessions.</figcaption>
 </figure>
 

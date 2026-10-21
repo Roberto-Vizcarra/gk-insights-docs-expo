@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 30
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 ## For engineering leaders
 
@@ -61,13 +61,13 @@ The dashboard's job is to surface the questions. The answers come from the team.
 
 #### Step 4 — Investment review (10 min)
 
-Open `/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ saved per week, AI-Assisted % of lines changed.
+Open `/ai-adoption/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ saved per week, AI-Assisted % of lines changed.
 
 **Question to answer:** Is the AI tooling spend still returning more value than it costs? For most orgs running Claude Code + Cursor, breakeven happens in single-digit weeks. If yours hasn't, look at adoption depth — the math fails when adoption is shallow even if it's broad.
 
 ### How to read scores fairly
 
-The most common mistake leaders make with this dashboard is reading individual developer scores as a performance review proxy. Read [How to think about developer scores](/insights-expo/expo-ai-adoption-getting-started#how-to-think-about-developer-scores) before you go anywhere near a 1:1 talking about a score.
+The most common mistake leaders make with this dashboard is reading individual developer scores as a performance review proxy. Read [Read this family responsibly](/insights-expo/expo-ai-adoption-agentic-metrics#read-this-family-responsibly) before you go anywhere near a 1:1 talking about a score.
 
 What scores _are_ good for: **Cohort comparison** ("Our backend team has 80% Power Users, our mobile team has 20%. Why?"), **Onboarding signal** ("New hires are landing in Emerging after 8 weeks instead of Explorer. Something's wrong with our onboarding."), **Tooling signal** ("Three teams using Cursor + Claude Code together hit Power User faster than teams on Claude Code alone.").
 
@@ -79,9 +79,9 @@ These three settings drift over time and need a quarterly check:
 
 | Setting | What to check |
 | --- | --- |
-| **Maturity Factor** | Still 0.75? If your org has matured, raise it. If your adoption % has plateaued for 2+ quarters, consider whether the ceiling is the constraint. |
+| **Maturity Factor** | Still at the level you set (Company AI Readiness, default 100%)? If you lowered it and your org has matured, raise it. If your adoption % has plateaued for 2+ quarters, consider whether the ceiling is the constraint. |
 | **Tier Weights** | Default 0.5 / 0.2 / 0.3. If your org has moved from "rolling out" to "extracting value", consider shifting weight toward Output. _(Editable in Settings → General.)_ |
-| **Baseline Period** | Default Nov 1 last year. If you launched a new AI tool mid-year, anchor the baseline to a month _before_ that launch so uplift math is meaningful. |
+| **Baseline Period** | A single reference month, set automatically (where it can be detected) to about 90 days before your org first connected a repository. If you launched a new AI tool later, anchor the baseline to a month _before_ that launch so uplift math is meaningful. |
 
 → [Playbook — Set tier weights for your org's maturity](/insights-expo/expo-ai-adoption-playbook-tier-weights)
 

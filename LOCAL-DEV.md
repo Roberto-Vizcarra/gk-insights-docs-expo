@@ -232,6 +232,30 @@ subscriber, not as admin. The "Sign in with GitKraken" button itself will
 still dead-end at gitkraken.dev, since localhost is not a registered
 redirect URI.
 
+### Verifying the lockdown
+
+With `gki_auth_enabled 1` and no cookies, every one of these must come back
+without page content (401 JSON, empty feed, empty `<item>` list, no
+`insights-expo` URLs, or the gate). Swap in `https://help.gitkraken.com` to
+check prod; add a random query string there so Cloudflare does not answer
+from cache.
+
+```powershell
+$B = 'http://localhost:8420'
+curl.exe -s "$B/wp-json/wp/v2/posts/18987"                          # 401 gki_auth_required
+curl.exe -s "$B/wp-json/wp/v2/posts?categories=83&_fields=id"        # []
+curl.exe -s "$B/wp-json/wp/v2/search?search=autonomy"                # no insights-expo URLs
+curl.exe -s "$B/wp-json/oembed/1.0/embed?url=$B/insights-expo/expo-ai-adoption-home/"   # 404 oembed_invalid_url
+curl.exe -s "$B/category/insights-expo/feed/"                        # no <item>
+curl.exe -s "$B/?s=autonomy+score"                                   # no insights-expo links
+curl.exe -s "$B/wp-sitemap-posts-post-1.xml"                         # no insights-expo URLs
+curl.exe -sI "$B/insights-expo/expo-ai-adoption-home/"               # X-Robots-Tag: noindex; Cache-Control: no-store
+curl.exe -s "$B/insights-expo/expo-ai-adoption-home/" | Select-String 'name="robots"'   # noindex, nofollow, noarchive
+```
+
+Post ID 18987 is the home page in the production import; category 83 is
+`insights-expo`. Both are the same locally because the database is a copy.
+
 To exercise the real OAuth flow you need either a staging
 instance with a registered redirect URI, or a tunnel (`cloudflared`) on a stable
 hostname that the backend team whitelists. That request belongs in the same

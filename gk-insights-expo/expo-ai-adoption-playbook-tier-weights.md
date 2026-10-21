@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 10
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 > _The default Tier Weights (0.5 Adoption / 0.2 Agentic / 0.3 Output) are tuned for orgs in active AI rollout. This playbook helps you decide whether to keep them or change them._
 
@@ -62,7 +62,7 @@ Don't agonize over the state. Most orgs are clearly in one. The interesting ques
 
 The defaults emphasize Adoption (50%), which is right for early rollouts. The signal you want from the dashboard is "are people picking up the tools?" — and Adoption is what answers that. Output matters but follows adoption with a 4–12 week lag, so weighting it heavily early biases the tier composite against the right early signal.
 
-If anything, consider lowering the **Maturity Factor** to 0.6 or 0.65 (this _is_ settable in Settings → General) to leave more headroom for developers to feel like they are progressing. Don't change tier weights yet.
+If anything, consider lowering the **Maturity Factor** from its 100% default to 60% or 65% (this _is_ settable in Settings → General as **Company AI Readiness (%)**) to leave more headroom for developers to feel like they are progressing. Don't change tier weights yet.
 
 ### If you are Maturing
 
@@ -70,7 +70,7 @@ If anything, consider lowering the **Maturity Factor** to 0.6 or 0.65 (this _is_
 
 You have established broad adoption. The next question is whether adoption is converting to output. Balancing Adoption and Output equally surfaces the developers who are doing both. The 0.2 Agentic stays unchanged — agentic depth is still emerging.
 
-Also consider raising the **Maturity Factor** to 0.85 (settable in Settings → General) to reflect that your org's P90 should now mean something close to "Power User territory."
+If you lowered the **Maturity Factor** earlier, also consider raising it to 85% (**Company AI Readiness (%)** in Settings → General) to reflect that your org's P90 should now mean something close to "Power User territory."
 
 ### If you are Mature
 
@@ -78,7 +78,7 @@ Also consider raising the **Maturity Factor** to 0.85 (settable in Settings → 
 
 In a mature org, adoption is the baseline assumption. The differentiator between developers is output and depth. Weighting Output most heavily emphasizes "who is actually delivering with this." The 0.2 Agentic stays unchanged — agentic adoption is harder to push deep and most orgs cap out around 0.3 agentic mean.
 
-Maturity Factor at 0.95–1.00 reflects that you have earned the top of the scale.
+Maturity Factor at 95–100% (100% is the default) reflects that you have earned the top of the scale.
 
 ### If you have a specific goal
 
@@ -94,7 +94,7 @@ Don't optimize for one of these unless you have actually decided that is the org
 ## Things to know before you change weights
 
 1. **Weights are renormalized to sum to 1.0 on every read.** So setting 1.0 / 0.5 / 0.5 yields effective 0.5 / 0.25 / 0.25. Most people find it clearer to choose values that already sum to 1.
-2. **All three weights must be strictly positive.** Zero or negative values are rejected; the default for that key is used instead. There is never a "100% output, 0% everything else" state.
+2. **Output must be greater than 0; Adoption and Autonomy can be 0.** The Settings form rejects a zero, negative, or non-numeric Output weight. Setting Adoption and Autonomy both to 0 bases tiers on Output alone — rarely what you want (see the pitfalls below).
 3. **Changes affect every developer immediately.** No retroactive recomputation of historical snapshots, but the _current_ window updates as soon as the keys are set. Plan an announcement.
 4. **The tier thresholds (25 / 55 / 80) don't move.** Changing weights _will_ re-tier some developers. Some will move up, some down.
 
@@ -124,6 +124,6 @@ After a weight change:
 
 ## Related pages
 
-* [AI Tier](/insights-expo/expo-ai-adoption-agentic-metrics#ai-tier)
-* [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-metrics#maturity-factor)
+* [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier)
+* [Maturity Factor](/insights-expo/expo-ai-adoption-agentic-maturity-factor)
 * [Settings reference](/insights-expo/expo-ai-adoption-settings)

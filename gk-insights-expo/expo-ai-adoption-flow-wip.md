@@ -81,9 +81,9 @@ None. WIP is a raw count.
 
 | Metric | Relationship |
 | --- | --- |
-| [Cycle Time](#cycle-time) | High WIP often causes a long Pickup phase (reviewers overloaded). |
-| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | Outflow rate. WIP / Throughput ≈ average days a PR sits open. |
-| [Review Cycles](#review-cycles) | Indirectly — PRs with many cycles contribute to higher WIP. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | High WIP often causes a long Pickup phase (reviewers overloaded). |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | Outflow rate. WIP / Throughput ≈ average days a PR sits open. |
+| [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles) | Indirectly — PRs with many cycles contribute to higher WIP. |
 
 ### How to improve it
 

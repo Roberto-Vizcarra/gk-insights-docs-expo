@@ -71,6 +71,7 @@ Don't read direct commits in isolation — read them as part of the Output Score
 * **/ai-adoption/teams** — per-team direct-commit counts inside the developer sub-table.
 * **/ai-adoption/capex** — direct commits carry CapEx vs OpEx categorization the same as PRs.
 * **/ai-adoption/data-explorer** — Direct Commits tab shows every commit with full metadata.
+* **/ai-adoption/executive** — direct commits count toward the Throughput tile ("Merged + direct per dev per week") and its sparkline.
 
 ### Settings that affect it
 
@@ -81,9 +82,9 @@ Don't read direct commits in isolation — read them as part of the Output Score
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](#output-score) | Direct commits are the DC term of the formula. |
-| [Effort Score](#effort-score-complexity) | Each direct commit gets one. |
-| [Throughput](#throughput) | Throughput counts PRs only; direct commits live in this metric. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | Direct commits are the DC term of the formula. |
+| [Effort Score](/insights-expo/expo-ai-adoption-output-effort-score) | Each direct commit gets one. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | Throughput counts merged PRs plus direct commits per active developer per week, so every direct commit adds to it at full count, without effort weighting. |
 
 ### How to use the weight
 

@@ -25,7 +25,7 @@ custom_fields:
 
 ### At a glance
 
-AI-Assisted % is the behavioral counterpart to [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score). Where Adoption asks "is this developer using AI?", AI-Assisted % asks "did this developer use AI _on this specific change_?" The two diverge surprisingly often. A developer can be a heavy daily Claude user (high Adoption) and ship most of this week's PRs without touching it (low AI-Assisted on those changes).
+AI-Assisted % is the behavioral counterpart to [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score). Where Adoption asks "is this developer using AI?", AI-Assisted % asks "did this developer use AI _on this specific change_?" The two diverge surprisingly often. A developer can be a heavy daily Claude user (high Adoption) and ship most of this week's PRs without touching it (low AI-Assisted on those changes).
 
 The metric is line-weighted, so a 2,000-line AI-assisted refactor counts more than a 30-line AI-assisted typo fix.
 
@@ -35,16 +35,18 @@ The metric is line-weighted, so a 2,000-line AI-assisted refactor counts more th
 AI-Assisted % = (lines changed in AI-assisted PRs + commits) / (total lines changed) × 100%
 
   where AI-assisted = has AI co-author trailer OR
-                      developer had AI events within the correlation window
-                      of the change's lifecycle (default 60 minutes)
+                      developer had AI events or Cursor activity within the
+                      correlation window of the change's lifecycle
+                      (default 30 minutes)
 ```
 
 ### How GitKraken Insights calculates it
 
-**Per-item detection.** For each merged PR and direct commit, the backend computes `is_ai_assisted = true` if either:
+**Per-item detection.** For each merged PR and direct commit, the backend computes `is_ai_assisted = true` if any of these is true:
 
 1. **The commit has an AI co-author trailer** (reason: `co_author`), or
-2. **The developer had AI events within the AI-to-commit correlation window of the change's lifecycle window** (reason: `ai_events`). The window defaults to 60 minutes and is configurable per org — see [AI-to-Commit Correlation Window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window). For PRs, the lifecycle window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, the correlation window applies on either side of the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected provider (Claude Code, Codex, Cursor).
+2. **The developer had AI events within the AI-to-commit correlation window of the change's lifecycle window** (reason: `ai_events`). The window defaults to 30 minutes and is configurable per org from 1 to 60 minutes — see [AI-to-Commit Correlation Window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window). For PRs, the lifecycle window is `(first_commit_at, merged_at OR closed_at OR now)`. For direct commits, the correlation window applies on either side of the commit. AI events include `user_prompt`, `tool_result`, and `api_request` from any connected AI tool that reports them, such as Claude Code or Codex.
+3. **The developer had Cursor activity in that same window.** Cursor activity near the commit or pull request counts as its own reason, so teams that use only Cursor get AI-assisted changes too.
 
 The materialized flag (`pull_requests.is_ai_assisted` / `direct_commits.is_ai_assisted`) is computed by a continuous classifier worker. A live `EXISTS` fallback fires when the materialized flag is still NULL (typically for very recent items).
 
@@ -75,20 +77,20 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 * **/ai-adoption/ai-impact** — AI-Assisted Changes % card in the Productivity hero, which shows AI-assisted changed lines alongside total changed lines so you can see the ratio the percentage comes from. Also shows up in the AI Insight banner narrative.
 * **/ai-adoption/executive** — AI-Assisted % is one of the headline KPIs.
-* **PR drill-down tables** — each PR shows its AI-Assisted status with the reason (`co_author` or `ai_events`).
+* **PR drill-down tables** — each PR shows its AI-Assisted status with the reason (`co_author`, `ai_events`, or Cursor activity near the change). PRs that a coding agent created also carry an **Agent** badge next to the AI badge; hover it to see which agent, for example "Created by the Claude Code coding agent." A PR counts as agent-created when Copilot or Devin opened it on GitHub, or when its branch starts with `cursor/`, `claude/`, or `codex/` — then the author is the developer who ran the agent. The open pull requests table shows the same badge, and Data Explorer's PR data shows which agent created each PR. Devin is available on request — contact your GitKraken account team.
 
 ### Settings that affect it
 
-* [**AI-to-Commit Correlation Window**](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window) — how close AI activity must be to a change for that change to count as AI-assisted. Default 60 minutes. Changing it re-runs the association on existing data, so past percentages shift with it.
+* [**AI-to-Commit Correlation Window**](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window) — how close AI activity must be to a change for that change to count as AI-assisted. Labeled **AI Correlation Window (minutes)** in Settings → General. Default 30 minutes; range 1–60. Changing it recalculates AI-assisted metrics for past periods, so past percentages shift with it.
 * The AI co-author trailer detection is fixed.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-metrics#agent-adoption-score) | The user-level adoption measure. AI-Assisted % is the work-level counterpart. |
-| [Productivity Uplift](#productivity-uplift) | AI-Assisted % is a confirming signal — higher AI-Assisted → stronger uplift narrative. |
-| [Output Score](/insights-expo/expo-ai-adoption-output-metrics#output-score) | Independent — Output Score doesn't filter by AI-assisted status. |
+| [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score) | The user-level adoption measure. AI-Assisted % is the work-level counterpart. |
+| [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift) | AI-Assisted % is a confirming signal — higher AI-Assisted → stronger uplift narrative. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | Independent — Output Score doesn't filter by AI-assisted status. |
 
 ### How to improve it
 
@@ -99,15 +101,16 @@ The right target for your team depends on what you ship. Heavy infrastructure an
 
 ### Limitations and gotchas
 
-* **The temporal heuristic produces false positives and false negatives.** At the default 60-minute window, a dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag, and a dev who used AI two hours before committing doesn't. The heuristic is the best practical balance, not a measurement. If it over-attributes for your team, tighten the [correlation window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window).
+* **The temporal heuristic produces false positives and false negatives.** At the default 30-minute window, a dev who left Claude open in another window while writing non-AI-assisted code still gets the AI-assisted flag, and a dev who used AI two hours before committing doesn't. The heuristic is the best practical balance, not a measurement. If it over-attributes for your team, tighten the [correlation window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window).
 * **Materialized flag lags by minutes to hours.** The classifier worker catches up continuously.
 * **Co-author trailer detection requires the trailer.** Devs using AI without the `Co-authored-by` trailer rely entirely on the temporal heuristic.
+* **Work authored by Devin itself isn't counted.** Pull requests and commits that Devin authors are flagged as AI-authored, but they aren't counted in AI-Assisted %, which measures work by your developers. The Devin connection is available on request — contact your GitKraken account team.
 * **Line-weighted means one big PR can dominate the metric.** A team's 50% AI-Assisted week might be one 3,000-line non-AI-assisted migration plus many smaller AI-assisted PRs. Look at distribution, not just the headline.
 
 ### FAQ
 
 **Q: How is "AI-assisted" detected if the dev doesn't tag the commit?**
-A: The backend looks for AI events (Claude / Codex / Cursor prompts, tool results, API requests) by that developer within the correlation window of the change's lifecycle — 60 minutes by default. If they prompted Claude within that window of committing, the commit is marked AI-assisted with reason `ai_events`.
+A: The backend looks for AI events (prompts, tool results, and API requests from any connected AI tool) or Cursor activity by that developer within the correlation window of the change's lifecycle — 30 minutes by default. If they prompted Claude within that window of committing, the commit is marked AI-assisted with reason `ai_events`; Cursor activity in the window marks it AI-assisted with Cursor activity as the reason.
 
 **Q: A PR shows AI-Assisted = false but I know the dev used Claude. Why?**
 A: Three usual causes: (1) the AI events happened outside the PR's lifecycle window by more than the correlation window allows, (2) the developer's email or login doesn't match between the AI events and the PR, (3) the materialized flag hasn't been computed yet.

@@ -18,11 +18,14 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<!-- FLAG FOR HUMAN REVIEW: API key creation (gkDotDevApiKeys) is treated as not widely available (Viz, 2026-10-15). The page stays visible with an available-on-request note; revisit once availability is clarified. -->
+<kbd>Last updated: October 2026</kbd>
 
 The Manual Releases API lets you record releases in GitKraken Insights that aren't captured automatically from your git provider — for example, releases cut by an external CI/CD system, deploys to a platform GitKraken doesn't read, or historical releases you want to backfill.
 
-Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-metrics#deployment-frequency).
+Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency).
+
+> **Note — available on request.** Creating API keys isn't turned on for every organization yet. To use the Manual Releases API, contact your GitKraken account team to enable API keys for your organization. Once it's enabled, you can create keys under **API keys** in your account's **Security** settings.
 
 > **Plan:** GitKraken Insights
 > **Role:** An account that can create API keys for your organization
@@ -76,8 +79,8 @@ Content type: `application/json`
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
 | `id` | string | Yes | Release identifier, unique within the repository. |
-| `repo` | string | Yes | Repository name in `owner/name` form. |
-| `gitProvider` | string | Yes | Git provider, e.g. `github`. |
+| `repo` | string | Yes | Repository name in `owner/name` form. The repository must already exist in your organization for the given `gitProvider`. |
+| `gitProvider` | string | Yes | Git provider. One of: `github`, `githubEnterprise`, `gitlab`, `gitlabSelfHosted`, `bitbucket`, `bitbucketServer`, `azure`, `azureDevopsServer`. |
 | `releasedAt` | string (date-time) | Yes | Release time in RFC 3339 format, e.g. `2026-07-09T14:30:00Z`. |
 | `tagName` | string | No | Release tag. |
 | `headBranch` | string | No | Branch the release was cut from. |
@@ -103,7 +106,7 @@ curl -i -X POST https://api.gitkraken.dev/v1/insights/analytics/releases \
 | Status | Meaning |
 | --- | --- |
 | `201` | Release created. The response body is empty. |
-| `400` | Bad request — a required field is missing or malformed, or the `id` already exists in this repository. |
+| `400` | Bad request — a required field is missing or malformed, the `id` already exists in this repository, or the `repo` isn't known for the given `gitProvider`. |
 | `401` | Unauthenticated — the API key is missing, malformed, or expired. |
 | `403` | Unauthorized — the key lacks Insights write permission for this organization. |
 | `500` | Internal server error. |
@@ -156,13 +159,23 @@ curl -i -X DELETE \
 
 ## Error format
 
-Error responses (`400`, `401`, `403`, `404`, `500`) return a JSON body:
+Validation and not-found errors (`400`, `404`, `500`) return a JSON body of this shape:
 
 ```json
 {
+  "data": null,
   "error": {
-    "message": "A description of what went wrong"
+    "message": "A description of what went wrong",
+    "code": "400.1"
   }
+}
+```
+
+Authentication and authorization errors (`401`, `403`) are returned before the request reaches Insights, and use a simpler shape:
+
+```json
+{
+  "error": "invalid API key"
 }
 ```
 

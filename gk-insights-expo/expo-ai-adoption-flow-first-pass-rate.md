@@ -25,7 +25,7 @@ custom_fields:
 
 ### At a glance
 
-First-Pass Rate is the inverse of [Review Cycles](#review-cycles), expressed as the percentage of PRs that get merged without a single round of "please fix X." It is the cleanest signal in the dashboard for "is our code quality at submission high?" A high rate means developers are submitting work that is ready to ship. A low rate means either submissions are sloppy or reviews are nitpicky — the next step is to drill into Review Cycles to find out which.
+First-Pass Rate is the inverse of [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles), expressed as the percentage of PRs that get merged without a single round of "please fix X." It is the cleanest signal in the dashboard for "is our code quality at submission high?" A high rate means developers are submitting work that is ready to ship. A low rate means either submissions are sloppy or reviews are nitpicky — the next step is to drill into Review Cycles to find out which.
 
 ### Formula
 
@@ -54,7 +54,7 @@ It is especially valuable as a leading indicator for AI adoption ROI. When teams
 | **35 – 54%** | Fair — every other PR needs a revision round. Investigate PR size and spec clarity. |
 | **< 35%** | Needs attention — review is doing the heavy lifting of design or spec work. |
 
-**One nuance:** rates above \~85% can also signal _rubber-stamping_. If a team's First-Pass Rate is 95% _and_ CFR is rising, your reviewers may not be looking hard enough. Read First-Pass Rate alongside [CFR](/insights-expo/expo-ai-adoption-dora-metrics#change-failure-rate-cfr).
+**One nuance:** rates above \~85% can also signal _rubber-stamping_. If a team's First-Pass Rate is 95% _and_ CFR is rising, your reviewers may not be looking hard enough. Read First-Pass Rate alongside [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate).
 
 ### Where it appears
 
@@ -68,9 +68,9 @@ None. First-Pass Rate is a measurement.
 
 | Metric | Relationship |
 | --- | --- |
-| [Review Cycles](#review-cycles) | First-Pass Rate is "the % at 0 cycles" — same data, different framing. |
-| [Cycle Time](#cycle-time) | High First-Pass Rate tightens the Review phase. |
-| [CFR](/insights-expo/expo-ai-adoption-dora-metrics#change-failure-rate-cfr) | Always read together. High First-Pass + high CFR = rubber-stamping. |
+| [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles) | First-Pass Rate is "the % at 0 cycles" — same data, different framing. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | High First-Pass Rate tightens the Review phase. |
+| [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | Always read together. High First-Pass + high CFR = rubber-stamping. |
 
 ### How to improve it
 

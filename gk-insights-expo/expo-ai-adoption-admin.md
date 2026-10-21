@@ -1,6 +1,6 @@
 ---
 title: Admin & API
-description: Configuration reference and API endpoints for GitKraken Insights AI Adoption.
+description: Configuration reference, credential security and integration permissions, and API endpoints for GitKraken Insights AI Adoption.
 product: GitKraken Insights
 content_type: reference
 audience: admin
@@ -10,7 +10,7 @@ taxonomy:
     category: insights-expo
 custom_fields:
     card_color: red
-    card_description: Settings reference and manual releases API
+    card_description: Settings reference, security and permissions, and the releases API
     card_icon: settings
     nav_category: admin
     nav_label: Admin & API
@@ -18,6 +18,6 @@ custom_fields:
     page_type: index
 ---
 
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
-Configuration and API reference for GitKraken Insights AI Adoption.
+Configuration, security, and API reference for GitKraken Insights AI Adoption.

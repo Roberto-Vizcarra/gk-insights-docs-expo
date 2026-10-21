@@ -19,8 +19,8 @@
                            blocks only. Never a scroll listener.
 
    Every formula here is transcribed from the page it appears on.
-   Where the product exposes a weight as an env var, the sandbox uses
-   the documented default and says so in its footnote.
+   Every weight starts at the product's current default, and the
+   sandbox says so in its footnote.
    ============================================================ */
 (function () {
   'use strict';
@@ -186,17 +186,17 @@
   }
 
   /* =========================================================
-     INSTRUMENT: Maturity Factor
-     ScoreAfterMaturity = ScoreBeforeMaturity x MaturityFactor
+     INSTRUMENT: Maturity Factor (Company AI Readiness)
+     final score = score before readiness x Company AI Readiness
      ========================================================= */
   function instMaturity(mount) {
     var out = readout('ceiling');
     var scale = tierScale();
-    var dRaw = derivedRow('A developer at org P90 on every factor scores');
-    var dMid = derivedRow('A mid-range developer (raw 60) scores');
-    var dLow = derivedRow('A light user (raw 30) scores');
+    var dRaw = derivedRow('A perfect score (100) becomes');
+    var dMid = derivedRow('A mid-range score (60) becomes');
+    var dLow = derivedRow('A light user’s score (30) becomes');
 
-    var mf = slider('Maturity Factor', { min: 0.5, max: 1, step: 0.05, value: 0.75 });
+    var mf = slider('Company AI Readiness', { min: 0, max: 1, step: 0.05, value: 1 });
 
     function update() {
       var f = mf.value();
@@ -204,7 +204,7 @@
       out.set(String(ceiling));
       out.setBand(tierFor(ceiling));
       scale.set(ceiling);
-      mf.setLabel(f.toFixed(2));
+      mf.setLabel(Math.round(f * 100) + '%');
       dRaw.set(String(ceiling));
       dMid.set(String(Math.round(60 * f)));
       dLow.set(String(Math.round(30 * f)));
@@ -212,70 +212,70 @@
 
     mf.input.addEventListener('input', update);
 
-    sandbox(mount, 'What the factor does to every score',
+    sandbox(mount, 'What the setting does to every score',
       'Tier bands are fixed; the scores move',
       [out.node, scale.node, h('div', { class: 'gki-derived' }, [dRaw.node, dMid.node, dLow.node])],
       [groupLabel('Org setting'), mf.row],
-      'Models the documented relationship ScoreAfterMaturity = ScoreBeforeMaturity x MaturityFactor. Default 0.75.');
+      'Models final score = score before readiness × Company AI Readiness. Settings shows it as a percentage from 0 to 100; the default is 100%, which leaves scores unchanged.');
 
     update();
   }
 
   /* =========================================================
      INSTRUMENT: Agent Adoption Score
-     Adoption = min(Primary + 0.25 x Cursor, 100) x MaturityFactor
+     tool score = 0.35 x Daily + 0.25 x Spread + 0.25 x Prompts
+                + 0.15 x Tokens (each factor 0-1), capped at 100
+     headline   = min(SUM(tool score x tool weight), 100) x Readiness
      ========================================================= */
   function instAdoption(mount) {
+    var W_DAILY = 0.35, W_SPREAD = 0.25, W_PROMPTS = 0.25, W_TOKENS = 0.15;
+
     var out = readout('/ 100');
     var scale = tierScale();
-    var dPrimary = derivedRow('Primary (Claude and Codex)');
-    var dPre = derivedRow('Before maturity scaling');
-    var dCeiling = derivedRow('Ceiling at this Maturity Factor');
+    var dTool = derivedRow('Tool score (four factors)');
+    var dCeiling = derivedRow('Ceiling at this readiness');
 
-    var f1 = slider('Daily use', { min: 0, max: 1, step: 0.01, value: 0.8 });
-    var f2 = slider('Hourly spread', { min: 0, max: 1, step: 0.01, value: 0.7 });
-    var f3 = slider('Prompts', { min: 0, max: 1, step: 0.01, value: 0.65 });
-    var f4 = slider('Output tokens', { min: 0, max: 1, step: 0.01, value: 0.6 });
-    var cur = slider('Cursor score', { min: 0, max: 100, step: 1, value: 30 });
-    var mf = slider('Maturity Factor', { min: 0.5, max: 1, step: 0.05, value: 0.75 });
+    var f1 = slider('Daily Regularity (share of working days)', { min: 0, max: 1, step: 0.01, value: 0.8 });
+    var f2 = slider('Hourly Spread (vs org P90)', { min: 0, max: 1, step: 0.01, value: 0.7 });
+    var f3 = slider('Prompt Depth (vs org P90)', { min: 0, max: 1, step: 0.01, value: 0.65 });
+    var f4 = slider('Token Output (vs org P90)', { min: 0, max: 1, step: 0.01, value: 0.6 });
+    var mf = slider('Company AI Readiness', { min: 0, max: 1, step: 0.05, value: 1 });
 
     function update() {
       var factors = [f1, f2, f3, f4];
-      var primary = (f1.value() + f2.value() + f3.value() + f4.value()) / 4 * 100;
-      var pre = Math.min(primary + 0.25 * cur.value(), 100);
-      var score = Math.round(pre * mf.value());
+      var tool = Math.min((W_DAILY * f1.value() + W_SPREAD * f2.value() +
+        W_PROMPTS * f3.value() + W_TOKENS * f4.value()) * 100, 100);
+      var score = Math.round(tool * mf.value());
 
       out.set(String(score));
       out.setBand(tierFor(score));
       scale.set(score);
 
-      dPrimary.set(primary.toFixed(0));
-      dPre.set(pre.toFixed(0));
+      dTool.set(tool.toFixed(0));
       dCeiling.set(String(Math.round(100 * mf.value())));
 
       factors.forEach(function (s) { s.setLabel(s.value().toFixed(2)); });
-      cur.setLabel(String(cur.value()));
-      mf.setLabel(mf.value().toFixed(2));
+      mf.setLabel(Math.round(mf.value() * 100) + '%');
     }
 
-    [f1, f2, f3, f4, cur, mf].forEach(function (s) {
+    [f1, f2, f3, f4, mf].forEach(function (s) {
       s.input.addEventListener('input', update);
     });
 
-    sandbox(mount, 'Score sandbox', 'Each factor is normalized against org P90',
-      [out.node, scale.node, h('div', { class: 'gki-derived' }, [dPrimary.node, dPre.node, dCeiling.node])],
+    sandbox(mount, 'Score sandbox', 'Weighted 35 / 25 / 25 / 15',
+      [out.node, scale.node, h('div', { class: 'gki-derived' }, [dTool.node, dCeiling.node])],
       [
-        groupLabel('Primary factors'), f1.row, f2.row, f3.row, f4.row,
-        groupLabel('Secondary and scaling'), cur.row, mf.row
+        groupLabel('Factors (0 to 1)'), f1.row, f2.row, f3.row, f4.row,
+        groupLabel('Scaling'), mf.row
       ],
-      'The four factors are weighted equally here. In the product the per-provider weights are set by SCORE_WEIGHT_* and are not exposed in Settings, so a tuned org may differ.');
+      'One tool at the default tool weight of 1.0. Daily Regularity is the share of working days with activity; the other three factors are measured against the org P90 and capped at 1. With several tools, each tool’s score is scaled by its weight and the sum is capped at 100 before readiness applies.');
 
     update();
   }
 
   /* =========================================================
      INSTRUMENT: AI Tier
-     composite = wA x Adoption + wG x Agentic + wO x OutputNorm
+     composite = wA x Adoption + wG x Autonomy + wO x OutputNorm
      weights renormalized to sum to 1.0
      ========================================================= */
   function instAiTier(mount) {
@@ -284,12 +284,12 @@
     var dNorm = derivedRow('Weights after renormalizing');
 
     var adoption = slider('Adoption Score', { min: 0, max: 100, step: 1, value: 62 });
-    var agentic = slider('Agentic Score', { min: 0, max: 100, step: 1, value: 48 });
+    var agentic = slider('Autonomy Score', { min: 0, max: 100, step: 1, value: 48 });
     var output = slider('Output (normalized)', { min: 0, max: 100, step: 1, value: 55 });
 
     var wA = slider('Adoption weight', { min: 0, max: 1, step: 0.05, value: 0.5 });
-    var wG = slider('Agentic weight', { min: 0, max: 1, step: 0.05, value: 0.2 });
-    var wO = slider('Output weight', { min: 0, max: 1, step: 0.05, value: 0.3 });
+    var wG = slider('Autonomy weight', { min: 0, max: 1, step: 0.05, value: 0.2 });
+    var wO = slider('Output weight', { min: 0.05, max: 1, step: 0.05, value: 0.3 });
 
     function update() {
       var sum = wA.value() + wG.value() + wO.value();
@@ -319,54 +319,77 @@
         groupLabel('Input scores'), adoption.row, agentic.row, output.row,
         groupLabel('Weights (defaults 0.5 / 0.2 / 0.3)'), wA.row, wG.row, wO.row
       ],
-      'Renormalizing is why raising one weight lowers the others’ influence even though you did not touch them.');
+      'Renormalizing is why raising one weight lowers the others’ influence even though you did not touch them. Adoption and Autonomy can be 0; Output must stay above 0.');
 
     update();
   }
 
   /* =========================================================
-     INSTRUMENT: Cursor Boost
-     Final (pre-maturity) = min(Primary + boost x Cursor, 100)
+     INSTRUMENT: Provider Weights (page slug: agentic-cursor-boost)
+     headline = min(SUM(tool score x tool weight), 100) x Readiness
      ========================================================= */
-  function instCursorBoost(mount) {
-    var out = readout('pre-maturity');
-    var dRaw = derivedRow('Primary + boost, before the cap');
-    var dGain = derivedRow('What the Cursor boost actually added');
+  function instProviderWeights(mount) {
+    var TOOLS = [
+      { name: 'Claude Code', score: 60 },
+      { name: 'Cursor', score: 35 },
+      { name: 'GitHub Copilot', score: 20 }
+    ];
 
-    var primary = slider('Primary score', { min: 0, max: 100, step: 1, value: 70 });
-    var cursor = slider('Cursor score', { min: 0, max: 100, step: 1, value: 60 });
-    var boost = slider('Secondary boost', { min: 0, max: 1, step: 0.05, value: 0.25 });
+    var out = readout('/ 100');
+    var scale = tierScale();
+    var dSum = derivedRow('Sum of weighted tool scores');
+    var dLost = derivedRow('Absorbed by the 100 cap');
+
+    var scores = [];
+    var weights = [];
+    var scoreRows = [];
+    var weightRows = [];
+
+    TOOLS.forEach(function (tool) {
+      var s = slider(tool.name + ' score', { min: 0, max: 100, step: 1, value: tool.score });
+      var w = slider(tool.name + ' weight', { min: 0, max: 1, step: 0.05, value: 1 });
+      scores.push(s);
+      weights.push(w);
+      scoreRows.push(s.row);
+      weightRows.push(w.row);
+    });
+
+    var mf = slider('Company AI Readiness', { min: 0, max: 1, step: 0.05, value: 1 });
 
     function update() {
-      var raw = primary.value() + boost.value() * cursor.value();
-      var capped = Math.min(raw, 100);
-      var gain = capped - primary.value();
+      var sum = 0;
+      scores.forEach(function (s, i) { sum += s.value() * weights[i].value(); });
+      var capped = Math.min(sum, 100);
+      var headline = Math.round(capped * mf.value());
 
-      out.set(capped.toFixed(0));
-      out.setBand(null);
-      dRaw.set(raw.toFixed(1));
-      dGain.set('+' + gain.toFixed(1));
+      out.set(String(headline));
+      out.setBand(tierFor(headline));
+      scale.set(headline);
+      dSum.set(sum.toFixed(1));
+      dLost.set((sum - capped).toFixed(1));
 
-      primary.setLabel(String(primary.value()));
-      cursor.setLabel(String(cursor.value()));
-      boost.setLabel(boost.value().toFixed(2));
+      scores.forEach(function (s) { s.setLabel(String(s.value())); });
+      weights.forEach(function (w) { w.setLabel(w.value().toFixed(2)); });
+      mf.setLabel(Math.round(mf.value() * 100) + '%');
     }
 
-    [primary, cursor, boost].forEach(function (s) {
+    scores.concat(weights, [mf]).forEach(function (s) {
       s.input.addEventListener('input', update);
     });
 
-    sandbox(mount, 'Boost sandbox', 'Watch the cap absorb the boost as Primary rises',
-      [out.node, h('div', { class: 'gki-derived' }, [dRaw.node, dGain.node])],
-      [groupLabel('Inputs'), primary.row, cursor.row, groupLabel('Setting'), boost.row],
-      'SCORE_SECONDARY_BOOST defaults to 0.25. Push Primary above 80 and most of the boost disappears into the min(..., 100) cap.');
+    sandbox(mount, 'Provider Weights sandbox', 'A weight of 0 leaves the tool out',
+      [out.node, scale.node, h('div', { class: 'gki-derived' }, [dSum.node, dLost.node])],
+      [groupLabel('Tool scores'), scoreRows[0], scoreRows[1], scoreRows[2],
+        groupLabel('Provider Weights (default 1.0)'), weightRows[0], weightRows[1], weightRows[2],
+        groupLabel('Scaling'), mf.row],
+      'Illustrative tool scores. Each tool is scored on its own, then contributes its score × its weight; the sum is capped at 100 and then scaled by Company AI Readiness. Provider Weights apply to both Adoption and Autonomy.');
 
     update();
   }
 
   /* =========================================================
      INSTRUMENT: Output Score
-     = SUM(PR effort) + DCWeight x SUM(DC effort)
+     = MergedPRWeight x SUM(PR effort) + DCWeight x SUM(DC effort)
                       + ReviewWeight x SUM(reviewed-PR effort)
      ========================================================= */
   function instOutputScore(mount) {
@@ -378,11 +401,12 @@
     var pr = slider('PR effort total', { min: 0, max: 200, step: 1, value: 90 });
     var dc = slider('Direct commit effort', { min: 0, max: 200, step: 1, value: 40 });
     var rv = slider('Reviewed-PR effort', { min: 0, max: 200, step: 1, value: 60 });
+    var prW = slider('Merged PR Weight', { min: 0, max: 1, step: 0.05, value: 1 });
     var dcW = slider('Direct Commit Weight', { min: 0, max: 1, step: 0.05, value: 0.5 });
     var rvW = slider('Review Weight', { min: 0, max: 1, step: 0.05, value: 0.5 });
 
     function update() {
-      var fromPr = pr.value();
+      var fromPr = prW.value() * pr.value();
       var fromDc = dcW.value() * dc.value();
       var fromRv = rvW.value() * rv.value();
       var total = fromPr + fromDc + fromRv;
@@ -394,20 +418,20 @@
       dRv.set(fromRv.toFixed(0));
 
       [pr, dc, rv].forEach(function (s) { s.setLabel(String(s.value())); });
-      [dcW, rvW].forEach(function (s) { s.setLabel(s.value().toFixed(2)); });
+      [prW, dcW, rvW].forEach(function (s) { s.setLabel(s.value().toFixed(2)); });
     }
 
-    [pr, dc, rv, dcW, rvW].forEach(function (s) {
+    [pr, dc, rv, prW, dcW, rvW].forEach(function (s) {
       s.input.addEventListener('input', update);
     });
 
-    sandbox(mount, 'Output sandbox', 'Three effort pools, two weights',
+    sandbox(mount, 'Output sandbox', 'Three effort pools, three weights',
       [out.node, h('div', { class: 'gki-derived' }, [dPr.node, dDc.node, dRv.node])],
       [
         groupLabel('Effort pools'), pr.row, dc.row, rv.row,
-        groupLabel('Weights'), dcW.row, rvW.row
+        groupLabel('Weights'), prW.row, dcW.row, rvW.row
       ],
-      'Effort values are illustrative. The weights are the real settings; both default to 0.5.');
+      'Effort values are illustrative. The weights are the real settings: Merged PR Weight defaults to 1.0, Direct Commit Weight and Review Weight to 0.5.');
 
     update();
   }
@@ -665,7 +689,7 @@
     maturity: instMaturity,
     adoption: instAdoption,
     aitier: instAiTier,
-    cursorboost: instCursorBoost,
+    cursorboost: instProviderWeights,
     outputscore: instOutputScore,
     directcommits: instDirectCommits,
     uplift: instUplift,
@@ -814,20 +838,64 @@
     window.location.href = p.url;
   }
 
-  function openPalette() {
+  function openPalette(seed) {
     if (!palette.root) return;
     palette.lastFocus = document.activeElement;
     palette.root.hidden = false;
-    palette.input.value = '';
+    palette.input.value = typeof seed === 'string' ? seed : '';
     palette.active = 0;
     renderResults();
     palette.input.focus();
+    if (palette.input.value) {
+      palette.input.setSelectionRange(palette.input.value.length, palette.input.value.length);
+    }
   }
 
   function closePalette() {
     if (!palette.root) return;
     palette.root.hidden = true;
-    if (palette.lastFocus && palette.lastFocus.focus) palette.lastFocus.focus();
+    var back = palette.lastFocus;
+    palette.lastFocus = null;
+    // Returning focus to a landing search field would reopen the palette
+    // (it opens on focus), so blur it instead and leave focus on the page.
+    if (back && back.classList && back.classList.contains('gki-landing-search-input')) {
+      back.blur();
+      return;
+    }
+    if (back && back.focus) back.focus();
+  }
+
+  /* Landing search fields (Home hero, index pages). Server-rendered as a
+     real form so they still work without JS (they submit to ?s=). With
+     the palette present they become its front door: focusing or typing
+     opens the palette seeded with whatever was typed, so the results and
+     keys are identical to Ctrl-K. */
+  function initLandingSearch() {
+    var forms = document.querySelectorAll('.gki-landing-search');
+    if (!forms.length) return;
+    var hint = isMac() ? '⌘K' : 'Ctrl K';
+    for (var i = 0; i < forms.length; i++) {
+      (function (form) {
+        var input = form.querySelector('.gki-landing-search-input');
+        var kbd = form.querySelector('.gki-landing-search-kbd');
+        if (!input) return;
+        if (kbd) { kbd.className = 'gki-kbd gki-landing-search-kbd'; kbd.textContent = hint; }
+        form.classList.add('gki-landing-search--palette');
+
+        function hand() {
+          var seed = input.value;
+          input.value = '';
+          openPalette(seed);
+        }
+        form.addEventListener('submit', function (e) { e.preventDefault(); hand(); });
+        input.addEventListener('focus', function () { if (palette.root.hidden) hand(); });
+        input.addEventListener('input', function () { if (palette.root.hidden) hand(); });
+        form.addEventListener('mousedown', function (e) {
+          // Clicking the icon or the kbd hint, not just the input, opens it.
+          if (e.target !== input) { e.preventDefault(); hand(); }
+        });
+      })(forms[i]);
+    }
   }
 
   function buildPaletteTrigger() {
@@ -941,6 +1009,8 @@
       else if (key === 'ArrowUp') { e.preventDefault(); palette.active = Math.max(palette.active - 1, 0); paintResults(); }
       else if (key === 'Enter') { e.preventDefault(); choosePalette(); }
     });
+
+    initLandingSearch();
   }
 
   /* =========================================================

@@ -1,14 +1,17 @@
 # GKI Help Center Redesign — Project Status
 
-**Last updated:** 2026-09-16
+**Last updated:** 2026-09-23
 **Owner:** roberto.vizcarra@gitkraken.com
-**Plugin version:** 1.17.1 on `pass-c-structural` (current work) · 1.14.2 on `main` (stable, tag `v1.14.2-stable`)
+**Plugin version:** 1.17.3 on `main` (built, not yet uploaded) · 1.17.2 live on production · `v1.14.2-stable` is the pre-redesign rollback tag
 **Live URL:** `help.gitkraken.com/insights-expo/expo-ai-adoption-home`
 **Local URL:** `localhost:8420/insights-expo/expo-ai-adoption-home/` — see `LOCAL-DEV.md`
 
-> Pass C (1.16.0 → 1.17.1) is verified on the local import and **not yet deployed**.
-> Deploying it means: merge `pass-c-structural` to `main`, push (Git It Write
-> resyncs one content file), run `.\archive-and-build.ps1`, upload the zip.
+> Pass C is merged (PR #2) and 1.17.2 is live. The **auth gate is enabled on
+> production** as of 2026-09-23. 1.17.3 closes every non-template route that
+> still served gated content (see Phase 9) and is waiting to be uploaded.
+> The sandbox is being locked down *before* restricted content is added;
+> nothing published so far is confidential. The eventual fold-back into
+> `/gk-insights/` is inventoried in `MERGE-PLAN.md`.
 
 ## Architecture
 
@@ -18,11 +21,12 @@ WordPress (help.gitkraken.com)
   ├── Git It Write plugin (syncs repo Markdown → WP posts)
   │     └── Category: insights-expo → gk-insights-expo/ directory
   │     └── YAML custom_fields: → stored as WP post meta
-  └── GKI Docs Helper plugin v1.17.1 (our custom plugin)
+  └── GKI Docs Helper plugin v1.17.3 (our custom plugin)
         ├── gki-docs-helper.php
         │     ├── template override (priority 9999) + Elementor template_id → 0
         │     ├── asset enqueue (stylesheets only when GKI_GATE_ACTIVE)
         │     ├── search index → gkiSearchData (nav_order sorted)
+        │     ├── landing search field (Home hero + index pages) → opens palette
         │     ├── Parsedown cleanup (the_content, 15)
         │     └── nav / cards / breadcrumbs helpers
         ├── includes/gki-auth.php
@@ -30,6 +34,7 @@ WordPress (help.gitkraken.com)
         │     ├── /insights-expo/login/ → gitkraken.dev OAuth2
         │     ├── admin-ajax gki-oauth-callback → token → userinfo → WP session
         │     ├── entitlement: GET /user/organizations, cached in user meta
+        │     ├── lockdown (1.17.3): REST / oEmbed / feeds / search / archives / sitemaps / robots / no-store
         │     └── Settings → GKI Auth Gate page + debug log
         ├── includes/gki-passc.php
         │     ├── metric-page pipeline (the_content, 16): split on H3, reorder,
@@ -78,16 +83,29 @@ See below.
 ### Phase 7 — Taste Passes A/B (Complete on `Taste-design-expo`, v1.15.x)
 Two CSS overlays behind a three-way switch in the nav: **Pass A (craft)** — nine-step type scale, measure, tabular figures, focus and pressed states, reduced motion, tinted shadows, mobile grid fix; **Pass B (ambition)** — card hierarchy and hover physics, nav/TOC active rails, section-title hairlines, lighter callouts, entry reveal. Both were accepted and folded into `gki-docs.css` as the baseline when Pass C branched; the switcher and `taste-*.css` files were removed.
 
-### Phase 8 — Pass C: structural redesign (Current, `pass-c-structural`, v1.16.0 → v1.17.1)
+### Phase 8 — Pass C: structural redesign (Complete, merged to `main` in PR #2, v1.16.0 → v1.17.2)
 Mockup: Artifact "Insights Docs Pass C" (`prototypes/pass-c-mockup.html`).
 
 - **v1.16.0** — metric pages become reference objects: definition lede, spec panel, formula panel, per-metric instrument (7 sandboxes, proportion bar, 2 timelines, precedence table); command palette replaces the search input; Home landing with hero, role paths and metric map. JetBrains Mono for data. All from existing content and frontmatter.
 - **v1.17.0 (Pass C.2)** — the design carried through the whole page. Metric pages: split on H3, canonical section order, Formula section owns panel + legend + sandbox, "Where it appears" moves to the foot as path-token rows, screenshot becomes the hero under At a glance, step rail, run-in labels, tier scale, FAQ pairs. Every other page: typed callouts, playbook step headings on the rail with time badges, settings mini spec panels, code panels, checklists, duplicate-H2 removal, hero figures. One step style site-wide (the filled-purple disc retired). Two figures on `connect-ai-tools.md` moved next to the steps they illustrate — the only content-file change in the pass.
 - **v1.17.1** — gate fixes above; `.gki-related` → `.gki-related-table` (reveal-target collision); `setup.ps1` option-name fix; `archive-and-build.ps1` and `plugin-archive/` seeded with the v1.14.2 build from `main`.
 
+- **v1.17.2** — every "How to read it" scale coloured; proportional tier bands with labels and ticks. Deployed 2026-09-21.
+
 Verified: 49 pages fetched with no PHP errors, light and dark, 1280 and 375, TOC intact, nav collapse unaffected, no horizontal overflow. Remaining console 404s are missing uploads in the local import, not plugin errors.
 
-## Content Map (50 files)
+### Phase 9 — Auth gate enabled and locked down (Current, `main`, v1.17.3)
+The gate was switched on in production on 2026-09-23. First sign-in attempt died with "Single sign-on is not configured yet" — `gki_auth_client_id` was blank; set in Settings → GKI Auth Gate. An anonymous audit of production the same day, with the gate on, found the template gate was the only thing gating: the REST API returned the full content of all 50 posts (`/wp-json/wp/v2/posts?categories=83`), oEmbed returned titles, `/wp-sitemap-posts-post-2.xml` listed every URL, no page carried `noindex`, 10+ pages were already in search results with content snippets, and Cloudflare was still serving the pre-gate copy of the home page (`cf-cache-status: HIT`, age 42 h).
+
+- **v1.17.3** — also adds the **landing search**: a "What are you looking for?" field in the Home hero and between intro and cards on every index page. It replaces the legacy inline `.gki-site-search` box (hidden by the palette since 1.16.0). Server-rendered as a `role="search"` form posting to `?s=` for no-JS; with JS, focus/typing/submit opens the command palette seeded with the text and closing the palette blurs the field instead of refocusing it (which would reopen it). Verified light/dark on Home and Metrics locally; captures in `local-dev/.staging/landing-search/`.
+- **v1.17.3** — the lockdown section of `gki-auth.php`: REST single → 401, REST collection/search exclude the category, oEmbed → 404, main-query exclusion for feeds/search/archives, category archive is a gated page, core + Yoast + Rank Math sitemap exclusion, `noindex, nofollow, noarchive` via `wp_robots` (+ Yoast/Rank Math filters) and `X-Robots-Tag`, `nocache_headers()` on every gated request at `template_redirect` 4, REST/oEmbed/shortlink head links removed. All keyed on `gki_auth_should_hide()` (gate enabled **and** viewer not entitled); robots directives apply to everyone. Gate screenshots (login / no-access × light / dark) in `local-dev/.staging/gate-screenshots/`.
+
+Outside the plugin, still open — see the checklist in `AUTH-GATE-PLAN.md`: Cloudflare purge + bypass rule for `/insights-expo/*`, Search Console removal, SearchWP category exclusion, `/gk-insights/` decision, and making the content repos private **before restricted content is committed** (they are public today by choice; nothing in them is confidential yet).
+
+### Phase 10 — Insights backfill audit (2026-10-15 → 2026-10-16, PR #3 open, v1.17.4)
+Synced the unmerged gk-insights-docs PRs #6/#8/#11. Then a parity pass against the customer setup docs and the product: the Agent OTel Data page, Security & Permissions, a hidden Manual Critical Defects API draft, and 181 heading anchors fixed. Then audited every Insights change from 2026-08-21 to gitkraken.dev `4e52b943e` (312 frontend commits, plus insights-service calculation changes). Added 7 new pages (By Developer, By Repository, By AI Tool & Model, By AI Sessions, Surveys, GitKraken Insights for Developers, Connect Linear & YouTrack) and 35 new or retaken screenshots. Plugin v1.17.4 = the v1.17.3 lockdown + updated sandboxes (35/25/25/15 weights, Company AI Readiness, Provider Weights). Every shipped image passed an adversarial visual review: 15 PASS, 20 PASS-POLISH accepted, 0 FAIL. The audit record (findings, specs, review runs) lives in gk-docs-automation; see its `docs/products/insights.md` → "Audit history".
+
+## Content Map (60 files)
 
 Nav labels come from `custom_fields.nav_label`; the table lists type and category, which are what the plugin branches on.
 
@@ -100,6 +118,12 @@ Nav labels come from `custom_fields.nav_label`; the table lists type and categor
 | expo-ai-adoption-for-engineering-leaders.md | content | getting-started |
 | expo-ai-adoption-for-team-leads.md | content | getting-started |
 | expo-ai-adoption-for-admins.md | content | getting-started |
+| expo-ai-adoption-developers.md | content | getting-started |
+| expo-ai-adoption-repositories.md | content | getting-started |
+| expo-ai-adoption-ai-tools-comparison.md | content | getting-started |
+| expo-ai-adoption-ai-sessions.md | content | getting-started |
+| expo-ai-adoption-surveys.md | content | getting-started |
+| expo-ai-adoption-insights-for-developers.md | content | getting-started |
 | expo-ai-adoption-connect-your-data.md | index | connect-your-data |
 | expo-ai-adoption-connect-github.md | content | connect-your-data |
 | expo-ai-adoption-connect-bitbucket.md | content | connect-your-data |
@@ -107,6 +131,8 @@ Nav labels come from `custom_fields.nav_label`; the table lists type and categor
 | expo-ai-adoption-connect-gitlab.md | content | connect-your-data |
 | expo-ai-adoption-connect-ai-tools.md | content | connect-your-data |
 | expo-ai-adoption-connect-jira-bamboohr.md | content | connect-your-data |
+| expo-ai-adoption-connect-otel.md | content | connect-your-data |
+| expo-ai-adoption-connect-linear-youtrack.md | content | connect-your-data |
 | expo-ai-adoption-metrics.md | index | metrics |
 | expo-ai-adoption-agentic-metrics.md | index (family) | metrics |
 | expo-ai-adoption-agentic-adoption-score.md | content (metric) | metrics |
@@ -142,6 +168,8 @@ Nav labels come from `custom_fields.nav_label`; the table lists type and categor
 | expo-ai-adoption-admin.md | index | admin |
 | expo-ai-adoption-settings.md | content | admin |
 | expo-ai-adoption-manual-releases-api.md | content | admin |
+| expo-ai-adoption-security-permissions.md | content | admin |
+| expo-ai-adoption-manual-critical-defects-api.md | content | hidden (draft: API keys not widely available) |
 | expo-ai-adoption.md | content | hidden (redirect) |
 
 All 21 metric pages share the same 12 H3 sections and the same opening block (`## Title`, italic definition blockquote, `**Family:** · **Cadence:** · **Where it appears:**` line, `### Formula` with one fenced block). The metric pipeline depends on this; a new metric page should copy an existing one.
@@ -177,8 +205,10 @@ Confirmed by the import, and previously unrecorded:
 5. **Tabler Icons CDN** — icons load from `cdn.jsdelivr.net`. If CDN is blocked by WAF/CSP, card icons will be invisible.
 6. **Two search systems over the same content** — SearchWP is active site-wide and
    indexes `/insights-expo/` pages, alongside the plugin's own PHP-generated JSON
-   search index. Discovered during the 2026-09-14 local import. Not yet
-   investigated: whether they conflict, and which one users actually hit.
+   search index. Discovered during the 2026-09-14 local import. The 1.17.3
+   lockdown's `pre_get_posts` exclusion does **not** reach SearchWP's own index or
+   its live-search AJAX endpoint — exclude the category in the SearchWP engine
+   settings by hand.
 7. **The real OAuth sign-in cannot complete locally** — the localhost callback is
    not a registered `redirect_uri`, and the team has chosen not to register one.
    The gate *template* and all three gate states (401 / 403 / entitled) can be
@@ -202,12 +232,16 @@ Confirmed by the import, and previously unrecorded:
     The shell can also wedge mid-session, at which point builds run from a real
     PowerShell.
 
-## Open Items for Pass C
+## Open Items
 
-- Deploy: merge `pass-c-structural` → `main`, push, archive + build, upload 1.17.1, enable nothing new (the gate setting is untouched).
-- Confirm the gate visually on production after upload — it's the one surface the local site can't fully exercise.
+- **Insights audit (PR #3):** upload plugin **v1.17.4**; before merging, check the PR #3 checklist (NG-1858/NG-1864 in production, render check of the 7 new pages). API-key pages wait on clarity about `gkDotDevApiKeys` availability: the Manual Releases API page is visible with an on-request note, and Manual Critical Defects API stays hidden.
+- Upload 1.17.3, then run `LOCAL-DEV.md` → "Verifying the lockdown" against production.
+- Manual hardening items in `AUTH-GATE-PLAN.md` → "Still outside the plugin".
+- Gate page renders in a system fallback font (Inter is not web-loaded; the gate enqueues stylesheets only). Cosmetic.
+- Local verification of the lockdown needs `gki_auth_enabled 1` on the local site (wp-cli recipe in `LOCAL-DEV.md`); the AI sandbox cannot flip it.
 - The Pass C mockup's sticky side-rail sandbox was rejected in favour of inline-under-formula; the mockup still shows the rail.
-- `PHASE-4-HANDOFF.md` is historical; its punch list is closed.
+- `PHASE-4-HANDOFF.md` and `BREAKOUT-PLAN.md` are historical.
+- **Fold-back into `/gk-insights/`** — not scheduled. Full inventory of what changes (category constant, hard-coded login path, 50 slugs (counted before the 2026-10 audit added 10 pages; recount when scheduled), 166 links, `nav_parent`, Git It Write mapping, redirects, CDN rule, SearchWP, gate scope decision) is in `MERGE-PLAN.md`.
 
 ## Long-term Considerations
 

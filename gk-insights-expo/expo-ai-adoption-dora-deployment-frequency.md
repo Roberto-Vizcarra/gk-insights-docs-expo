@@ -26,7 +26,7 @@ custom_fields:
 
 ### At a glance
 
-Deployment Frequency is "how often does new code reach production?" It is the simplest of the DORA metrics and the one most teams already track informally. The dashboard counts deployments as _tagged releases_ (or configured release events) per window.
+Deployment Frequency is "how often does new code reach production?" It is the simplest of the DORA metrics and the one most teams already track informally. The dashboard counts deployments as _release events_ per window — whatever [release signal](#release-signals-by-provider) is set for each repo (a published release, a Git tag, a CI/pipeline run, or a release-branch merge), plus any releases pushed with the Manual Releases API.
 
 The metric is most useful as a trend line and as a cohort comparison (team A vs. team B), not as an absolute target. "Three deploys per week" doesn't mean much without context.
 
@@ -35,8 +35,9 @@ The metric is most useful as a trend line and as a cohort comparison (team A vs.
 ```
 Deployment Frequency = count(releases in window) / time-unit
 
-  where a release = a tagged release, GitHub Release, or
-                    configured release event on a tracked repo
+  where a release = the configured release signal for the repo
+                    (published release, Git tag, CI/pipeline run,
+                    or release-branch merge)
 ```
 
 Expressed as deploys per day, week, or month depending on cadence and team activity.
@@ -47,7 +48,23 @@ Expressed as deploys per day, week, or month depending on cadence and team activ
 
 **What counts as a release.** A tagged release, a GitHub Release, any other release event the writer captures for the repo, or a release pushed to Insights with the manual releases API. Pre-releases are excluded.
 
-**Aggregation.** For a team, we count all releases across the team's repos. For an org, all releases across all repos in the filter.
+**Aggregation.** For a team, we count every release credited to that team. A release can be credited to more than one team, so per-team counts can add up to more than the organization total; repository counts don't overlap. For an org, we count each release across all repos in the filter once.
+
+### Release signals by provider
+
+Release detection is set per repository in **Settings → Releases**. Leave it on **Auto-detect** or pick a signal:
+
+| Provider | Signals |
+| --- | --- |
+| **GitHub** | GitHub releases · Git tags · Workflow file (e.g. `cd.yaml`) · Release branch merge |
+| **Azure DevOps** | Git tags · Azure pipeline (a pipeline definition) · Release branch merge |
+| **GitLab** | GitLab releases · Git tags · GitLab pipeline (a pipeline name) · Release branch merge |
+| **Bitbucket Cloud** | Git tags · Bitbucket Pipelines · Release branch merge |
+| **Bitbucket Data Center** | Git tags · Release branch merge |
+
+- For **Workflow file**, **Azure pipeline**, and **GitLab pipeline**, pick one of the repository's CI workflows or pipelines from the list, or type a name.
+- **Git tags** can be narrowed with an optional tag pattern. **Release branch merge** needs a base branch and accepts an optional branch pattern, and is set one repo at a time.
+- **Skip** turns off release detection for a repo — its deployments won't count toward Deployment Frequency, Lead Time, or CFR.
 
 ### Why it matters
 
@@ -72,22 +89,22 @@ Read the trend, not the band. A team that moved from Medium to High in six month
 
 ### Where it appears
 
-* **/ai-adoption/board-metrics** — primary surface for DORA. Deployment Frequency is one of the four headline cards.
-* **/ai-adoption/executive** — Deployment Frequency as a hero trend line.
+* **/ai-adoption/board-metrics** — primary surface for DORA. The Deployment Frequency tile and chart, against the previous period.
+* **/ai-adoption/executive** — the Deploy Frequency card, by team or repository as bars, or as a trend line. Select a bar, or a point on the overall trend line, to see the releases behind it, with each release's repo, type, release date, and tag or branch.
 * **/ai-adoption/ai-impact** — can be broken down by repo, team, or AI Tier.
 
 ### Settings that affect it
 
-* **Release detection** — repo-level configuration. Your admin needs to wire up tagged releases or a configured release event for each repo you want to track.
+* **Release detection** — repo-level configuration in **Settings → Releases**. Your admin sets a [release signal](#release-signals-by-provider) (or leaves Auto-detect) for each repo you want to track; the options depend on the git provider.
 * **[Manual Releases API](/insights-expo/expo-ai-adoption-manual-releases-api)** — for deployments Insights can't detect, your admin can push releases directly with an API key. Manual releases count toward Deployment Frequency alongside detected ones.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Lead Time for Changes](#lead-time-for-changes) | The other DORA velocity metric. Velocity = "fast and often" needs both. |
-| [CFR](#change-failure-rate-cfr) | Stability counterweight. High Deployment Frequency with low CFR is the goal. |
-| [Throughput](/insights-expo/expo-ai-adoption-output-metrics#throughput) | The merged-PR count metric. Often correlated with Deployment Frequency but measures merges, not releases. |
+| [Lead Time for Changes](/insights-expo/expo-ai-adoption-dora-lead-time) | The other DORA velocity metric. Velocity = "fast and often" needs both. |
+| [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | Stability counterweight. High Deployment Frequency with low CFR is the goal. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | The merged-PR count metric. Often correlated with Deployment Frequency but measures merges, not releases. |
 
 ### How to improve it
 

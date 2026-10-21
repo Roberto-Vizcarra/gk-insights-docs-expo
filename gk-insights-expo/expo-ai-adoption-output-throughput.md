@@ -19,28 +19,28 @@ custom_fields:
 ---
 ## Throughput
 
-> _Number of merged PRs in the window, expressed per week per developer for cross-team comparison._
+> _Merged PRs plus direct commits in the window, expressed per active developer per week for cross-team comparison._
 
 **Family:** Output & Throughput · **Cadence:** Window-based · **Where it appears:** /ai-adoption/executive, /ai-adoption/ai-tools-comparison, /ai-adoption/ai-impact
 
 ### At a glance
 
-Throughput is the raw count metric — how many PRs your team merged. It is the simpler, older sibling of [Output Score](#output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
+Throughput is the raw count metric — how many changes your team shipped, counting merged PRs and direct commits. It is the simpler, older sibling of [Output Score](/insights-expo/expo-ai-adoption-output-output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
 
 ### Formula
 
 ```
-Throughput (per active dev per week) = merged PRs / active developers / weeks in window
-Throughput (team total)              = SUM(merged PRs in window)
+Throughput (per active dev per week) = (merged PRs + direct commits) / active developers / weeks in window
+Throughput (team total)              = SUM(merged PRs + direct commits in window)
 ```
 
-Drafts and bot-authored PRs are excluded.
+Drafts and bot-authored PRs are excluded. The Executive View's Throughput tile reads "Merged + direct per dev per week", and its sparkline and the PR Volume card's per-developer figure use the same formula.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded.
+**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded. Add the [direct commits](/insights-expo/expo-ai-adoption-output-direct-commits) pushed in the same window.
 
-**Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is PRs per active dev per week — the comparison-ready rate.
+**Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is merged PRs plus direct commits per active dev per week — the comparison-ready rate.
 
 **Step 3.** Per-developer Throughput is the raw count of that developer's merged PRs in the window. The /ai-adoption/developers cell shows it as a clickable breakdown (X opened · Y merged · Z direct); clicking opens the drill-down sheet.
 
@@ -72,22 +72,22 @@ The "right" number depends on PR size discipline. A team shipping 0.5-effort PRs
 
 ### Settings that affect it
 
-None. Throughput is a raw count — no admin knobs change it. If you want effort-weighted shipping with knobs, see [Output Score](#output-score).
+None. Throughput is a raw count — no admin knobs change it. If you want effort-weighted shipping with knobs, see [Output Score](/insights-expo/expo-ai-adoption-output-output-score).
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](#output-score) | The effort-weighted version of the same shipping activity. |
-| [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) | The "how fast" pair to Throughput's "how many." Read them together. |
-| [WIP](/insights-expo/expo-ai-adoption-flow-metrics#work-in-progress-wip) | Number of currently-open PRs. Throughput is the _outflow_; WIP is the _backlog_. |
-| [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-metrics#deployment-frequency) | DORA's release-based sibling — same concept, counted from release events instead of merges. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | The effort-weighted version of the same shipping activity. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | The "how fast" pair to Throughput's "how many." Read them together. |
+| [WIP](/insights-expo/expo-ai-adoption-flow-wip) | Number of currently-open PRs. Throughput is the _outflow_; WIP is the _backlog_. |
+| [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | DORA's release-based sibling — same concept, counted from release events instead of merges. |
 
 ### How to improve it
 
 * **Right-size PRs.** Teams shipping fewer-but-huge PRs often have low Throughput. The fix is usually upstream: smaller, more frequent merges. Track via Cycle Time alongside Throughput.
 * **Clear stale open PRs.** A high WIP with low Throughput is the classic review-bottleneck pattern. Walk the oldest open PRs each week.
-* **Reduce review cycles.** If every PR averages 2+ "changes requested" rounds, Throughput stalls. See [Review Cycles](/insights-expo/expo-ai-adoption-flow-metrics#review-cycles).
+* **Reduce review cycles.** If every PR averages 2+ "changes requested" rounds, Throughput stalls. See [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles).
 
 ### Limitations and gotchas
 

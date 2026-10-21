@@ -33,6 +33,7 @@ This page covers the tools GitKraken reads through their APIs — Cursor, GitHub
 Claude Code, OpenAI Codex, and GitHub Copilot telemetry now share one connection, **Agent OTel Data**. Setup for each agent — the org auth token, each agent's config, and what the telemetry contains — is on its own page: [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel).
 
 - [Claude Code](/insights-expo/expo-ai-adoption-connect-otel#claude-code) — team config or Claude apps gateway
+- [Claude Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork) — four fields in the Claude admin console, set once by an organization Admin
 - [OpenAI Codex](/insights-expo/expo-ai-adoption-connect-otel#openai-codex) — `config.toml` via MDM or on each machine
 - [GitHub Copilot (OpenTelemetry)](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry) — managed settings, CLI, or VS Code
 - [OpenCode](/insights-expo/expo-ai-adoption-connect-otel#opencode) — available on request; a plugin config each developer adds

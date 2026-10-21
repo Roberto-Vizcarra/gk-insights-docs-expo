@@ -34,7 +34,7 @@ Before you read anything, set two filters at the top of the page:
 
 Everything below this point will reflect those two filters.
 
-**Surface toggle (Claude Cowork orgs).** Once your organization's Claude Code telemetry includes Claude Cowork activity, the Teams and Developers pages also show a **Surface** toggle: **All**, **Claude Code**, or **Cowork**. It narrows only the expanded developer detail; scores and tables always include all activity.
+**Surface toggle (Claude Cowork orgs).** Once your organization's Claude Code telemetry includes Claude Cowork activity ([connect Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork)), the Teams and Developers pages also show a **Surface** toggle: **All**, **Claude Code**, or **Cowork**. It narrows only the expanded developer detail; scores and tables always include all activity.
 
 ### The team table — column by column
 

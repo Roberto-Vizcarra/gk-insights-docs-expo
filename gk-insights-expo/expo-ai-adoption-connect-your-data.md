@@ -1,11 +1,11 @@
 ---
 title: Connect Your Data — Setting Up AI Adoption
-description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted server), your AI coding tools (Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode), your issue tracker (Jira, Linear, or YouTrack), and BambooHR, map developer identities, organize teams, and invite your team.
+description: A step-by-step setup guide for AI Adoption in GitKraken Insights — gather the right access, connect your git provider (GitHub, Bitbucket, Azure DevOps, GitLab, or a self-hosted server), your AI coding tools (Claude Code, Claude Cowork, Codex, Cursor, GitHub Copilot, Devin, OpenCode), your issue tracker (Jira, Linear, or YouTrack), and BambooHR, map developer identities, organize teams, and invite your team.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode, Jira Cloud, Linear, YouTrack, YouTrack Server, BambooHR]
+integrations: [GitHub, GitHub Enterprise Server, Bitbucket, Bitbucket Data Center, Azure DevOps, Azure DevOps Server, GitLab, GitLab Self-Managed, Claude Code, Claude Cowork, Codex, Cursor, GitHub Copilot, Devin, OpenCode, Jira Cloud, Linear, YouTrack, YouTrack Server, BambooHR]
 status: GA
 taxonomy:
     category: insights-expo
@@ -41,6 +41,7 @@ The single biggest cause of stalled setups is discovering mid-stream that the pe
 | **GitLab** | An account with access to the groups you want to sync |
 | **A self-hosted server** | Whoever runs it — confirm it's reachable over `https` with a publicly-trusted certificate |
 | **Claude Code** | The **Owner** of your Anthropic organization — *admins cannot do this* — or whoever runs your Claude apps gateway |
+| **Claude Cowork** | An **Admin** of your Claude organization |
 | **OpenAI Codex** | Whoever manages your MDM, or each developer |
 | **OpenCode** (available on request) | Each developer, who sets their own email in the config |
 | **GitHub Copilot** | An organization or enterprise owner, or a member with permission to view Copilot metrics. For Copilot telemetry, whoever manages your GitHub Enterprise managed settings, or each developer |
@@ -114,7 +115,7 @@ Telemetry-based tools report as developers work, so nothing appears until they s
 
 | Tool | First data | History before you connected | How current it stays |
 | --- | --- | --- | --- |
-| **Claude Code, OpenAI Codex, GitHub Copilot, OpenCode telemetry** (Agent OTel Data) | With each developer's next session after the config takes effect — allow up to 24 hours | None — no backfill | Usually within about half a day |
+| **Claude Code, Claude Cowork, OpenAI Codex, GitHub Copilot, OpenCode telemetry** (Agent OTel Data) | With each developer's next session after the config takes effect — allow up to 24 hours | None — no backfill | Usually within about half a day |
 | **Cursor** | Usually within 4 hours | The last 90 days, finished within 24 hours | Up to the present — no reporting delay |
 | **GitHub Copilot** (API connection) | Usually within 4 hours | Up to the last 90 days, one day at a time, finished within 24 hours | Always two to three days behind |
 | **Devin** (available on request) | Usually within 4 hours | The last 90 days of session activity, counted by last activity, finished within 24 hours | Up to the present — no reporting delay |

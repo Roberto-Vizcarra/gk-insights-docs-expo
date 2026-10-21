@@ -54,7 +54,7 @@ Open **Filters** to add a filter. The menu lists these filters:
   <figcaption>The Filters menu on the Developers page.</figcaption>
 </figure>
 
-If your organization's Claude Code telemetry includes Cowork activity, a **Surface** control also appears, with **All**, **Claude Code**, and **Cowork**. Choosing a surface narrows only the detail you see when you expand a developer. Scores and tables still include activity from every surface. Detail panels that can't be split by surface say **Includes activity from all surfaces**, and the Agent Adoption Insight card is hidden while a surface is selected.
+If your organization's Claude Code telemetry includes Cowork activity ([connect Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork)), a **Surface** control also appears, with **All**, **Claude Code**, and **Cowork**. Choosing a surface narrows only the detail you see when you expand a developer. Scores and tables still include activity from every surface. Detail panels that can't be split by surface say **Includes activity from all surfaces**, and the Agent Adoption Insight card is hidden while a surface is selected.
 
 ## Read the KPI cards and the insight banner
 

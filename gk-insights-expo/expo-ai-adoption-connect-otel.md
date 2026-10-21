@@ -1,17 +1,17 @@
 ---
 title: Connect Agent OTel Data
-description: Send Claude Code, OpenAI Codex, GitHub Copilot, and OpenCode telemetry to GitKraken Insights over OpenTelemetry — enable Agent OTel Data, roll out each agent's config, and see exactly what the telemetry contains.
+description: Send Claude Code, Claude Cowork, OpenAI Codex, GitHub Copilot, and OpenCode telemetry to GitKraken Insights over OpenTelemetry — enable Agent OTel Data, roll out each agent's config, and see exactly what the telemetry contains.
 product: GitKraken Insights
 content_type: how-to
 audience: admin
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, GitHub Copilot, OpenCode]
+integrations: [Claude Code, Claude Cowork, Codex, GitHub Copilot, OpenCode]
 status: GA
 taxonomy:
     category: insights-expo
 custom_fields:
     card_color: blue
-    card_description: Claude Code, OpenAI Codex, GitHub Copilot, and OpenCode telemetry
+    card_description: Claude Code, Claude Cowork, OpenAI Codex, GitHub Copilot, and OpenCode telemetry
     card_icon: broadcast
     nav_category: connect-your-data
     nav_label: Agent OTel Data
@@ -20,7 +20,7 @@ custom_fields:
 ---
 <kbd>Last updated: October 2026</kbd>
 
-Claude Code, OpenAI Codex, and GitHub Copilot report usage to GitKraken Insights through OpenTelemetry (OTel), and so does [OpenCode](#opencode) where it's enabled on request. They all share one connection — **Agent OTel Data** — with one collector endpoint and one organization auth token. GitKraken generates a ready-to-paste config for each agent; you roll it out once, and usage flows in as developers work.
+Claude Code, Claude Cowork, OpenAI Codex, and GitHub Copilot report usage to GitKraken Insights through OpenTelemetry (OTel), and so does [OpenCode](#opencode) where it's enabled on request. They all share one connection — **Agent OTel Data** — with one collector endpoint and one organization auth token. GitKraken generates a ready-to-paste config for each agent; you roll it out once, and usage flows in as developers work.
 
 > **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start-gather-access) on the Connect Your Data overview.
 
@@ -38,7 +38,7 @@ The setup view has three parts:
 
 - **Your org auth token** — the **Collector endpoint** telemetry is sent to, and the **Authentication token** for your organization. One token is shared by every agent, so if you've already set up one agent, the others reuse the same credential.
 - **Choose your agent** — pick **Claude Code**, **OpenAI Codex**, or **GitHub Copilot** (plus **OpenCode**, if it's enabled for your organization) to see its config. Each card also shows that agent's sync status.
-- **The agent's config** — a ready-to-paste snippet with your endpoint and token already filled in. The token is masked on screen; **Show token** reveals it, and **Copy** copies the complete snippet. Claude Code and GitHub Copilot offer more than one setup method — pick the method above the snippet.
+- **The agent's config** — a ready-to-paste snippet with your endpoint and token already filled in. The token is masked on screen; **Show token** reveals it, and **Copy** copies the complete snippet. Claude Code and GitHub Copilot offer more than one setup method — pick the method above the snippet. Claude Cowork has no card of its own; it uses the Claude Code endpoint and token (see [Claude Cowork](#claude-cowork)).
 
 <!-- FLAG FOR HUMAN REVIEW: claude-code-codex-setup.png predates the Agent OTel Data setup view (it shows the older "Claude Code & Codex" page with one config field per tool, not the Choose your agent cards). It was also captured against the dev collector, so its Collector endpoint reads otel-devex-dev.gitkraken.com. Retake against production. -->
 <figure>
@@ -56,7 +56,7 @@ Always copy the real snippet from the setup view rather than retyping the exampl
 
 ## Claude Code
 
-Set up Claude Code telemetry one of two ways: a **Team config** that an organization Owner applies once, or a **Claude apps gateway** that your developers already sign in through. Pick the method in the setup view.
+Set up Claude Code telemetry one of two ways: a **Team config** that an organization Owner applies once, or a **Claude apps gateway** that your developers already sign in through. Pick the method in the setup view. To capture Claude Cowork too, see [Claude Cowork](#claude-cowork).
 
 ### Team config — organization-managed settings
 
@@ -119,6 +119,36 @@ telemetry:
 ```
 
 Reference: [Anthropic — Claude apps gateway telemetry](https://code.claude.com/docs/en/claude-apps-gateway-config#telemetry).
+
+### Claude Cowork
+
+Claude Cowork has OpenTelemetry export built in. An organization **Admin** configures it once, for the whole organization, in the Claude admin console. There's nothing to install or set on developers' machines. One configuration covers every Cowork surface listed in the admin console: **Cowork**, **Cowork in the cloud**, and **Unified chat and Cowork**.
+
+Cowork events use the same schema as Claude Code, so Cowork usage appears in Insights alongside Claude Code and is tagged as Cowork activity. Once Cowork data arrives, the Teams and Developers pages show a **Surface** toggle (**All**, **Claude Code**, **Cowork**). See [Developers](/insights-expo/expo-ai-adoption-developers).
+
+Cowork has no card of its own under **Choose your agent**. It takes the same endpoint and token as the Claude Code config, entered into four fields instead of pasted as JSON:
+
+| Field | Value |
+| --- | --- |
+| **OTLP endpoint** | `https://otel-devex.gitkraken.com` |
+| **OTLP protocol** | `http/protobuf` |
+| **OTLP headers** | `Authorization=Basic <YOUR_ORG_AUTH_TOKEN>` |
+| **Resource attributes** | Leave blank |
+
+The **OTLP headers** value is the same string as `OTEL_EXPORTER_OTLP_LOGS_HEADERS` in the Claude Code config snippet. Always copy the token from the setup view rather than retyping it.
+
+1. In the Agent OTel Data setup view, choose **Claude Code** and copy your **Authentication token** (or the `OTEL_EXPORTER_OTLP_LOGS_HEADERS` value from the Claude Code config).
+2. As an organization Admin, open **Admin Settings → Cowork** in claude.ai ([claude.ai/admin-settings/cowork](https://claude.ai/admin-settings/cowork)).
+3. Scroll to **Monitoring** and click **Manage** in **Data and privacy**.
+4. Under **Monitoring**, open the **Cowork, Cowork in the cloud, and unified chat and Cowork** section.
+5. Fill in the four fields from the table above.
+6. Save.
+
+Every member of your Claude organization who uses Cowork is connected. Developers don't need to change anything.
+
+> **Minimum Claude Desktop version.** Anthropic requires Claude Desktop **1.1.4173** or later for local desktop sessions, and **1.22209.3** or later for cloud sessions. Older clients send nothing.
+
+> **Data appears as people use Cowork.** There's no backfill: events start flowing once the settings are saved, so nothing appears until people actually use Cowork. Activity usually reaches your dashboards within about half a day. Allow a full 24 hours before treating an empty dashboard as a problem. If there's still nothing after 24 hours of active Cowork use, check the Claude Desktop versions above, then contact your GitKraken account team.
 
 ---
 
@@ -340,6 +370,7 @@ References: [Anthropic — Claude Code observability](https://code.claude.com/do
 | **Can't change Claude Code org settings** | You're an admin, not the org Owner | Only the Anthropic org **Owner** can apply the telemetry snippet |
 | **Claude Code settings applied but no telemetry** | Clients pick up OTel config only on a full restart | Have developers fully restart Claude Code |
 | **No Claude Code telemetry through the gateway** | The gateway hasn't been restarted, or developers haven't approved its telemetry settings yet | Restart the gateway after editing `gateway.yaml`, and have developers start a new Claude Code session and approve the settings |
+| **No Claude Cowork telemetry** | Claude Desktop is older than the minimum version, or no one has used Cowork since the settings were saved | Update Claude Desktop (1.1.4173 or later for local sessions, 1.22209.3 or later for cloud sessions), and allow 24 hours of active Cowork use |
 | **No Codex telemetry** | The snippet is in the wrong path, Notepad saved it as `config.toml.txt`, or the developer is running a pre-release build of the Codex desktop app | Verify the per-OS `config.toml` path and the file extension, and have developers run a stable Codex build — pre-release and alpha builds can drop OTel events |
 | **All Copilot telemetry is attributed to one person** | One shared email was set for every device | Set `OTEL_RESOURCE_ATTRIBUTES` to `user.email=<developer email>` per device, not in managed settings |
 | **No Copilot telemetry from VS Code** | Only the settings toggle is set, or VS Code wasn't restarted | Set the environment variables where VS Code starts, then restart VS Code |

@@ -1489,3 +1489,66 @@ body.gki-docs-page .gki-gate-button--primary:hover { color: #EBF1FF !important; 
   body.gki-docs-page .gki-page ul.gki-tier-list > li { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
   body.gki-docs-page .gki-page ul.gki-legend { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Trial code on the no-access gate (1.17.5). Sits between the learn-more
+   link and the support line; inherits the gate's centred column. */
+.gki-gate-trial {
+  margin: 1.75rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--gki-border-light);
+  text-align: left;
+}
+.gki-gate-trial-label {
+  display: block;
+  font-family: var(--gki-font);
+  font-size: var(--gki-fs-sm);
+  font-weight: 600;
+  color: var(--gki-text);
+  margin: 0 0 0.5rem;
+}
+.gki-gate-trial-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+body.gki-docs-page .gki-gate-trial-input {
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding: 0.65rem 0.85rem;
+  font-family: var(--gki-font-data);
+  font-size: var(--gki-fs-sm);
+  color: var(--gki-text) !important;
+  background: var(--gki-bg) !important;
+  border: 1px solid var(--gki-border-strong) !important;
+  border-radius: var(--gki-radius);
+  box-shadow: none;
+}
+body.gki-docs-page .gki-gate-trial-input:focus-visible {
+  outline: none;
+  border-color: var(--gki-accent) !important;
+  box-shadow: var(--gki-focus-ring);
+}
+body.gki-docs-page .gki-gate-trial-input[aria-invalid="true"] { border-color: var(--gki-warn-icon) !important; }
+body.gki-docs-page .gki-gate-trial-submit {
+  padding: 0.65rem 1.1rem;
+  font-size: var(--gki-fs-sm);
+  color: var(--gki-accent) !important;
+  background: var(--gki-bg-subtle) !important;
+  border: 1px solid var(--gki-border-strong) !important;
+  box-shadow: none;
+}
+body.gki-docs-page .gki-gate-trial-submit:hover {
+  color: var(--gki-accent-hover) !important;
+  border-color: var(--gki-accent) !important;
+}
+.gki-gate-trial-error {
+  font-size: var(--gki-fs-sm);
+  color: var(--gki-warn-text);
+  margin: 0.6rem 0 0;
+}
+.gki-gate-trial-note {
+  font-size: var(--gki-fs-sm);
+  color: var(--gki-text-secondary);
+  margin: 0;
+  text-align: center;
+}

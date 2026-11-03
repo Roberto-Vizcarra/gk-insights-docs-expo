@@ -9,6 +9,8 @@
  *
  * @since 1.9.0
  * @updated 1.10.7 — redesign with official GK branding
+ * @updated 1.17.5 — no-access: learn-more and book-a-demo links replace the upgrade/plans prompt;
+ *                   trial-code form (see TRIAL CODES in includes/gki-auth.php)
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -56,14 +58,49 @@ get_header();
 
       <?php else : ?>
 
-        <h1 class="gki-gate-title">Insights subscription required</h1>
+        <h1 class="gki-gate-title">No Insights access on this account</h1>
         <p class="gki-gate-message">
-          Your GitKraken account doesn't currently include access to Insights.
-          Upgrade your subscription to unlock the full Help Center.
+          Your GitKraken account doesn't include access to GitKraken Insights.
+          To learn more about Insights, visit gitkraken.com/insights.
         </p>
-        <a href="<?php echo esc_url( $upgrade_url ); ?>" class="gki-gate-button gki-gate-button--primary">
-          View Insights plans
+        <a href="https://gitkraken.com/insights/book-a-demo" class="gki-gate-button gki-gate-button--primary">
+          Request a demo
         </a>
+        <p class="gki-gate-footer">
+          <a href="https://gitkraken.com/insights">Learn more about GitKraken Insights</a>
+        </p>
+
+        <?php
+        // Trial code (since 1.17.5). Shown only while a code is configured.
+        if ( gki_auth_get_trial_code() !== '' ) :
+            $trial_ended_at = gki_auth_trial_expires_at( get_current_user_id() );
+            $trial_status   = isset( $_GET['gki_trial'] ) ? sanitize_key( wp_unslash( $_GET['gki_trial'] ) ) : '';
+            $trial_message  = gki_auth_trial_message( $trial_status );
+            ?>
+          <div class="gki-gate-trial">
+            <?php if ( $trial_ended_at > 0 ) : ?>
+              <p class="gki-gate-trial-note">
+                Your trial access to the Help Center ended on
+                <?php echo esc_html( wp_date( get_option( 'date_format' ), $trial_ended_at ) ); ?>.
+              </p>
+            <?php else : ?>
+              <form method="post" action="<?php echo esc_url( remove_query_arg( 'gki_trial', gki_auth_get_current_url() ) ); ?>" class="gki-gate-trial-form">
+                <label for="gki-trial-code" class="gki-gate-trial-label">Have a trial code?</label>
+                <div class="gki-gate-trial-row">
+                  <input type="text" id="gki-trial-code" name="gki_trial_code" class="gki-gate-trial-input"
+                         autocomplete="off" autocapitalize="off" spellcheck="false" required
+                         <?php echo $trial_message ? 'aria-invalid="true" aria-describedby="gki-trial-error"' : ''; ?> />
+                  <button type="submit" class="gki-gate-button gki-gate-trial-submit">Apply code</button>
+                </div>
+                <input type="hidden" name="gki_trial_action" value="redeem" />
+                <?php wp_nonce_field( 'gki_redeem_trial', '_gki_trial_nonce' ); ?>
+                <?php if ( $trial_message ) : ?>
+                  <p class="gki-gate-trial-error" id="gki-trial-error" role="alert"><?php echo esc_html( $trial_message ); ?></p>
+                <?php endif; ?>
+              </form>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
         <p class="gki-gate-footer">
           Think this is a mistake?
           <a href="https://www.gitkraken.com/contact">Contact support</a>

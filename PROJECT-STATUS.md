@@ -105,6 +105,10 @@ Outside the plugin, still open — see the checklist in `AUTH-GATE-PLAN.md`: Clo
 ### Phase 10 — Insights backfill audit (2026-10-15 → 2026-10-16, PR #3 open, v1.17.4)
 Synced the unmerged gk-insights-docs PRs #6/#8/#11. Then a parity pass against the customer setup docs and the product: the Agent OTel Data page, Security & Permissions, a hidden Manual Critical Defects API draft, and 181 heading anchors fixed. Then audited every Insights change from 2026-08-21 to gitkraken.dev `4e52b943e` (312 frontend commits, plus insights-service calculation changes). Added 7 new pages (By Developer, By Repository, By AI Tool & Model, By AI Sessions, Surveys, GitKraken Insights for Developers, Connect Linear & YouTrack) and 35 new or retaken screenshots. Plugin v1.17.4 = the v1.17.3 lockdown + updated sandboxes (35/25/25/15 weights, Company AI Readiness, Provider Weights). Every shipped image passed an adversarial visual review: 15 PASS, 20 PASS-POLISH accepted, 0 FAIL. The audit record (findings, specs, review runs) lives in gk-docs-automation; see its `docs/products/insights.md` → "Audit history".
 
+**v1.17.5 (same PR):**
+- **No-access gate copy:** no upgrade/plans prompt. The screen points to gitkraken.com/insights and offers a **Request a demo** button (gitkraken.com/insights/book-a-demo). Both are hard-coded; the "Upgrade URL" setting now only feeds the sign-in screen's "Learn about GitKraken Insights" link.
+- **Trial codes:** a code set in **Settings → GKI Auth Gate → Trial code**, deliberately not in this public repo. A signed-in GitKraken account without Insights access can redeem it on the no-access screen. That account can then read the Help Center for **Trial length (days)** (default 14) from the moment of redemption, one trial per account. An unexpired trial counts as entitlement in `gki_auth_check_entitlement()`, so the page gate and every lockdown route honour it. Five wrong codes lock the form for 15 minutes, and an empty code turns the feature off. The settings page lists every redemption with its expiry. Test recipe in `LOCAL-DEV.md`.
+
 ## Content Map (60 files)
 
 Nav labels come from `custom_fields.nav_label`; the table lists type and category, which are what the plugin branches on.
@@ -234,7 +238,7 @@ Confirmed by the import, and previously unrecorded:
 
 ## Open Items
 
-- **Insights audit (PR #3):** upload plugin **v1.17.4**; before merging, check the PR #3 checklist (NG-1858/NG-1864 in production, render check of the 7 new pages). API-key pages wait on clarity about `gkDotDevApiKeys` availability: the Manual Releases API page is visible with an on-request note, and Manual Critical Defects API stays hidden.
+- **Insights audit (PR #3):** upload plugin **v1.17.5**, then set the trial code in Settings → GKI Auth Gate if you want trials on; before merging, check the PR #3 checklist (NG-1858/NG-1864 in production, render check of the 7 new pages). API-key pages wait on clarity about `gkDotDevApiKeys` availability: the Manual Releases API page is visible with an on-request note, and Manual Critical Defects API stays hidden.
 - Upload 1.17.3, then run `LOCAL-DEV.md` → "Verifying the lockdown" against production.
 - Manual hardening items in `AUTH-GATE-PLAN.md` → "Still outside the plugin".
 - Gate page renders in a system fallback font (Inter is not web-loaded; the gate enqueues stylesheets only). Cosmetic.

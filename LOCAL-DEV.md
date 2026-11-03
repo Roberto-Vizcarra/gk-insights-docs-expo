@@ -211,7 +211,7 @@ and driving the three states from the database. Run from `local-dev/`:
 docker compose run --rm -T wpcli wp option update gki_auth_enabled 1
 #    then open any /insights-expo/ page in a private window
 
-# 2. Signed-in, not entitled -> 403 "Insights subscription required"
+# 2. Signed-in, not entitled -> 403 "No Insights access on this account"
 docker compose run --rm -T wpcli wp user create gatetest gatetest@example.com --role=subscriber --user_pass=gatetest
 docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_access 0
 docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_checked_at $([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
@@ -222,6 +222,23 @@ docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_acces
 
 # Back to normal
 docker compose run --rm -T wpcli wp option update gki_auth_enabled 0
+```
+
+**Trial codes (1.17.5).** Set a code and the no-access screen grows a
+"Have a trial code?" field. The local site hides `/wp-login.php`, so sign the
+subscriber in with a cookie minted by wp-cli rather than the login form:
+
+```powershell
+docker compose run --rm -T wpcli wp option update gki_auth_trial_code Insights-Trial-Test
+docker compose run --rm -T wpcli wp eval '$u=get_user_by("login","gatetest"); echo LOGGED_IN_COOKIE, "=", wp_generate_auth_cookie($u->ID, time()+7200, "logged_in");'
+#    set that cookie for localhost (browser devtools, or curl -b), open a docs page,
+#    enter the code (any case) -> the page renders; the account now has
+#    gki_trial_started_at / gki_trial_expires_at user meta (default +14 days)
+# Expire it to see the "ended on" note (one trial per account, the form stays hidden):
+docker compose run --rm -T wpcli wp user meta update gatetest gki_trial_expires_at 1
+# Five wrong codes lock the form for 15 minutes (transient gki_trial_attempts_<user id>).
+# Back to normal:
+docker compose run --rm -T wpcli wp option delete gki_auth_trial_code
 ```
 
 The cached `gki_insights_checked_at` timestamp keeps `gki_auth_check_entitlement`

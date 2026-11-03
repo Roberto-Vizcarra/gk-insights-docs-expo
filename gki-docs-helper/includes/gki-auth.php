@@ -340,6 +340,11 @@ function gki_auth_callback_error( $code, $message ) {
  * @return bool True if user has Insights access.
  */
 function gki_auth_check_entitlement( $user_id ) {
+    // A redeemed, unexpired trial code grants access on its own (since 1.17.5).
+    if ( gki_auth_has_active_trial( $user_id ) ) {
+        return true;
+    }
+
     // Check cached result
     $cached_access = get_user_meta( $user_id, 'gki_insights_access', true );
     $cached_time   = (int) get_user_meta( $user_id, 'gki_insights_checked_at', true );
@@ -553,6 +558,23 @@ function gki_auth_register_settings() {
         'sanitize_callback' => 'sanitize_text_field',
     ) );
 
+    register_setting( 'gki_auth_settings', 'gki_auth_trial_code', array(
+        'type'              => 'string',
+        'default'           => '',
+        'sanitize_callback' => function ( $value ) {
+            return trim( sanitize_text_field( (string) $value ) );
+        },
+    ) );
+
+    register_setting( 'gki_auth_settings', 'gki_auth_trial_days', array(
+        'type'              => 'integer',
+        'default'           => 14,
+        'sanitize_callback' => function ( $value ) {
+            $days = absint( $value );
+            return ( $days >= 1 && $days <= 90 ) ? $days : 14;
+        },
+    ) );
+
     // Settings section
     add_settings_section(
         'gki_auth_main',
@@ -608,8 +630,27 @@ function gki_auth_register_settings() {
         printf(
             '<input type="url" name="gki_auth_upgrade_url" value="%s" class="regular-text" '
             . 'placeholder="https://www.gitkraken.com/insights" />'
-            . '<p class="description">URL shown to users without Insights access. Links to upgrade/pricing page.</p>',
+            . '<p class="description">Linked from the sign-in screen ("Learn about GitKraken Insights"). The no-access screen links to gitkraken.com/insights and the book-a-demo page directly.</p>',
             esc_attr( $val )
+        );
+    }, 'gki-auth-settings', 'gki_auth_main' );
+
+    add_settings_field( 'gki_auth_trial_code', 'Trial code', function () {
+        $val = get_option( 'gki_auth_trial_code', '' );
+        printf(
+            '<input type="text" name="gki_auth_trial_code" value="%s" class="regular-text" autocomplete="off" /> '
+            . '<p class="description">Give this code to Insights trial customers. A signed-in GitKraken account without Insights access can enter it on the no-access screen to read the Help Center for the trial length below. '
+            . 'Each account can redeem one trial. Matching ignores case. Leave empty to turn trial codes off. Changing the code does not end trials already redeemed.</p>',
+            esc_attr( $val )
+        );
+    }, 'gki-auth-settings', 'gki_auth_main' );
+
+    add_settings_field( 'gki_auth_trial_days', 'Trial length (days)', function () {
+        $val = (int) get_option( 'gki_auth_trial_days', 14 );
+        printf(
+            '<input type="number" name="gki_auth_trial_days" value="%d" min="1" max="90" /> '
+            . '<p class="description">How long access lasts, counted from the moment each account redeems the code. Default: 14 days.</p>',
+            $val
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
 }
@@ -646,7 +687,35 @@ function gki_auth_render_settings_page() {
         echo '<tr><td>Callback URL</td><td><code style="font-size:12px;">' . esc_html( $callback ) . '</code><br><em style="font-size:11px;">Register this as the redirect_uri in gitkraken.dev</em></td></tr>';
         echo '<tr><td>Licensing Endpoint</td><td>' . ( $endpoint ? esc_html( $endpoint ) : '⚠️ Not configured' ) . '</td></tr>';
         echo '<tr><td>Auth Gate</td><td>' . ( $enabled ? '🔒 Enabled' : '🔓 Disabled' ) . '</td></tr>';
+        echo '<tr><td>Trial codes</td><td>' . ( gki_auth_get_trial_code() !== '' ? 'On — ' . (int) gki_auth_get_trial_days() . ' days per account' : 'Off' ) . '</td></tr>';
         echo '</table>';
+
+        $trial_users = get_users( array(
+            'meta_key' => 'gki_trial_expires_at',
+            'orderby'  => 'meta_value_num',
+            'order'    => 'DESC',
+            'number'   => 200,
+        ) );
+        echo '<h2>Trial redemptions</h2>';
+        if ( empty( $trial_users ) ) {
+            echo '<p><em>No trial codes redeemed yet.</em></p>';
+        } else {
+            $fmt = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+            echo '<table class="widefat striped" style="max-width:800px"><thead><tr><th>Account</th><th>Redeemed</th><th>Expires</th><th>Status</th></tr></thead><tbody>';
+            foreach ( $trial_users as $u ) {
+                $started = (int) get_user_meta( $u->ID, 'gki_trial_started_at', true );
+                $expires = (int) get_user_meta( $u->ID, 'gki_trial_expires_at', true );
+                printf(
+                    '<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
+                    esc_html( $u->user_email ),
+                    $started ? esc_html( wp_date( $fmt, $started ) ) : '—',
+                    $expires ? esc_html( wp_date( $fmt, $expires ) ) : '—',
+                    ( $expires > time() ) ? 'Active' : 'Ended'
+                );
+            }
+            echo '</tbody></table>';
+            echo '<p class="description">To end a trial early, set that account\'s <code>gki_trial_expires_at</code> user meta to a past time. Deleting it instead lets the account redeem again.</p>';
+        }
         ?>
 
         <hr />
@@ -1111,6 +1180,130 @@ function gki_auth_is_gated_page() {
         return has_category( GKI_DOCS_CATEGORY );
     }
     return is_category( GKI_DOCS_CATEGORY );
+}
+
+/* =========================================================================
+   TRIAL CODES — time-boxed Help Center access for Insights trial customers
+   whose trial is not visible to the organizations API. The code lives in
+   Settings → GKI Auth Gate (never in this public repo). Redeeming it stores
+   gki_trial_started_at / gki_trial_expires_at on the WP user; an unexpired
+   trial counts as entitlement everywhere gki_auth_check_entitlement() runs
+   (the page gate and the lockdown filters).
+
+   @since 1.17.5
+   ========================================================================= */
+
+/**
+ * The configured trial code, or '' when trial codes are off.
+ */
+function gki_auth_get_trial_code() {
+    return trim( (string) get_option( 'gki_auth_trial_code', '' ) );
+}
+
+/**
+ * Trial length in days (1–90, default 14).
+ */
+function gki_auth_get_trial_days() {
+    $days = (int) get_option( 'gki_auth_trial_days', 14 );
+    return ( $days >= 1 && $days <= 90 ) ? $days : 14;
+}
+
+/**
+ * Unix time the user's trial ends, or 0 if they never redeemed one.
+ */
+function gki_auth_trial_expires_at( $user_id ) {
+    return (int) get_user_meta( $user_id, 'gki_trial_expires_at', true );
+}
+
+/**
+ * Whether the user has a redeemed, unexpired trial.
+ */
+function gki_auth_has_active_trial( $user_id ) {
+    $expires = gki_auth_trial_expires_at( $user_id );
+    return $expires > 0 && time() < $expires;
+}
+
+add_action( 'init', 'gki_auth_handle_trial_redemption' );
+
+/**
+ * Handle a trial-code POST from the no-access screen. Runs on init, before
+ * the template gate, so the form can post back to the page it is on (no
+ * wp-admin round trip, which some hosts block for subscribers). Always ends
+ * in a redirect: back to the page (now readable) on success, or back with
+ * ?gki_trial=<status> for the template to explain.
+ */
+function gki_auth_handle_trial_redemption() {
+    if ( empty( $_POST['gki_trial_action'] ) || $_POST['gki_trial_action'] !== 'redeem' ) {
+        return;
+    }
+
+    $back = remove_query_arg( 'gki_trial', gki_auth_get_current_url() );
+    $back = wp_validate_redirect( $back, home_url( '/insights-expo/' ) );
+
+    $nonce = isset( $_POST['_gki_trial_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_gki_trial_nonce'] ) ) : '';
+    if ( ! is_user_logged_in() || ! wp_verify_nonce( $nonce, 'gki_redeem_trial' ) ) {
+        gki_auth_trial_redirect( $back, 'error' );
+    }
+
+    $code = gki_auth_get_trial_code();
+    if ( $code === '' ) {
+        gki_auth_trial_redirect( $back, 'off' );
+    }
+
+    $user_id = get_current_user_id();
+
+    // One trial per account: an ended trial cannot be renewed with the code.
+    if ( gki_auth_trial_expires_at( $user_id ) > 0 ) {
+        gki_auth_trial_redirect( $back, gki_auth_has_active_trial( $user_id ) ? '' : 'used' );
+    }
+
+    // Throttle guessing: 5 wrong attempts per account locks the form for 15 minutes.
+    $attempts_key = 'gki_trial_attempts_' . $user_id;
+    $attempts     = (int) get_transient( $attempts_key );
+    if ( $attempts >= 5 ) {
+        gki_auth_trial_redirect( $back, 'locked' );
+    }
+
+    $entered = isset( $_POST['gki_trial_code'] ) ? trim( sanitize_text_field( wp_unslash( $_POST['gki_trial_code'] ) ) ) : '';
+    if ( $entered === '' || ! hash_equals( strtolower( $code ), strtolower( $entered ) ) ) {
+        set_transient( $attempts_key, $attempts + 1, 15 * MINUTE_IN_SECONDS );
+        gki_auth_trial_redirect( $back, 'invalid' );
+    }
+
+    delete_transient( $attempts_key );
+    $now = time();
+    update_user_meta( $user_id, 'gki_trial_started_at', $now );
+    update_user_meta( $user_id, 'gki_trial_expires_at', $now + gki_auth_get_trial_days() * DAY_IN_SECONDS );
+
+    gki_auth_trial_redirect( $back, '' );
+}
+
+/**
+ * Redirect after a redemption attempt and stop.
+ *
+ * @param string $url    Page to return to.
+ * @param string $status '' on success, otherwise a ?gki_trial= status.
+ */
+function gki_auth_trial_redirect( $url, $status ) {
+    if ( $status !== '' ) {
+        $url = add_query_arg( 'gki_trial', $status, $url );
+    }
+    nocache_headers();
+    wp_safe_redirect( $url, 303 );
+    exit;
+}
+
+/**
+ * Message for a ?gki_trial= status on the no-access screen, or ''.
+ */
+function gki_auth_trial_message( $status ) {
+    $messages = array(
+        'invalid' => "That code isn't valid. Check it and try again.",
+        'locked'  => 'Too many attempts. Try again in 15 minutes.',
+        'error'   => 'Your session expired. Reload the page and try again.',
+        'off'     => 'Trial codes are not available right now.',
+    );
+    return isset( $messages[ $status ] ) ? $messages[ $status ] : '';
 }
 
 /**

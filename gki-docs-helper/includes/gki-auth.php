@@ -566,6 +566,12 @@ function gki_auth_register_settings() {
         },
     ) );
 
+    register_setting( 'gki_auth_settings', 'gki_auth_trial_domain_extensions', array(
+        'type'              => 'string',
+        'default'           => '',
+        'sanitize_callback' => 'gki_auth_sanitize_trial_domain_extensions',
+    ) );
+
     register_setting( 'gki_auth_settings', 'gki_auth_trial_days', array(
         'type'              => 'integer',
         'default'           => 14,
@@ -653,6 +659,16 @@ function gki_auth_register_settings() {
             $val
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
+
+    add_settings_field( 'gki_auth_trial_domain_extensions', 'Trial extensions by email domain', function () {
+        $val = get_option( 'gki_auth_trial_domain_extensions', '' );
+        printf(
+            '<textarea name="gki_auth_trial_domain_extensions" rows="5" cols="50" class="large-text code" placeholder="acme.com 2026-12-31">%s</textarea>'
+            . '<p class="description">One domain and an end date per line (<code>domain YYYY-MM-DD</code>). Every account on that email domain that has redeemed a trial keeps access through the end of that date (site timezone), even if its own trial already ended. '
+            . 'Domains match exactly (<code>acme.com</code> does not cover <code>eu.acme.com</code>). Accounts that never redeemed a code are not affected. Remove a line to end the extension.</p>',
+            esc_textarea( $val )
+        );
+    }, 'gki-auth-settings', 'gki_auth_main' );
 }
 
 /**
@@ -703,13 +719,15 @@ function gki_auth_render_settings_page() {
             $fmt = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
             echo '<table class="widefat striped" style="max-width:800px"><thead><tr><th>Account</th><th>Redeemed</th><th>Expires</th><th>Status</th></tr></thead><tbody>';
             foreach ( $trial_users as $u ) {
-                $started = (int) get_user_meta( $u->ID, 'gki_trial_started_at', true );
-                $expires = (int) get_user_meta( $u->ID, 'gki_trial_expires_at', true );
+                $started  = (int) get_user_meta( $u->ID, 'gki_trial_started_at', true );
+                $own      = (int) get_user_meta( $u->ID, 'gki_trial_expires_at', true );
+                $expires  = gki_auth_trial_expires_at( $u->ID );
+                $extended = $expires > $own ? ' (extended for ' . gki_auth_user_email_domain( $u->ID ) . ')' : '';
                 printf(
                     '<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>',
                     esc_html( $u->user_email ),
                     $started ? esc_html( wp_date( $fmt, $started ) ) : '—',
-                    $expires ? esc_html( wp_date( $fmt, $expires ) ) : '—',
+                    $expires ? esc_html( wp_date( $fmt, $expires ) . $extended ) : '—',
                     ( $expires > time() ) ? 'Active' : 'Ended'
                 );
             }
@@ -1210,9 +1228,94 @@ function gki_auth_get_trial_days() {
 
 /**
  * Unix time the user's trial ends, or 0 if they never redeemed one.
+ * A domain extension (Settings → Trial extensions by email domain) wins when
+ * it ends later than the account's own trial; it never applies to accounts
+ * that have not redeemed a code.
  */
 function gki_auth_trial_expires_at( $user_id ) {
-    return (int) get_user_meta( $user_id, 'gki_trial_expires_at', true );
+    $own = (int) get_user_meta( $user_id, 'gki_trial_expires_at', true );
+    if ( $own <= 0 ) {
+        return 0;
+    }
+    $extensions = gki_auth_trial_domain_extensions();
+    $domain     = gki_auth_user_email_domain( $user_id );
+    if ( $domain !== '' && isset( $extensions[ $domain ] ) ) {
+        return max( $own, $extensions[ $domain ] );
+    }
+    return $own;
+}
+
+/**
+ * Lowercased domain of the user's email (the GitKraken account email), or ''.
+ */
+function gki_auth_user_email_domain( $user_id ) {
+    $user = get_userdata( $user_id );
+    if ( ! $user || strpos( $user->user_email, '@' ) === false ) {
+        return '';
+    }
+    return strtolower( substr( strrchr( $user->user_email, '@' ), 1 ) );
+}
+
+/**
+ * Domain extensions as domain => Unix time (end of that day, site timezone).
+ */
+function gki_auth_trial_domain_extensions() {
+    static $parsed = null;
+    if ( $parsed !== null ) {
+        return $parsed;
+    }
+    $parsed = array();
+    foreach ( gki_auth_parse_trial_domain_lines( (string) get_option( 'gki_auth_trial_domain_extensions', '' ) ) as $domain => $date ) {
+        $end = DateTimeImmutable::createFromFormat( '!Y-m-d H:i:s', $date . ' 23:59:59', wp_timezone() );
+        if ( $end ) {
+            $parsed[ $domain ] = $end->getTimestamp();
+        }
+    }
+    return $parsed;
+}
+
+/**
+ * Parse "domain YYYY-MM-DD" lines. Returns domain => date for valid lines;
+ * collects the rest in $invalid. Separators: space, tab, comma or "=".
+ */
+function gki_auth_parse_trial_domain_lines( $text, &$invalid = array() ) {
+    $out = array();
+    foreach ( preg_split( '/\r\n|\r|\n/', $text ) as $line ) {
+        $line = trim( $line );
+        if ( $line === '' ) {
+            continue;
+        }
+        $parts  = preg_split( '/[\s,=]+/', $line );
+        $domain = isset( $parts[0] ) ? strtolower( ltrim( $parts[0], '@' ) ) : '';
+        $date   = isset( $parts[1] ) ? $parts[1] : '';
+        $d      = DateTimeImmutable::createFromFormat( '!Y-m-d', $date );
+        $valid_domain = (bool) preg_match( '/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/', $domain );
+        if ( count( $parts ) === 2 && $valid_domain && $d && $d->format( 'Y-m-d' ) === $date ) {
+            $out[ $domain ] = $date;
+        } else {
+            $invalid[] = $line;
+        }
+    }
+    return $out;
+}
+
+/**
+ * Settings sanitizer: keep valid lines in a normalized form, report the rest.
+ */
+function gki_auth_sanitize_trial_domain_extensions( $value ) {
+    $invalid = array();
+    $lines   = array();
+    foreach ( gki_auth_parse_trial_domain_lines( (string) $value, $invalid ) as $domain => $date ) {
+        $lines[] = $domain . ' ' . $date;
+    }
+    if ( ! empty( $invalid ) ) {
+        add_settings_error(
+            'gki_auth_trial_domain_extensions',
+            'gki_trial_domains_invalid',
+            'Trial extensions: skipped ' . count( $invalid ) . ' line(s) that were not "domain YYYY-MM-DD": ' . implode( '; ', array_map( 'sanitize_text_field', $invalid ) )
+        );
+    }
+    return implode( "\n", $lines );
 }
 
 /**
@@ -1252,8 +1355,9 @@ function gki_auth_handle_trial_redemption() {
 
     $user_id = get_current_user_id();
 
-    // One trial per account: an ended trial cannot be renewed with the code.
-    if ( gki_auth_trial_expires_at( $user_id ) > 0 ) {
+    // One trial per account: an ended trial cannot be renewed with the code
+    // (a domain extension is the way to give an account more time).
+    if ( (int) get_user_meta( $user_id, 'gki_trial_expires_at', true ) > 0 ) {
         gki_auth_trial_redirect( $back, gki_auth_has_active_trial( $user_id ) ? '' : 'used' );
     }
 

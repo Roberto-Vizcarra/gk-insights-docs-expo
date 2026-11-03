@@ -11,6 +11,7 @@
  * @updated 1.10.7 — redesign with official GK branding
  * @updated 1.17.5 — no-access: learn-more and book-a-demo links replace the upgrade/plans prompt;
  *                   trial-code form (see TRIAL CODES in includes/gki-auth.php)
+ * @updated 1.17.6 — "ended on" date honours trial extensions by email domain
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

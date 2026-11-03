@@ -224,7 +224,7 @@ docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_acces
 docker compose run --rm -T wpcli wp option update gki_auth_enabled 0
 ```
 
-**Trial codes (1.17.5).** Set a code and the no-access screen grows a
+**Trial codes (1.17.5; domain extensions 1.17.6).** Set a code and the no-access screen grows a
 "Have a trial code?" field. The local site hides `/wp-login.php`, so sign the
 subscriber in with a cookie minted by wp-cli rather than the login form:
 
@@ -237,6 +237,9 @@ docker compose run --rm -T wpcli wp eval '$u=get_user_by("login","gatetest"); ec
 # Expire it to see the "ended on" note (one trial per account, the form stays hidden):
 docker compose run --rm -T wpcli wp user meta update gatetest gki_trial_expires_at 1
 # Five wrong codes lock the form for 15 minutes (transient gki_trial_attempts_<user id>).
+# Domain extension (1.17.6): gatetest is gatetest@example.com, so this reopens its ended trial:
+docker compose run --rm -T wpcli wp option update gki_auth_trial_domain_extensions "example.com 2099-12-31"
+docker compose run --rm -T wpcli wp option delete gki_auth_trial_domain_extensions
 # Back to normal:
 docker compose run --rm -T wpcli wp option delete gki_auth_trial_code
 ```

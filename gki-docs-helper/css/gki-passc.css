@@ -1552,3 +1552,10 @@ body.gki-docs-page .gki-gate-trial-submit:hover {
   margin: 0;
   text-align: center;
 }
+body.gki-docs-page .gki-gate-trial-note a:link,
+body.gki-docs-page .gki-gate-trial-note a:visited {
+  color: var(--gki-accent) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid currentColor;
+}
+body.gki-docs-page .gki-gate-trial-note a:hover { color: var(--gki-accent-hover) !important; }

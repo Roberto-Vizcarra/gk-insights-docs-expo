@@ -11,7 +11,8 @@
  * @updated 1.10.7 — redesign with official GK branding
  * @updated 1.17.5 — no-access: learn-more and book-a-demo links replace the upgrade/plans prompt;
  *                   trial-code form (see TRIAL CODES in includes/gki-auth.php)
- * @updated 1.17.6 — "ended on" date honours trial extensions by email domain
+ * @updated 1.17.7 — "ended on" date honours trial extensions by email domain;
+ *                   "ended on" note offers sign in again (for customers who converted)
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -83,6 +84,8 @@ get_header();
               <p class="gki-gate-trial-note">
                 Your trial access to the Help Center ended on
                 <?php echo esc_html( wp_date( get_option( 'date_format' ), $trial_ended_at ) ); ?>.
+                If your organization has since purchased Insights,
+                <a href="<?php echo esc_url( gki_auth_get_switch_account_url( remove_query_arg( 'gki_trial', gki_auth_get_current_url() ) ) ); ?>">sign in again</a>.
               </p>
             <?php else : ?>
               <form method="post" action="<?php echo esc_url( remove_query_arg( 'gki_trial', gki_auth_get_current_url() ) ); ?>" class="gki-gate-trial-form">

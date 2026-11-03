@@ -224,7 +224,7 @@ docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_acces
 docker compose run --rm -T wpcli wp option update gki_auth_enabled 0
 ```
 
-**Trial codes (1.17.5; domain extensions 1.17.6).** Set a code and the no-access screen grows a
+**Trial codes (1.17.5; domain extensions and conversion handling 1.17.7).** Set a code and the no-access screen grows a
 "Have a trial code?" field. The local site hides `/wp-login.php`, so sign the
 subscriber in with a cookie minted by wp-cli rather than the login form:
 
@@ -237,12 +237,21 @@ docker compose run --rm -T wpcli wp eval '$u=get_user_by("login","gatetest"); ec
 # Expire it to see the "ended on" note (one trial per account, the form stays hidden):
 docker compose run --rm -T wpcli wp user meta update gatetest gki_trial_expires_at 1
 # Five wrong codes lock the form for 15 minutes (transient gki_trial_attempts_<user id>).
-# Domain extension (1.17.6): gatetest is gatetest@example.com, so this reopens its ended trial:
-docker compose run --rm -T wpcli wp option update gki_auth_trial_domain_extensions "example.com 2099-12-31"
-docker compose run --rm -T wpcli wp option delete gki_auth_trial_domain_extensions
+# Domain extensions (1.17.7): add / revoke them in Settings -> GKI Auth Gate ->
+# "Trial extensions by email domain" (gatetest is gatetest@example.com, so an
+# example.com extension reopens its ended trial). The records live in the
+# gki_auth_trial_domain_ext_log option; delete it to clear the history locally.
+# wp-admin: the local import runs All-In-One WP Security, which hides wp-admin
+# from cookie-minted sessions, so use the real admin login for this part.
 # Back to normal:
 docker compose run --rm -T wpcli wp option delete gki_auth_trial_code
 ```
+
+Conversion handling (1.17.7) needs a licence response, and no licensing
+endpoint is configured locally. For a test, point `gki_auth_licensing_endpoint`
+at a fake URL and answer it from a throwaway mu-plugin that hooks
+`pre_http_request` (return `totalInsightsLicenses` 0 / 5, or HTTP 401 to see the
+"sign in again" path); delete the mu-plugin and the option afterwards.
 
 The cached `gki_insights_checked_at` timestamp keeps `gki_auth_check_entitlement`
 from calling the licensing API (no endpoint is configured locally, and an

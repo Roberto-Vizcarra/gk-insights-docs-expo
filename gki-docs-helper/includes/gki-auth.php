@@ -64,9 +64,22 @@ function gki_auth_gate_check() {
     }
 
     // Check 2: Does the user have Insights entitlement?
-    $entitled = gki_auth_check_entitlement( get_current_user_id() );
+    $user_id  = get_current_user_id();
+    $entitled = gki_auth_check_entitlement( $user_id );
 
     if ( ! $entitled ) {
+        // The stored GitKraken token was rejected or is missing, so the
+        // licence could not be checked. Sign the user out and ask them to
+        // sign in again (fresh token, fresh check) instead of reporting
+        // "no access" — this is how a trial customer who has since bought
+        // Insights gets in once their trial ends. Since 1.17.7.
+        if ( get_user_meta( $user_id, 'gki_reauth_required', true ) === '1' ) {
+            wp_destroy_current_session();
+            wp_clear_auth_cookie();
+            wp_set_current_user( 0 );
+            gki_auth_show_gate( 'login' );
+            exit;
+        }
         gki_auth_show_gate( 'no-access' );
         exit;
     }
@@ -297,6 +310,14 @@ function gki_auth_oauth_callback() {
     update_user_meta( $wp_user->ID, 'gki_access_token', $access_token );
     update_user_meta( $wp_user->ID, 'gki_gitkraken_id', $gk_id );
 
+    // Fresh licence check on every sign-in (since 1.17.7): a customer who
+    // converted from a trial is recognised as licensed immediately, and the
+    // session length below can depend on the result.
+    delete_user_meta( $wp_user->ID, 'gki_reauth_required' );
+    delete_user_meta( $wp_user->ID, 'gki_insights_access' );
+    delete_user_meta( $wp_user->ID, 'gki_insights_checked_at' );
+    gki_auth_check_licensed( $wp_user->ID );
+
     // Update display name if it changed.
     if ( ! empty( $name ) && $wp_user->display_name !== $name ) {
         wp_update_user( array(
@@ -340,11 +361,25 @@ function gki_auth_callback_error( $code, $message ) {
  * @return bool True if user has Insights access.
  */
 function gki_auth_check_entitlement( $user_id ) {
-    // A redeemed, unexpired trial code grants access on its own (since 1.17.5).
-    if ( gki_auth_has_active_trial( $user_id ) ) {
+    // The real licence comes first, so a trial customer who converts is on
+    // paid access as soon as the (cached) check sees it, whatever their trial
+    // dates. A redeemed, unexpired trial code is the fallback. Since 1.17.7;
+    // 1.17.5 checked the trial first and skipped the licence entirely.
+    if ( gki_auth_check_licensed( $user_id ) ) {
         return true;
     }
+    return gki_auth_has_active_trial( $user_id );
+}
 
+/**
+ * Whether the user's GitKraken organizations hold Insights licences.
+ * Cached in user meta for the Cache TTL; calls the organizations API when
+ * the cache is missing or stale.
+ *
+ * @param int $user_id WordPress user ID.
+ * @return bool
+ */
+function gki_auth_check_licensed( $user_id ) {
     // Check cached result
     $cached_access = get_user_meta( $user_id, 'gki_insights_access', true );
     $cached_time   = (int) get_user_meta( $user_id, 'gki_insights_checked_at', true );
@@ -396,6 +431,7 @@ function gki_auth_call_licensing_api( $user_id ) {
 
     if ( empty( $access_token ) ) {
         error_log( 'GKI Auth: No OAuth access token found for user ' . $user_id );
+        update_user_meta( $user_id, 'gki_reauth_required', '1' );
         return false;
     }
 
@@ -421,7 +457,8 @@ function gki_auth_call_licensing_api( $user_id ) {
     // Handle 401 — token may be expired
     if ( $status_code === 401 ) {
         error_log( 'GKI Auth: Organizations API returned 401 — token may be expired for user ' . $user_id );
-        // Clear cached entitlement so next visit triggers re-auth
+        // Ask the gate to sign the user in again (fresh token).
+        update_user_meta( $user_id, 'gki_reauth_required', '1' );
         delete_user_meta( $user_id, 'gki_insights_access' );
         delete_user_meta( $user_id, 'gki_insights_checked_at' );
         return false;
@@ -566,12 +603,6 @@ function gki_auth_register_settings() {
         },
     ) );
 
-    register_setting( 'gki_auth_settings', 'gki_auth_trial_domain_extensions', array(
-        'type'              => 'string',
-        'default'           => '',
-        'sanitize_callback' => 'gki_auth_sanitize_trial_domain_extensions',
-    ) );
-
     register_setting( 'gki_auth_settings', 'gki_auth_trial_days', array(
         'type'              => 'integer',
         'default'           => 14,
@@ -659,16 +690,6 @@ function gki_auth_register_settings() {
             $val
         );
     }, 'gki-auth-settings', 'gki_auth_main' );
-
-    add_settings_field( 'gki_auth_trial_domain_extensions', 'Trial extensions by email domain', function () {
-        $val = get_option( 'gki_auth_trial_domain_extensions', '' );
-        printf(
-            '<textarea name="gki_auth_trial_domain_extensions" rows="5" cols="50" class="large-text code" placeholder="acme.com 2026-12-31">%s</textarea>'
-            . '<p class="description">One domain and an end date per line (<code>domain YYYY-MM-DD</code>). Every account on that email domain that has redeemed a trial keeps access through the end of that date (site timezone), even if its own trial already ended. '
-            . 'Domains match exactly (<code>acme.com</code> does not cover <code>eu.acme.com</code>). Accounts that never redeemed a code are not affected. Remove a line to end the extension.</p>',
-            esc_textarea( $val )
-        );
-    }, 'gki-auth-settings', 'gki_auth_main' );
 }
 
 /**
@@ -689,6 +710,8 @@ function gki_auth_render_settings_page() {
             submit_button();
             ?>
         </form>
+
+        <?php gki_auth_render_trial_extensions_section(); ?>
 
         <hr />
         <h2>Status</h2>
@@ -1228,7 +1251,7 @@ function gki_auth_get_trial_days() {
 
 /**
  * Unix time the user's trial ends, or 0 if they never redeemed one.
- * A domain extension (Settings → Trial extensions by email domain) wins when
+ * An active domain extension (Settings → Trial extensions by email domain) wins when
  * it ends later than the account's own trial; it never applies to accounts
  * that have not redeemed a code.
  */
@@ -1256,66 +1279,247 @@ function gki_auth_user_email_domain( $user_id ) {
     return strtolower( substr( strrchr( $user->user_email, '@' ), 1 ) );
 }
 
+/* -------------------------------------------------------------------------
+   Trial extensions by email domain (1.17.7). Stored as tracked records in the
+   gki_auth_trial_domain_ext_log option, never deleted, so the settings page
+   keeps a full history:
+     id, domain, until (Y-m-d), added_at, added_by,
+     revoked_at, revoked_by, replaced (bool: superseded by a newer extension)
+   A record extends trials while it is neither revoked nor past its date.
+   ------------------------------------------------------------------------- */
+
 /**
- * Domain extensions as domain => Unix time (end of that day, site timezone).
+ * All extension records, newest first.
+ */
+function gki_auth_trial_ext_records() {
+    $records = get_option( 'gki_auth_trial_domain_ext_log', array() );
+    if ( ! is_array( $records ) ) {
+        return array();
+    }
+    // Records are appended in the order they were added; newest first.
+    return array_reverse( array_values( $records ) );
+}
+
+/**
+ * Unix time at the end of a Y-m-d date in the site timezone, or 0.
+ */
+function gki_auth_trial_ext_end_ts( $date ) {
+    $end = DateTimeImmutable::createFromFormat( '!Y-m-d H:i:s', $date . ' 23:59:59', wp_timezone() );
+    return $end ? $end->getTimestamp() : 0;
+}
+
+/**
+ * 'active', 'expired', 'revoked' or 'replaced'.
+ */
+function gki_auth_trial_ext_status( $record ) {
+    if ( ! empty( $record['revoked_at'] ) ) {
+        return ! empty( $record['replaced'] ) ? 'replaced' : 'revoked';
+    }
+    return gki_auth_trial_ext_end_ts( $record['until'] ) >= time() ? 'active' : 'expired';
+}
+
+/**
+ * Active extensions as domain => Unix time (end of that day, site timezone).
  */
 function gki_auth_trial_domain_extensions() {
-    static $parsed = null;
-    if ( $parsed !== null ) {
-        return $parsed;
-    }
-    $parsed = array();
-    foreach ( gki_auth_parse_trial_domain_lines( (string) get_option( 'gki_auth_trial_domain_extensions', '' ) ) as $domain => $date ) {
-        $end = DateTimeImmutable::createFromFormat( '!Y-m-d H:i:s', $date . ' 23:59:59', wp_timezone() );
-        if ( $end ) {
-            $parsed[ $domain ] = $end->getTimestamp();
-        }
-    }
-    return $parsed;
-}
-
-/**
- * Parse "domain YYYY-MM-DD" lines. Returns domain => date for valid lines;
- * collects the rest in $invalid. Separators: space, tab, comma or "=".
- */
-function gki_auth_parse_trial_domain_lines( $text, &$invalid = array() ) {
-    $out = array();
-    foreach ( preg_split( '/\r\n|\r|\n/', $text ) as $line ) {
-        $line = trim( $line );
-        if ( $line === '' ) {
+    $map = array();
+    foreach ( gki_auth_trial_ext_records() as $record ) {
+        if ( gki_auth_trial_ext_status( $record ) !== 'active' ) {
             continue;
         }
-        $parts  = preg_split( '/[\s,=]+/', $line );
-        $domain = isset( $parts[0] ) ? strtolower( ltrim( $parts[0], '@' ) ) : '';
-        $date   = isset( $parts[1] ) ? $parts[1] : '';
-        $d      = DateTimeImmutable::createFromFormat( '!Y-m-d', $date );
-        $valid_domain = (bool) preg_match( '/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/', $domain );
-        if ( count( $parts ) === 2 && $valid_domain && $d && $d->format( 'Y-m-d' ) === $date ) {
-            $out[ $domain ] = $date;
-        } else {
-            $invalid[] = $line;
+        $end = gki_auth_trial_ext_end_ts( $record['until'] );
+        if ( ! isset( $map[ $record['domain'] ] ) || $end > $map[ $record['domain'] ] ) {
+            $map[ $record['domain'] ] = $end;
         }
     }
-    return $out;
+    return $map;
 }
 
 /**
- * Settings sanitizer: keep valid lines in a normalized form, report the rest.
+ * Normalize and validate a domain ("@Acme.COM " -> "acme.com"), or ''.
  */
-function gki_auth_sanitize_trial_domain_extensions( $value ) {
-    $invalid = array();
-    $lines   = array();
-    foreach ( gki_auth_parse_trial_domain_lines( (string) $value, $invalid ) as $domain => $date ) {
-        $lines[] = $domain . ' ' . $date;
+function gki_auth_normalize_domain( $domain ) {
+    $domain = strtolower( trim( ltrim( trim( (string) $domain ), '@' ) ) );
+    return preg_match( '/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/', $domain ) ? $domain : '';
+}
+
+/**
+ * Number of accounts on a domain that have redeemed a trial.
+ */
+function gki_auth_trial_ext_account_count( $domain ) {
+    $ids = get_users( array(
+        'search'         => '*@' . $domain,
+        'search_columns' => array( 'user_email' ),
+        'meta_key'       => 'gki_trial_expires_at',
+        'fields'         => 'ID',
+        'number'         => 1000,
+    ) );
+    return count( $ids );
+}
+
+add_action( 'admin_post_gki_trial_ext_add', 'gki_auth_trial_ext_add' );
+add_action( 'admin_post_gki_trial_ext_revoke', 'gki_auth_trial_ext_revoke' );
+
+/**
+ * Add an extension. Any extension still in force for the same domain is
+ * closed as "replaced", so each domain has at most one active record.
+ */
+function gki_auth_trial_ext_add() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( 'Not allowed.', 403 );
     }
-    if ( ! empty( $invalid ) ) {
-        add_settings_error(
-            'gki_auth_trial_domain_extensions',
-            'gki_trial_domains_invalid',
-            'Trial extensions: skipped ' . count( $invalid ) . ' line(s) that were not "domain YYYY-MM-DD": ' . implode( '; ', array_map( 'sanitize_text_field', $invalid ) )
-        );
+    check_admin_referer( 'gki_trial_ext_add' );
+
+    $domain = gki_auth_normalize_domain( isset( $_POST['gki_ext_domain'] ) ? wp_unslash( $_POST['gki_ext_domain'] ) : '' );
+    $until  = isset( $_POST['gki_ext_until'] ) ? sanitize_text_field( wp_unslash( $_POST['gki_ext_until'] ) ) : '';
+    $d      = DateTimeImmutable::createFromFormat( '!Y-m-d', $until, wp_timezone() );
+
+    if ( $domain === '' ) {
+        gki_auth_trial_ext_back( 'bad-domain' );
     }
-    return implode( "\n", $lines );
+    if ( ! $d || $d->format( 'Y-m-d' ) !== $until ) {
+        gki_auth_trial_ext_back( 'bad-date' );
+    }
+    if ( gki_auth_trial_ext_end_ts( $until ) < time() ) {
+        gki_auth_trial_ext_back( 'past-date' );
+    }
+
+    $who     = wp_get_current_user()->user_login;
+    $now     = time();
+    $records = get_option( 'gki_auth_trial_domain_ext_log', array() );
+    $records = is_array( $records ) ? $records : array();
+    foreach ( $records as &$record ) {
+        if ( $record['domain'] === $domain && empty( $record['revoked_at'] ) ) {
+            $record['revoked_at'] = $now;
+            $record['revoked_by'] = $who;
+            $record['replaced']   = true;
+        }
+    }
+    unset( $record );
+    $records[] = array(
+        'id'         => wp_generate_uuid4(),
+        'domain'     => $domain,
+        'until'      => $until,
+        'added_at'   => $now,
+        'added_by'   => $who,
+        'revoked_at' => 0,
+        'revoked_by' => '',
+        'replaced'   => false,
+    );
+    update_option( 'gki_auth_trial_domain_ext_log', $records, false );
+    gki_auth_trial_ext_back( 'added' );
+}
+
+/**
+ * Revoke an extension early. The record stays in the history.
+ */
+function gki_auth_trial_ext_revoke() {
+    if ( ! current_user_can( 'manage_options' ) ) {
+        wp_die( 'Not allowed.', 403 );
+    }
+    $id = isset( $_POST['gki_ext_id'] ) ? sanitize_key( wp_unslash( $_POST['gki_ext_id'] ) ) : '';
+    check_admin_referer( 'gki_trial_ext_revoke_' . $id );
+
+    $records = get_option( 'gki_auth_trial_domain_ext_log', array() );
+    $records = is_array( $records ) ? $records : array();
+    $found   = false;
+    foreach ( $records as &$record ) {
+        if ( $record['id'] === $id && empty( $record['revoked_at'] ) ) {
+            $record['revoked_at'] = time();
+            $record['revoked_by'] = wp_get_current_user()->user_login;
+            $found                = true;
+        }
+    }
+    unset( $record );
+    if ( $found ) {
+        update_option( 'gki_auth_trial_domain_ext_log', $records, false );
+    }
+    gki_auth_trial_ext_back( $found ? 'revoked' : 'not-found' );
+}
+
+/**
+ * Back to the settings page with a result notice.
+ */
+function gki_auth_trial_ext_back( $result ) {
+    wp_safe_redirect( add_query_arg(
+        array( 'page' => 'gki-auth-settings', 'gki_ext' => $result ),
+        admin_url( 'options-general.php' )
+    ) . '#gki-trial-extensions' );
+    exit;
+}
+
+/**
+ * Settings page section: add form, notice, and the full extension history.
+ */
+function gki_auth_render_trial_extensions_section() {
+    $notices = array(
+        'added'      => array( 'success', 'Extension added.' ),
+        'revoked'    => array( 'success', 'Extension revoked. Affected accounts are back on their own trial dates.' ),
+        'bad-domain' => array( 'error', 'Enter a domain like acme.com.' ),
+        'bad-date'   => array( 'error', 'Pick a valid end date.' ),
+        'past-date'  => array( 'error', 'The end date is in the past.' ),
+        'not-found'  => array( 'warning', 'That extension was already revoked or no longer exists.' ),
+    );
+    $result = isset( $_GET['gki_ext'] ) ? sanitize_key( wp_unslash( $_GET['gki_ext'] ) ) : '';
+    $fmt    = get_option( 'date_format' );
+    $dtfmt  = $fmt . ' ' . get_option( 'time_format' );
+    ?>
+    <hr />
+    <h2 id="gki-trial-extensions">Trial extensions by email domain</h2>
+    <p class="description" style="max-width:800px">
+        Every account on the domain that has redeemed a trial keeps access through the end of the chosen date (site timezone), even if its own trial already ended; whichever date is later wins.
+        Domains match exactly (<code>acme.com</code> does not cover <code>eu.acme.com</code>). Accounts that never redeemed a code are not affected.
+        Adding a new date for a domain replaces its current extension. Records are kept after they end.
+    </p>
+    <?php if ( isset( $notices[ $result ] ) ) : ?>
+        <div class="notice notice-<?php echo esc_attr( $notices[ $result ][0] ); ?> inline"><p><?php echo esc_html( $notices[ $result ][1] ); ?></p></div>
+    <?php endif; ?>
+
+    <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin:12px 0 16px">
+        <input type="hidden" name="action" value="gki_trial_ext_add" />
+        <?php wp_nonce_field( 'gki_trial_ext_add' ); ?>
+        <label for="gki-ext-domain">Domain</label>
+        <input type="text" id="gki-ext-domain" name="gki_ext_domain" placeholder="acme.com" class="regular-text" style="width:220px" required />
+        <label for="gki-ext-until" style="margin-left:8px">Extend through</label>
+        <input type="date" id="gki-ext-until" name="gki_ext_until" min="<?php echo esc_attr( wp_date( 'Y-m-d' ) ); ?>" required />
+        <?php submit_button( 'Add extension', 'secondary', 'submit', false ); ?>
+    </form>
+
+    <?php
+    $records = gki_auth_trial_ext_records();
+    if ( empty( $records ) ) {
+        echo '<p><em>No trial extensions yet.</em></p>';
+        return;
+    }
+    $labels = array( 'active' => 'Active', 'expired' => 'Expired', 'revoked' => 'Revoked', 'replaced' => 'Replaced' );
+    echo '<table class="widefat striped" style="max-width:1000px"><thead><tr>'
+        . '<th>Domain</th><th>Extended through</th><th>Accounts with a trial</th><th>Added</th><th>Status</th><th></th>'
+        . '</tr></thead><tbody>';
+    foreach ( $records as $record ) {
+        $status = gki_auth_trial_ext_status( $record );
+        $state  = $labels[ $status ];
+        if ( $status === 'revoked' || $status === 'replaced' ) {
+            $state .= ' ' . wp_date( $dtfmt, (int) $record['revoked_at'] ) . ( $record['revoked_by'] !== '' ? ' by ' . $record['revoked_by'] : '' );
+        }
+        echo '<tr>';
+        echo '<td><strong>' . esc_html( $record['domain'] ) . '</strong></td>';
+        echo '<td>' . esc_html( wp_date( $fmt, gki_auth_trial_ext_end_ts( $record['until'] ) ) ) . '</td>';
+        echo '<td>' . (int) gki_auth_trial_ext_account_count( $record['domain'] ) . '</td>';
+        echo '<td>' . esc_html( wp_date( $dtfmt, (int) $record['added_at'] ) . ' by ' . $record['added_by'] ) . '</td>';
+        echo '<td>' . esc_html( $state ) . '</td>';
+        echo '<td>';
+        if ( $status === 'active' ) {
+            echo '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" onsubmit="return confirm(\'Revoke the extension for ' . esc_attr( $record['domain'] ) . '? Accounts on this domain go back to their own trial dates now.\');">';
+            echo '<input type="hidden" name="action" value="gki_trial_ext_revoke" />';
+            echo '<input type="hidden" name="gki_ext_id" value="' . esc_attr( $record['id'] ) . '" />';
+            wp_nonce_field( 'gki_trial_ext_revoke_' . $record['id'] );
+            echo '<button type="submit" class="button button-link-delete">Revoke</button>';
+            echo '</form>';
+        }
+        echo '</td>';
+        echo '</tr>';
+    }
+    echo '</tbody></table>';
 }
 
 /**
@@ -1324,6 +1528,26 @@ function gki_auth_sanitize_trial_domain_extensions( $value ) {
 function gki_auth_has_active_trial( $user_id ) {
     $expires = gki_auth_trial_expires_at( $user_id );
     return $expires > 0 && time() < $expires;
+}
+
+/**
+ * Session length for trial accounts (since 1.17.7). An account with a trial
+ * record whose licence check did not succeed signs in again every day, so the
+ * plugin always holds a fresh GitKraken token and notices a conversion to a
+ * paid plan right away. Licensed accounts keep WordPress's normal length.
+ */
+define( 'GKI_TRIAL_SESSION_SECONDS', DAY_IN_SECONDS );
+
+add_filter( 'auth_cookie_expiration', 'gki_auth_trial_session_length', 10, 3 );
+
+function gki_auth_trial_session_length( $length, $user_id, $remember ) {
+    if ( (int) get_user_meta( $user_id, 'gki_trial_expires_at', true ) <= 0 ) {
+        return $length;
+    }
+    if ( get_user_meta( $user_id, 'gki_insights_access', true ) === '1' ) {
+        return $length;
+    }
+    return min( (int) $length, GKI_TRIAL_SESSION_SECONDS );
 }
 
 add_action( 'init', 'gki_auth_handle_trial_redemption' );
@@ -1378,6 +1602,9 @@ function gki_auth_handle_trial_redemption() {
     $now = time();
     update_user_meta( $user_id, 'gki_trial_started_at', $now );
     update_user_meta( $user_id, 'gki_trial_expires_at', $now + gki_auth_get_trial_days() * DAY_IN_SECONDS );
+
+    // Reissue the session so the trial session length applies from now on.
+    wp_set_auth_cookie( $user_id, true );
 
     gki_auth_trial_redirect( $back, '' );
 }

@@ -11,3 +11,4 @@ local-dev/.staging/
 
 # Local preview output (python preview/build.py) -- generated HTML + cache
 preview/out/
+preview/__pycache__/

@@ -33,7 +33,7 @@ The Developers page is a coaching view, not a ranking. Use it to find who needs 
 In the Insights sidebar, under **Agent Leaderboard**, click **By Developer**. The page opens with a filter bar, four KPI cards, an insight banner, and the **All Developers** table. Below the table, three explainer cards describe the scores: **Score Tiers**, **How is the Agent Adoption Score calculated?**, and **What is the Agent Autonomy Score?**
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-table-01-v3@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
+  <img src="/wp-content/uploads/gki-developers-table-01-v4@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output (2.02 pts/wk) and % Power Users (+10.0 pp from 40.0%), each with its change from the previous period and the first three with their Org P90 scoring thresholds, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers, each name with a pts vs prev trend chip, with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk) with an opened, merged, direct and reviewed breakdown, Token Usage Value and $ / Output" />
   <figcaption>The Developers page: filter bar, KPI cards, insight banner, and the All Developers table.</figcaption>
 </figure>
 
@@ -109,7 +109,7 @@ Read **$ / Output** as cost efficiency: a lower figure means more shipped effort
 Click **Columns** above the table to choose which columns to show. The menu reads **Visible columns** with a count, and a checkbox for each column you can hide. After you hide a column, **Show all** brings every column back, and **Reset widths** restores the default widths. To resize a column, drag the edge of its header. Your browser remembers the visible columns and widths for this table. On narrow screens, columns cannot be hidden or resized.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-columns-01-v3@2x.png" class="help-center-img img-bordered" alt="The Columns menu open over the All Developers table, showing Visible columns 7 of 7 with checked boxes for Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output (the longer names truncated), above the table header and the first three developer rows" />
+  <img src="/wp-content/uploads/gki-developers-columns-01-v4@2x.png" class="help-center-img img-bordered" alt="The Columns menu open over the All Developers table, showing Visible columns 7 of 7 with checked boxes for Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk), Token Usage Value and $ / Output (the longer names truncated), above the table header and the first three developer rows" />
   <figcaption>The Columns menu above the All Developers table.</figcaption>
 </figure>
 

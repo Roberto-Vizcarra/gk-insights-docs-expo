@@ -106,7 +106,7 @@ If **On PTO % is unusually high** (>15%), check whether your BambooHR sync is wo
 * **/insights/ai-impact** — productivity analysis uses tier as the primary cohort dimension. The **Stretch Goal** banner compares Power Users' output with everyone else's and estimates the uplift if every developer adopted Power User habits.
 
 <figure>
-  <img src="/wp-content/uploads/gki-executive-view-01-v5@2x.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Cycle Time (median work start to merge), Throughput (a count of merged PRs and direct commits per dev per week), Deploy Freq, AI Adoption and AI-Assisted %, an AI Insight banner summarizing AI-assisted work and delivery, and the Cycle Time trend beside PR Volume by Dimension by team" />
+  <img src="/wp-content/uploads/gki-executive-view-01-v6@2x.png" class="help-center-img img-bordered" alt="Executive View in GitKraken Insights with KPI cards for Cycle Time (median work start to merge), Throughput (a count of merged PRs and direct commits per dev per week), Deploy Freq, AI Adoption and AI-Assisted %, an AI Insight banner summarizing AI-assisted work and delivery, and the Cycle Time trend beside PR Volume by Dimension by team" />
   <figcaption>Executive View — the KPI cards, the AI Insight banner and the Cycle Time and PR Volume charts. The adoption tier bar is further down the page, below these charts.</figcaption>
 </figure>
 

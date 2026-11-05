@@ -87,7 +87,7 @@ Do not quote the dollar value to 2 decimal places. "About $50K per week in annua
 * **/insights/executive** — Productivity Uplift is one of the executive view's headline indicators and shows up in the AI-generated **AI Insight** banner, which appears only when your organization has AI features enabled.
 
 <figure>
-  <img src="/wp-content/uploads/gki-productivity-hero-01-v3@2x.png" class="help-center-img img-bordered" alt="The Change in Productivity calculation breakdown for Jun 1–28, 2026: the Output Score formula (PR effort x 1.0, plus direct-commit effort x 0.5, plus review effort x 0.5, divided by working weeks excluding PTO), the current rate of 2.3 pts/wk against 1.8 pts/wk in Jan 2026, and a change of +30%, 1.30x the Jan 2026 rate" />
+  <img src="/wp-content/uploads/gki-productivity-hero-01-v4@2x.png" class="help-center-img img-bordered" alt="The Change in Productivity calculation breakdown for Jun 1–28, 2026: the Output Score formula (PR effort x 1.0, plus direct-commit effort x 0.5, plus review effort x 0.5, divided by working weeks excluding PTO), the current rate of 2.3 pts/wk against 1.8 pts/wk in Jan 2026, and a change of +30%, 1.30x the Jan 2026 rate" />
   <figcaption>Change in Productivity on /insights/ai-impact — the calculation breakdown, with the current and baseline-month rates in effort points per week.</figcaption>
 </figure>
 

@@ -59,7 +59,7 @@ On the **AI Tools** tab, the cards are grouped under **Single tools** and **Tool
 * **Changes / Dev / Week** — merged pull requests plus direct commits per developer per week.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-tool-01-v4@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Tools tab, below the Timeframe, Granularity, Filters and Teams controls: a Single tools section with the Claude Code cohort card, a Stacking effect card reading Best combination +12% (Claude + Codex, 4.25 PRs / dev / week vs Claude Code) and Average combination +3%, a Tool combinations section with Claude + Cursor and Claude + Codex cards, each card listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week and Changes / Dev / Week, a Show 8 empty cohorts link, and an AI Insight banner comparing the cohorts' throughput" />
+  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-tool-01-v5@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page with its AI Tools tab selected: a Single tools section with the Claude Code cohort card, a Stacking effect card reading Best combination +12% (Claude + Codex, 4.25 PRs / dev / week vs Claude Code) and Average combination +3%, a Tool combinations section with Claude + Cursor and Claude + Codex cards, each card listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week and Changes / Dev / Week, a Show 8 empty cohorts link, and an AI Insight banner comparing the cohorts' throughput" />
   <figcaption>Cohort cards on the AI Tools tab.</figcaption>
 </figure>
 
@@ -82,7 +82,7 @@ Model cards on the **AI Models** tab add two rows:
 Both count every developer who used the model, not only developers whose main model it is. A dash means the tool does not report tokens or cost per model.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v4@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Models tab, below the Timeframe, Granularity, Filters and Teams controls: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend, above an AI Insight banner comparing the models' merged PRs per developer per week" />
+  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v5@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page with its AI Models tab selected: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend, above an AI Insight banner comparing the models' merged PRs per developer per week" />
   <figcaption>Model cards on the AI Models tab, with Tokens and Spend.</figcaption>
 </figure>
 
@@ -110,7 +110,7 @@ In the drill-down:
 * For a model cohort, **Developers in this list** names the authors of the listed pull requests.
 
 <figure>
-  <img src="/wp-content/uploads/gki-comparison-drilldown-01-v2@2x.png" class="help-center-img img-bordered" alt="The drill-down sheet opened from the Merged PRs / Developer chart on AI Tools Comparison for the week of Jun 8 to Jun 14, 2026, with the AI tool picker set to Claude + Codex (11 PRs), a See Claude + Codex users on Developers page link, a search box and Category filter, and the cohort's merged pull requests, ten to a page, listed with their author, state, category, size, effort, merge time and coding, pickup and review hours" />
+  <img src="/wp-content/uploads/gki-comparison-drilldown-01-v3@2x.png" class="help-center-img img-bordered" alt="The drill-down sheet opened from the Merged PRs / Developer chart on AI Tools Comparison for the week of Jun 8 to Jun 14, 2026, with the AI tool picker set to Claude + Codex (11 PRs), a See Claude + Codex users on Developers page link, a search box and Category filter, and the cohort's merged pull requests, ten to a page, listed with their author, state, category, size, effort, merge time, coding, pickup, review and unattributed hours, review cycles and total cycle time" />
   <figcaption>The drill-down for one cohort, with the cohort picker and the link to its developers.</figcaption>
 </figure>
 

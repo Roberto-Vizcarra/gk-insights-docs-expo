@@ -43,7 +43,7 @@ Everything on the page reflects those two filters.
 If you pick an option with no activity, a note under the filter bar reads **No matching code activity for** the options you picked **in the selected period with the current filters**. Cards and tables with nothing to show say **No activity for the selected filters**.
 
 <figure>
-  <img src="/wp-content/uploads/gki-filter-activity-groups-01-v2@2x.png" class="help-center-img img-bordered" alt="The Teams page with a Repos filter on example-org/platform-api and the Filters menu's Team list open: Platform is listed under Matching code activity, and Growth heads the teams under No matching code activity, each under Product & Engineering and Engineering; behind the menu, a note reads No matching code activity for Payments, Growth, and Mobile in the selected period" />
+  <img src="/wp-content/uploads/gki-filter-activity-groups-01-v3@2x.png" class="help-center-img img-bordered" alt="The Teams page filtered to the Platform and Growth teams and the example-org/platform-api repository, with the Filters menu's Team list open: Platform is listed under Matching code activity and Growth under No matching code activity, each under Product & Engineering and Engineering; beside the menu, a note reads No matching code activity for Growth in the selected period with the current filters" />
   <figcaption>The Team filter groups teams by whether they have code activity under the current filters.</figcaption>
 </figure>
 
@@ -59,7 +59,7 @@ The main view is one row per team, under a strip of four KPI cards:
 * **% Power Teams** — the share of teams whose tier is Power User. Teams with every member on PTO are left out.
 
 <figure>
-  <img src="/wp-content/uploads/gki-teams-table-01-v4@2x.png" class="help-center-img img-bordered" alt="The Teams page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Teams, and the All Teams table listing Platform, Payments, Growth and Mobile with their Repos, AI Readiness, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk) with its merged, direct and review- credit breakdown, Speed and Token Usage Value" />
+  <img src="/wp-content/uploads/gki-teams-table-01-v5@2x.png" class="help-center-img img-bordered" alt="The Teams page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Teams, and the All Teams table listing Platform, Payments, Growth and Mobile with their Repos, AI Readiness, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk) with its merged, direct and review-credit breakdown, Speed, Releases and Token Usage Value" />
   <figcaption>The Teams page: the KPI strip above the team table.</figcaption>
 </figure>
 

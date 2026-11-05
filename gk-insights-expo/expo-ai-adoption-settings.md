@@ -32,7 +32,7 @@ For product-wide administration — loading the developer roster, defining teams
 
 <figure>
   <img src="/wp-content/uploads/gki-settings-general-01-v2@2x.png" class="help-center-img img-bordered" alt="The General tab of Settings in GitKraken Insights, showing the Scoring baseline fields: Company AI Readiness (%), Developer Hourly Rate ($), Working Hours Per Week, Baseline Period, Cycle Time Max Days, Cycle Time Start Signal (Not set), Cycle Time Unit of Work (Pull request), AI Correlation Window (minutes), and Ignore reviews from bot accounts" />
-  <figcaption>Settings → General — Maturity Factor (Company AI Readiness %), Developer Hourly Rate, Baseline Period, and Default Department.</figcaption>
+  <figcaption>Settings → General — the Scoring baseline fields, from Company AI Readiness (%) to Ignore reviews from bot accounts, including Cycle Time Start Signal and Cycle Time Unit of Work.</figcaption>
 </figure>
 
 ## General settings

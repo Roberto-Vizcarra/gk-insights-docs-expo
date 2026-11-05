@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Render gk-insights-expo/*.md into a browsable local copy of the Help Center.
 
-    python preview/build.py            build preview/out/
-    python preview/build.py --open     build, then open Home in the browser
-    python preview/build.py --serve    build, then serve the repo on localhost
+    python preview/build.py            build preview/out/, then open Home in the browser
+    python preview/build.py --no-open  build only
+    python preview/build.py --serve    build, then serve the repo on localhost and open it
 
 The HTML comes from the plugin's own PHP (gki-docs-helper/) running under a
 small WordPress shim (preview/render.php) with Git It Write's Markdown parser
@@ -412,7 +412,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     ap.add_argument('--serve', action='store_true', help='serve the repo root over HTTP after building')
     ap.add_argument('--port', type=int, default=8765, help='port for --serve (default 8765)')
-    ap.add_argument('--open', action='store_true', help='open Home in the browser after building')
+    ap.add_argument('--no-open', dest='open', action='store_false',
+                    help='do not open Home in the browser after building (it opens by default)')
+    ap.add_argument('--open', dest='open', action='store_true', help=argparse.SUPPRESS)  # old flag, now the default
+    ap.set_defaults(open=True)
     ap.add_argument('--php', help='path to php (otherwise GKI_PHP, PATH, then known install locations)')
     ap.add_argument('--strict', action='store_true', help='treat PHP warnings and notices as failures')
     ap.add_argument('--no-install', action='store_true', help='do not install PHP if it is missing; just say how')
@@ -429,10 +432,10 @@ def main():
     home = os.path.join(OUT, HOME_SLUG + '.html')
     if args.serve:
         serve(args.port, args.open)
-    elif args.open:
-        webbrowser.open('file:///' + home.replace('\\', '/').lstrip('/'))
     else:
-        say(f'Open {home}')
+        say(f'Home: {home}')
+        if args.open:
+            webbrowser.open('file:///' + home.replace('\\', '/').lstrip('/'))
     sys.exit(1 if failed else 0)
 
 

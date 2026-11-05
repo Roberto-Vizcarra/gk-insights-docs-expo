@@ -12,10 +12,10 @@ a few seconds, no Docker.
 ## Use it
 
 ```
-python preview/build.py            # build preview/out/, print the path to open
-python preview/build.py --open     # build, then open Home in your browser (file://)
-python preview/build.py --serve    # build, then serve the repo root on http://localhost:8765
-python preview/build.py --serve --open --port 9000
+python preview/build.py            # build preview/out/, then open Home in your browser (file://)
+python preview/build.py --no-open  # build only
+python preview/build.py --serve    # build, serve the repo root on http://localhost:8765 and open it
+python preview/build.py --serve --port 9000
 ```
 
 Edit a page or the plugin, re-run the build, reload. With `--serve` the server
@@ -25,7 +25,7 @@ keeps running; build again from another terminal.
 |---|---|
 | `--serve` | Serves the **repo root** (so `../../_images/` and `../../gki-docs-helper/` resolve) and prints the URL. |
 | `--port N` | Port for `--serve` (default 8765). |
-| `--open` | Opens Home in the browser. |
+| `--no-open` | Don't open Home in the browser (it opens by default). |
 | `--php PATH` | Use this `php`. Also: the `GKI_PHP` environment variable. |
 | `--strict` | Treat PHP warnings and notices as failures. |
 | `--no-install` | If PHP is missing, print the install command instead of running it. |

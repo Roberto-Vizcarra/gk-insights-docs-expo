@@ -18,9 +18,9 @@ custom_fields:
     nav_order: 65
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-The **By Repository** page shows how ready each repository is for AI-assisted work, with its actual AI activity laid over that readiness, across your whole organization. This page explains each part of the page and the readiness checks behind each repository's tier. It assumes your git provider is connected. To connect one, see [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data). To change which teams a repository belongs to, or to turn checks off, see [Repositories settings](/insights-expo/expo-ai-adoption-settings#repositories-settings).
+The **By Repository** page shows how ready each repository is for AI-assisted work, with its AI activity laid over that readiness, across your whole organization. The page fills in once your git provider is connected. To connect one, see [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data). To change which teams a repository belongs to, or to turn checks off, see [Repositories settings](/insights-expo/expo-ai-adoption-settings#repositories-settings).
 
 > **Who can see it:** By Repository is available to **Owners**, **Admins**, and **Managers**.
 
@@ -40,6 +40,8 @@ The filter bar holds **Timeframe**, **Filters**, and **Teams**, plus these repos
 * **Team**, to keep repositories that belong to the teams you choose. A repository that belongs to several teams appears under each of them.
 * **AI activity**, to keep only repositories **With AI activity**.
 
+When any filter is active, **Clear filters** resets them, including these repository filters, and keeps the timeframe.
+
 **Export CSV** downloads the repositories you're viewing. A repository that belongs to several teams lists every team in the export.
 
 ## Read the KPI cards
@@ -56,7 +58,7 @@ Four cards summarize the repositories in the current scope:
 The **Repositories** tab opens with the **Readiness × AI activity** chart. Each dot is a repository: its readiness score runs along the horizontal axis, and the AI-assisted share of its activity up the vertical axis. Dot size grows with activity volume, and the color shows the primary team. Repositories with no activity in the window, and repositories with every check turned off, are left out. The chart has four quadrants:
 
 * **WORKING** — high readiness and high AI activity.
-* **AT RISK** — high AI activity in a repository that isn't set up for it.
+* **AT RISK** — high AI activity in a repository that is not set up for it.
 * **WASTED PREP** — a ready repository that sees little AI activity.
 * **COLD** — low readiness and little AI activity.
 
@@ -65,12 +67,12 @@ Below the chart, the **All repos** table lists every repository. Use **Filter by
 | Column | What it shows |
 | --- | --- |
 | **Repo** | The repository's owner and name, which opens the repository on its host where available. Archived repositories are flagged but still included. |
-| **Provider** | Where the repository is hosted: GitHub, GitLab, Bitbucket, or Azure DevOps, cloud or self-hosted. A dash means the provider isn't known. |
+| **Provider** | Where the repository is hosted: GitHub, GitLab, Bitbucket, or Azure DevOps, cloud or self-hosted. A dash means the provider is not known. |
 | **Lang** | The primary programming language. |
 | **Team** | Every team the repository belongs to. See [Which teams a repository belongs to](#which-teams-a-repository-belongs-to). |
 | **Repo Tier** | The readiness tier: **Exemplary**, **Good**, **Basic**, or **Not Ready**. Hover the cell for the score of each check group. |
 | **Assessment** | One badge per readiness check, passing or missing. Hover a badge for what the check verifies and how to fix it. |
-| **AI activity** | The share of the repository's pull requests and direct commits in the window that were AI-assisted, excluding bot authors, with the volume underneath. Hover for the split by pull requests and direct commits. |
+| **AI activity** | The share of the repository's pull requests and direct commits in the window that were AI-assisted, leaving out activity by excluded developers (most bot accounts are excluded automatically), with the volume underneath. Hover for the split by pull requests and direct commits. |
 | **Last active** | The most recent pull request or direct commit on the default branch in the window. |
 
 <figure>
@@ -82,7 +84,7 @@ The readiness tier comes from a readiness score from 0 to 100: Exemplary at 80 a
 
 ### Which teams a repository belongs to
 
-A repository can belong to several teams. The **Team** column lists every one. Teams that an organization admin assigns in [Settings → Repositories](/insights-expo/expo-ai-adoption-settings#team-assignment) are authoritative. With no team assigned, the repository falls back to the team whose developers contributed the most pull requests and direct commits over the past 90 days. That team is worked out at sync time and doesn't follow the dashboard's date picker. A repository with no team shows a dash.
+A repository can belong to several teams. The **Team** column lists every one. Teams that an organization admin assigns in [Settings → Repositories](/insights-expo/expo-ai-adoption-settings#team-assignment) are authoritative. With no team assigned, the repository falls back to the team whose developers contributed the most pull requests and direct commits over the past 90 days. That team is worked out at sync time and does not follow the dashboard's date picker. A repository with no team shows a dash.
 
 The **Team** filter and the page's **Teams** filter match every team a repository belongs to, so a shared repository appears under each of its teams.
 
@@ -116,7 +118,7 @@ The **Closest to next tier** card suggests the checks that would move the reposi
 | **Lint Config** | Content Quality | A linter or formatter config, such as eslint.config.*, .prettierrc, biome.json, golangci-lint, or Elixir's .formatter.exs. |
 | **Skills / Commands** | Content Quality | Skill or command definitions for the agent tool your team uses, in .claude/commands, .claude/skills, .claude/agents, .cursor/commands, .cursor/skills, or .agents. |
 
-Skills managed outside the repository, such as in dev containers or user-level config, can't be detected. For those repositories, an organization admin can turn the **Skills / Commands** check off under **Settings → Repositories → Edit checks**. A check that's turned off no longer counts toward the repository's tier. A repository with every check turned off shows as **Not scored**. See [Readiness checks](/insights-expo/expo-ai-adoption-settings#readiness-checks).
+Skills managed outside the repository, such as in dev containers or user-level config, cannot be detected. For those repositories, an organization admin can turn the **Skills / Commands** check off under **Settings → Repositories → Edit checks**. A check that's turned off no longer counts toward the repository's tier. A repository with every check turned off shows as **Not scored**. See [Readiness checks](/insights-expo/expo-ai-adoption-settings#readiness-checks).
 
 ## Find repositories that need attention
 

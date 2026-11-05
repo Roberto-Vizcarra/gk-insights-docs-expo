@@ -18,9 +18,9 @@ custom_fields:
     nav_order: 75
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-The **AI Tools Comparison** page groups your developers into cohorts by the AI tools or models they used, and compares adoption, autonomy, and delivery across those cohorts. This page explains how cohorts are formed and how to read each part of the page. It assumes your AI tools already report to Insights. To connect them, see [Connect AI Coding Tools](/insights-expo/expo-ai-adoption-connect-ai-tools) and [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel).
+The **AI Tools Comparison** page groups your developers into cohorts by the AI tools or models they used, and compares adoption, autonomy, and delivery across those cohorts. The page fills in once your AI tools report to Insights. To connect them, see [Connect AI Coding Tools](/insights-expo/expo-ai-adoption-connect-ai-tools) and [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel).
 
 > **Who can see it:** The AI Tools Comparison page is available to **Owners**, **Admins**, and **Managers**.
 
@@ -35,19 +35,21 @@ In the Insights sidebar, under **Agent Leaderboard**, click **By AI Tool & Model
 
 The filter bar holds **Timeframe**, **Granularity**, **Filters**, and **Teams**. The filters apply to every card, chart, and table on the page.
 
+When your organization has GitKraken AI features turned on, an **AI Insight** banner between the cohort cards and the charts gives a short AI-generated read of the comparison. It follows the tab you're on and the **Teams** filter.
+
 ## Understand the cohorts
 
-On the **AI Tools** tab, a cohort is the combination of AI tools a developer used in the selected window. A developer who used only Claude Code is in the **Claude Code** cohort. A developer who used Claude Code and Cursor is in **Claude + Cursor**. Cohorts can combine any of Claude Code, Cursor, Codex, GitHub Copilot, Devin, and OpenCode. Developers with no AI tool activity in the window form the **None** cohort.
+On the **AI Tools** tab, a cohort is the combination of AI tools a developer used in the selected window. A developer who used only Claude Code is in the **Claude Code** cohort. A developer who used Claude Code and Cursor is in **Claude + Cursor**. Cohorts can combine any of Claude Code, Cursor, Codex, GitHub Copilot, Devin, OpenCode, and Gemini. Developers with no AI tool activity in the window form the **None** cohort.
 
 Devin and OpenCode are available on request — contact your GitKraken account team. Cohorts that include them appear only for organizations where those tools are enabled. The **AI Tool** filter on the [Developers page](/insights-expo/expo-ai-adoption-developers) uses the same cohorts.
 
 On the **AI Models** tab, each card is one model, and counts every developer who used that model in the window.
 
-Only cohorts with developers in the window get a card, so the set of cards changes with the timeframe and filters.
+Only cohorts with developers in the window get a card, so the set of cards changes with the timeframe and filters. On the **AI Tools** tab, click **Show N empty cohorts** to add a card for each single tool with no active developers in the window; each reads **No active developers in this period**. Click **Hide empty cohorts** to remove them again. Tool combinations never get an empty card.
 
 ## Read the cohort cards
 
-Each cohort card lists these figures for its developers:
+On the **AI Tools** tab, the cards are grouped under **Single tools** and **Tool combinations**. Cards on the **AI Models** tab are not grouped. Each cohort card lists these figures for its developers:
 
 * **Developers** — active developers in the cohort during the selected period.
 * **Adoption** — the average [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score).
@@ -61,6 +63,15 @@ Each cohort card lists these figures for its developers:
   <figcaption>Cohort cards on the AI Tools tab.</figcaption>
 </figure>
 
+### Stacking effect
+
+When at least one tool combination merges more pull requests per developer per week than the best single tool, a **Stacking effect** card appears between **Single tools** and **Tool combinations**. It compares the tool combinations with the best single tool on merged pull requests per developer per week:
+
+* **Best combination** — the lead of the strongest combination over the best single tool, as a percentage, with both cohorts' PRs / dev / week.
+* **Average combination** — the average lead across all tool combinations over the best single tool.
+
+The **None** cohort is never the best single tool.
+
 ### Tokens and Spend on model cards
 
 Model cards on the **AI Models** tab add two rows:
@@ -68,7 +79,7 @@ Model cards on the **AI Models** tab add two rows:
 * **Tokens** — total output tokens from the model, across every developer who used it.
 * **Spend** — total cost of the model in the selected period, across every developer who used it.
 
-Both count every developer who used the model, not only developers whose main model it is. A dash means the tool doesn't report tokens or cost per model.
+Both count every developer who used the model, not only developers whose main model it is. A dash means the tool does not report tokens or cost per model.
 
 <figure>
   <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v3@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page on its AI Models tab, below the Timeframe, Granularity, Filters and Teams controls: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend." />
@@ -86,6 +97,23 @@ Below the cards, four charts compare the cohorts:
 
 The trend charts follow the page's **Granularity**.
 
+**Focus on one cohort.** Click a cohort in a chart's legend to focus it: the other cohorts fade, and a **Clear focus** button appears. Click **Clear focus** to show every cohort again.
+
+### See the pull requests behind a point
+
+Hover a point or bar to see which cohort it belongs to; the tooltip ends with a hint such as **Click to see Claude Code PRs**. Click it to open a drill-down of the pull requests behind it, for that cohort. On **Total Changes / Developer**, the drill-down also lists direct commits. While a cohort is focused, a click opens that cohort.
+
+In the drill-down:
+
+* Use the **AI tool** or **AI model** picker to switch cohorts, or choose **All cohorts**, without closing the drill-down. Each option shows its count of pull requests.
+* For a tool cohort, click the link that names it, such as **See Claude Code users on Developers page**, to open the [Developers page](/insights-expo/expo-ai-adoption-developers) filtered to that AI tool. For the **None** cohort, the link reads **See users with no AI tool on Developers page**.
+* For a model cohort, **Developers in this list** names the authors of the listed pull requests.
+
+<figure>
+  <img src="/wp-content/uploads/gki-comparison-drilldown-01.png" class="help-center-img img-bordered" alt="The drill-down sheet opened from the Merged PRs / Developer chart on AI Tools Comparison for the week of Jun 8 to Jun 14, 2026, with the AI tool picker set to Claude + Codex (11 PRs), a See Claude + Codex users on Developers page link, a search box and Category filter, and the cohort's merged pull requests, ten to a page, listed with their author, state, category, size, effort, merge time and coding, pickup and review hours" />
+  <figcaption>The drill-down for one cohort, with the cohort picker and the link to its developers.</figcaption>
+</figure>
+
 ## Read the Productivity Metrics table
 
 The **Productivity Metrics** table puts the cohorts side by side, one column per cohort, with these rows:
@@ -97,7 +125,7 @@ The **Productivity Metrics** table puts the cohorts side by side, one column per
 * **Median Coding Time / PR**, from start of work to pull request open
 * **Median Review Time / PR**, from pull request open to merge
 
-Start of work is the earlier of the first commit or the Jira issue moving to In Progress. The best value in each row is highlighted.
+Start of work follows the [Cycle Time Start Signal](/insights-expo/expo-ai-adoption-settings#cycle-time-start-signal) setting. The best value in each row is highlighted.
 
 Read the comparison as a starting point for a conversation, not a verdict on a tool. Cohorts differ in size, and developers who adopt several tools often differ from those who use one. See [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) and [Throughput](/insights-expo/expo-ai-adoption-output-throughput) for how the delivery figures are measured.
 

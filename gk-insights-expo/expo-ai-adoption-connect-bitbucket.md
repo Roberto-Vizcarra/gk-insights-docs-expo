@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 Connect Bitbucket Cloud or Bitbucket Data Center to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
@@ -32,7 +32,10 @@ Connect Bitbucket if your repositories live in a Bitbucket workspace. Like GitHu
 1. In gitkraken.dev, open **Insights → Settings → Data Connections**.
 2. Under **Add data source**, click **+** next to **Bitbucket**.
 3. In the **Connect Bitbucket** modal, optionally give the connection a **Name**, then enter your **Atlassian account email** and a **Bitbucket API token** (see scopes below).
-4. Click **Validate**. Insights lists the workspaces the token can see — under **Workspaces to sync**, select the ones to sync. If a workspace isn't listed, type its slug to add it. Optionally add **Repositories to skip (optional)**, then click **Connect**. Insights suggests repositories from the first workspace you selected; to skip one from another workspace, type its full path, such as `workspace/repo`. Skipped repositories are excluded from sync and PR classification.
+4. Click **Validate**. Insights lists the workspaces the token can see.
+5. Under **Workspaces to sync**, select the ones to sync. If a workspace is not listed, type its slug to add it.
+6. Optionally add **Repositories to skip (optional)**. Insights suggests repositories from the first workspace you selected; to skip one from another workspace, type its full path, such as `workspace/repo`. Skipped repositories are excluded from sync and PR classification.
+7. Click **Connect**.
 
 <figure>
   <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights showing an optional connection name field, the list of scoped Atlassian API token scopes required, and the Atlassian account email and Bitbucket API token fields" />
@@ -41,7 +44,7 @@ Connect Bitbucket if your repositories live in a Bitbucket workspace. Like GitHu
 
 ### Required token scopes
 
-Bitbucket connects with a **scoped Atlassian API token**. Create it at [**id.atlassian.com → Security → API tokens**](https://id.atlassian.com/manage-profile/security/api-tokens) using **Create API token with scopes**. Name it, set an expiration (Atlassian allows 1–365 days), choose **Bitbucket** as the app, and include at least these scopes:
+Bitbucket connects with a **scoped Atlassian API token**. Create it at [**id.atlassian.com → Security → API tokens**](https://id.atlassian.com/manage-profile/security/api-tokens) using **Create API token with scopes**. Name it, set an expiration (Atlassian allows 1 to 365 days), choose **Bitbucket** as the app, and include at least these scopes:
 
 - `read:account`
 - `read:pipeline:bitbucket`
@@ -54,9 +57,9 @@ Copy the token immediately — Atlassian shows it only once. Scoped Bitbucket to
 
 > **Tokens expire.** When the token reaches its expiration date, syncing stops. Create a new token and update the connection before that happens.
 
-> **A workspace missing after Validate** means the token's Atlassian account can't access it. Check that account's Bitbucket permissions.
+> **A workspace missing after Validate** means the token's Atlassian account cannot access it. Check that account's Bitbucket permissions.
 
-Once connected, Bitbucket data begins syncing in the background and continues over the next several hours. Reference: [Atlassian — Manage API tokens](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/).
+After you connect, Bitbucket data begins syncing in the background and continues over the next several hours. Reference: [Atlassian — Manage API tokens](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/).
 
 ---
 
@@ -66,25 +69,28 @@ Connect Bitbucket Data Center to sync activity from a Bitbucket instance you run
 
 **Requirements:**
 
+- Bitbucket Data Center requires the **Advanced** plan.
 - The server must be reachable from GitKraken over `https` with a **publicly-trusted certificate**.
-- An HTTP access token with read access to the projects and repositories you want to sync. 
+- An HTTP access token with read access to the projects and repositories you want to sync.
 
 1. In **Data Connections**, click **+** next to **Bitbucket Data Center**.
 2. Optionally name the connection, then enter the **Server URL** — for example `https://bitbucket.yourcompany.com`.
 3. Paste the **Bitbucket HTTP access token** and click **Validate**.
-4. Under **Projects to sync**, select the projects to include. If a project isn't listed, type its key to add it.
+4. Under **Projects to sync**, select the projects to include. If a project is not listed, type its key to add it.
 5. Optionally add **Repositories to skip (optional)**, then click **Connect**. Insights suggests repositories from the first project you selected; to skip one from another project, type its full path, such as `PROJECT/repo`. Skipped repositories are excluded from sync and PR classification.
 
-As with Bitbucket cloud, the connection only sees the projects and repositories the token's account can access.
+As with Bitbucket Cloud, the connection only sees the projects and repositories the token's account can access.
 
 ---
 
 ## Troubleshooting
 
+If a connection fails to validate, find the symptom below:
+
 | Symptom | What's happening | Fix |
 | --- | --- | --- |
-| **A Bitbucket workspace is missing after Validate** | The token's account can't access it | Check that account's permissions in Bitbucket |
-| **Bitbucket Data Center won't validate** | GitKraken can't reach it, or its certificate isn't publicly trusted | Confirm the **Server URL** is reachable over `https` from outside your network with a publicly-trusted certificate — self-signed and internal CAs won't work |
+| **A Bitbucket workspace is missing after Validate** | The token's account cannot access it | Check that account's permissions in Bitbucket |
+| **Bitbucket Data Center does not validate** | GitKraken cannot reach it, or its certificate is not publicly trusted | Confirm the **Server URL** is reachable over `https` from outside your network with a publicly-trusted certificate. Self-signed certificates and internal CAs do not work |
 
 For general connection troubleshooting, see [Troubleshooting setup](/insights-expo/expo-ai-adoption-connect-your-data#troubleshooting-setup) on the Connect Your Data overview.
 
@@ -92,7 +98,7 @@ For general connection troubleshooting, see [Troubleshooting setup](/insights-ex
 
 ## After connecting
 
-Once your connection is active, continue with the remaining setup steps on the [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data) overview:
+After your connection is active, continue with the remaining setup steps on the [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data) overview:
 
 - [Set your benchmarks](/insights-expo/expo-ai-adoption-connect-your-data#set-your-benchmarks)
 - [Map developer identities](/insights-expo/expo-ai-adoption-connect-your-data#map-developer-identities)

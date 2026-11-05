@@ -17,6 +17,7 @@ custom_fields:
     nav_parent: expo-ai-adoption-dora-metrics
     page_type: content
 ---
+<kbd>Last updated: November 2026</kbd>
 
 ## Mean Time to Recovery (MTTR)
 
@@ -39,17 +40,17 @@ MTTR (hours) = median(resolved_at − opened_at) for customer-bug
 
 ### How GitKraken Insights calculates it
 
-**Source data.** The same customer bugs from your connected issue tracker (Jira, Linear, YouTrack, or Azure Boards) that power CFR. Each bug has a creation timestamp (`opened_at`) and a resolution timestamp (`resolved_at`); for Jira they are stored in the `jira_incidents` table.
+**Source data.** The same customer bugs from your connected issue tracker (Jira, Linear, YouTrack, Azure Boards, or [ClickUp](/insights-expo/expo-ai-adoption-connect-clickup)) that power CFR. Each bug has a creation time and a resolution time.
 
 **Computation.** For each resolved incident in the window, compute the duration in hours. Take the median across incidents.
 
-**Open incidents are excluded.** Only resolved incidents count toward MTTR — an open incident doesn't have a resolution time yet, so it cannot contribute to a recovery time.
+**Open incidents are excluded.** Only resolved incidents count toward MTTR — an open incident does not have a resolution time yet, so it cannot contribute to a recovery time.
 
 ### Why it matters
 
 MTTR is the metric that distinguishes "we ship bugs" from "we ship bugs and they bleed into our quarter." A team with elite MTTR can take risks on shipping speed because they know they can recover fast. A team with poor MTTR has to be more conservative because every bug becomes a slow drag.
 
-For AI adoption: AI tools sometimes help MTTR (faster debugging with Claude / Codex), and sometimes hurt (autonomous AI-assisted commits introducing subtle bugs that take longer to debug). Worth watching alongside CFR by AI Tier.
+For AI adoption: AI tools sometimes help MTTR (faster debugging with Claude / Codex), and sometimes hurt (autonomous AI-assisted commits introducing subtle bugs that take longer to debug). Watch it alongside CFR by AI Tier.
 
 ### How to read it
 
@@ -66,11 +67,11 @@ For most product engineering teams, **High** is the realistic target. Elite requ
 
 ### Where it appears
 
-MTTR isn't currently shown on the standard Insights pages. It isn't on Board Metrics or Throughput & Quality; this page describes how it is defined and calculated.
+MTTR is not currently shown on the standard Insights pages, including Board Metrics and Throughput & Quality.
 
 ### Settings that affect it
 
-* **Enable defect detection** and **Match by** (Settings → Data Connections → the tracker connection) — required for MTTR to populate (same as CFR).
+* **Enable defect detection** and **Match by** (Settings → Data Connections → the tracker connection) — required for MTTR to populate (same as CFR). Select **Add defect rule** to add up to five named rules per connection, each with its own **Match by**.
 
 ### Related metrics
 
@@ -89,14 +90,14 @@ MTTR isn't currently shown on the standard Insights pages. It isn't on Board Met
 ### Limitations and gotchas
 
 * **The median hides the long tail.** One incident that took a week to fix barely moves a monthly median MTTR. Review your longest-running incidents in your tracker as well.
-* **Open incidents aren't counted.** A team with many open old incidents can have artificially good MTTR (only the resolved ones contribute). Watch open-incident count alongside.
-* **Priority is not stratified in the MTTR metric today.** CFR tracks bug counts by priority (Highest / High / Medium / Low, plus Other), but MTTR is a single median across all customer-bug incidents. If you need priority-aware recovery times, compare resolution times by priority in your tracker.
-* **No automatic incident detection.** The metric uses customer bugs from your connected issue tracker as the proxy. If your team uses a separate incident management system (PagerDuty, Statuspage), MTTR in this dashboard won't reflect those events.
+* **Open incidents are not counted.** A team with many open old incidents can have artificially good MTTR (only the resolved ones contribute). Watch open-incident count alongside.
+* **MTTR is not split by priority.** CFR tracks bug counts by priority (Highest / High / Medium / Low, plus Other), but MTTR is a single median across all customer-bug incidents. If you need priority-aware recovery times, compare resolution times by priority in your tracker.
+* **No automatic incident detection.** The metric uses customer bugs from your connected issue tracker as the proxy. If your team uses a separate incident management system (PagerDuty, Statuspage), MTTR in this dashboard does not reflect those events.
 
 ### FAQ
 
 **Q: Should MTTR include the time to acknowledge?**
-A: It currently includes everything from the bug being opened to closed in your tracker. If your tracker workflow distinguishes "acknowledged" from "open," you would need a custom view — not currently in the dashboard.
+A: MTTR includes everything from the bug being opened to closed in your tracker. If your tracker workflow distinguishes "acknowledged" from "open," you would need a custom view, and the dashboard does not offer one.
 
 **Q: Where can I see MTTR?**
-A: MTTR isn't currently shown on the standard Insights pages — not on Board Metrics, Throughput & Quality, or AI Impact. CFR, the broader stability metric most leaders watch, is on all three.
+A: MTTR is not currently shown on the standard Insights pages — not on Board Metrics, Throughput & Quality, or AI Impact. CFR, the broader stability metric most leaders watch, is on all three.

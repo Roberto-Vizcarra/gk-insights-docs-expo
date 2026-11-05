@@ -17,11 +17,13 @@ custom_fields:
     nav_parent: expo-ai-adoption-flow-metrics
     page_type: content
 ---
+<kbd>Last updated: November 2026</kbd>
+
 ## First-Pass Rate
 
 > _Percent of PRs merged with zero "changes requested" reviews. The clean-merge rate._
 
-**Family:** Flow & Cycle Time · **Cadence:** Per window, percent across all merged PRs · **Where it appears:** /ai-adoption/ai-impact
+**Family:** Flow & Cycle Time · **Cadence:** Per window, percent across all merged PRs · **Where it appears:** /insights/ai-impact
 
 ### At a glance
 
@@ -37,11 +39,11 @@ First-Pass Rate = count(merged PRs with 0 review cycles) / count(merged PRs in w
 
 The backend counts merged PRs in the window. For each, it checks whether `review_cycles = 0` (no CHANGES_REQUESTED reviews before merge). The count of zero-cycle PRs is divided by the total and expressed as a percentage.
 
-Drafts and bot-authored PRs are excluded. Direct commits are excluded because they don't go through formal review.
+Drafts and PRs by excluded developers are left out (most bot accounts are excluded automatically). Direct commits are excluded because they do not go through formal review.
 
 ### Why it matters
 
-First-Pass Rate is one of the few metrics where the _direction_ is interpretable on its own without context. A higher rate is almost always better, with one exception (see "Limitations" below).
+First-Pass Rate is one of the few metrics where the _direction_ is interpretable on its own without context. A higher rate is almost always better, with one exception: rubber-stamping (see Limitations and gotchas).
 
 It is especially valuable as a leading indicator for AI adoption ROI. When teams successfully integrate AI into their workflow, First-Pass Rate climbs — AI helps catch the small issues that would have triggered a review cycle (missing tests, naming inconsistencies, edge cases). Watching First-Pass Rate trend up alongside Adoption Score is one of the cleanest "AI is paying off" stories you can tell.
 
@@ -58,7 +60,7 @@ It is especially valuable as a leading indicator for AI adoption ROI. When teams
 
 ### Where it appears
 
-* **/ai-adoption/ai-impact** — available as a breakdown dimension on PR Volume charts.
+* **/insights/ai-impact** — available as a breakdown dimension on PR Volume charts.
 
 ### Settings that affect it
 
@@ -82,8 +84,8 @@ None. First-Pass Rate is a measurement.
 ### Limitations and gotchas
 
 * **High rates can mean rubber-stamping.** Always cross-check with CFR. If both are healthy, you have a great team. If First-Pass is high but CFR is rising, your reviewers are letting things through.
-* **Single-reviewer dynamics.** Teams where one or two developers do all the reviewing will have rates dominated by those reviewers' personalities, not by the broader team's quality.
-* **Trivial PRs inflate the rate.** A team that ships lots of formatting or dep-bump PRs will have high First-Pass Rate that doesn't reflect substantive work. Filter to Effort Score 0.3+ for a more meaningful read.
+* **Single-reviewer dynamics.** Teams where one or two developers do all the reviewing have rates dominated by those reviewers' personalities, not by the broader team's quality.
+* **Trivial PRs inflate the rate.** A team that ships lots of formatting or dep-bump PRs has a high First-Pass Rate that does not reflect substantive work. Filter to Effort Score 0.3+ for a more meaningful read.
 
 ### FAQ
 
@@ -93,5 +95,5 @@ A: Only if your CFR is also low. A team that _never_ requests changes is a team 
 **Q: A developer has 30% First-Pass Rate. Is that a performance issue?**
 A: Not on its own. They may be working on harder problems, more contested code areas, or under tighter spec ambiguity. Use it as a conversation starter, not a verdict.
 
-**Q: Does this include PRs where someone leaves a comment but doesn't formally request changes?**
-A: No. Comments without a CHANGES_REQUESTED state don't reduce First-Pass Rate. Only formal change requests count.
+**Q: Does this include PRs where someone leaves a comment but does not formally request changes?**
+A: No. Comments without a CHANGES_REQUESTED state do not reduce First-Pass Rate. Only formal change requests count.

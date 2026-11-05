@@ -19,9 +19,7 @@ custom_fields:
     nav_parent: expo-ai-adoption-metrics
     page_type: index
 ---
-<kbd>Last updated: October 2026</kbd>
-
-> **Note:** This page covers the **AI Impact & Cost** family of the AI Adoption dashboard. For the code-quality and acceptance-rate metrics from connected AI providers, see [AI Impact Metrics](/insights-expo/expo-ai-adoption-impact-cost-metrics).
+<kbd>Last updated: November 2026</kbd>
 
 This family answers: **is AI actually paying off?**
 
@@ -29,7 +27,7 @@ This family answers: **is AI actually paying off?**
 
 Other families measure adoption (are people using it?) and output (is work shipping?). This family connects those signals to dollars and hours — the language executives and finance teams need.
 
-These numbers are _estimates_, not measurements. The dashboard is honest about that throughout, but it is worth saying up front: when we publish "$1.2M in annualized productivity gain," we mean "directionally, this is the order of magnitude." Use these numbers for storytelling and order-of-magnitude framing, not for finance reconciliation.
+These numbers are _estimates_, not measurements. A figure such as "$1.2M in annualized productivity gain" means "directionally, this is the order of magnitude." Use these numbers for storytelling and order-of-magnitude framing, not for finance reconciliation.
 
 ---
 
@@ -42,7 +40,7 @@ These numbers are _estimates_, not measurements. The dashboard is honest about t
 | [**CapEx / OpEx Split**](/insights-expo/expo-ai-adoption-impact-cost-capex-opex) | Software capitalization breakdown. Which work counts as capitalizable engineering investment? |
 | [**Spend by Tier**](/insights-expo/expo-ai-adoption-impact-cost-spend-by-tier) | AI tooling cost allocated across AI Tiers. Where is the money going, and is it landing on Power Users? |
 
-For AI cost per developer, the Developers table on /ai-adoption/developers adds two columns. **Token Usage Value** is a developer's AI API spend across your connected AI coding tools in the selected window. **$ / Output** is AI API spend per point of output the developer shipped in that window: lower means more shipped effort per AI dollar, and $0.00 means the output shipped without billed AI usage. A dash means there's no scored output to divide by — for example, for a developer on PTO for the whole window. The developers CSV export includes **$ / Output** too.
+For AI cost per developer, the Developers table on /insights/developers adds two columns. **Token Usage Value** (labeled **Copilot Usage** when all of your organization's AI spend is GitHub Copilot) is a developer's AI API spend across your connected AI coding tools in the selected window. **$ / Output** is AI API spend per point of output the developer shipped in that window: lower means more shipped effort per AI dollar, and $0.00 means the output shipped without billed AI usage. A dash means there's no scored output to divide by — for example, for a developer on PTO for the whole window. The developers CSV export includes **$ / Output** too.
 
 ---
 
@@ -52,7 +50,7 @@ Adoption Score → AI-Assisted % → Productivity Uplift → $ saved / week → 
 
 The chain is: adoption drives AI-assisted work, AI-assisted work drives productivity uplift, productivity uplift translates to dollar savings, and dollar savings vs. AI spend gives you ROI.
 
-Each step adds assumption uncertainty. The Adoption Score is a clean measurement. The Productivity Uplift estimate carries the most assumption load — see its section for the honest accounting.
+Each step adds assumption uncertainty. The Adoption Score is a clean measurement. The Productivity Uplift estimate carries the most assumption load. [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift) lists its assumptions and limitations.
 
 ---
 
@@ -60,7 +58,7 @@ Each step adds assumption uncertainty. The Adoption Score is a clean measurement
 
 Three rules:
 
-1. **Don't cite Productivity Uplift to the dollar.** It is an estimate. Round generously when reporting.
+1. **Do not cite Productivity Uplift to the dollar.** It is an estimate. Round generously when reporting.
 2. **Use these numbers for trend storytelling.** "Productivity uplift up 2× since rollout began" is a defensible story. "Productivity uplift is $1,234,567/year" is not.
 3. **The CapEx/OpEx split is more solid than the productivity numbers.** It is based on category classification of actual shipped work, not on uplift inference. Use it for capitalization accounting with reasonable confidence.
 
@@ -68,12 +66,12 @@ Three rules:
 
 ## Where this family shows up
 
-* **/ai-adoption/ai-impact** — the dedicated home for this family. Productivity hero cards, AI Insight banner, Cycle Time and PR Volume by AI Tier, AI Spend by Tier, AI Spend by Developer, CFR by AI Tier. Open **Filters** and choose **Developer** to scope the whole page to specific people.
-* **/ai-adoption/executive** — Productivity Uplift in the hero KPI strip and the executive insight banner.
-* **/ai-adoption/capex** — CapEx / OpEx split as the primary surface.
-* **/ai-adoption/teams**, **/ai-adoption/developers** — AI-Assisted % appears in trend lines and breakdowns.
+* **/insights/ai-impact** — the dedicated home for this family. Productivity hero cards, AI Insight banner, Cycle Time and PR Volume by AI Tier, AI Spend by Tier, AI Spend by Developer, CFR by AI Tier. Open **Filters** and choose **Developer** to scope the whole page to specific people. AI Impact measures productivity from pull requests and commits, so it needs a connected git provider; without one, the page shows **No git provider connected** instead of its charts.
+* **/insights/executive** — Productivity Uplift in the hero KPI strip and the **AI Insight** banner. The banner appears only when your organization has AI features enabled.
+* **/insights/capex** — CapEx / OpEx split as the primary surface.
+* **/insights/teams**, **/insights/developers** — AI-Assisted % appears in trend lines and breakdowns.
 
 <figure>
   <img src="/wp-content/uploads/gki-ai-spend-by-developer-card-01-v2@2x.png" class="help-center-img img-bordered" alt="The AI Spend by Developer card in GitKraken Insights, with an Adjusted badge beside its title and a Columns button, listing ten developers with their team, AI tier, spend, merged PRs and cost per PR, sorted by spend from $262.00 down to $143.00" />
-  <figcaption>AI Spend by Developer on /ai-adoption/ai-impact — each developer's AI spend, merged PRs, and cost per merged PR.</figcaption>
+  <figcaption>AI Spend by Developer on /insights/ai-impact — each developer's AI spend, merged PRs, and cost per merged PR.</figcaption>
 </figure>

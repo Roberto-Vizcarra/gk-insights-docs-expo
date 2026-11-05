@@ -17,15 +17,15 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-> _You're launching (or accelerating) Claude Code, Codex, or Cursor across your org. This playbook is how to use the dashboard as the operational backbone of that rollout._
+> _You're launching (or accelerating) Claude Code, Codex, or Cursor across your org. Use this playbook to run that rollout from the dashboard._
 
 ## The problem
 
 Most AI tooling rollouts fail not at the install step but at the adoption-depth step. Developers get licenses, install the tool once, use it for a week, and drift away. The dashboard's job is to surface that drift early and give you a structured way to intervene.
 
-This is the playbook for the first 6 months of an active rollout.
+Follow it for the first 6 months of an active rollout.
 
 ## Where to look
 
@@ -33,27 +33,29 @@ Three operational views — each has a different cadence:
 
 | Cadence | View | What you're checking |
 | --- | --- | --- |
-| **Weekly** | /developers, sorted by Adoption Score ascending | The Emerging cohort. Who's stuck? Who's ramping? |
-| **Bi-weekly** | /teams tier mix bars | Team-level momentum. Which teams are pulling ahead, which are stalled? |
-| **Monthly** | /executive trend lines | The headline rollout health story. What goes in the leadership update? |
+| **Weekly** | /insights/developers, sorted by Adoption Score ascending | The Emerging cohort. Who's stuck? Who's ramping? |
+| **Bi-weekly** | /insights/teams tier mix bars | Team-level momentum. Which teams are pulling ahead, which are stalled? |
+| **Monthly** | /insights/executive trend lines | The headline rollout health story. What goes in the leadership update? |
 
 ## What to do — the 6-month rollout playbook
+
+Work through the months in order.
 
 ### Month 1 — Set the baseline
 
 **Goal:** Establish where you are _before_ the rollout intervention starts.
 
-1. **Set Maturity Factor to 65% in Settings → General** (the **Company AI Readiness (%)** field). Lower than the 100% default. In the first 3 months, you want the tier ladder to feel achievable. A dev who picks up Claude this month and uses it consistently for 4 weeks should land in Regular, not get stuck in Explorer because the org P90 hasn't shifted yet. Raise it to 75% in month 4.
+1. **Set Maturity Factor to 65% in Settings → General** (the **Company AI Readiness (%)** field). Lower than the 100% default. In the first 3 months, you want the tier ladder to feel achievable. A dev who picks up Claude this month and uses it consistently for 4 weeks should land in Regular, not get stuck in Explorer because the org P90 has not shifted yet. Raise it to 75% in month 4.
 2. **Keep Tier Weights at defaults** (0.5 / 0.2 / 0.3). Adoption-heavy is right for early rollouts.
 3. **Take a baseline snapshot.** Note the org's Adoption %, Power User %, AI Adoption %. Write them in your rollout doc. You'll cite these in month 3 and month 6.
-4. **Roll out licenses to your launch cohort.** A pilot team or two is usually the right scope. Don't try org-wide on day one.
+4. **Roll out licenses to your launch cohort.** A pilot team or two is usually the right scope. Do not try org-wide on day 1.
 
 ### Month 2 — Activate the pilot
 
 **Goal:** Get the pilot cohort from Emerging to Explorer+.
 
-1. **Set up the weekly Emerging review.** Every Friday, open /developers filtered to the pilot teams, sorted by Adoption ascending. Walk the bottom 10. For each: do they need a tooling fix, a pairing session, or a usage-pattern intro?
-2. **Run an AI office hour.** 30 minutes weekly. Open invitation. Show patterns. The single highest-leverage intervention in week 2–4.
+1. **Set up the weekly Emerging review.** Every Friday, open /insights/developers filtered to the pilot teams, sorted by Adoption ascending. Walk the bottom 10. For each: do they need a tooling fix, a pairing session, or a usage-pattern intro?
+2. **Run an AI office hour.** 30 minutes weekly. Open invitation. Show patterns. It is the most effective intervention in weeks 2–4.
 3. **Pair a Power User with an Emerging developer.** One hour of paired work. Watch the Emerging developer's score climb in the next 2-week window.
 
 ### Month 3 — Pilot review, expand the cohort
@@ -66,10 +68,10 @@ Three operational views — each has a different cadence:
 
 ### Month 4 — Watch the Power User cohort
 
-**Goal:** Make sure the pilot cohort doesn't regress.
+**Goal:** Make sure the pilot cohort does not regress.
 
 1. **Raise Maturity Factor to 75%.** The pilot cohort has earned a higher ceiling.
-2. **Watch the pilot cohort weekly.** Some developers will regress (the tool stops being novel; they fall back to old habits). Catch the regression in /developers — the trend sparkline shows it before the score does.
+2. **Watch the pilot cohort weekly.** Some developers will regress (the tool stops being novel; they fall back to old habits). Catch the regression in /insights/developers — the trend sparkline shows it before the score does.
 3. **Re-engage regressors.** Same playbook: pairing, office hours, audit their toolchain.
 
 ### Month 5 — Org-wide expansion
@@ -85,7 +87,7 @@ Three operational views — each has a different cadence:
 
 1. **Pull the 6-month report.** Org Adoption %, Power User %, Productivity Uplift, AI-Assisted %. Compare to month 1 baseline.
 2. **If the rollout worked:** Consider shifting Tier Weights toward Output (e.g. 0.4 / 0.2 / 0.4). You're now in the Maturing phase. (Tier Weights are configured in `app_settings` per-org and editable in Settings → General.)
-3. **If parts didn't work:** Identify the laggard teams. They usually share a root cause (one team lead who's skeptical, one repo with bad CI, one process gap). Address structurally rather than per-developer.
+3. **If parts did not work:** Identify the laggard teams. They usually share a root cause (one team lead who's skeptical, one repo with bad CI, one process gap). Address structurally rather than per-developer.
 4. **Plan the next quarter:** Is the focus broadening adoption (still teams to onboard), deepening adoption (Power User % to grow), or extracting value (Output Score / Productivity Uplift to push)?
 
 ## What to expect
@@ -111,7 +113,7 @@ If your trajectory has _Adoption climbing but Uplift flat at month 4+_, your rol
 * **Ignoring the trajectory in favor of the snapshot.** Adoption % at 30% is a great number if it was 5% three months ago. It's a bad number if it's been 30% for six months.
 * **Treating tier as a performance metric.** Read [How to read scores fairly](/insights-expo/expo-ai-adoption-for-engineering-leaders#how-to-read-scores-fairly) before any 1:1 about a developer's tier.
 * **Not adjusting Maturity Factor with the rollout.** The default of 100% applies no scaling. In month 1, lower it. As the rollout matures, raise it back toward 100%. It's a knob for a reason.
-* **Picking AI adoption as the only metric to watch.** Pair it with Cycle Time and CFR. If you ship faster but break more things, you haven't won.
+* **Picking AI adoption as the only metric to watch.** Pair it with Cycle Time and CFR. If you ship faster but break more things, you have not won.
 
 ## Related pages
 

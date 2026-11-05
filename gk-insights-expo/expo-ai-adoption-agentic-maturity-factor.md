@@ -21,7 +21,7 @@ custom_fields:
 
 > _An org-wide scaling knob (labeled Company AI Readiness (%) in Settings, default 100%) that adjusts the ceiling on every P90-based score so the tier distribution fits your organization's actual AI maturity._
 
-**Family:** Adoption & Agentic (org-level setting) · **Where it appears:** Settings → General; affects every score on /ai-adoption/developers, /ai-adoption/teams, /ai-adoption/executive
+**Family:** Adoption & Agentic (org-level setting) · **Where it appears:** Settings → General; affects every score on /insights/developers, /insights/teams, /insights/executive
 
 ### At a glance
 
@@ -70,11 +70,11 @@ Settings takes these values as percentages (0.75 = 75%). The default is 100% (1.
 ### Where it appears
 
 * **Settings → General → Scoring baseline → "Company AI Readiness (%)"** — the input that controls it. The value you enter is the maximum possible score: a "perfect" developer scores this percentage, not 100.
-* **Affects every page that displays Adoption, Agentic, or Output Norm scores.** Including /ai-adoption/developers, /ai-adoption/teams, /ai-adoption/executive, /ai-adoption/ai-tools-comparison, /ai-adoption/ai-impact.
+* **Affects every page that displays Adoption, Agentic, or Output Norm scores.** Including /insights/developers, /insights/teams, /insights/executive, /insights/ai-tools-comparison, /insights/ai-impact.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-settings-general.png" class="help-center-img img-bordered" alt="Settings General tab in GitKraken Insights showing Company AI Readiness, Developer Hourly Rate, Baseline Period, and Default Department fields" />
-  <figcaption>Settings → General — Maturity Factor (Company AI Readiness %), Developer Hourly Rate, Baseline Period, and Default Department.</figcaption>
+  <figcaption>Settings → General — the Scoring baseline group, with Maturity Factor (Company AI Readiness %), Developer Hourly Rate, Baseline Period, and the Cycle Time Start Signal and Cycle Time Unit of Work settings.</figcaption>
 </figure>
 
 ### Related metrics
@@ -88,15 +88,15 @@ Settings takes these values as percentages (0.75 = 75%). The default is 100% (1.
 
 ### How to use it
 
-* **Announce before you change.** Lowering Maturity Factor from 0.85 → 0.75 will move a chunk of Regulars down to Explorer overnight. Tell people _before_ the next /ai-adoption/teams snapshot is taken.
+* **Announce before you change.** Lowering Maturity Factor from 0.85 → 0.75 will move a chunk of Regulars down to Explorer overnight. Tell people _before_ the next /insights/teams snapshot is taken.
 * **Pair changes with milestones.** "We have hit 70% Regular+. We are raising the Maturity Factor to 0.85 to reflect that the bar has been reached. Some of you will drop a tier; that is by design — we are raising the ceiling because you have earned it."
-* **Don't change it more than twice a year.** It is a strategic setting, not a tactical knob.
+* **Do not change it more than twice a year.** It is a strategic setting, not a tactical knob.
 
 ### Limitations and gotchas
 
 * **It scales scores, not tier thresholds.** Lowering Maturity Factor lowers everyone's scores; it does _not_ shift the tier cutoffs (25 / 55 / 80). So a 10-point Maturity Factor change will move some developers between tiers.
 * **Power User % drops linearly with Maturity Factor changes.** Roughly, lowering from 1.0 → 0.75 cuts your Power User % by \~25–35% as developers near the 80 threshold drop below it.
-* **The setting is org-wide.** You can't have one Maturity Factor for the Backend team and a different one for Mobile.
+* **The setting is org-wide.** You cannot have one Maturity Factor for the Backend team and a different one for Mobile.
 * **No retroactive recalculation.** Changing Maturity Factor immediately affects current-window scores, but does not rewrite historical snapshots. Trend lines will show the discontinuity.
 * **Cohort comparisons stay valid across changes.** Tier mix ratios within a single window are unaffected by Maturity Factor changes — the _gap_ between teams is what matters; the absolute number shifts.
 
@@ -109,7 +109,7 @@ A: The default is 100% (a factor of 1.00), which applies no scaling: a developer
 A: When your team's working baseline genuinely is high-autonomy, daily-use AI integration. A useful threshold: if you can credibly tell your CTO "we have reached the point where AI is the default mode of working, not the exception," it is time to raise Maturity Factor.
 
 **Q: Will lowering it make my team feel demoralized?**
-A: Possibly, if you don't announce it. Always frame the change as "we are raising the bar because you have earned it" rather than "you have all dropped a tier."
+A: Possibly, if you do not announce it. Always frame the change as "we are raising the bar because you have earned it" rather than "you have all dropped a tier."
 
 **Q: Is there a per-team Maturity Factor?**
 A: No. It is intentionally one global value. Per-team Maturity Factor would defeat the point of comparing teams against a common bar.

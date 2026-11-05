@@ -17,12 +17,13 @@ custom_fields:
     nav_parent: expo-ai-adoption-dora-metrics
     page_type: content
 ---
+<kbd>Last updated: November 2026</kbd>
 
 ## Lead Time for Changes
 
-> _Hours from a developer's first commit to the release that delivered the change to production. The other DORA velocity metric._
+> _Hours from when work on a change starts to the release that delivered it to production. The other DORA velocity metric._
 
-**Family:** DORA & Quality · **Cadence:** Per PR, aggregated for views · **Where it appears:** /ai-adoption/board-metrics, /ai-adoption/ai-impact
+**Family:** DORA & Quality · **Cadence:** Per PR, aggregated for views · **Where it appears:** /insights/board-metrics, /insights/ai-impact
 
 ### At a glance
 
@@ -33,20 +34,23 @@ It is the DORA metric most often confused with Cycle Time. The difference matter
 ### Formula
 
 ```
-Lead Time (hours) = released_at − first_commit_at  (clamped at 0)
+Lead Time (hours) = release time − work start  (clamped at 0)
 
-  released_at = timestamp of the earliest non-prerelease release
-                whose released_at is at or after the PR's merged_at,
-                on the same repo (with branch- and SHA-aware matching)
+  release    = the earliest non-prerelease release on the same repo
+               at or after the PR's merge (branch- and SHA-aware matching)
+  work start = set by the Cycle Time Start Signal setting
+               (the first commit while the setting is not set)
 ```
 
 ### How GitKraken Insights calculates it
 
-**The PR-to-release join.** For each merged PR, the backend uses a LATERAL nearest-release lookup: it finds the earliest non-prerelease release on the same repo whose `released_at` is at or after the PR's `merged_at`. Branch- and SHA-aware matching prefers the release whose target commit matches the PR's merge SHA; it falls back to base-branch matching when SHA data isn't available.
+**The PR-to-release match.** For each merged PR, GitKraken Insights finds the earliest non-prerelease release on the same repo at or after the PR's merge. Branch- and SHA-aware matching prefers the release whose target commit matches the PR's merge SHA; it falls back to base-branch matching when SHA data is not available.
 
-**Lead Time per PR.** Once the delivering release is identified, Lead Time is the hours between the PR's first commit and the release's `released_at`, clamped at 0.
+**Lead Time per PR.** Once the delivering release is identified, Lead Time is the hours between work start and the release, clamped at 0. The [Cycle Time Start Signal](/insights-expo/expo-ai-adoption-settings#cycle-time-start-signal) setting decides when work starts, for Lead Time and Cycle Time alike. While the setting is not set, Lead Time starts at the PR's first commit.
 
-**Aggregation.** Median across merged non-bot PRs that delivered in the window. Drafts excluded.
+**Issues instead of PRs.** When an admin sets [Cycle Time Unit of Work](/insights-expo/expo-ai-adoption-settings#cycle-time-unit-of-work) to **Issue**, the headline Lead Time times each resolved issue across its linked PRs, ending when the last of those PRs is released. Breakdowns and drill-downs still use pull requests.
+
+**Aggregation.** Median across merged PRs delivered in the window, leaving out drafts and PRs by excluded developers (most bot accounts are excluded automatically).
 
 **Release detection required.** If a repo has no release events, its PRs have no delivering release and therefore no Lead Time. The metric shows an empty state for those repos. Lead Time is not silently substituted with Cycle Time.
 
@@ -73,23 +77,24 @@ DORA bands for Lead Time:
 | **Medium** | 1 week to 1 month |
 | **Low** | More than 1 month |
 
-For most product engineering teams, High is the target. Elite requires fully-automated CI/CD with no human deploy gates.
+For most product engineering teams, High is the target. Elite requires fully automated CI/CD with no human deploy gates.
 
 ### Where it appears
 
-* **/ai-adoption/board-metrics** — the Change Lead Time tile and chart. Select a point on the chart to see the releases delivered in that period, with each release's repo, type, release date, and tag or branch.
-* **/ai-adoption/ai-impact** — implicit in the Cycle Time breakdown when a delivering release is present.
+* **/insights/board-metrics** — the Change Lead Time tile and chart. Select a point on the chart to see the changes behind that period's median, with each change's title and PR, repo, first commit, merge and release dates, and lead time. A change merged in the period but not yet released carries a **Not released** badge and is not part of the median. When Cycle Time Unit of Work is set to **Issue**, a point opens the releases delivered in that period instead.
+* **/insights/ai-impact** — implicit in the Cycle Time breakdown when a delivering release is present.
 
 ### Settings that affect it
 
 * **Release detection** (repo-level). Required for Lead Time to compute. Without it the metric shows an empty state.
-* **JIRA integration** — if you enable "Include JIRA start time in Coding phase," Lead Time extends backward to include the time from the issue's in-progress transition.
+* [**Cycle Time Start Signal**](/insights-expo/expo-ai-adoption-settings#cycle-time-start-signal) (Settings → General) — when the clock starts for Lead Time and Cycle Time: In progress, First commit, or Created. While it is not set, Lead Time starts at the first commit.
+* [**Cycle Time Unit of Work**](/insights-expo/expo-ai-adoption-settings#cycle-time-unit-of-work) (Settings → General) — whether the headline Lead Time times each pull request (the default) or each resolved issue.
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | The first-commit-to-merge portion. Lead Time extends to the delivering release. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | The work-start-to-merge portion. Lead Time extends to the delivering release. |
 | [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency) | The other DORA velocity metric. |
 
 ### How to improve it
@@ -101,14 +106,14 @@ For most product engineering teams, High is the target. Elite requires fully-aut
 ### Limitations and gotchas
 
 * **Release detection required.** Repos without release events contribute nothing to Lead Time. The fix is configuration, not data.
-* **Monorepo over-attribution.** When one repo holds multiple services and one service's release ships, that release is attributed to PRs touching _any_ service in the repo. Median aggregation mitigates this somewhat; per-service attribution would require commit-in-release data we don't have today.
-* **Release branch and hotfix attribution.** A release cut from a commit older than the merge can attach to the PR retroactively. Documented behavior, not a bug.
-* **Recent periods can read low.** Changes that are slow to release haven't been delivered yet, so the most recent periods may understate the median until those releases happen.
+* **Monorepo over-attribution.** When one repo holds multiple services and one service's release ships, that release is attributed to PRs touching _any_ service in the repo. Median aggregation mitigates this somewhat; per-service attribution would require commit-in-release data that Insights does not have.
+* **Release branch and hotfix attribution.** A release cut from a commit older than the merge can attach to the PR retroactively. This is expected behavior, not a bug.
+* **Recent periods can read low.** Changes that are slow to release have not been delivered yet, so the most recent periods may understate the median until those releases happen.
 
 ### FAQ
 
-**Q: Is Lead Time the same as the time from a JIRA issue being opened to a deploy?**
-A: Not unless you enable the JIRA-extended Coding phase. By default, Lead Time starts at the first commit, not at issue creation.
+**Q: Is Lead Time the same as the time from a Jira issue being opened to a deploy?**
+A: Not by default. While the Cycle Time Start Signal setting is not set, Lead Time starts at the first commit. An admin can set the start signal to **In progress** (the earlier of the first commit and the linked issue moving to in progress) or **Created** (when the PR or issue was created).
 
 **Q: We deploy on merge. Is Lead Time useless for us?**
-A: It will be close to Cycle Time plus a small deploy-pipeline interval. The two are still meaningfully different — Lead Time captures any non-zero deploy time that Cycle Time misses.
+A: It is close to Cycle Time plus a small deploy-pipeline interval. The two are still meaningfully different — Lead Time captures any non-zero deploy time that Cycle Time misses.

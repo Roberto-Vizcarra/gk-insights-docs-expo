@@ -17,13 +17,13 @@ custom_fields:
     nav_order: 30
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 > _Your team's [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) just crept past your tolerance. This playbook walks you from "something's wrong" to "I know which lever to pull" in about 30 minutes._
 
 ## The problem
 
-You opened /ai-adoption/teams or /ai-adoption/ai-impact, saw Cycle Time at 5+ days, and felt the familiar sinking feeling. The number is the symptom — the cause is something specific you can intervene on. This playbook is how to find it.
+You opened /insights/teams or /insights/ai-impact, saw Cycle Time at 5+ days, and felt the familiar sinking feeling. The number is the symptom — the cause is something specific you can intervene on. Use these steps to find it.
 
 ## Where to look
 
@@ -31,7 +31,7 @@ Three views, in order:
 
 ### Step 1 — Phase breakdown (5 min)
 
-Open `/ai-adoption/ai-impact`. Set the date range to the period that triggered the concern (typically the last 14 days).
+Open `/insights/ai-impact`. Set the date range to the period that triggered the concern (typically the last 14 days).
 
 The Cycle Time card has a dimension dropdown. Set it to **Phase** (the default). You will see Cycle Time decomposed into Coding, Pickup, Review, and Deploy (if release detection is configured for your repos).
 
@@ -40,7 +40,7 @@ The Cycle Time card has a dimension dropdown. Set it to **Phase** (the default).
 | Dominant phase | What it usually means |
 | --- | --- |
 | **Coding** | Either deep work (legit) or stalled work (problem). Cross-check with WIP and the developer-level System Metrics tab. |
-| **Pickup** | Review queue is backed up. Reviewers overloaded or absent. Almost always the cause for teams over 3 days. |
+| **Pickup** | Review queue is backed up because reviewers are overloaded or absent. Almost always the cause for teams over 3 days. |
 | **Review** | PRs too big, or specs too thin. Check Review Cycles. |
 | **Deploy** | Manual deploy gate or release embargo. Talk to ops. |
 
@@ -57,7 +57,7 @@ Switch the same chart to **Trends** mode. Pick **By Phase** as the trend type. E
 
 ### Step 3 — Drill into the PRs (15 min)
 
-Click a high point on the trend chart. The drill-down table opens below with every PR in that time bucket. Sort by **Cycle Time descending**.
+Select a high point on the trend chart. The drill-down table opens below with every PR in that time bucket. Sort by **Cycle Time descending**.
 
 **Look at the top 5–10 PRs.** Patterns to spot:
 
@@ -69,7 +69,7 @@ Click a high point on the trend chart. The drill-down table opens below with eve
 
 ## What to do
 
-Pick **one** intervention from the most likely cause. Don't try to fix everything at once — you can't tell what worked.
+Pick **one** intervention from the most likely cause. Do not try to fix everything at once — you cannot tell what worked.
 
 ### If Pickup dominates
 
@@ -79,15 +79,15 @@ Pick **one** intervention from the most likely cause. Don't try to fix everythin
 
 ### If Review dominates
 
-* **Right-size PRs.** Aim for PRs reviewable in 15 minutes. Check the Effort Score distribution on /ai-adoption/data-explorer: a team consistently at 0.7+ effort medians is over-batching.
+* **Right-size PRs.** Aim for PRs reviewable in 15 minutes. Check the Effort Score distribution on /insights/data-explorer: a team consistently at 0.7+ effort medians is over-batching.
 * **Improve PR descriptions.** A clear "what / why / how to test" cuts review cycles. AI-assisted PR descriptions are a low-effort win.
 * **Calibrate reviewers.** If one reviewer's PRs consistently get 2+ cycles, have the conversation — it is usually a habit, not a quality issue.
 
 ### If Coding dominates
 
 * **Check WIP.** A team with a high Coding phase and high WIP is stalled, not deep-working. Help unstick or descope.
-* **Cross-check with developer activity.** /ai-adoption/developers expanded detail shows recent activity. A developer with the high-Coding PR who hasn't committed in 4 days is stuck. Talk to them.
-* **Consider AI-assisted scaffolding.** If devs are taking days on the boilerplate-heavy part of new work, AI can compress it.
+* **Cross-check with developer activity.** /insights/developers expanded detail shows recent activity. A developer with the high-Coding PR who has not committed in 4 days is stuck. Talk to them.
+* **Consider AI-assisted scaffolding.** If developers are taking days on the boilerplate-heavy part of new work, AI can compress it.
 
 ### If Deploy dominates
 
@@ -98,15 +98,15 @@ Pick **one** intervention from the most likely cause. Don't try to fix everythin
 
 A reasonable expectation, having intervened on the dominant phase:
 
-* **Week 1:** Numbers may still be noisy. Don't read week 1 as a verdict.
-* **Week 2–3:** The intervention either took or it didn't. Pickup interventions show up fastest — usually 2 weeks before the average comes down. Review interventions take 4–6 weeks because they require behavior change.
-* **Week 4:** If you don't see improvement, your hypothesis was wrong. Go back to Step 1 — what does the breakdown look like _now_? Sometimes the underlying problem has shifted.
+* **Week 1:** Numbers may still be noisy. Do not read week 1 as a verdict.
+* **Week 2–3:** The intervention either took or it did not. Pickup interventions show up fastest — usually 2 weeks before the average comes down. Review interventions take 4–6 weeks because they require behavior change.
+* **Week 4:** If you do not see improvement, your hypothesis was wrong. Go back to Step 1 — what does the breakdown look like _now_? Sometimes the underlying problem has shifted.
 
 ## Common mistakes
 
-* **Trying to fix all four phases at once.** You won't know what worked. One lever at a time.
+* **Trying to fix all four phases at once.** You will not know what worked. One lever at a time.
 * **Reading a single week.** Cycle Time has 2–3 week natural cycles. A bad week could be Christmas-week noise; a bad month is a signal.
-* **Blaming individual developers.** The cycle time of a team is mostly the team's process, not its individuals. Process interventions work; finger-pointing doesn't.
+* **Blaming individual developers.** The cycle time of a team is mostly the team's process, not its individuals. Process interventions work; finger-pointing does not.
 * **Focusing on Total Cycle Time when one phase tells the story.** Always look at the breakdown.
 
 ## Related metric pages

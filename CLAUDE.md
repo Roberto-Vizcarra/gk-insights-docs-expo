@@ -71,6 +71,10 @@ site-down incidents came from testing in prod.
 ```
 gk-insights-expo/           # ~60 Markdown files → WP posts via Git It Write
 ```
+**Writing or editing pages:** use the `gki-docs-authoring` skill
+(`.claude/skills/gki-docs-authoring/`). It covers the frontmatter fields, page
+skeletons, every Markdown pattern the transforms recognise, and a lint script:
+`python .claude/skills/gki-docs-authoring/scripts/check_pages.py`.
 
 ---
 

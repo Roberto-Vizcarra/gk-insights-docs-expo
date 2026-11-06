@@ -17,11 +17,11 @@ custom_fields:
     nav_order: 20
     page_type: content
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: October 2026</kbd>
 
 Connect Bitbucket Cloud or Bitbucket Data Center to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 
-> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start--gather-access) on the Connect Your Data overview.
+> **Before you start:** make sure you have the right access. See the [prerequisites table](/insights-expo/expo-ai-adoption-connect-your-data#before-you-start-gather-access) on the Connect Your Data overview.
 
 ---
 
@@ -32,7 +32,7 @@ Connect Bitbucket if your repositories live in a Bitbucket workspace. Like GitHu
 1. In gitkraken.dev, open **Insights → Settings → Data Connections**.
 2. Under **Add data source**, click **+** next to **Bitbucket**.
 3. In the **Connect Bitbucket** modal, optionally give the connection a **Name**, then enter your **Atlassian account email** and a **Bitbucket API token** (see scopes below).
-4. Click **Validate**. Insights lists the workspaces the token can see — select the ones to sync, then click **Connect**.
+4. Click **Validate**. Insights lists the workspaces the token can see — under **Workspaces to sync**, select the ones to sync. If a workspace isn't listed, type its slug to add it. Optionally add **Repositories to skip (optional)**, then click **Connect**. Insights suggests repositories from the first workspace you selected; to skip one from another workspace, type its full path, such as `workspace/repo`. Skipped repositories are excluded from sync and PR classification.
 
 <figure>
   <img src="/wp-content/uploads/connect-bitbucket-modal.png" class="help-center-img img-bordered" alt="Connect Bitbucket modal in GitKraken Insights showing an optional connection name field, the list of scoped Atlassian API token scopes required, and the Atlassian account email and Bitbucket API token fields" />
@@ -71,7 +71,9 @@ Connect Bitbucket Data Center to sync activity from a Bitbucket instance you run
 
 1. In **Data Connections**, click **+** next to **Bitbucket Data Center**.
 2. Optionally name the connection, then enter the **Server URL** — for example `https://bitbucket.yourcompany.com`.
-3. Paste the **Bitbucket access token** and click **Validate**, then **Connect**.
+3. Paste the **Bitbucket HTTP access token** and click **Validate**.
+4. Under **Projects to sync**, select the projects to include. If a project isn't listed, type its key to add it.
+5. Optionally add **Repositories to skip (optional)**, then click **Connect**. Insights suggests repositories from the first project you selected; to skip one from another project, type its full path, such as `PROJECT/repo`. Skipped repositories are excluded from sync and PR classification.
 
 As with Bitbucket cloud, the connection only sees the projects and repositories the token's account can access.
 

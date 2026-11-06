@@ -1,6 +1,6 @@
 # gk-insights-docs-expo
 
-The **GitKraken Insights AI Adoption Help Center** — ~50 Markdown content pages
+The **GitKraken Insights AI Adoption Help Center** — ~60 Markdown content pages
 and the custom WordPress plugin that renders them at
 `help.gitkraken.com/insights-expo/`.
 
@@ -8,7 +8,7 @@ and the custom WordPress plugin that renders them at
 
 | Path | What it is |
 |---|---|
-| `gk-insights-expo/` | ~50 Markdown pages, synced to WordPress by Git It Write |
+| `gk-insights-expo/` | ~60 Markdown pages, synced to WordPress by Git It Write |
 | `gki-docs-helper/` | The WordPress plugin: template, CSS, JS, Elementor overrides, auth gate |
 | `local-dev/` | Dockerized WordPress for testing plugin changes off production |
 | `_images/` | Screenshots referenced by the Markdown pages |
@@ -21,8 +21,8 @@ and the custom WordPress plugin that renders them at
 
 | Branch | Plugin | |
 |---|---|---|
-| `main` | 1.14.2 | Stable build, tag `v1.14.2-stable`. What to roll back to. |
-| `pass-c-structural` | 1.17.1 | The Pass C redesign. Verified locally, not yet deployed. |
+| `main` | 1.17.3 | Current. Pass C merged (PR #2); 1.17.2 is live on production, 1.17.3 adds the auth-gate lockdown. `v1.14.2-stable` is the pre-redesign rollback tag. |
+| `pass-c-structural` | 1.17.2 | Merged into `main`; kept for history. |
 | `Taste-design-expo` | 1.15.x | Superseded exploration branch, kept for reference. |
 
 ## Documentation
@@ -32,7 +32,8 @@ and the custom WordPress plugin that renders them at
 | [`CLAUDE.md`](CLAUDE.md) | Standing rules, site structure, design rules, content transforms, known traps. Start here. |
 | [`LOCAL-DEV.md`](LOCAL-DEV.md) | Setting up or using the local test environment; testing the auth gate states |
 | [`PROJECT-STATUS.md`](PROJECT-STATUS.md) | Architecture, phase history, content map, known issues, open items |
-| [`AUTH-GATE-PLAN.md`](AUTH-GATE-PLAN.md) | Original gate design and the WordPress hardening checklist (noindex, sitemap, cache, feeds) |
+| [`AUTH-GATE-PLAN.md`](AUTH-GATE-PLAN.md) | Gate design, the 2026-09-23 leak audit, what the plugin now closes and the manual hardening items that remain |
+| [`MERGE-PLAN.md`](MERGE-PLAN.md) | Inventory for the eventual fold-back from `insights-expo` into the main `/gk-insights/` category — read before planning that merge |
 | [`BREAKOUT-PLAN.md`](BREAKOUT-PLAN.md) | Historical: the Phase 3 content breakout plan |
 | [`PHASE-4-HANDOFF.md`](PHASE-4-HANDOFF.md) | Historical: the Phase 4 punch list (closed) |
 

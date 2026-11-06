@@ -270,6 +270,7 @@ get_header();
             echo '<span class="gki-home-label">GitKraken Insights</span>';
             echo '<h1 class="gki-page-title">Find out what AI is actually delivering.</h1>';
             echo $intro;
+            gki_docs_render_landing_search( 'home' );
             echo '</header>';
 
             // --- Role-based entry paths ---
@@ -353,11 +354,10 @@ get_header();
 
             // Intro
             echo $intro;
-            // Site search (replaces card filter on index pages)
-            echo '<div class="gki-site-search gki-site-search--inline">';
-            echo '<input type="text" class="gki-site-search-input" placeholder="Search docs…" aria-label="Search documentation">';
-            echo '<div class="gki-site-search-results" hidden></div>';
-            echo '</div>';
+            // Landing search — opens the command palette (1.17.3). Replaces
+            // the legacy inline .gki-site-search box, which the palette had
+            // been hiding since 1.16.0 anyway.
+            gki_docs_render_landing_search( 'index' );
             // Cards (front and center)
             gki_docs_render_card_grid( $child_cards );
             // Overview content below cards

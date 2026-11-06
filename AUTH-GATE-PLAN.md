@@ -135,113 +135,54 @@ GKI Docs Helper → Settings (WP Admin):
 - [x] Licensing API downtime → fails closed (denies access) — change to fail-open if preferred
 - [x] Gate pages send `nocache_headers()` so the gate itself is never cached
 
-### WordPress Config (do these before enabling the gate)
+### Handled in Plugin Code since 1.17.3 — the lockdown
 
-These are done in WP Admin, not in plugin code. The WordPress posts still exist in the database regardless of the gate, so search engines and sitemaps could expose them through other paths.
+Audit of production on 2026-09-23, with the gate enabled, from an anonymous
+client. The template gate only covers `is_single()`; every other route
+WordPress uses to serve a post was open:
 
-#### 1. Block search engine indexing of gated pages
+| Route | Found | Fixed by |
+|---|---|---|
+| `GET /wp-json/wp/v2/posts/<id>`, `?slug=`, `?categories=` | Full rendered content of all 50 posts | `rest_prepare_post` → 401; `rest_post_query` excludes the category |
+| `GET /wp-json/wp/v2/search` | Titles + URLs | `rest_post_search_query` excludes the category |
+| `GET /wp-json/oembed/1.0/embed?url=` | Title + embed HTML | `oembed_response_data` → false (404) |
+| Feeds, `?s=`, date/author/tag archives, blog index | Empty on prod (host quirk), open in WordPress itself | `pre_get_posts` on the main query excludes the category |
+| `/category/insights-expo/` archive | Excerpts of every page | Now a gated page — shows the gate |
+| `/wp-sitemap-posts-post-N.xml` | All 50 URLs listed; `robots.txt` points crawlers at it | `wp_sitemaps_posts_query_args` + taxonomy exclusion; Yoast (`wpseo_exclude_from_sitemap_by_post_ids`) and Rank Math (`rank_math/sitemap/posts_to_exclude`) fed the same IDs |
+| No robots directive anywhere | Pages fully indexable; 10+ already in search results with content snippets | `noindex, nofollow, noarchive` via `wp_robots` / `wpseo_robots` / `rank_math/frontend/robots` **and** an `X-Robots-Tag` header, on gated posts, the category archive and the gate page |
+| Cloudflare cache | `/expo-ai-adoption-home/` served the full pre-gate article from cache (`cf-cache-status: HIT`, age 42 h) | `nocache_headers()` at `template_redirect` priority 4 on every gated request, before the entitlement checks; REST/oEmbed/shortlink head links removed |
 
-**Option A — robots.txt (simplest)**
+All of it is active only while `gki_auth_enabled` is on and only for viewers
+who are not entitled (admins and entitled subscribers see normal behaviour);
+robots directives apply to everyone, since a crawler is never entitled.
 
-1. Go to WP Admin → Settings → Reading
-2. Make sure "Discourage search engines from indexing this site" is **unchecked** (you don't want to block the whole site, just the gated pages)
-3. Install the **Yoast SEO** plugin if not already installed (or Rank Math — either works)
-4. In Yoast: go to Yoast SEO → Settings → Content types → Posts
-5. Under "Show Posts in search results?" — this is site-wide, so leave it on
-6. Instead, go to Yoast SEO → Settings → Categories (under Taxonomies)
-7. Find the `insights-expo` category → set "Show insights-expo in search results" to **No**
-8. This adds `noindex` to all posts in the category
+### Still outside the plugin (do these by hand)
 
-**If you don't have an SEO plugin and don't want one:**
-
-1. Edit the `robots.txt` file on the server (or use a robots.txt plugin)
-2. Add these lines:
-   ```
-   User-agent: *
-   Disallow: /insights-expo/
-   ```
-3. This tells search engines not to crawl any `/insights-expo/` URLs
-
-**Verify it worked:**
-- Visit `https://help.gitkraken.com/robots.txt` and confirm the disallow rule appears
-- Or for the SEO plugin approach: view source on any gated page (as an admin) and look for `<meta name="robots" content="noindex` in the `<head>`
-
-#### 2. Remove gated pages from the XML sitemap
-
-Search engines discover pages through sitemaps even if robots.txt blocks them.
-
-**If using Yoast SEO:**
-1. The noindex setting from step 1 automatically excludes those pages from the Yoast sitemap — nothing extra to do
-
-**If using another sitemap plugin (e.g., XML Sitemaps, Rank Math):**
-1. Go to that plugin's settings
-2. Find the exclusion or category filter option
-3. Exclude the `insights-expo` category from the sitemap
-
-**If using the default WordPress sitemap (`/wp-sitemap.xml`):**
-1. Add this to your theme's `functions.php` or a custom plugin:
-   ```php
-   add_filter( 'wp_sitemaps_posts_query_args', function( $args ) {
-       $args['category__not_in'] = array( get_cat_ID( 'insights-expo' ) );
-       return $args;
-   } );
-   ```
-2. Or just install Yoast — it handles this automatically with the noindex setting
-
-**Verify it worked:**
-- Visit `https://help.gitkraken.com/wp-sitemap.xml` (or `/sitemap_index.xml` for Yoast)
-- Search for "insights-expo" — no gated URLs should appear
-
-#### 3. Exclude gated pages from WordPress page cache
-
-If the site uses a caching plugin, authenticated pages could be cached and served to unauthenticated users, bypassing the gate entirely.
-
-**If using WP Super Cache:**
-1. Go to WP Admin → Settings → WP Super Cache → Advanced
-2. Under "Accepted Filenames & Rejected URIs", add: `/insights-expo/`
-3. Save
-
-**If using W3 Total Cache:**
-1. Go to WP Admin → Performance → Page Cache
-2. Under "Never cache the following pages" (in the Advanced section), add: `/insights-expo/`
-3. Save all settings
-
-**If using LiteSpeed Cache:**
-1. Go to LiteSpeed Cache → Cache → Excludes
-2. Under "Do Not Cache URIs", add: `/insights-expo/`
-3. Save
-
-**If using a managed host with built-in caching (WP Engine, Flywheel, Kinsta, etc.):**
-1. Check the host's documentation for URL-based cache exclusion
-2. Add `/insights-expo/` (or the equivalent wildcard pattern) to the exclusion list
-3. Some hosts (like WP Engine) also have a "Cache Exclusions" panel in their dashboard
-
-**If you're not sure which caching is in use:**
-1. Go to WP Admin → Plugins → Installed Plugins
-2. Look for anything with "Cache" in the name
-3. If nothing is there, your host may handle caching at the server level — check their dashboard
-
-**Verify it worked:**
-1. Log in as an admin, visit a gated page — should load normally
-2. Open the same URL in a private/incognito browser window (not logged in)
-3. You should see the gate page, not the cached authenticated version
-4. Repeat after clicking through a few pages to build up cache
-
-#### 4. Disable RSS/Atom feeds for gated content (optional)
-
-WordPress exposes post content through RSS feeds by default. If the `insights-expo` posts appear in feeds, their content would be readable without auth.
-
-1. Check if feeds include gated content: visit `https://help.gitkraken.com/category/insights-expo/feed/`
-2. If content appears, add this to your theme's `functions.php` or a custom plugin:
-   ```php
-   add_action( 'pre_get_posts', function( $query ) {
-       if ( $query->is_feed() ) {
-           $excluded = get_cat_ID( 'insights-expo' );
-           $query->set( 'category__not_in', array( $excluded ) );
-       }
-   } );
-   ```
-3. Or disable feeds entirely if the site doesn't use them — Yoast has a toggle for this under Yoast SEO → Settings → Advanced → RSS
+- [ ] **Purge Cloudflare for `/insights-expo/*` once** after 1.17.3 is live, and add a
+      Cache Rule that bypasses cache for that path. The plugin now prevents new
+      copies; it cannot evict the old ones.
+- [ ] **Make the content repos private — before the first restricted page is committed.**
+      `Roberto-Vizcarra/gk-insights-docs-expo` and its upstream `gitkraken/gk-insights-docs`
+      are public on GitHub by choice today: nothing in them is confidential yet, so this is
+      not urgent. It becomes a hard prerequisite the moment restricted content is written,
+      because a public repo bypasses every control on the site. Git It Write syncs from a
+      private repo with a token. Also purge the git history if anything restricted was ever
+      committed while public.
+- [ ] **Search Console / Bing Webmaster:** request removal of the `/insights-expo/`
+      prefix. `noindex` takes weeks to propagate on its own and the snippets are
+      already cached by search and AI answer engines.
+- [ ] **SearchWP:** it runs its own index and its live-search AJAX endpoint bypasses
+      `pre_get_posts`. Exclude the `insights-expo` category in the SearchWP engine
+      settings, or gated titles/excerpts will still surface in site search.
+- [ ] **Media:** images under `wp-content/uploads/` are public URLs that WordPress
+      cannot gate. Do not put restricted material in screenshots, or front the uploads
+      path with a Cloudflare Access rule.
+- [ ] **`/gk-insights/`** (the main Insights section) is ungated. The expo build is
+      expected to fold back into that category eventually; the gate's scope there is a
+      design decision (whole category vs. sub-category vs. per-page flag) — see
+      `MERGE-PLAN.md` §1 before adding restricted content to either section.
+- [ ] Verify each row of the table above on prod with the commands in `LOCAL-DEV.md`
+      → "Verifying the lockdown".
 
 ---
 
@@ -266,5 +207,6 @@ gki-docs-helper/
 - [x] Cloudflare caching of gated pages fixed with no-store headers (v1.10.7)
 - [x] Production deployment (gate available, enable via Settings → GKI Auth Gate)
 - [x] Gate page layout, Elementor leaks and search-index leak fixed (v1.17.1, on `pass-c-structural`, not yet deployed)
-- [ ] WordPress hardening checklist above verified on prod (noindex, sitemap, page cache exclusion, feeds)
+- [x] Hardening audit run on prod 2026-09-23 — REST, oEmbed, sitemap, robots and CDN cache all leaked; closed in plugin code (v1.17.3)
+- [ ] Manual items in "Still outside the plugin" done (CF purge + rule, private repos, Search Console removal, SearchWP, `/gk-insights/`)
 - [ ] Gate visually confirmed on production after 1.17.1 upload (the local site cannot complete the sign-in round-trip)

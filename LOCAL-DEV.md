@@ -211,7 +211,7 @@ and driving the three states from the database. Run from `local-dev/`:
 docker compose run --rm -T wpcli wp option update gki_auth_enabled 1
 #    then open any /insights-expo/ page in a private window
 
-# 2. Signed-in, not entitled -> 403 "Insights subscription required"
+# 2. Signed-in, not entitled -> 403 "No Insights access on this account"
 docker compose run --rm -T wpcli wp user create gatetest gatetest@example.com --role=subscriber --user_pass=gatetest
 docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_access 0
 docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_checked_at $([DateTimeOffset]::UtcNow.ToUnixTimeSeconds())
@@ -224,6 +224,35 @@ docker compose run --rm -T wpcli wp user meta update gatetest gki_insights_acces
 docker compose run --rm -T wpcli wp option update gki_auth_enabled 0
 ```
 
+**Trial codes (1.17.5; domain extensions and conversion handling 1.17.7).** Set a code and the no-access screen grows a
+"Have a trial code?" field. The local site hides `/wp-login.php`, so sign the
+subscriber in with a cookie minted by wp-cli rather than the login form:
+
+```powershell
+docker compose run --rm -T wpcli wp option update gki_auth_trial_code Insights-Trial-Test
+docker compose run --rm -T wpcli wp eval '$u=get_user_by("login","gatetest"); echo LOGGED_IN_COOKIE, "=", wp_generate_auth_cookie($u->ID, time()+7200, "logged_in");'
+#    set that cookie for localhost (browser devtools, or curl -b), open a docs page,
+#    enter the code (any case) -> the page renders; the account now has
+#    gki_trial_started_at / gki_trial_expires_at user meta (default +14 days)
+# Expire it to see the "ended on" note (one trial per account, the form stays hidden):
+docker compose run --rm -T wpcli wp user meta update gatetest gki_trial_expires_at 1
+# Five wrong codes lock the form for 15 minutes (transient gki_trial_attempts_<user id>).
+# Domain extensions (1.17.7): add / revoke them in Settings -> GKI Auth Gate ->
+# "Trial extensions by email domain" (gatetest is gatetest@example.com, so an
+# example.com extension reopens its ended trial). The records live in the
+# gki_auth_trial_domain_ext_log option; delete it to clear the history locally.
+# wp-admin: the local import runs All-In-One WP Security, which hides wp-admin
+# from cookie-minted sessions, so use the real admin login for this part.
+# Back to normal:
+docker compose run --rm -T wpcli wp option delete gki_auth_trial_code
+```
+
+Conversion handling (1.17.7) needs a licence response, and no licensing
+endpoint is configured locally. For a test, point `gki_auth_licensing_endpoint`
+at a fake URL and answer it from a throwaway mu-plugin that hooks
+`pre_http_request` (return `totalInsightsLicenses` 0 / 5, or HTTP 401 to see the
+"sign in again" path); delete the mu-plugin and the option afterwards.
+
 The cached `gki_insights_checked_at` timestamp keeps `gki_auth_check_entitlement`
 from calling the licensing API (no endpoint is configured locally, and an
 unconfigured endpoint fails closed, which would also produce the 403 — but for
@@ -231,6 +260,30 @@ the wrong reason). WP admins bypass the gate entirely, so test as the
 subscriber, not as admin. The "Sign in with GitKraken" button itself will
 still dead-end at gitkraken.dev, since localhost is not a registered
 redirect URI.
+
+### Verifying the lockdown
+
+With `gki_auth_enabled 1` and no cookies, every one of these must come back
+without page content (401 JSON, empty feed, empty `<item>` list, no
+`insights-expo` URLs, or the gate). Swap in `https://help.gitkraken.com` to
+check prod; add a random query string there so Cloudflare does not answer
+from cache.
+
+```powershell
+$B = 'http://localhost:8420'
+curl.exe -s "$B/wp-json/wp/v2/posts/18987"                          # 401 gki_auth_required
+curl.exe -s "$B/wp-json/wp/v2/posts?categories=83&_fields=id"        # []
+curl.exe -s "$B/wp-json/wp/v2/search?search=autonomy"                # no insights-expo URLs
+curl.exe -s "$B/wp-json/oembed/1.0/embed?url=$B/insights-expo/expo-ai-adoption-home/"   # 404 oembed_invalid_url
+curl.exe -s "$B/category/insights-expo/feed/"                        # no <item>
+curl.exe -s "$B/?s=autonomy+score"                                   # no insights-expo links
+curl.exe -s "$B/wp-sitemap-posts-post-1.xml"                         # no insights-expo URLs
+curl.exe -sI "$B/insights-expo/expo-ai-adoption-home/"               # X-Robots-Tag: noindex; Cache-Control: no-store
+curl.exe -s "$B/insights-expo/expo-ai-adoption-home/" | Select-String 'name="robots"'   # noindex, nofollow, noarchive
+```
+
+Post ID 18987 is the home page in the production import; category 83 is
+`insights-expo`. Both are the same locally because the database is a copy.
 
 To exercise the real OAuth flow you need either a staging
 instance with a registered redirect URI, or a tunnel (`cloudflared`) on a stable

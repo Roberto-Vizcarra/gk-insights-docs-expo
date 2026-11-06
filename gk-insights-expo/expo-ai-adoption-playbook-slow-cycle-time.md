@@ -19,7 +19,7 @@ custom_fields:
 ---
 <kbd>Last updated: September 2026</kbd>
 
-> _Your team's [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time) just crept past your tolerance. This playbook walks you from "something's wrong" to "I know which lever to pull" in about 30 minutes._
+> _Your team's [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) just crept past your tolerance. This playbook walks you from "something's wrong" to "I know which lever to pull" in about 30 minutes._
 
 ## The problem
 
@@ -111,7 +111,7 @@ A reasonable expectation, having intervened on the dominant phase:
 
 ## Related metric pages
 
-* [Cycle Time](/insights-expo/expo-ai-adoption-flow-metrics#cycle-time)
-* [Review Cycles](/insights-expo/expo-ai-adoption-flow-metrics#review-cycles)
-* [WIP](/insights-expo/expo-ai-adoption-flow-metrics#work-in-progress-wip)
-* [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-metrics#first-pass-rate)
+* [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time)
+* [Review Cycles](/insights-expo/expo-ai-adoption-flow-review-cycles)
+* [WIP](/insights-expo/expo-ai-adoption-flow-wip)
+* [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-first-pass-rate)

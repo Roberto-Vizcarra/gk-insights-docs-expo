@@ -5,7 +5,7 @@ product: GitKraken Insights
 content_type: reference
 audience: all
 plan_required: GitKraken Insights
-integrations: [Claude Code, Codex, Cursor]
+integrations: [Claude Code, Codex, Cursor, GitHub Copilot, Devin, OpenCode]
 status: GA
 taxonomy:
     category: insights-expo
@@ -52,7 +52,7 @@ Claude Code, Cursor, Codex — plus every model powering them. Ranked per develo
 
 ### Developer-Level View
 
-A private view for each developer showing how they work with AI: adoption, autonomy, cost, and outcomes — benchmarked to your org, not used to name and shame. Plus personalized coaching on which models and skills to reach for next.
+A private view for each developer of their own AI sessions, model choices, and spend, and how ready the repositories they work in are for agents. It's built for the developer, not used to name and shame. Plus personalized coaching on which models and skills to reach for next. See [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
 
 ![Individual developer profile showing AI adoption score, top skills by value, and coaching recommendations](https://gitkraken.com/wp-content/uploads/2026/08/gkid-insights-section-graphic-1024x595.png)
 
@@ -65,8 +65,10 @@ A private view for each developer showing how they work with AI: adoption, auton
 ## Where AI Adoption shows up in the product
 
 * **/ai-adoption/developers** — primary surface. Each row has Adoption, Agentic, Tier, and a heatmap.
-* **/ai-adoption/teams** — team averages and tier mix bars.
+* **/ai-adoption/teams** — team tiers and team averages for adoption, autonomy, and output.
 * **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users).
+* **/ai-adoption/sessions** — every AI coding session, rolled up into pull requests and issues. See [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions).
+* **/ai-adoption/me** — each developer's own page, for members without org-wide access. See [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
 * **/ai-adoption/executive** — hero KPI ("AI Adoption %") and trend lines.
 * **/ai-adoption/ai-impact** — autonomy deep dive and Business Impact / ROI.
 * **/ai-adoption/capex** — CapEx / OpEx split as the primary surface.

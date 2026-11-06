@@ -82,9 +82,9 @@ None. Review Cycles is a measurement.
 
 | Metric | Relationship |
 | --- | --- |
-| [First-Pass Rate](#first-pass-rate) | The "0 cycles" percentage, expressed as a positive metric. |
-| [Cycle Time](#cycle-time) | Long Review phase is usually high Review Cycles. |
-| [Effort Score](/insights-expo/expo-ai-adoption-output-metrics#effort-score-complexity) | High-effort PRs tend to have more review cycles. Track together. |
+| [First-Pass Rate](/insights-expo/expo-ai-adoption-flow-first-pass-rate) | The "0 cycles" percentage, expressed as a positive metric. |
+| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | Long Review phase is usually high Review Cycles. |
+| [Effort Score](/insights-expo/expo-ai-adoption-output-effort-score) | High-effort PRs tend to have more review cycles. Track together. |
 
 ### How to improve it
 

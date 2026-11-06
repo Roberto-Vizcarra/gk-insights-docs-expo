@@ -20,30 +20,30 @@ custom_fields:
 
 ## Mean Time to Recovery (MTTR)
 
-> _Mean hours from incident open to incident close. The DORA recovery metric._
+> _Median hours from incident open to incident close. The DORA recovery metric._
 
-**Family:** DORA & Quality · **Cadence:** Per window, per team or org · **Where it appears:** /ai-adoption/board-metrics
+**Family:** DORA & Quality · **Cadence:** Per window, per team or org · **Where it appears:** not currently shown on the standard Insights pages
 
 ### At a glance
 
-MTTR is "when things break, how fast do you fix them?" It is the second DORA stability metric, alongside [CFR](#change-failure-rate-cfr). Where CFR asks "how often does shipping cause problems?", MTTR asks "when shipping does cause problems, how fast do you recover?" Together they describe your stability profile.
+MTTR is "when things break, how fast do you fix them?" It is the second DORA stability metric, alongside [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate). Where CFR asks "how often does shipping cause problems?", MTTR asks "when shipping does cause problems, how fast do you recover?" Together they describe your stability profile.
 
 A team with high CFR but low MTTR is shipping bugs but fixing them fast — uncomfortable, but recoverable. A team with low CFR but high MTTR ships clean most of the time but struggles when something does go wrong — unusual but possible. The healthiest profile is low on both.
 
 ### Formula
 
 ```
-MTTR (hours) = mean(resolved_at − opened_at) for customer-bug
+MTTR (hours) = median(resolved_at − opened_at) for customer-bug
                 incidents resolved in the window
 ```
 
 ### How GitKraken Insights calculates it
 
-**Source data.** The same Jira customer-bug stream that powers CFR. Each Jira incident has a creation timestamp (`opened_at`) and a resolution timestamp (`resolved_at`), stored in the `jira_incidents` table.
+**Source data.** The same customer bugs from your connected issue tracker (Jira, Linear, YouTrack, or Azure Boards) that power CFR. Each bug has a creation timestamp (`opened_at`) and a resolution timestamp (`resolved_at`); for Jira they are stored in the `jira_incidents` table.
 
-**Computation.** For each resolved incident in the window, compute the duration in hours. Take the mean across incidents. (Median is more robust to outliers and is shown on hover for most charts.)
+**Computation.** For each resolved incident in the window, compute the duration in hours. Take the median across incidents.
 
-**Open incidents are excluded.** Only resolved incidents count toward MTTR — an open incident doesn't have a resolution time yet, so it cannot contribute to a mean recovery time.
+**Open incidents are excluded.** Only resolved incidents count toward MTTR — an open incident doesn't have a resolution time yet, so it cannot contribute to a recovery time.
 
 ### Why it matters
 
@@ -66,18 +66,18 @@ For most product engineering teams, **High** is the realistic target. Elite requ
 
 ### Where it appears
 
-* **/ai-adoption/board-metrics** — MTTR as one of the four DORA cards.
+MTTR isn't currently shown on the standard Insights pages. It isn't on Board Metrics or Throughput & Quality; this page describes how it is defined and calculated.
 
 ### Settings that affect it
 
-* `JIRA_CUSTOMER_BUG_FIELD_ID` — required for MTTR to populate (same as CFR).
+* **Enable defect detection** and **Match by** (Settings → Data Connections → the tracker connection) — required for MTTR to populate (same as CFR).
 
 ### Related metrics
 
 | Metric | Relationship |
 | --- | --- |
-| [CFR](#change-failure-rate-cfr) | The "how often" stability metric. MTTR is the "how fast to recover" sibling. |
-| [Lead Time](#lead-time-for-changes) | The velocity equivalent. Lead Time and MTTR are sometimes confused — Lead Time covers shipping changes; MTTR covers recovering from incidents. |
+| [CFR](/insights-expo/expo-ai-adoption-dora-change-failure-rate) | The "how often" stability metric. MTTR is the "how fast to recover" sibling. |
+| [Lead Time](/insights-expo/expo-ai-adoption-dora-lead-time) | The velocity equivalent. Lead Time and MTTR are sometimes confused — Lead Time covers shipping changes; MTTR covers recovering from incidents. |
 
 ### How to improve it
 
@@ -88,15 +88,15 @@ For most product engineering teams, **High** is the realistic target. Elite requ
 
 ### Limitations and gotchas
 
-* **Means are skewed by outliers.** One incident that took a week to fix can dominate a monthly MTTR. Check median alongside.
+* **The median hides the long tail.** One incident that took a week to fix barely moves a monthly median MTTR. Review your longest-running incidents in your tracker as well.
 * **Open incidents aren't counted.** A team with many open old incidents can have artificially good MTTR (only the resolved ones contribute). Watch open-incident count alongside.
-* **Severity is not stratified in the MTTR metric today.** CFR tracks bug counts by severity (Critical / High / Medium / Low), but MTTR is a single mean across all customer-bug incidents. If you need severity-aware recovery times, drill into the CFR breakdown table where severity is captured.
-* **No automatic incident detection.** The metric uses Jira customer bugs as the proxy. If your team uses a separate incident management system (PagerDuty, Statuspage), MTTR in this dashboard won't reflect those events.
+* **Priority is not stratified in the MTTR metric today.** CFR tracks bug counts by priority (Highest / High / Medium / Low, plus Other), but MTTR is a single median across all customer-bug incidents. If you need priority-aware recovery times, compare resolution times by priority in your tracker.
+* **No automatic incident detection.** The metric uses customer bugs from your connected issue tracker as the proxy. If your team uses a separate incident management system (PagerDuty, Statuspage), MTTR in this dashboard won't reflect those events.
 
 ### FAQ
 
 **Q: Should MTTR include the time to acknowledge?**
-A: It currently includes everything from Jira open to Jira close. If your Jira workflow distinguishes "acknowledged" from "open," you would need a custom view — not currently in the dashboard.
+A: It currently includes everything from the bug being opened to closed in your tracker. If your tracker workflow distinguishes "acknowledged" from "open," you would need a custom view — not currently in the dashboard.
 
-**Q: Why doesn't MTTR show on /ai-adoption/ai-impact alongside CFR?**
-A: They are related but different views. CFR is the broader stability metric most leaders watch, so it is featured on the AI Impact page. MTTR is the operational recovery metric and lives in /ai-adoption/board-metrics alongside the rest of DORA.
+**Q: Where can I see MTTR?**
+A: MTTR isn't currently shown on the standard Insights pages — not on Board Metrics, Throughput & Quality, or AI Impact. CFR, the broader stability metric most leaders watch, is on all three.

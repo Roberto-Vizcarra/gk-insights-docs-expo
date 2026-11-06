@@ -27,7 +27,7 @@ custom_fields:
 
 Every merged PR and every direct commit in GitKraken Insights carries an Effort Score — a number between 0.1 and 0.9 representing the change's apparent complexity. There are five discrete tiers (Trivial / Light / Moderate / Substantial / Deep). The score is assigned by an LLM classifier that reads the diff, the title, and the PR description; it ignores raw line count.
 
-Effort Scores are the per-item weights that feed [Output Score](#output-score). They are also exposed directly in tables and drill-downs as a sortable "Complexity" pill.
+Effort Scores are the per-item weights that feed [Output Score](/insights-expo/expo-ai-adoption-output-output-score). They are also exposed directly in tables and drill-downs as a sortable "Complexity" pill.
 
 ### The rubric
 
@@ -76,9 +76,9 @@ There are no admin-configurable settings for Effort Score directly. The rubric i
 
 | Metric | Relationship |
 | --- | --- |
-| [Output Score](#output-score) | Sums Effort Score over a developer's merged PRs, direct commits, and formal reviews. |
-| [Direct Commits](#direct-commits) | Each direct commit gets an Effort Score. |
-| [Throughput](#throughput) | The count-only sibling. Throughput doesn't use Effort. |
+| [Output Score](/insights-expo/expo-ai-adoption-output-output-score) | Sums Effort Score over a developer's merged PRs, direct commits, and formal reviews. |
+| [Direct Commits](/insights-expo/expo-ai-adoption-output-direct-commits) | Each direct commit gets an Effort Score. |
+| [Throughput](/insights-expo/expo-ai-adoption-output-throughput) | The count-only sibling. Throughput doesn't use Effort. |
 
 ### How to use Effort Scores
 

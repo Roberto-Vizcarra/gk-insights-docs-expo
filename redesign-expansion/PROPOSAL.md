@@ -96,6 +96,7 @@ and [CONTENT-SURVEY.md](CONTENT-SURVEY.md). The mockups are in
 | 0. Gate | Insights redesign live and stable | No open Insights regressions; plugin version tagged and archived |
 | 1. Refactor | Registry, flags, caching, callout adapters, script stripper, H3-aware TOC | Insights renders identically on the local import (visual diff of Home, a metric page, a playbook, Settings); no behaviour change in production |
 | 2. Per-product decisions | Settle slugs, nav sections, home layout and accent for each product ([PER-PRODUCT-DECISIONS.md](PER-PRODUCT-DECISIONS.md)) | Every row in that file signed off for the pilot product |
+| 2b. Archive retired pages | Re-run the [nav audit](nav-audit/), resolve DECIDE files, archive retired pages and unpublish or redirect their posts ([ARCHIVE-PLAN.md](ARCHIVE-PLAN.md)) | Each repo holds only live pages; a re-run audit shows every nav item unchanged |
 | 3. Pilot: Kepler | Generate frontmatter from `preview/nav.json`; register `kepler`; verify locally; ship | Kepler live in the new layout; no change to other categories |
 | 4. Rollout | MCP and CLI, then GIJ Cloud and Desktop, then gitkraken.dev and GitLens | Each product verified locally before its registry flag is turned on in production |
 | 5. GIJ Data Center | Metadata backfill (descriptions, types), duplicate consolidation, then registry entry | Styling and nav first; cards once descriptions exist |

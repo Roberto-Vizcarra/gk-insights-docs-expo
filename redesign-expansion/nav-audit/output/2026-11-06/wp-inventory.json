@@ -1,0 +1,92 @@
+[
+  {
+    "key": "desktop",
+    "category_id": 68,
+    "category_count": 99,
+    "posts_listed": 99,
+    "rest_total": 99,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 5,
+      "SLUG COLLISION \u2014 mapping to a repo file needs confirmation": 2,
+      "matches one repo file": 92
+    }
+  },
+  {
+    "key": "gitlens",
+    "category_id": 7,
+    "category_count": 39,
+    "posts_listed": 39,
+    "rest_total": 39,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 2,
+      "matches one repo file": 37
+    }
+  },
+  {
+    "key": "kepler",
+    "category_id": 80,
+    "category_count": 33,
+    "posts_listed": 33,
+    "rest_total": 33,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 1,
+      "matches one repo file": 32
+    }
+  },
+  {
+    "key": "mcp",
+    "category_id": 75,
+    "category_count": 7,
+    "posts_listed": 7,
+    "rest_total": 7,
+    "counts": {
+      "SLUG COLLISION \u2014 mapping to a repo file needs confirmation": 2,
+      "matches one repo file": 5
+    }
+  },
+  {
+    "key": "cli",
+    "category_id": 63,
+    "category_count": 13,
+    "posts_listed": 13,
+    "rest_total": 13,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 3,
+      "matches one repo file": 10
+    }
+  },
+  {
+    "key": "gkdev",
+    "category_id": 66,
+    "category_count": 18,
+    "posts_listed": 18,
+    "rest_total": 18,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 1,
+      "matches one repo file": 17
+    }
+  },
+  {
+    "key": "gijc",
+    "category_id": 43,
+    "category_count": 260,
+    "posts_listed": 260,
+    "rest_total": 260,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 115,
+      "matches one repo file": 145
+    }
+  },
+  {
+    "key": "gijdc",
+    "category_id": 45,
+    "category_count": 2047,
+    "posts_listed": 2047,
+    "rest_total": 2047,
+    "counts": {
+      "NO REPO FILE \u2014 exists only in WordPress": 32,
+      "SLUG COLLISION \u2014 mapping to a repo file needs confirmation": 1682,
+      "matches one repo file": 333
+    }
+  }
+]

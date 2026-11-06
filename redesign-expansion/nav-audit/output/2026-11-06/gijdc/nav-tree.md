@@ -1,0 +1,325 @@
+# Git Integration for Jira Data Center — live sidebar nav
+
+Menu `menu-git-integration-for-jira-server-data-center-menu` as rendered on https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-for-jira-home-self-manged/ at 2026-11-06T15:37:33Z UTC.
+320 items, max depth 4. Fingerprint `8db43972664d2941`.
+
+- **Data Center and Server Home** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-for-jira-home-self-manged/` · item 4651 · post_type/post
+- **Admin Getting Started Guide** — `https://help.gitkraken.com/git-integration-for-jira-data-center/getting-started-guide-dc/` · item 10799 · post_type/post
+    - **Admin Getting Started Guide** — `https://help.gitkraken.com/git-integration-for-jira-data-center/getting-started-guide-dc/` · item 10802 · post_type/post
+    - **Application Operations and Planning** — `https://help.gitkraken.com/git-integration-for-jira-data-center/getting-started-guide-app-operations-and-planning-dc/` · item 10801 · post_type/post
+    - **Integration creation and Post integration Configuration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/getting-started-guide-integration-creation-post-integration-config-dc/` · item 10803 · post_type/post
+    - **Optional Features and Add-on Extensions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/getting-started-guide-optional-features-dc/` · item 10804 · post_type/post
+- **User Guide** — `https://help.gitkraken.com/git-integration-for-jira-data-center/end-user-guide-dc/` · item 11774 · post_type/post
+- **Release Notes** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-for-jira-data-center-release-notes-gij-self-managed/` · item 4886 · post_type/post
+- **Permissions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/permissions-gij-self-managed/` · item 4669 · post_type/post
+- **Documentation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/documentation-gij-self-managed/` · item 4658 · custom/custom
+    - **Installation – Documentation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/installation-gij-self-managed/` · item 5130 · post_type/post
+        - **Installation via Atlassian Marketplace** — `https://help.gitkraken.com/git-integration-for-jira-data-center/installation-via-atlassian-marketplace-gij-self-managed/` · item 4672 · post_type/post
+        - **Installation via Jira Plugin Manager** — `https://help.gitkraken.com/git-integration-for-jira-data-center/installation-via-jira-plugin-manager-gij-self-managed/` · item 4673 · post_type/post
+        - **Manual installation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/manual-installation-gij-self-managed/` · item 4677 · post_type/post
+        - **Installation and updating** — `https://help.gitkraken.com/git-integration-for-jira-data-center/installation-and-updating-gij-self-managed/` · item 4675 · post_type/post
+    - **Managing license key** — `https://help.gitkraken.com/git-integration-for-jira-data-center/managing-license-key-gij-self-managed/` · item 4678 · post_type/post
+    - **Getting started for Git administrators** — `https://help.gitkraken.com/git-integration-for-jira-data-center/getting-started-for-git-administrators-gij-self-managed/` · item 4679 · post_type/post
+        - **Setup GitLab Server to respond to incoming network API calls** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setup-gitlab-server-to-respond-to-incoming-network-api-calls-gij-self-managed/` · item 4695 · post_type/post
+        - **New GitLab v10+ authentication** — `https://help.gitkraken.com/git-integration-for-jira-data-center/new-gitlab-v10-authentication-gij-self-managed/` · item 4696 · post_type/post
+        - **General settings – Improving Jira performance** — `https://help.gitkraken.com/git-integration-for-jira-data-center/general-settings-improving-jira-performance-gij-self-managed/` · item 4697 · post_type/post
+        - **Adding a repository hosted on Windows Servers or Windows Network Share (Admins)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-a-repository-hosted-on-windows-servers-or-windows-network-share-admins-gij-self-managed/` · item 4698 · post_type/post
+        - **Setting up repository root not located in Jira Home directory (Admins)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setting-up-repository-root-not-located-in-jira-home-directory-admins-gij-self-managed/` · item 4699 · post_type/post
+        - **Reindex API to trigger indexing** — `https://help.gitkraken.com/git-integration-for-jira-data-center/reindex-api-to-trigger-indexing-gij-self-managed/` · item 4700 · post_type/post
+        - **Recommended reindex interval setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/recommended-reindex-interval-setting-gij-self-managed/` · item 4701 · post_type/post
+        - **Setting up web linking** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setting-up-web-linking-gij-self-managed/` · item 4702 · post_type/post
+        - **Setting up webhooks** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setting-up-webhooks-gij-self-managed/` · item 4703 · post_type/post
+        - **Increasing timeout threshold for large repositories while doing a Git pull** — `https://help.gitkraken.com/git-integration-for-jira-data-center/increasing-timeout-threshold-for-large-repositories-while-doing-a-git-pull-gij-self-managed/` · item 4704 · post_type/post
+        - **Working with Tracked folders** — `https://help.gitkraken.com/git-integration-for-jira-data-center/working-with-tracked-folders-gij-self-managed/` · item 4705 · post_type/post
+        - **Recommended upgrade method for Git Integration for Jira** — `https://help.gitkraken.com/git-integration-for-jira-data-center/recommended-upgrade-method-for-git-integration-for-jira-gij-self-managed/` · item 4706 · post_type/post
+        - **Discard cloned files in Jira Home directory (General setting)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/discard-cloned-files-in-jira-home-directory-general-setting-gij-self-managed/` · item 4707 · post_type/post
+    - **Working with SSH keys** — `https://help.gitkraken.com/git-integration-for-jira-data-center/working-with-ssh-keys-gij-self-managed/` · item 4708 · post_type/post
+        - **Generating SSH keys** — `https://help.gitkraken.com/git-integration-for-jira-data-center/generating-ssh-keys-gij-self-managed/` · item 4710 · post_type/post
+        - **Adding a private SSH key** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-a-private-ssh-key-gij-self-managed/` · item 4711 · post_type/post
+        - **Adding a public SSH Key** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-a-public-ssh-key-gij-self-managed/` · item 4717 · post_type/post
+        - **SSH keys configuration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/ssh-keys-configuration-gij-self-managed/` · item 4712 · post_type/post
+        - **Adding and associating SSH keys** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-and-associating-ssh-keys-gij-self-managed/` · item 4713 · post_type/post
+        - **Removing SSH keys** — `https://help.gitkraken.com/git-integration-for-jira-data-center/removing-ssh-keys-gij-self-managed/` · item 4714 · post_type/post
+        - **Reconfigure Git repositories and SSH keys** — `https://help.gitkraken.com/git-integration-for-jira-data-center/reconfigure-git-repositories-and-ssh-keys-gij-self-managed/` · item 4715 · post_type/post
+    - **Git URL ports** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-url-ports-gij-self-managed/` · item 4718 · post_type/post
+    - **Setting up repositories** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setting-up-repositories-gij-self-managed/` · item 4721 · post_type/post
+        - **Git integration configuration page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-configuration-page-gij-self-managed/` · item 4722 · post_type/post
+        - **Using the Add new integration wizard** — `https://help.gitkraken.com/git-integration-for-jira-data-center/using-the-add-new-integration-wizard-gij-self-managed/` · item 4724 · post_type/post
+        - **Using the Connect Repository wizard** — `https://help.gitkraken.com/git-integration-for-jira-data-center/using-the-connect-repository-wizard-gij-self-managed/` · item 4725 · post_type/post
+        - **Nested repository** — `https://help.gitkraken.com/git-integration-for-jira-data-center/nested-repository-gij-self-managed/` · item 13658 · post_type/post
+            - **Adding and connecting a nested repository** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-a-nested-repository-gij-self-managed/` · item 13655 · post_type/post
+        - **Connecting a repository via Advanced setup** — `https://help.gitkraken.com/git-integration-for-jira-data-center/connecting-a-repository-via-advanced-setup-gij-self-managed/` · item 4726 · post_type/post
+        - **Adding a repository hosted on Windows Server or Windows Network share** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-a-repository-hosted-on-windows-server-or-windows-network-share-gij-self-managed/` · item 4727 · post_type/post
+        - **Setup repository root not located in Jira Home directory** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setup-repository-root-not-located-in-jira-home-directory-gij-self-managed/` · item 4728 · post_type/post
+        - **Tracked folders overview** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tracked-folders-overview-gij-self-managed/` · item 6498 · post_type/post
+        - **Self-signed HTTPS integration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/self-signed-https-integration-gij-self-managed/` · item 4729 · post_type/post
+            - **Automatically connect to HTTPS git repositories with self-signed SSL certificates or other SSL issues** — `https://help.gitkraken.com/git-integration-for-jira-data-center/automatically-connect-to-https-git-repositories-with-self-signed-ssl-certificates-or-other-ssl-issues-gij-self-managed/` · item 4730 · post_type/post
+            - **Manually connect to HTTPS git repositories with self-signed SSL certificates or other SSL issues** — `https://help.gitkraken.com/git-integration-for-jira-data-center/manually-connect-to-https-git-repositories-with-self-signed-ssl-certificates-or-other-ssl-issues-gij-self-managed/` · item 4732 · post_type/post
+        - **Managing repository or integration configuration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/managing-repository-or-integration-configuration-gij-self-managed/` · item 4733 · post_type/post
+            - **Managing integration via Actions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/managing-integration-via-actions-gij-self-managed/` · item 4734 · post_type/post
+            - **Show tracked or integration repositories** — `https://help.gitkraken.com/git-integration-for-jira-data-center/show-tracked-or-integration-repositories-gij-self-managed/` · item 4735 · post_type/post
+            - **Edit integration connection settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/edit-integration-connection-settings-gij-self-managed/` · item 4736 · post_type/post
+            - **Edit integration feature settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/edit-integration-feature-settings-gij-self-managed/` · item 6273 · post_type/post
+            - **Edit repository settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/edit-repository-settings-gij-self-managed/` · item 4737 · post_type/post
+            - **Edit nested repository settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/edit-nested-repository-settings-gij-self-managed/` · item 13659 · post_type/post
+            - **SSL verify** — `https://help.gitkraken.com/git-integration-for-jira-data-center/ssl-verify-gij-self-managed/` · item 4738 · post_type/post
+            - **View integration or repository properties** — `https://help.gitkraken.com/git-integration-for-jira-data-center/view-integration-or-repository-properties-gij-self-managed/` · item 4739 · post_type/post
+            - **Viewing indexing logs** — `https://help.gitkraken.com/git-integration-for-jira-data-center/viewing-indexing-logs-gij-self-managed/` · item 4740 · post_type/post
+            - **Removing integration or repository configuration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/removing-integration-or-repository-configuration-gij-self-managed/` · item 4741 · post_type/post
+            - **Removing a nested repository** — `https://help.gitkraken.com/git-integration-for-jira-data-center/remove-a-nested-repository-gij-self-managed/` · item 13657 · post_type/post
+        - **Associating project permissions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/associating-project-permissions-gij-self-managed/` · item 4742 · post_type/post
+    - **Bulk change** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bulk-change-gij-self-managed/` · item 4743 · post_type/post
+        - **Exporting repository configuration via Bulk change** — `https://help.gitkraken.com/git-integration-for-jira-data-center/exporting-repository-configuration-via-bulk-change-gij-self-managed/` · item 4744 · post_type/post
+        - **Requirement for secured import** — `https://help.gitkraken.com/git-integration-for-jira-data-center/requirement-for-secured-import-gij-self-managed/` · item 4745 · post_type/post
+        - **Import existing repositories via Bulk change** — `https://help.gitkraken.com/git-integration-for-jira-data-center/import-existing-repositories-via-bulk-change-gij-self-managed/` · item 4746 · post_type/post
+        - **Import new repositories via Bulk change** — `https://help.gitkraken.com/git-integration-for-jira-data-center/import-new-repositories-via-bulk-change-gij-self-managed/` · item 4748 · post_type/post
+        - **Editing existing repository settings in the TSV File** — `https://help.gitkraken.com/git-integration-for-jira-data-center/editing-existing-repository-settings-in-the-tsv-file-gij-self-managed/` · item 4749 · post_type/post
+        - **Removing existing repositories via Bulk change** — `https://help.gitkraken.com/git-integration-for-jira-data-center/removing-existing-repositories-via-bulk-change-gij-self-managed/` · item 4747 · post_type/post
+    - **Commit email notifications** — `https://help.gitkraken.com/git-integration-for-jira-data-center/commit-email-notifications-gij-self-managed/` · item 4750 · post_type/post
+        - **Watching email notifications** — `https://help.gitkraken.com/git-integration-for-jira-data-center/watching-email-notifications-gij-self-managed/` · item 4751 · post_type/post
+        - **User profile settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/user-profile-settings-gij-self-managed/` · item 4752 · post_type/post
+    - **General settings – Documentation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/general-settings-docs-gij-self-managed/` · item 4753 · post_type/post
+    - **Web linking** — `https://help.gitkraken.com/git-integration-for-jira-data-center/web-linking-gij-self-managed/` · item 4754 · post_type/post
+    - **Disabling Source and Commits tabs** — `https://help.gitkraken.com/git-integration-for-jira-data-center/disabling-source-and-commits-tabs-gij-self-managed/` · item 4755 · post_type/post
+    - **Linking git commits to Jira issues** — `https://help.gitkraken.com/git-integration-for-jira-data-center/linking-git-commits-to-jira-issues-gij-self-managed/` · item 4756 · post_type/post
+        - **Manually link git commits to Jira issues** — `https://help.gitkraken.com/git-integration-for-jira-data-center/manually-link-git-commits-to-jira-issues-gij-self-managed/` · item 4757 · post_type/post
+        - **Git notes** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-notes-gij-self-managed/` · item 4758 · post_type/post
+    - **Smart commits – Documentation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/smart-commits-gij-self-managed/` · item 11218 · post_type/post
+        - **Smart commits — Basic commands** — `https://help.gitkraken.com/git-integration-for-jira-data-center/basic-commands-gij-self-managed/` · item 4760 · post_type/post
+        - **Smart commits – Advanced examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/advanced-examples-gij-self-managed/` · item 4761 · post_type/post
+        - **Smart commits – Workflow transitions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/workflow-transitions-gij-self-managed/` · item 4762 · post_type/post
+        - **Smart commits – Viewing workflows** — `https://help.gitkraken.com/git-integration-for-jira-data-center/viewing-workflows-gij-self-managed/` · item 4763 · post_type/post
+        - **Smart commits helper** — `https://help.gitkraken.com/git-integration-for-jira-data-center/smart-commits-helper-gij-self-managed/` · item 4764 · post_type/post
+        - **Smart commits General setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/smart-commits-general-setting-gij-self-managed/` · item 4765 · post_type/post
+        - **Scripting (Jira git workflow hooks)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scripting-jira-git-workflow-hooks-gij-self-managed/` · item 4766 · post_type/post
+    - **Repository Browser** — `https://help.gitkraken.com/git-integration-for-jira-data-center/repository-browser-gij-self-managed/` · item 4767 · post_type/post
+        - **Viewing list of commits in Repository Browser** — `https://help.gitkraken.com/git-integration-for-jira-data-center/viewing-list-of-commits-in-repository-browser-gij-self-managed/` · item 4768 · post_type/post
+        - **Comparing branches/tags in Repository Browser** — `https://help.gitkraken.com/git-integration-for-jira-data-center/comparing-branches-tags-in-repository-browser-gij-self-managed/` · item 4769 · post_type/post
+        - **Enable/disable Repository Browser via git repository configuration page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/enable-disable-repository-browser-via-git-repository-configuration-page-gij-self-managed/` · item 4770 · post_type/post
+    - **Viewing commit code diffs** — `https://help.gitkraken.com/git-integration-for-jira-data-center/viewing-commit-code-diffs-gij-self-managed/` · item 4771 · post_type/post
+    - **Git user identity** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-user-identity-gij-self-managed/` · item 4772 · post_type/post
+    - **Jira user information card** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-user-information-card-gij-self-managed/` · item 4773 · post_type/post
+    - **Jira issue page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-issue-page-gij-self-managed/` · item 4778 · post_type/post
+        - **Git Roll Up tab – Jira issue page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-roll-up-tab-docs-gij-self-managed/` · item 7782 · post_type/post
+        - **Git Commits tab – Jira issue page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-commits-tab-gij-self-managed/` · item 4780 · post_type/post
+        - **Jira issue page – Code syntax highlighter** — `https://help.gitkraken.com/git-integration-for-jira-data-center/code-syntax-highlighter-gij-self-managed/` · item 4781 · post_type/post
+    - **Jira Git integration development panel** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-git-integration-development-panel-gij-self-managed/` · item 4782 · post_type/post
+        - **Development panel locations** — `https://help.gitkraken.com/git-integration-for-jira-data-center/development-panel-locations-gij-self-managed/` · item 4786 · post_type/post
+        - **Branches (Development panel)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/branches-development-panel-gij-self-managed/` · item 4784 · post_type/post
+        - **Pull or merge requests (Development panel)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/pull-or-merge-requests-development-panel-gij-self-managed/` · item 4785 · post_type/post
+    - **Git tags** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-tags-gij-self-managed/` · item 4788 · post_type/post
+    - **Jira project page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-project-page-gij-self-managed/` · item 4789 · post_type/post
+    - **Reindexing** — `https://help.gitkraken.com/git-integration-for-jira-data-center/reindexing-gij-self-managed/` · item 4791 · post_type/post
+    - **JQL searching** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jql-searching-gij-self-managed/` · item 4792 · post_type/post
+    - **Integration webhooks** — `https://help.gitkraken.com/git-integration-for-jira-data-center/integration-webhooks-gij-self-managed/` · item 4793 · post_type/post
+    - **Jira Data Center (High availability and clustering)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-data-center-high-availability-and-clustering-gij-self-managed/` · item 4794 · post_type/post
+    - **Localization support** — `https://help.gitkraken.com/git-integration-for-jira-data-center/localization-support-gij-self-managed/` · item 4795 · post_type/post
+    - **Glossary and terms** — `https://help.gitkraken.com/git-integration-for-jira-data-center/glossary-and-terms-gij-self-managed/` · item 4798 · post_type/post
+    - **Licensing notice** — `https://help.gitkraken.com/git-integration-for-jira-data-center/licensing-notice-gij-self-managed/` · item 4799 · post_type/post
+- **Integration Guides** — `https://help.gitkraken.com/git-integration-for-jira-data-center/integration-guides-gij-self-managed/` · item 4801 · post_type/post
+    - **Integration Basics** — `https://help.gitkraken.com/git-integration-for-jira-data-center/integration-basics-gij-self-managed/` · item 4802 · post_type/post
+        - **Connecting to a git host account via Add new integration panel (Integration basics)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/connecting-to-a-git-host-account-via-add-new-integration-panel-gij-self-managed/` · item 6051 · post_type/post
+        - **Connecting to a single git repository (HTTPS/SSH) (Integration basics)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/connecting-to-a-single-git-repository-https-ssh-gij-self-managed/` · item 6050 · post_type/post
+        - **– Link git commits to Jira issues (Integration basics)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/link-git-commits-to-jira-issues-basics-gij-self-managed/` · item 6052 · post_type/post
+        - **Using smart commits (Integration basics)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/using-smart-commits-gij-self-managed/` · item 6055 · post_type/post
+        - **Using the Repository Browser (Integration basics)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/using-the-repository-browser-gij-self-managed/` · item 6054 · post_type/post
+        - **Integration basics – Setting up web links** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setting-up-web-links-gij-self-managed/` · item 6053 · post_type/post
+        - **Creating branches and pull/merge requests (Integration basics)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/creating-branches-and-pull-merge-requests-basics-gij-self-managed/` · item 6049 · post_type/post
+    - **GitHub.com** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-gij-self-managed/` · item 5132 · post_type/post
+    - **GitHub Enterprise Server** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-enterprise-server-gij-self-managed/` · item 4812 · post_type/post
+    - **GitHub App integration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-app-integration-gij-self-managed/` · item 6149 · post_type/post
+    - **GitLab.com** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gitlab-gij-self-managed/` · item 4813 · post_type/post
+    - **GitLab CE/EE** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gitlab-com-ce-ee-gijsm-gij-self-managed/` · item 4817 · post_type/post
+    - **Azure DevOps Services | Visual Studio Team Services (VSTS)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/azure-devops-visual-studio-team-services-vsts-gij-self-managed/` · item 4818 · post_type/post
+    - **Azure DevOps Server | Team Foundation Services (TFS)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/azure-devops-server-team-foundation-services-tfs-gij-self-managed/` · item 4819 · post_type/post
+    - **AWS CodeCommit** — `https://help.gitkraken.com/git-integration-for-jira-data-center/aws-codecommit-gij-self-managed/` · item 5602 · post_type/post
+    - **Bitbucket Server** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bitbucket-server-gij-self-managed/` · item 4820 · post_type/post
+    - **Gerrit** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gerrit-gij-self-managed/` · item 4822 · post_type/post
+    - **Bonobo** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bonobo-gij-self-managed/` · item 4823 · post_type/post
+    - **Windows Network | Server Share** — `https://help.gitkraken.com/git-integration-for-jira-data-center/windows-network-server-share-gij-self-managed/` · item 4824 · post_type/post
+    - **Tracked Folders** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tracked-folders-gij-self-managed/` · item 4825 · post_type/post
+- **Features** — `https://help.gitkraken.com/git-integration-for-jira-data-center/features-gij-self-managed/` · item 4873 · post_type/post
+    - **Manager permissions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/manager-permissions-gij-self-managed/` · item 9421 · post_type/post
+    - **Cancel indexing** — `https://help.gitkraken.com/git-integration-for-jira-data-center/cancel-indexing-revision-indexing-gij-self-managed/` · item 8391 · post_type/post
+    - **Pull request filters** — `https://help.gitkraken.com/git-integration-for-jira-data-center/pull-request-filters-gij-self-managed/` · item 7696 · post_type/post
+    - **Tag filters** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tag-filters-gij-self-managed/` · item 7718 · post_type/post
+    - **Indexing queue viewer** — `https://help.gitkraken.com/git-integration-for-jira-data-center/indexing-queue-viewer-gij-self-managed/` · item 7009 · post_type/post
+    - **Deep linking feature** — `https://help.gitkraken.com/git-integration-for-jira-data-center/deeplinking-feature-gij-self-managed/` · item 7218 · post_type/post
+        - **Deep Linking to the GitKraken Git client** — `https://help.gitkraken.com/git-integration-for-jira-data-center/deep-linking-to-the-gitkraken-git-client-gij-self-managed/` · item 4877 · post_type/post
+        - **Deep Linking to GitLens** — `https://help.gitkraken.com/git-integration-for-jira-data-center/deep-linking-into-gitlens-gij-self-managed/` · item 7112 · post_type/post
+    - **GitHub App integration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-app-integration-gij-self-managed/` · item 5587 · post_type/post
+    - **Git Integration + ScriptRunner** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gij-plus-scriptrunner-gij-self-managed/` · item 5294 · post_type/post
+        - **Interface GIJFacade** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-gijfacade-gij-self-managed/` · item 5505 · post_type/post
+            - **Class IntegrationRequest** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-integration-integrationrequest-gij-self-managed/` · item 5523 · post_type/post
+            - **Class Commit** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-publicmodels-commit-gij-self-managed/` · item 5522 · post_type/post
+            - **Class IndexStatusResponse** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-publicmodels-indexstatusresponse-gij-self-managed/` · item 5521 · post_type/post
+            - **Class IssuesAssociationRequest** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-publicmodels-issuesassociationrequest/` · item 5520 · post_type/post
+            - **Class Repository** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-publicmodels-repository-gij-self-managed/` · item 5519 · post_type/post
+            - **Class Commit.ShortFileInfo** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-publicmodels-shortfileinfo-gij-self-managed/` · item 5518 · post_type/post
+            - **Class Tag** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-publicmodels-tag-gij-self-managed/` · item 5517 · post_type/post
+            - **Class CreatePullRequestRequest** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-rest-repository-createpullrequestrequest-gij-self-managed/` · item 5516 · post_type/post
+            - **Class ReindexLogEntry** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-async-reindexlogentry-gij-self-managed/` · item 5514 · post_type/post
+            - **Class CommitIssueChange.ChangeStr** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-indexer-revisions-changestr-gij-self-managed/` · item 5513 · post_type/post
+            - **Class CommitIssueChange** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-indexer-revisions-commitissuechange-gij-self-managed/` · item 5512 · post_type/post
+            - **Class IntegrationType** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-integration-integrationtype-gij-self-managed/` · item 5511 · post_type/post
+            - **Class Branch** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-scriptrunner-models-branch-gij-self-managed-15/` · item 5510 · post_type/post
+            - **Class PullRequest** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-services-scriptrunner-models-pullrequest-gij-self-managed-15/` · item 5509 · post_type/post
+        - **Class GIJException** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scriptrunner-javadoc-git-exceptions-gijexception-gij-self-managed/` · item 5508 · post_type/post
+    - **Git Integration + Jira Automation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-plus-jira-automation-gij-self-managed/` · item 5137 · post_type/post
+        - **Advanced examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-plus-jira-automation-advanced-examples-gij-self-managed/` · item 5139 · post_type/post
+        - **Template library** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-for-jira-automation-template-library/` · item 5140 · post_type/post
+    - **Enforced git permissions for Jira users – Features** — `https://help.gitkraken.com/git-integration-for-jira-data-center/enforced-git-permissions-for-jira-users-gij-self-managed/` · item 4879 · post_type/post
+    - **Shared reindex queue between DC nodes** — `https://help.gitkraken.com/git-integration-for-jira-data-center/shared-reindex-queue-between-dc-nodes-gij-self-managed/` · item 4878 · post_type/post
+    - **Smart commits overview** — `https://help.gitkraken.com/git-integration-for-jira-data-center/smart-commits-overview-gij-self-managed/` · item 4874 · post_type/post
+    - **Associate Pull/Merge Requests to Issues Based on Commits** — `https://help.gitkraken.com/git-integration-for-jira-data-center/associate-pull-merge-requests-to-issues-based-on-commits-gij-self-managed/` · item 4875 · post_type/post
+    - **Creating branches** — `https://help.gitkraken.com/git-integration-for-jira-data-center/creating-branches-gij-self-managed/` · item 5133 · post_type/post
+    - **Creating pull/merge requests** — `https://help.gitkraken.com/git-integration-for-jira-data-center/creating-pull-merge-requests-gij-self-managed/` · item 5136 · post_type/post
+    - **Issue Git integration panel – Features** — `https://help.gitkraken.com/git-integration-for-jira-data-center/issue-git-integration-panel-gij-self-managed/` · item 4876 · post_type/post
+- **How-to articles** — `https://help.gitkraken.com/git-integration-for-jira-data-center/how-to-articles-gij-self-managed/` · item 4942 · post_type/post
+    - **How to get a quote?** — `https://help.gitkraken.com/git-integration-for-jira-data-center/how-to-get-a-quote-gij-self-managed/` · item 4944 · post_type/post
+    - **Setting Project Permissions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/setting-project-permissions-gij-self-managed/` · item 4946 · post_type/post
+    - **How to create a HAR file and send it to support for analysis** — `https://help.gitkraken.com/git-integration-for-jira-data-center/how-to-create-a-har-file-and-send-it-to-support-for-analysis-gij-self-managed/` · item 7163 · post_type/post
+    - **How to Create Reindex Triggers for a Single Repository** — `https://help.gitkraken.com/git-integration-for-jira-cloud/how-to-create-reindex-triggers-for-a-single-repository-gij-cloud/` · item 11290 · post_type/post
+    - **Working with Custom API Path** — `https://help.gitkraken.com/git-integration-for-jira-data-center/working-with-custom-api-path-gij-self-managed/` · item 4948 · post_type/post
+    - **Working with JMESPath Filters** — `https://help.gitkraken.com/git-integration-for-jira-data-center/working-with-jmespath-filters-gij-self-managed/` · item 4950 · post_type/post
+        - **GitHub.com | GitHub Enterprise JMESPath filter examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-github-enterprise-jmespath-filter-examples-gij-self-managed/` · item 4953 · post_type/post
+        - **GitHub App JMESPath filter examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-app-jmespath-filter-examples-gij-self-managed/` · item 6148 · post_type/post
+        - **GitLab.com | GitLab CE/EE JMESPath filter examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gitlab-gitlab-ce-ee-jmespath-filter-examples-gij-self-managed/` · item 4955 · post_type/post
+        - **Microsoft | VSTS | TFS | Azure Repos JMESPath filter examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/microsoft-vsts-tfs-azure-repos-jmespath-filter-examples-gij-self-managed/` · item 4956 · post_type/post
+        - **Tracked Folders JMESPath filter examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tracked-folders-jmespath-filter-examples-gij-self-managed/` · item 4957 · post_type/post
+        - **Gerrit JMESPath filter examples** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gerrit-jmespath-filter-examples-gij-self-managed/` · item 4958 · post_type/post
+    - **Configure Source Code Diff Viewing** — `https://help.gitkraken.com/git-integration-for-jira-data-center/configure-source-code-diff-viewing-gij-self-managed/` · item 4959 · post_type/post
+    - **Creating and configuring SSH keys** — `https://help.gitkraken.com/git-integration-for-jira-data-center/creating-and-configuring-ssh-keys-windows-macos-linux-gij-self-managed/` · item 4960 · post_type/post
+    - **Require Personal Access Tokens for user actions (create branch/pull request)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/require-personal-access-tokens-for-user-actions-create-branch-pull-request-gij-self-managed/` · item 4961 · post_type/post
+    - **Ways to Index Git Data to Jira Issues** — `https://help.gitkraken.com/git-integration-for-jira-data-center/ways-to-index-git-data-to-jira-issues-gij-self-managed/` · item 4963 · post_type/post
+    - **Proxy settings on adding integrations (except AWS CodeCommit)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/proxy-settings-on-adding-integrations-except-aws-codecommit-gij-self-managed/` · item 4964 · post_type/post
+    - **Creating Personal Access Tokens** — `https://help.gitkraken.com/git-integration-for-jira-data-center/creating-personal-access-tokens-gij-self-managed/` · item 4967 · post_type/post
+    - **How to disable “Discard cloned files” feature (Windows/Linux)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/how-to-disable-discard-cloned-files-feature-versions-4-11-and-below/` · item 7559 · post_type/post
+- **Administration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/administration-gij-self-managed/` · item 4900 · post_type/post
+    - **Java 8 deprecation with Git Integration for Jira v5.0** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gij5-serverdc-java8-depreciation-gij-self-managed/` · item 10070 · post_type/post
+    - **Tips for Jira Admins (Self-Managed)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tips-for-jira-admins-gij-self-managed/` · item 6849 · post_type/post
+    - **Migrating from Jira 8 to Jira 9** — `https://help.gitkraken.com/git-integration-for-jira-data-center/migrating-jira7-to-jira9-gij-self-managed/` · item 5480 · post_type/post
+    - **Upgrades and migrations within same server** — `https://help.gitkraken.com/git-integration-for-jira-data-center/upgrades-and-migrations-within-same-server-gij-self-managed/` · item 5829 · post_type/post
+    - **Migration to another server** — `https://help.gitkraken.com/git-integration-for-jira-data-center/migration-to-another-server-gij-self-managed/` · item 5828 · post_type/post
+    - **General Settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/general-settings-gij-self-managed/` · item 4902 · post_type/post
+        - **Repository Browser general setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/repository-browser-general-setting-gij-self-managed/` · item 4903 · post_type/post
+        - **Source Code Diff Viewing general setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/source-code-diff-viewing-general-setting-gij-self-managed/` · item 4904 · post_type/post
+        - **Enforce Git service permissions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/enforce-git-service-permissions-gij-self-managed/` · item 4905 · post_type/post
+        - **Require User PAT general setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/require-user-pat-general-setting-gij-self-managed/` · item 4922 · post_type/post
+        - **Git roll up issue tab** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-roll-up-issue-tab-gij-self-managed/` · item 4906 · post_type/post
+        - **Git commits issue and project tabs** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-commits-issue-and-project-tabs-gij-self-managed/` · item 4907 · post_type/post
+        - **Git integration features** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-integration-features-gij-self-managed/` · item 4908 · post_type/post
+        - **Audit log settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/audit-log-settings-gij-self-managed/` · item 4909 · post_type/post
+        - **Branch and pull request settings (formerly Git Integration Options)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/branch-and-pull-request-settings-formerly-git-integration-options-gij-self-managed/` · item 4910 · post_type/post
+        - **Email settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/email-settings-gij-self-managed/` · item 4911 · post_type/post
+        - **Scheduled jobs general setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scheduled-jobs-gij-self-managed/` · item 4912 · post_type/post
+        - **Per Node Repository Indexing – General setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/per-node-repository-indexing-gij-self-managed/` · item 4913 · post_type/post
+        - **Multiple Indexing Threads – General setting** — `https://help.gitkraken.com/git-integration-for-jira-data-center/multiple-indexing-threads-per-node-gij-self-managed/` · item 10630 · post_type/post
+        - **Repository settings (General setting)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/repository-settings-gij-self-managed/` · item 4914 · post_type/post
+        - **Repositories garbage collection checker** — `https://help.gitkraken.com/git-integration-for-jira-data-center/repositories-garbage-collection-checker-gij-self-managed/` · item 4915 · post_type/post
+        - **Diff settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/diff-settings-gij-self-managed/` · item 4916 · post_type/post
+        - **Discard cloned files in Jira home directory** — `https://help.gitkraken.com/git-integration-for-jira-data-center/discard-cloned-files-in-jira-home-directory-gij-self-managed/` · item 4918 · post_type/post
+        - **Git operations timeout** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-operations-timeout-gij-self-managed/` · item 4920 · post_type/post
+        - **Git data processing age limit** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-data-processing-age-limit-general-settings-gij-self-managed/` · item 6499 · post_type/post
+        - **Cache sizes settings** — `https://help.gitkraken.com/git-integration-for-jira-data-center/cache-sizes-settings-gij-self-managed/` · item 4919 · post_type/post
+    - **Scheduling Jobs** — `https://help.gitkraken.com/git-integration-for-jira-data-center/scheduling-jobs-gij-self-managed/` · item 4923 · post_type/post
+    - **Recommended Jira memory settings – Administration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/recommended-jira-memory-settings-gij-self-managed/` · item 4924 · post_type/post
+    - **Plugin Data Storage** — `https://help.gitkraken.com/git-integration-for-jira-data-center/plugin-data-storage-gij-self-managed/` · item 4925 · post_type/post
+    - **Indexing queue explainer – Administration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/indexing-queue-explainer-gij-self-managed/` · item 4926 · post_type/post
+- **Hooks and Webhooks** — `https://help.gitkraken.com/git-integration-for-jira-data-center/hooks-and-webhooks-gij-self-managed/` · item 4826 · post_type/post
+    - **Commit-msg Hook** — `https://help.gitkraken.com/git-integration-for-jira-data-center/commit-msg-hook-gij-self-managed/` · item 4828 · post_type/post
+    - **Server-side Hook** — `https://help.gitkraken.com/git-integration-for-jira-data-center/server-side-hook-gij-self-managed/` · item 4830 · post_type/post
+    - **Jira Workflow Hook** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-workflow-hook-gij-self-managed/` · item 4832 · post_type/post
+    - **Webhooks – Features** — `https://help.gitkraken.com/git-integration-for-jira-data-center/webhooks-gij-self-managed/` · item 4833 · post_type/post
+        - **Creating reindex triggers for a single repository** — `https://help.gitkraken.com/git-integration-for-jira-data-center/creating-reindex-triggers-for-a-single-repository-gij-self-managed/` · item 4840 · post_type/post
+        - **Adding Webhooks for GitHub** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-webhooks-for-github-gij-self-managed/` · item 4836 · post_type/post
+        - **Webhooks GitHub Organization Support** — `https://help.gitkraken.com/git-integration-for-jira-data-center/webhooks-github-organization-support-gij-self-managed/` · item 4841 · post_type/post
+        - **Adding Webhooks for GitLab** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-webhooks-for-gitlab-gij-self-managed/` · item 4837 · post_type/post
+        - **Adding Webhooks for Azure DevOps Repos | VSTS** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-webhooks-for-azure-devops-repos-vsts-gij-self-managed/` · item 4838 · post_type/post
+        - **Adding Webhooks for Azure DevOps Server | TFS** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-webhooks-for-azure-devops-server-tfs-gij-self-managed/` · item 4839 · post_type/post
+        - **Adding Webhooks for Bitbucket** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-webhooks-for-bitbucket-gij-self-managed/` · item 4835 · post_type/post
+        - **Adding webhooks for Gerrit** — `https://help.gitkraken.com/git-integration-for-jira-data-center/adding-webhooks-for-gerrit-gij-self-managed/` · item 4834 · post_type/post
+- **REST API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/rest-api-gij-self-managed/` · item 6655 · post_type/post
+    - **Bulk Change API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bulk-change-api-gij-self-managed/` · item 4843 · post_type/post
+        - **Bulk Export API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bulk-export-gij-self-managed/` · item 4844 · post_type/post
+        - **Bulk Import API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bulk-import-gij-self-managed/` · item 4845 · post_type/post
+        - **Get Bulk Import Information** — `https://help.gitkraken.com/git-integration-for-jira-data-center/get-bulk-import-information-gij-self-managed/` · item 4846 · post_type/post
+    - **Integration API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/integration-api-gij-self-managed/` · item 4862 · post_type/post
+        - **Add New Integration – API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/add-new-integration-gij-self-managed/` · item 4863 · post_type/post
+        - **Add New Integration Type API (examples)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/add-new-integration-type-api-examples-gij-self-managed/` · item 4864 · post_type/post
+        - **Enable/Disable Existing Integration API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/enable-disable-existing-integration-api-gij-self-managed/` · item 12410 · post_type/post
+        - **Update Existing Integration API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/update-existing-integration-gij-self-managed/` · item 4865 · post_type/post
+        - **Remove Integration – API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/remove-integration-gij-self-managed/` · item 4866 · post_type/post
+        - **Retrieve an Integration API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/retrieve-an-integration-gij-self-managed/` · item 4867 · post_type/post
+        - **Retrieve Integration List API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/retrieve-integration-list-gij-self-managed/` · item 4868 · post_type/post
+    - **Repository API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/repository-api-gij-self-managed/` · item 4847 · post_type/post
+        - **Retrieve Repository List** — `https://help.gitkraken.com/git-integration-for-jira-data-center/retrieve-repository-list-gij-self-managed/` · item 7338 · post_type/post
+        - **Add New Repository** — `https://help.gitkraken.com/git-integration-for-jira-data-center/add-new-repository-gij-self-managed/` · item 4849 · post_type/post
+        - **Enable/Disable Existing Repository API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/enable-disable-existing-repository-api-gij-self-managed/` · item 12409 · post_type/post
+        - **Update Existing Repository API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/update-existing-repository-gij-self-managed/` · item 4850 · post_type/post
+        - **Update Nested Repository API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/update-nested-repository-api-gij-self-managed/` · item 13656 · post_type/post
+        - **Delete Existing Repository API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/delete-existing-repository-gij-self-managed/` · item 4851 · post_type/post
+    - **Reindex API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/reindex-api-gij-self-managed/` · item 4852 · post_type/post
+        - **Reindex POST API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/reindex-post-api-gij-self-managed/` · item 4854 · post_type/post
+        - **Reindex GET API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/reindex-get-api-gij-self-managed/` · item 4853 · post_type/post
+    - **Commits API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/commits-api-gij-self-managed/` · item 4855 · post_type/post
+        - **Get Commits API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/get-commits-gij-self-managed/` · item 4856 · post_type/post
+        - **Get Commit Issue Changes API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/get-commit-issue-changes-gij-self-managed/` · item 4858 · post_type/post
+        - **Update Commit Issue Changes API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/update-commit-issue-changes-gij-self-managed/` · item 4859 · post_type/post
+    - **Branches API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/branches-api-gij-self-managed/` · item 4860 · post_type/post
+    - **Tags API** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tags-api-gij-self-managed/` · item 4861 · post_type/post
+- **Frequently Asked Questions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/frequently-asked-questions-gij-self-managed/` · item 4968 · post_type/post
+    - **Why don’t I see commits? (Data Center)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/why-dont-i-see-commits-data-center-gij-self-managed/` · item 4970 · post_type/post
+    - **Why don’t I see the Create Branch or Pull Request features?** — `https://help.gitkraken.com/git-integration-for-jira-data-center/why-dont-i-see-the-create-branch-or-pull-request-features-gij-self-managed/` · item 4930 · post_type/post
+    - **FAQ – General** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-general-gij-self-managed/` · item 4980 · post_type/post
+    - **Developer FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-developer-gij-self-managed/` · item 4985 · post_type/post
+    - **Installation and setup FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-installation-and-setup-gij-self-managed/` · item 4992 · post_type/post
+    - **Administration FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-administration-gij-self-managed/` · item 5001 · post_type/post
+    - **Repositories FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-repositories-gij-self-managed/` · item 5010 · post_type/post
+    - **Workspace FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-workspace-gij-self-managed/` · item 5022 · post_type/post
+    - **SSH FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-ssh-gij-self-managed/` · item 5026 · post_type/post
+    - **Logging – FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-logging-gij-self-managed/` · item 4977 · post_type/post
+    - **Reindex and cache FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-reindex-and-cache-gij-self-managed/` · item 5027 · post_type/post
+    - **Uninstall and reinstall FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-uninstall-and-reinstall-gij-self-managed/` · item 5029 · post_type/post
+    - **Support FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-support-gij-self-managed/` · item 5031 · post_type/post
+    - **Purchase and pricing FAQ** — `https://help.gitkraken.com/git-integration-for-jira-data-center/faq-purchase-and-pricing-gij-self-managed/` · item 5032 · post_type/post
+- **Known Issues** — `https://help.gitkraken.com/git-integration-for-jira-data-center/known-issues-gij-self-managed/` · item 4881 · post_type/post
+- **Troubleshooting articles** — `https://help.gitkraken.com/git-integration-for-jira-data-center/troubleshooting-articles-gij-self-managed/` · item 4927 · post_type/post
+    - **Fix performance issues for nested cloned repositories with enabled Git Service Permissions mode** — `https://help.gitkraken.com/git-integration-for-jira-data-center/fix-performance-issues-for-nested-cloned-repositories-with-enabled-secure-mode-gij-self-managed/` · item 7963 · post_type/post
+    - **Error creating git branches and also using NFS** — `https://help.gitkraken.com/git-integration-for-jira-data-center/error-creating-git-branches-gitlabpropertiesnotinitializedexception-and-using-nfs-gij-self-managed/` · item 7742 · post_type/post
+    - **Fixing reindex issues using Indexing Queue Viewer** — `https://help.gitkraken.com/git-integration-for-jira-data-center/fixing-reindex-issues-using-indexing-queue-viewer-gij-self-managed/` · item 11289 · post_type/post
+    - **Why I am getting the error, “git-upload-pack not permitted”?** — `https://help.gitkraken.com/git-integration-for-jira-data-center/why-i-am-getting-the-error-git-upload-pack-not-permitted-gij-self-managed/` · item 5996 · post_type/post
+    - **Avoid OutOfMemory exceptions by configuring or memory allocation with Jira to accommodate large repositories** — `https://help.gitkraken.com/git-integration-for-jira-data-center/avoid-outofmemory-exceptions-by-configuring-or-memory-allocation-with-jira-to-accommodate-large-repositories-gij-self-managed/` · item 4941 · post_type/post
+    - **Cannot auto-deploy some tracked repositories — Specified origin is incorrect or not supported** — `https://help.gitkraken.com/git-integration-for-jira-data-center/cannot-auto-deploy-some-tracked-repositories-gij-self-managed/` · item 6030 · post_type/post
+    - **Connection Reset when Accessing the Database** — `https://help.gitkraken.com/git-integration-for-jira-data-center/connection-reset-when-accessing-the-database-gij-self-managed/` · item 6031 · post_type/post
+    - **Dangerous use of multiple connections error on local database** — `https://help.gitkraken.com/git-integration-for-jira-data-center/dangerous-use-of-multiple-connections-error-on-local-database-gij-self-managed/` · item 4939 · post_type/post
+    - **Duplicate entry 0 for key PRIMARY exceptions in log** — `https://help.gitkraken.com/git-integration-for-jira-data-center/duplicate-entry-0-for-key-primary-exceptions-in-log-gij-self-managed/` · item 6032 · post_type/post
+    - **Error while reindexing – Java heap space / Object too large, rejecting the pack** — `https://help.gitkraken.com/git-integration-for-jira-data-center/error-while-reindexing-java-heap-space-object-too-large-rejecting-the-pack-gij-self-managed/` · item 4932 · post_type/post
+    - **Gitolite integration – Why the Git integration app not see the master branch?** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gitolite-integration-why-the-git-integration-app-not-see-the-master-branch-gij-self-managed/` · item 6056 · post_type/post
+    - **Health Check – Database Collation** — `https://help.gitkraken.com/git-integration-for-jira-data-center/health-check-database-collation-gij-self-managed/` · item 6062 · post_type/post
+    - **Indexing error – Too many open files** — `https://help.gitkraken.com/git-integration-for-jira-data-center/indexing-error-too-many-open-files-gij-self-managed/` · item 4936 · post_type/post
+    - **Installation fails when installing manually** — `https://help.gitkraken.com/git-integration-for-jira-data-center/installation-fails-when-installing-manually-gij-self-managed/` · item 4933 · post_type/post
+    - **Jira index error IndexNotFoundException – no segments* file found** — `https://help.gitkraken.com/git-integration-for-jira-data-center/jira-index-error-indexnotfoundexception-no-segments-file-found/` · item 6061 · post_type/post
+    - **Malformed input or input contains unmappable characters** — `https://help.gitkraken.com/git-integration-for-jira-data-center/malformed-input-or-input-contains-unmappable-characters-gij-self-managed/` · item 6059 · post_type/post
+    - **Personal access token failing Azure DevOps integration with Not Authorized error** — `https://help.gitkraken.com/git-integration-for-jira-data-center/personal-access-token-failing-azure-devops-integration-with-not-authorized-error-gij-self-managed/` · item 6060 · post_type/post
+    - **Problems with shared home on Azure Storage** — `https://help.gitkraken.com/git-integration-for-jira-data-center/problems-with-shared-home-on-azure-storage-gij-self-managed/` · item 6058 · post_type/post
+    - **Pull request index error — org.json.JSONException** — `https://help.gitkraken.com/git-integration-for-jira-data-center/pull-request-index-error-jsonexception-gij-self-managed/` · item 6063 · post_type/post
+    - **Repositories missing from Azure DevOps integration** — `https://help.gitkraken.com/git-integration-for-jira-data-center/repositories-missing-from-azure-devops-integration-gij-self-managed/` · item 6057 · post_type/post
+    - **SSH key file format is invalid** — `https://help.gitkraken.com/git-integration-for-jira-data-center/ssh-key-file-format-is-invalid-gij-self-managed/` · item 4934 · post_type/post
+    - **Service proxy has been destroyed exceptions in log** — `https://help.gitkraken.com/git-integration-for-jira-data-center/service-proxy-has-been-destroyed-exceptions-in-log-gij-self-managed/` · item 4937 · post_type/post
+    - **SQLException Incorrect string value in merge requests** — `https://help.gitkraken.com/git-integration-for-jira-data-center/sqlexception-incorrect-string-value-in-merge-requests-gij-self-managed/` · item 4940 · post_type/post
+    - **TFS – Not authorized exception when Jira works thru proxy** — `https://help.gitkraken.com/git-integration-for-jira-data-center/tfs-not-authorized-exception-when-jira-works-thru-proxy-gij-self-managed/` · item 4929 · post_type/post
+    - **Unexpected exception parsing XML document from URL error in log** — `https://help.gitkraken.com/git-integration-for-jira-data-center/unexpected-exception-parsing-xml-document-from-url-error-in-log-gij-self-managed/` · item 4938 · post_type/post
+    - **Your token has not been granted the required scopes** — `https://help.gitkraken.com/git-integration-for-jira-data-center/your-token-has-not-been-granted-the-required-scopes-gij-self-managed/` · item 10632 · post_type/post
+- **Git Services Support Page** — `https://help.gitkraken.com/git-integration-for-jira-data-center/git-services-support-page-and-end-of-life-policies-gij-self-managed/` · item 4888 · post_type/post
+    - **GitHub Enterprise (EOL)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/github-enterprise-eol-gij-self-managed/` · item 4890 · post_type/post
+    - **GitLab CE/EE EOL Support Policy** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gitlab-ce-ee-eol-support-policy-gij-self-managed/` · item 4893 · post_type/post
+    - **Bitbucket Server/Cloud EOL Support Policy** — `https://help.gitkraken.com/git-integration-for-jira-data-center/bitbucket-server-cloud-eol-support-policy-gij-self-managed/` · item 4894 · post_type/post
+    - **Azure DevOps Server Lifecycle Policies** — `https://help.gitkraken.com/git-integration-for-jira-data-center/azure-devops-server-lifecycle-policies-gij-self-managed/` · item 4896 · post_type/post
+    - **Gerrit End of Life (EOL)** — `https://help.gitkraken.com/git-integration-for-jira-data-center/gerrit-end-of-life-eol-gij-self-managed/` · item 4899 · post_type/post
+- **App Support** — `https://help.gitkraken.com/git-integration-for-jira-data-center/app-support-gij-self-managed/` · item 4883 · post_type/post
+- **Team Insights for Jira Data Center** — `https://help.gitkraken.com/git-integration-for-jira-data-center/team-insights-for-jira-datacenter-gij-self-managed/` · item 12484 · post_type/post
+    - **Issues View – TIJ DC** — `https://help.gitkraken.com/git-integration-for-jira-data-center/team-insights-for-jira-datacenter-issues-view-gij-self-managed/` · item 12487 · post_type/post
+    - **Pull request timeline – TIJ DC** — `https://help.gitkraken.com/git-integration-for-jira-data-center/team-insights-for-jira-datacenter-pullreq-timeline-gij-self-managed/` · item 12486 · post_type/post
+- **Deprecation notice** — `https://help.gitkraken.com/git-integration-for-jira-data-center/deprecation-notice-gij-self-managed/` · item 4885 · post_type/post
+- **GIJ Terms and Conditions** — `https://help.gitkraken.com/git-integration-for-jira-data-center/sla-terms-and-conditions-gij-sekf-managed/` · item 8566 · post_type/post

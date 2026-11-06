@@ -1,0 +1,193 @@
+{
+  "started_utc": "2026-11-06T15:37:33Z",
+  "site": "https://help.gitkraken.com",
+  "ref": "origin/main",
+  "repos": {
+    "desktop": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\gitkr-audit-5f16f",
+      "ref": "origin/main",
+      "sha": "2c46570f9f2c775eb977b43d73752442af3cdf04",
+      "dir": "gitkraken-desktop",
+      "files": 94
+    },
+    "gitlens": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\gitle-docs-0a938",
+      "ref": "origin/main",
+      "sha": "6da47a800d406ca4362dd61232ecc0f19c63360c",
+      "dir": "gitlens",
+      "files": 37
+    },
+    "kepler": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\keple-keple-b20d4",
+      "ref": "origin/main",
+      "sha": "c0f310d5cf6cf2a249cdb5e039559a9045d83b65",
+      "dir": "kepler",
+      "files": 32
+    },
+    "mcp": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\MCP-D-explo-aa4bf",
+      "ref": "origin/main",
+      "sha": "c4128710bc6aae20a4d16179c722de3f84f2507a",
+      "dir": "MCP",
+      "files": 6
+    },
+    "cli": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\gk-cl-help-ceb6a",
+      "ref": "origin/main",
+      "sha": "2efa795c0631ccf3c568f059d585e09887b3c055",
+      "dir": "cli",
+      "files": 10
+    },
+    "gkdev": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\gk-de-help-c4fa3",
+      "ref": "origin/main",
+      "sha": "84f886f3a78c94716751fb95b695c2e6a00df2e6",
+      "dir": "gk-dev",
+      "files": 17
+    },
+    "gijc": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\git-i-gk-he-8802f",
+      "ref": "origin/main",
+      "sha": "5cac667e21c2c525ef4e19bc07a9b22863b19c64",
+      "dir": "git-integration-for-jira-cloud",
+      "files": 145
+    },
+    "gijdc": {
+      "repo": "c:\\Users\\robertov\\kepler\\worktrees\\git-i-explo-35bad",
+      "ref": "origin/main",
+      "sha": "028d96adafbfd51c8a4e29eacb2562ecd443e7d5",
+      "dir": "git-integration-for-jira-self-managed",
+      "files": 338
+    }
+  },
+  "finished_utc": "2026-11-06T15:56:41Z",
+  "requests": 977,
+  "failures": [],
+  "complete": true,
+  "summary": [
+    {
+      "key": "desktop",
+      "name": "GitKraken Desktop",
+      "items": 99,
+      "repo_files": 94,
+      "counts": {
+        "IN NAV": 87,
+        "LIVE, NOT IN NAV, LINKED FROM A NAV PAGE": 1,
+        "LIVE, NOT IN NAV, NO INBOUND LINKS FOUND": 6
+      },
+      "nav_no_repo": 1,
+      "sidebar_diff": 0,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": false
+    },
+    {
+      "key": "gitlens",
+      "name": "GitLens",
+      "items": 37,
+      "repo_files": 37,
+      "counts": {
+        "IN NAV": 32,
+        "LIVE, NOT IN NAV, LINKED FROM A NAV PAGE": 2,
+        "LIVE, NOT IN NAV, NO INBOUND LINKS FOUND": 3
+      },
+      "nav_no_repo": 0,
+      "sidebar_diff": 0,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    },
+    {
+      "key": "kepler",
+      "name": "Kepler",
+      "items": 34,
+      "repo_files": 32,
+      "counts": {
+        "IN NAV": 29,
+        "LIVE, NOT IN NAV, NO INBOUND LINKS FOUND": 3
+      },
+      "nav_no_repo": 0,
+      "sidebar_diff": 0,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    },
+    {
+      "key": "mcp",
+      "name": "GitKraken MCP",
+      "items": 5,
+      "repo_files": 6,
+      "counts": {
+        "IN NAV": 5,
+        "LIVE, NOT IN NAV, NO INBOUND LINKS FOUND": 1
+      },
+      "nav_no_repo": 0,
+      "sidebar_diff": 0,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    },
+    {
+      "key": "cli",
+      "name": "GitKraken CLI",
+      "items": 10,
+      "repo_files": 10,
+      "counts": {
+        "CHECK: expected URL redirects": 1,
+        "IN NAV": 9
+      },
+      "nav_no_repo": 0,
+      "sidebar_diff": 1,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    },
+    {
+      "key": "gkdev",
+      "name": "gitkraken.dev",
+      "items": 18,
+      "repo_files": 17,
+      "counts": {
+        "IN NAV": 17
+      },
+      "nav_no_repo": 0,
+      "sidebar_diff": 0,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    },
+    {
+      "key": "gijc",
+      "name": "Git Integration for Jira Cloud",
+      "items": 131,
+      "repo_files": 145,
+      "counts": {
+        "IN NAV": 124,
+        "LIVE, NOT IN NAV, LINKED FROM A NAV PAGE": 5,
+        "LIVE, NOT IN NAV, LINKED ONLY FROM NON-NAV PAGES": 9,
+        "LIVE, NOT IN NAV, NO INBOUND LINKS FOUND": 7
+      },
+      "nav_no_repo": 0,
+      "sidebar_diff": 1,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    },
+    {
+      "key": "gijdc",
+      "name": "Git Integration for Jira Data Center",
+      "items": 320,
+      "repo_files": 338,
+      "counts": {
+        "IN NAV": 311,
+        "LIVE, NOT IN NAV, LINKED FROM A NAV PAGE": 24,
+        "LIVE, NOT IN NAV, NO INBOUND LINKS FOUND": 3
+      },
+      "nav_no_repo": 6,
+      "sidebar_diff": 1,
+      "bad_status": 0,
+      "anomalies": 0,
+      "copies_ok": true
+    }
+  ]
+}

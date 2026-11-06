@@ -19,6 +19,33 @@
 - [ ] **Frontmatter CI.** Should every repo fail its build when a page is
       missing `nav_category`?
 
+## Archive decisions
+
+Seven repo files could not be settled by the archive rules. The list and the
+reasons are in [ARCHIVE-PLAN.md](ARCHIVE-PLAN.md#the-7-decide-files). Record
+each decision here when it's made.
+
+| Repo file | Decision |
+| --- | --- |
+| `gitkraken-desktop/GK-soc2-request.md` | |
+| `gitlens/GL-Test.md` | |
+| `cli/GK-CLI-mcp.md` | |
+| `git-integration-for-jira-cloud/connected-apps-gij-cloud.md` | |
+| `git-integration-for-jira-cloud/default-repository-feature-gij-cloud.md` | |
+| `git-integration-for-jira-cloud/personal-access-token-feature-gij-cloud.md` | |
+| `git-integration-for-jira-cloud/Testing.md` | |
+
+The six slug-collision files must also be confirmed in WP Admin. They are
+listed in `nav-audit/output/2026-11-06/REPORT.md` under "Slug collisions".
+
+## Nav structure source
+
+The current live nav for every product, exactly as rendered, is in
+`nav-audit/output/<date>/<product>/nav-tree.md`. Use it as the starting point
+for each product's "Nav sections" row below. Seven live nav items point to
+WordPress-only posts; see "Outside the repos" in
+[ARCHIVE-PLAN.md](ARCHIVE-PLAN.md).
+
 ## Decisions for each product
 
 Each product's table has three columns. **Decide** is the open question.

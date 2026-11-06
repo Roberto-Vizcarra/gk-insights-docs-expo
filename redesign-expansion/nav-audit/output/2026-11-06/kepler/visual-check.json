@@ -1,0 +1,282 @@
+{
+  "items": [
+    {
+      "item_id": "18084",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Getting Started with Kepler",
+      "href": "https://help.gitkraken.com/kepler/kepler-getting-started/",
+      "visible": true
+    },
+    {
+      "item_id": "20080",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Quick Answers",
+      "href": "https://help.gitkraken.com/kepler/quick-answers/",
+      "visible": true
+    },
+    {
+      "item_id": "18746",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Core Concepts",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "18747",
+      "depth": 1,
+      "parent_item_id": "18746",
+      "label": "The Kepler Interface",
+      "href": "https://help.gitkraken.com/kepler/kepler-interface/",
+      "visible": true
+    },
+    {
+      "item_id": "18748",
+      "depth": 1,
+      "parent_item_id": "18746",
+      "label": "Arranging Your Work",
+      "href": "https://help.gitkraken.com/kepler/arranging-your-work/",
+      "visible": true
+    },
+    {
+      "item_id": "18749",
+      "depth": 1,
+      "parent_item_id": "18746",
+      "label": "Actions",
+      "href": "https://help.gitkraken.com/kepler/actions/",
+      "visible": true
+    },
+    {
+      "item_id": "18750",
+      "depth": 1,
+      "parent_item_id": "18746",
+      "label": "Tasks and Resources",
+      "href": "https://help.gitkraken.com/kepler/tasks-and-resources/",
+      "visible": true
+    },
+    {
+      "item_id": "18751",
+      "depth": 1,
+      "parent_item_id": "18746",
+      "label": "The Task View",
+      "href": "https://help.gitkraken.com/kepler/task-view/",
+      "visible": true
+    },
+    {
+      "item_id": "18752",
+      "depth": 1,
+      "parent_item_id": "18746",
+      "label": "The Agent Graph",
+      "href": "https://help.gitkraken.com/kepler/agent-graph/",
+      "visible": true
+    },
+    {
+      "item_id": "18753",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Working in Kepler",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "18754",
+      "depth": 1,
+      "parent_item_id": "18753",
+      "label": "Create a task",
+      "href": "https://help.gitkraken.com/kepler/create-task/",
+      "visible": true
+    },
+    {
+      "item_id": "18755",
+      "depth": 1,
+      "parent_item_id": "18753",
+      "label": "Agent Sessions",
+      "href": "https://help.gitkraken.com/kepler/agent-sessions/",
+      "visible": true
+    },
+    {
+      "item_id": "18756",
+      "depth": 1,
+      "parent_item_id": "18753",
+      "label": "Review Changes",
+      "href": "https://help.gitkraken.com/kepler/review-changes/",
+      "visible": true
+    },
+    {
+      "item_id": "20052",
+      "depth": 1,
+      "parent_item_id": "18753",
+      "label": "Ask Kepler",
+      "href": "https://help.gitkraken.com/kepler/ask-kepler/",
+      "visible": true
+    },
+    {
+      "item_id": "18757",
+      "depth": 1,
+      "parent_item_id": "18753",
+      "label": "Voice Input",
+      "href": "https://help.gitkraken.com/kepler/voice-input/",
+      "visible": true
+    },
+    {
+      "item_id": "18758",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Integrations",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "18759",
+      "depth": 1,
+      "parent_item_id": "18758",
+      "label": "Agent Integrations",
+      "href": "https://help.gitkraken.com/kepler/agent-integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "19516",
+      "depth": 1,
+      "parent_item_id": "18758",
+      "label": "MCP Servers",
+      "href": "https://help.gitkraken.com/kepler/mcp-servers/",
+      "visible": true
+    },
+    {
+      "item_id": "18760",
+      "depth": 1,
+      "parent_item_id": "18758",
+      "label": "Issue Tracker Integrations",
+      "href": "https://help.gitkraken.com/kepler/issue-tracker-integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "18761",
+      "depth": 1,
+      "parent_item_id": "18758",
+      "label": "Pull Request Integrations",
+      "href": "https://help.gitkraken.com/kepler/pull-request-integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "18762",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Configuration",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "18763",
+      "depth": 1,
+      "parent_item_id": "18762",
+      "label": "Settings",
+      "href": "https://help.gitkraken.com/kepler/settings/",
+      "visible": true
+    },
+    {
+      "item_id": "20251",
+      "depth": 2,
+      "parent_item_id": "18763",
+      "label": "Setup and Account Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-setup-account/",
+      "visible": true
+    },
+    {
+      "item_id": "20260",
+      "depth": 2,
+      "parent_item_id": "18763",
+      "label": "Behavior and Integration settings",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "20256",
+      "depth": 3,
+      "parent_item_id": "20260",
+      "label": "Agent Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-agents/",
+      "visible": true
+    },
+    {
+      "item_id": "20250",
+      "depth": 3,
+      "parent_item_id": "20260",
+      "label": "Task Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-tasks/",
+      "visible": true
+    },
+    {
+      "item_id": "20252",
+      "depth": 3,
+      "parent_item_id": "20260",
+      "label": "Repository Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-repositories/",
+      "visible": true
+    },
+    {
+      "item_id": "20253",
+      "depth": 3,
+      "parent_item_id": "20260",
+      "label": "Integration Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "20257",
+      "depth": 3,
+      "parent_item_id": "20260",
+      "label": "Action Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-actions/",
+      "visible": true
+    },
+    {
+      "item_id": "20255",
+      "depth": 2,
+      "parent_item_id": "18763",
+      "label": "App Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-app/",
+      "visible": true
+    },
+    {
+      "item_id": "20254",
+      "depth": 2,
+      "parent_item_id": "18763",
+      "label": "Environment Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-environment/",
+      "visible": true
+    },
+    {
+      "item_id": "20249",
+      "depth": 2,
+      "parent_item_id": "18763",
+      "label": "Update and Help Settings",
+      "href": "https://help.gitkraken.com/kepler/settings-updates-help/",
+      "visible": true
+    },
+    {
+      "item_id": "19515",
+      "depth": 1,
+      "parent_item_id": "18762",
+      "label": "Remote Environments",
+      "href": "https://help.gitkraken.com/kepler/remote-environments/",
+      "visible": true
+    },
+    {
+      "item_id": "19146",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Release Notes",
+      "href": "https://help.gitkraken.com/kepler/release-notes-current/",
+      "visible": true
+    }
+  ],
+  "menu_copies_in_dom": 1,
+  "copy_used": 0,
+  "clicks": 6,
+  "hidden": [],
+  "reveal_errors": {},
+  "diffs": []
+}

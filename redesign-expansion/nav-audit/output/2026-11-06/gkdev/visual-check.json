@@ -1,0 +1,154 @@
+{
+  "items": [
+    {
+      "item_id": "9385",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken.dev Support Home",
+      "href": "/gk-dev/gk-dev-home/",
+      "visible": true
+    },
+    {
+      "item_id": "10414",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Connect Integrations",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "11334",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Getting Started with GitKraken Insights",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-insights/",
+      "visible": true
+    },
+    {
+      "item_id": "15102",
+      "depth": 1,
+      "parent_item_id": "11334",
+      "label": "Dashboard Management in GitKraken Insights",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-dashboard-management/",
+      "visible": true
+    },
+    {
+      "item_id": "12894",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Automations",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-automations/",
+      "visible": true
+    },
+    {
+      "item_id": "10413",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Security Controls & Cloud Patch Configuration",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-security-controls/",
+      "visible": true
+    },
+    {
+      "item_id": "10407",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Accounts and Licenses",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "10406",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Account",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-account/",
+      "visible": true
+    },
+    {
+      "item_id": "10405",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Organization",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-organization/",
+      "visible": true
+    },
+    {
+      "item_id": "10404",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Subscriptions",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-subscription/",
+      "visible": true
+    },
+    {
+      "item_id": "14971",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "GitKraken Student Pack",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-student-pack/",
+      "visible": true
+    },
+    {
+      "item_id": "11145",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Configure Single Sign-On (SSO)",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-single-sign-on/",
+      "visible": true
+    },
+    {
+      "item_id": "11146",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Security Information",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-security/",
+      "visible": true
+    },
+    {
+      "item_id": "11144",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Trials",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-trials/",
+      "visible": true
+    },
+    {
+      "item_id": "11148",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "FAQ",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-faq/",
+      "visible": true
+    },
+    {
+      "item_id": "11147",
+      "depth": 1,
+      "parent_item_id": "10407",
+      "label": "Reseller Guide",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-reseller/",
+      "visible": true
+    },
+    {
+      "item_id": "18113",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken AI Credits FAQ",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-ai-credits-faq/",
+      "visible": true
+    },
+    {
+      "item_id": "13040",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken Cloud Services Support Terms and Conditions",
+      "href": "https://help.gitkraken.com/gk-dev/gk-dev-terms-and-conditions/",
+      "visible": true
+    }
+  ],
+  "menu_copies_in_dom": 1,
+  "copy_used": 0,
+  "clicks": 2,
+  "hidden": [],
+  "reveal_errors": {},
+  "diffs": []
+}

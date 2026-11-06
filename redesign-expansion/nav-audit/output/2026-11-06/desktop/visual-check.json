@@ -1,0 +1,802 @@
+{
+  "items": [
+    {
+      "item_id": "13092",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken Desktop Documentation & Support",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gitkraken-desktop-home/",
+      "visible": true
+    },
+    {
+      "item_id": "13093",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Install GitKraken Desktop",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/how-to-install/",
+      "visible": true
+    },
+    {
+      "item_id": "13094",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken Desktop FAQ",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/faq/",
+      "visible": true
+    },
+    {
+      "item_id": "13095",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Start Here",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13115",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Interface Guide",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/interface/",
+      "visible": true
+    },
+    {
+      "item_id": "13116",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Profiles",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/profiles/",
+      "visible": true
+    },
+    {
+      "item_id": "13117",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Integrations",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "13118",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Command Palette",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/command-palette/",
+      "visible": true
+    },
+    {
+      "item_id": "13120",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Keyboard Shortcuts",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/keyboard-shortcuts/",
+      "visible": true
+    },
+    {
+      "item_id": "13121",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Preferences",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/preferences/",
+      "visible": true
+    },
+    {
+      "item_id": "13122",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Beginner Guide & Workflow",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/guide/",
+      "visible": true
+    },
+    {
+      "item_id": "13124",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Teams",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/teams/",
+      "visible": true
+    },
+    {
+      "item_id": "13125",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Themes",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/themes/",
+      "visible": true
+    },
+    {
+      "item_id": "13126",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Tips",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/tips/",
+      "visible": true
+    },
+    {
+      "item_id": "13127",
+      "depth": 1,
+      "parent_item_id": "13095",
+      "label": "Experimental Features",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/experimental-features/",
+      "visible": true
+    },
+    {
+      "item_id": "13096",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Working With Files",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13129",
+      "depth": 1,
+      "parent_item_id": "13096",
+      "label": "Add, Delete, and Filter Files",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/adding-and-removing/",
+      "visible": true
+    },
+    {
+      "item_id": "13132",
+      "depth": 1,
+      "parent_item_id": "13096",
+      "label": "Cherry Pick Commits",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/cherrypick/",
+      "visible": true
+    },
+    {
+      "item_id": "13133",
+      "depth": 1,
+      "parent_item_id": "13096",
+      "label": "Committing Changes",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/commits/",
+      "visible": true
+    },
+    {
+      "item_id": "13134",
+      "depth": 1,
+      "parent_item_id": "13096",
+      "label": "Detached HEAD in GitKraken Desktop",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/detached-head-state/",
+      "visible": true
+    },
+    {
+      "item_id": "13135",
+      "depth": 1,
+      "parent_item_id": "13096",
+      "label": "View Diffs, File History, and Blame in GitKraken Desktop",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/diff/",
+      "visible": true
+    },
+    {
+      "item_id": "13136",
+      "depth": 1,
+      "parent_item_id": "13096",
+      "label": "Edit Files",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/editing-files/",
+      "visible": true
+    },
+    {
+      "item_id": "13097",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Working with Commits",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13137",
+      "depth": 1,
+      "parent_item_id": "13097",
+      "label": "Stage, Unstage, and Ignore Files",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/staging/",
+      "visible": true
+    },
+    {
+      "item_id": "13138",
+      "depth": 1,
+      "parent_item_id": "13097",
+      "label": "Squash",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/squash/",
+      "visible": true
+    },
+    {
+      "item_id": "13139",
+      "depth": 1,
+      "parent_item_id": "13097",
+      "label": "Stash Changes",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/stashing/",
+      "visible": true
+    },
+    {
+      "item_id": "13140",
+      "depth": 1,
+      "parent_item_id": "13097",
+      "label": "Search Git Commits",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/search/",
+      "visible": true
+    },
+    {
+      "item_id": "13141",
+      "depth": 1,
+      "parent_item_id": "13097",
+      "label": "Undo and Redo Git Actions",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/undo-and-redo/",
+      "visible": true
+    },
+    {
+      "item_id": "13098",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Working with Repositories",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13142",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Open, Clone, or Initialize Repo",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/open-clone-init/",
+      "visible": true
+    },
+    {
+      "item_id": "13143",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "View Activity Logs",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/activity-logs/",
+      "visible": true
+    },
+    {
+      "item_id": "13144",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Favorite Repos",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/favorites/",
+      "visible": true
+    },
+    {
+      "item_id": "13145",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Branch, Merge, and Rebase",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/branching-and-merging/",
+      "visible": true
+    },
+    {
+      "item_id": "13146",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Conflict Prevention",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/conflict-prevention/",
+      "visible": true
+    },
+    {
+      "item_id": "13147",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Fork GitHub Repos",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/fork/",
+      "visible": true
+    },
+    {
+      "item_id": "13148",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Git Hooks",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/githooks/",
+      "visible": true
+    },
+    {
+      "item_id": "13149",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Hide and Solo",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/hiding-and-soloing/",
+      "visible": true
+    },
+    {
+      "item_id": "13151",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Interactive Rebase",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/interactive-rebase/",
+      "visible": true
+    },
+    {
+      "item_id": "13152",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Deep Linking",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/linking/",
+      "visible": true
+    },
+    {
+      "item_id": "13153",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Push, Pull, and Fetch",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/pushing-and-pulling/",
+      "visible": true
+    },
+    {
+      "item_id": "13154",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Pull Requests",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/pull-requests/",
+      "visible": true
+    },
+    {
+      "item_id": "13155",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Pull Request Filter Syntax",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/pull-requests-filter-syntax/",
+      "visible": true
+    },
+    {
+      "item_id": "13156",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Submodules",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/submodules/",
+      "visible": true
+    },
+    {
+      "item_id": "13157",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Tags",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/tags/",
+      "visible": true
+    },
+    {
+      "item_id": "13158",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Team View",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/team-view/",
+      "visible": true
+    },
+    {
+      "item_id": "13159",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Terminal",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/terminal/",
+      "visible": true
+    },
+    {
+      "item_id": "13160",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Windows Subsystem for Linux (WSL 2)",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/windows-subsystem-for-linux/",
+      "visible": true
+    },
+    {
+      "item_id": "13161",
+      "depth": 1,
+      "parent_item_id": "13098",
+      "label": "Worktrees",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/worktrees/",
+      "visible": true
+    },
+    {
+      "item_id": "13099",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Workspaces",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/workspaces/",
+      "visible": true
+    },
+    {
+      "item_id": "13101",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Launchpad",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gitkraken-launchpad/",
+      "visible": true
+    },
+    {
+      "item_id": "13102",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken AI",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gkd-gitkraken-ai/",
+      "visible": true
+    },
+    {
+      "item_id": "20298",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Agent Workflows",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "17713",
+      "depth": 1,
+      "parent_item_id": "20298",
+      "label": "Coding Agents",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/agents/",
+      "visible": true
+    },
+    {
+      "item_id": "20316",
+      "depth": 1,
+      "parent_item_id": "20298",
+      "label": "Review and Undo Agent Changes",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/review-and-undo-agent-changes-2/",
+      "visible": true
+    },
+    {
+      "item_id": "20300",
+      "depth": 1,
+      "parent_item_id": "20298",
+      "label": "Clean Up Agent Commits",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/clean-up-agent-commits/",
+      "visible": true
+    },
+    {
+      "item_id": "20301",
+      "depth": 1,
+      "parent_item_id": "20298",
+      "label": "Resolve Agent Merge Conflicts",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/agent-merge-conflicts/",
+      "visible": true
+    },
+    {
+      "item_id": "20299",
+      "depth": 1,
+      "parent_item_id": "20298",
+      "label": "Clean Up Agent Worktrees",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/clean-up-agent-worktrees/",
+      "visible": true
+    },
+    {
+      "item_id": "13103",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Integrations with Git Providers",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13178",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "GitHub",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/github-gitkraken-desktop/",
+      "visible": true
+    },
+    {
+      "item_id": "13179",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "GitHub Enterprise Server",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/github-enterprise/",
+      "visible": true
+    },
+    {
+      "item_id": "13182",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "GitLab",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gitlab-gitkraken-desktop/",
+      "visible": true
+    },
+    {
+      "item_id": "13181",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "GitLab Self-Managed",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gitlab-self-hosted/",
+      "visible": true
+    },
+    {
+      "item_id": "13183",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "Bitbucket",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/bitbucket/",
+      "visible": true
+    },
+    {
+      "item_id": "13184",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "Bitbucket Data Center",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/bitbucket-data-center/",
+      "visible": true
+    },
+    {
+      "item_id": "13185",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "Azure DevOps",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/azure-devops/",
+      "visible": true
+    },
+    {
+      "item_id": "13186",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "Self-Signed Certificates",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/self-signed-certificates/",
+      "visible": true
+    },
+    {
+      "item_id": "13187",
+      "depth": 1,
+      "parent_item_id": "13103",
+      "label": "Other Git Hosts",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/authentication/",
+      "visible": true
+    },
+    {
+      "item_id": "13104",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Integrations with Issue Trackers",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13188",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "Jira Issues",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/jira/",
+      "visible": true
+    },
+    {
+      "item_id": "13189",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "Jira Data Center Issues",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/jira-data-center/",
+      "visible": true
+    },
+    {
+      "item_id": "13190",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "Git Integration for Jira",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/git-integration-for-jira/",
+      "visible": true
+    },
+    {
+      "item_id": "13191",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "GitHub Issues",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/github-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "13180",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "GitHub Enterprise Server Issues",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/github-enterprise-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "13193",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "GitLab Issues",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gitlab-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "13192",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "GitLab Self-Managed Issues",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gitlab-self-managed-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "13194",
+      "depth": 1,
+      "parent_item_id": "13104",
+      "label": "Trello",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/trello/",
+      "visible": true
+    },
+    {
+      "item_id": "13105",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Git Workflows and Extensions",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13170",
+      "depth": 1,
+      "parent_item_id": "13105",
+      "label": "Gitflow",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/git-flow/",
+      "visible": true
+    },
+    {
+      "item_id": "13171",
+      "depth": 1,
+      "parent_item_id": "13105",
+      "label": "Git LFS",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/git-lfs/",
+      "visible": true
+    },
+    {
+      "item_id": "13172",
+      "depth": 1,
+      "parent_item_id": "13105",
+      "label": "Commit Signing",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/commit-signing-with-gpg/",
+      "visible": true
+    },
+    {
+      "item_id": "13173",
+      "depth": 1,
+      "parent_item_id": "13105",
+      "label": "GitHub Actions",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/github-actions/",
+      "visible": true
+    },
+    {
+      "item_id": "13106",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "On-Premise",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13165",
+      "depth": 1,
+      "parent_item_id": "13106",
+      "label": "On-Premise Self-Hosted Server",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/self-hosted/",
+      "visible": true
+    },
+    {
+      "item_id": "13166",
+      "depth": 1,
+      "parent_item_id": "13106",
+      "label": "Install Self-Hosted Server",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/how-to-install-self-hosted/",
+      "visible": true
+    },
+    {
+      "item_id": "13167",
+      "depth": 1,
+      "parent_item_id": "13106",
+      "label": "Configure Self-Hosted Server",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/configure-self-managed/",
+      "visible": true
+    },
+    {
+      "item_id": "13168",
+      "depth": 1,
+      "parent_item_id": "13106",
+      "label": "Upgrade Self-Hosted Server",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/upgrade-enterprise/",
+      "visible": true
+    },
+    {
+      "item_id": "13169",
+      "depth": 1,
+      "parent_item_id": "13106",
+      "label": "On-Premise Serverless",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/serverless/",
+      "visible": true
+    },
+    {
+      "item_id": "13107",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Known Issues",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13162",
+      "depth": 1,
+      "parent_item_id": "13107",
+      "label": "Error Logs",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/error-logs/",
+      "visible": true
+    },
+    {
+      "item_id": "13163",
+      "depth": 1,
+      "parent_item_id": "13107",
+      "label": "Improving Performance",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/performance-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "13164",
+      "depth": 1,
+      "parent_item_id": "13107",
+      "label": "Common Issues and Fixes",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/common-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "13108",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Security",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/gkc-security/",
+      "visible": true
+    },
+    {
+      "item_id": "13113",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Release Notes",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "13174",
+      "depth": 1,
+      "parent_item_id": "13113",
+      "label": "GitKraken Desktop Release Notes",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/current/",
+      "visible": true
+    },
+    {
+      "item_id": "17718",
+      "depth": 1,
+      "parent_item_id": "13113",
+      "label": "GitKraken Desktop 11.x",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/11x/",
+      "visible": true
+    },
+    {
+      "item_id": "13196",
+      "depth": 1,
+      "parent_item_id": "13113",
+      "label": "GitKraken Desktop 10.x",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/10x/",
+      "visible": true
+    },
+    {
+      "item_id": "13175",
+      "depth": 1,
+      "parent_item_id": "13113",
+      "label": "GitKraken Desktop 9.x",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/9x/",
+      "visible": true
+    },
+    {
+      "item_id": "13176",
+      "depth": 1,
+      "parent_item_id": "13113",
+      "label": "GitKraken Desktop 8.x",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/8x/",
+      "visible": true
+    },
+    {
+      "item_id": "13114",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken Desktop Support Terms and Conditions",
+      "href": "https://help.gitkraken.com/gitkraken-desktop/terms-and-conditions/",
+      "visible": true
+    }
+  ],
+  "menu_copies_in_dom": 1,
+  "copy_used": 0,
+  "clicks": 11,
+  "hidden": [],
+  "reveal_errors": {},
+  "diffs": []
+}

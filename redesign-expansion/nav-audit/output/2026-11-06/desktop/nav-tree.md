@@ -1,0 +1,104 @@
+# GitKraken Desktop — live sidebar nav
+
+Menu `menu-gitkraken-desktop-menu` as rendered on https://help.gitkraken.com/gitkraken-desktop/gitkraken-desktop-home/ at 2026-11-06T15:37:33Z UTC.
+99 items, max depth 2. Fingerprint `ff35b092148fe558`.
+
+- **GitKraken Desktop Documentation & Support** — `https://help.gitkraken.com/gitkraken-desktop/gitkraken-desktop-home/` · item 13092 · post_type/post
+- **How to Install GitKraken Desktop** — `https://help.gitkraken.com/gitkraken-desktop/how-to-install/` · item 13093 · post_type/post
+- **GitKraken Desktop FAQ** — `https://help.gitkraken.com/gitkraken-desktop/faq/` · item 13094 · post_type/post
+- **Start Here** — `#` · item 13095 · custom/custom
+    - **Interface Guide** — `https://help.gitkraken.com/gitkraken-desktop/interface/` · item 13115 · post_type/post
+    - **Profiles** — `https://help.gitkraken.com/gitkraken-desktop/profiles/` · item 13116 · post_type/post
+    - **Integrations** — `https://help.gitkraken.com/gitkraken-desktop/integrations/` · item 13117 · post_type/post
+    - **Command Palette** — `https://help.gitkraken.com/gitkraken-desktop/command-palette/` · item 13118 · post_type/post
+    - **Keyboard Shortcuts** — `https://help.gitkraken.com/gitkraken-desktop/keyboard-shortcuts/` · item 13120 · post_type/post
+    - **Preferences** — `https://help.gitkraken.com/gitkraken-desktop/preferences/` · item 13121 · post_type/post
+    - **Beginner Guide & Workflow** — `https://help.gitkraken.com/gitkraken-desktop/guide/` · item 13122 · post_type/post
+    - **Teams** — `https://help.gitkraken.com/gitkraken-desktop/teams/` · item 13124 · post_type/post
+    - **Themes** — `https://help.gitkraken.com/gitkraken-desktop/themes/` · item 13125 · post_type/post
+    - **Tips** — `https://help.gitkraken.com/gitkraken-desktop/tips/` · item 13126 · post_type/post
+    - **Experimental Features** — `https://help.gitkraken.com/gitkraken-desktop/experimental-features/` · item 13127 · post_type/post
+- **Working With Files** — `#` · item 13096 · custom/custom
+    - **Add, Delete, and Filter Files** — `https://help.gitkraken.com/gitkraken-desktop/adding-and-removing/` · item 13129 · post_type/post
+    - **Cherry Pick Commits** — `https://help.gitkraken.com/gitkraken-desktop/cherrypick/` · item 13132 · post_type/post
+    - **Committing Changes** — `https://help.gitkraken.com/gitkraken-desktop/commits/` · item 13133 · post_type/post
+    - **Detached HEAD in GitKraken Desktop** — `https://help.gitkraken.com/gitkraken-desktop/detached-head-state/` · item 13134 · post_type/post
+    - **View Diffs, File History, and Blame in GitKraken Desktop** — `https://help.gitkraken.com/gitkraken-desktop/diff/` · item 13135 · post_type/post
+    - **Edit Files** — `https://help.gitkraken.com/gitkraken-desktop/editing-files/` · item 13136 · post_type/post
+- **Working with Commits** — `#` · item 13097 · custom/custom
+    - **Stage, Unstage, and Ignore Files** — `https://help.gitkraken.com/gitkraken-desktop/staging/` · item 13137 · post_type/post
+    - **Squash** — `https://help.gitkraken.com/gitkraken-desktop/squash/` · item 13138 · post_type/post
+    - **Stash Changes** — `https://help.gitkraken.com/gitkraken-desktop/stashing/` · item 13139 · post_type/post
+    - **Search Git Commits** — `https://help.gitkraken.com/gitkraken-desktop/search/` · item 13140 · post_type/post
+    - **Undo and Redo Git Actions** — `https://help.gitkraken.com/gitkraken-desktop/undo-and-redo/` · item 13141 · post_type/post
+- **Working with Repositories** — `#` · item 13098 · custom/custom
+    - **Open, Clone, or Initialize Repo** — `https://help.gitkraken.com/gitkraken-desktop/open-clone-init/` · item 13142 · post_type/post
+    - **View Activity Logs** — `https://help.gitkraken.com/gitkraken-desktop/activity-logs/` · item 13143 · post_type/post
+    - **Favorite Repos** — `https://help.gitkraken.com/gitkraken-desktop/favorites/` · item 13144 · post_type/post
+    - **Branch, Merge, and Rebase** — `https://help.gitkraken.com/gitkraken-desktop/branching-and-merging/` · item 13145 · post_type/post
+    - **Conflict Prevention** — `https://help.gitkraken.com/gitkraken-desktop/conflict-prevention/` · item 13146 · post_type/post
+    - **Fork GitHub Repos** — `https://help.gitkraken.com/gitkraken-desktop/fork/` · item 13147 · post_type/post
+    - **Git Hooks** — `https://help.gitkraken.com/gitkraken-desktop/githooks/` · item 13148 · post_type/post
+    - **Hide and Solo** — `https://help.gitkraken.com/gitkraken-desktop/hiding-and-soloing/` · item 13149 · post_type/post
+    - **Interactive Rebase** — `https://help.gitkraken.com/gitkraken-desktop/interactive-rebase/` · item 13151 · post_type/post
+    - **Deep Linking** — `https://help.gitkraken.com/gitkraken-desktop/linking/` · item 13152 · post_type/post
+    - **Push, Pull, and Fetch** — `https://help.gitkraken.com/gitkraken-desktop/pushing-and-pulling/` · item 13153 · post_type/post
+    - **Pull Requests** — `https://help.gitkraken.com/gitkraken-desktop/pull-requests/` · item 13154 · post_type/post
+    - **Pull Request Filter Syntax** — `https://help.gitkraken.com/gitkraken-desktop/pull-requests-filter-syntax/` · item 13155 · post_type/post
+    - **Submodules** — `https://help.gitkraken.com/gitkraken-desktop/submodules/` · item 13156 · post_type/post
+    - **Tags** — `https://help.gitkraken.com/gitkraken-desktop/tags/` · item 13157 · post_type/post
+    - **Team View** — `https://help.gitkraken.com/gitkraken-desktop/team-view/` · item 13158 · post_type/post
+    - **Terminal** — `https://help.gitkraken.com/gitkraken-desktop/terminal/` · item 13159 · post_type/post
+    - **Windows Subsystem for Linux (WSL 2)** — `https://help.gitkraken.com/gitkraken-desktop/windows-subsystem-for-linux/` · item 13160 · post_type/post
+    - **Worktrees** — `https://help.gitkraken.com/gitkraken-desktop/worktrees/` · item 13161 · post_type/post
+- **Workspaces** — `https://help.gitkraken.com/gitkraken-desktop/workspaces/` · item 13099 · post_type/post
+- **Launchpad** — `https://help.gitkraken.com/gitkraken-desktop/gitkraken-launchpad/` · item 13101 · post_type/post
+- **GitKraken AI** — `https://help.gitkraken.com/gitkraken-desktop/gkd-gitkraken-ai/` · item 13102 · post_type/post
+- **Agent Workflows** — `#` · item 20298 · custom/custom
+    - **Coding Agents** — `https://help.gitkraken.com/gitkraken-desktop/agents/` · item 17713 · post_type/post
+    - **Review and Undo Agent Changes** — `https://help.gitkraken.com/gitkraken-desktop/review-and-undo-agent-changes-2/` · item 20316 · post_type/post
+    - **Clean Up Agent Commits** — `https://help.gitkraken.com/gitkraken-desktop/clean-up-agent-commits/` · item 20300 · post_type/post
+    - **Resolve Agent Merge Conflicts** — `https://help.gitkraken.com/gitkraken-desktop/agent-merge-conflicts/` · item 20301 · post_type/post
+    - **Clean Up Agent Worktrees** — `https://help.gitkraken.com/gitkraken-desktop/clean-up-agent-worktrees/` · item 20299 · post_type/post
+- **Integrations with Git Providers** — `#` · item 13103 · custom/custom
+    - **GitHub** — `https://help.gitkraken.com/gitkraken-desktop/github-gitkraken-desktop/` · item 13178 · post_type/post
+    - **GitHub Enterprise Server** — `https://help.gitkraken.com/gitkraken-desktop/github-enterprise/` · item 13179 · post_type/post
+    - **GitLab** — `https://help.gitkraken.com/gitkraken-desktop/gitlab-gitkraken-desktop/` · item 13182 · post_type/post
+    - **GitLab Self-Managed** — `https://help.gitkraken.com/gitkraken-desktop/gitlab-self-hosted/` · item 13181 · post_type/post
+    - **Bitbucket** — `https://help.gitkraken.com/gitkraken-desktop/bitbucket/` · item 13183 · post_type/post
+    - **Bitbucket Data Center** — `https://help.gitkraken.com/gitkraken-desktop/bitbucket-data-center/` · item 13184 · post_type/post
+    - **Azure DevOps** — `https://help.gitkraken.com/gitkraken-desktop/azure-devops/` · item 13185 · post_type/post
+    - **Self-Signed Certificates** — `https://help.gitkraken.com/gitkraken-desktop/self-signed-certificates/` · item 13186 · post_type/post
+    - **Other Git Hosts** — `https://help.gitkraken.com/gitkraken-desktop/authentication/` · item 13187 · post_type/post
+- **Integrations with Issue Trackers** — `#` · item 13104 · custom/custom
+    - **Jira Issues** — `https://help.gitkraken.com/gitkraken-desktop/jira/` · item 13188 · post_type/post
+    - **Jira Data Center Issues** — `https://help.gitkraken.com/gitkraken-desktop/jira-data-center/` · item 13189 · post_type/post
+    - **Git Integration for Jira** — `https://help.gitkraken.com/gitkraken-desktop/git-integration-for-jira/` · item 13190 · post_type/post
+    - **GitHub Issues** — `https://help.gitkraken.com/gitkraken-desktop/github-issues/` · item 13191 · post_type/post
+    - **GitHub Enterprise Server Issues** — `https://help.gitkraken.com/gitkraken-desktop/github-enterprise-issues/` · item 13180 · post_type/post
+    - **GitLab Issues** — `https://help.gitkraken.com/gitkraken-desktop/gitlab-issues/` · item 13193 · post_type/post
+    - **GitLab Self-Managed Issues** — `https://help.gitkraken.com/gitkraken-desktop/gitlab-self-managed-issues/` · item 13192 · post_type/post
+    - **Trello** — `https://help.gitkraken.com/gitkraken-desktop/trello/` · item 13194 · post_type/post
+- **Git Workflows and Extensions** — `#` · item 13105 · custom/custom
+    - **Gitflow** — `https://help.gitkraken.com/gitkraken-desktop/git-flow/` · item 13170 · post_type/post
+    - **Git LFS** — `https://help.gitkraken.com/gitkraken-desktop/git-lfs/` · item 13171 · post_type/post
+    - **Commit Signing** — `https://help.gitkraken.com/gitkraken-desktop/commit-signing-with-gpg/` · item 13172 · post_type/post
+    - **GitHub Actions** — `https://help.gitkraken.com/gitkraken-desktop/github-actions/` · item 13173 · post_type/post
+- **On-Premise** — `#` · item 13106 · custom/custom
+    - **On-Premise Self-Hosted Server** — `https://help.gitkraken.com/gitkraken-desktop/self-hosted/` · item 13165 · post_type/post
+    - **Install Self-Hosted Server** — `https://help.gitkraken.com/gitkraken-desktop/how-to-install-self-hosted/` · item 13166 · post_type/post
+    - **Configure Self-Hosted Server** — `https://help.gitkraken.com/gitkraken-desktop/configure-self-managed/` · item 13167 · post_type/post
+    - **Upgrade Self-Hosted Server** — `https://help.gitkraken.com/gitkraken-desktop/upgrade-enterprise/` · item 13168 · post_type/post
+    - **On-Premise Serverless** — `https://help.gitkraken.com/gitkraken-desktop/serverless/` · item 13169 · post_type/post
+- **Known Issues** — `#` · item 13107 · custom/custom
+    - **Error Logs** — `https://help.gitkraken.com/gitkraken-desktop/error-logs/` · item 13162 · post_type/post
+    - **Improving Performance** — `https://help.gitkraken.com/gitkraken-desktop/performance-issues/` · item 13163 · post_type/post
+    - **Common Issues and Fixes** — `https://help.gitkraken.com/gitkraken-desktop/common-issues/` · item 13164 · post_type/post
+- **Security** — `https://help.gitkraken.com/gitkraken-desktop/gkc-security/` · item 13108 · post_type/post
+- **Release Notes** — `#` · item 13113 · custom/custom
+    - **GitKraken Desktop Release Notes** — `https://help.gitkraken.com/gitkraken-desktop/current/` · item 13174 · post_type/post
+    - **GitKraken Desktop 11.x** — `https://help.gitkraken.com/gitkraken-desktop/11x/` · item 17718 · post_type/post
+    - **GitKraken Desktop 10.x** — `https://help.gitkraken.com/gitkraken-desktop/10x/` · item 13196 · custom/custom
+    - **GitKraken Desktop 9.x** — `https://help.gitkraken.com/gitkraken-desktop/9x/` · item 13175 · custom/custom
+    - **GitKraken Desktop 8.x** — `https://help.gitkraken.com/gitkraken-desktop/8x/` · item 13176 · custom/custom
+- **GitKraken Desktop Support Terms and Conditions** — `https://help.gitkraken.com/gitkraken-desktop/terms-and-conditions/` · item 13114 · post_type/post

@@ -18,6 +18,8 @@ in this folder is read by the plugin build (`build-plugin.py` packages only
 | [PLUGIN-REFACTOR-SPEC.md](PLUGIN-REFACTOR-SPEC.md) | Technical spec for the registry refactor, content adapters, caching, frontmatter contract and acceptance criteria |
 | [CONTENT-SURVEY.md](CONTENT-SURVEY.md) | Detailed survey of each repo: slugs, frontmatter, structure, markup patterns, largest pages, conflicts |
 | [PER-PRODUCT-DECISIONS.md](PER-PRODUCT-DECISIONS.md) | Deferred decisions for each product (slugs, nav sections, home layout, components), with the proposed values |
+| [ARCHIVE-PLAN.md](ARCHIVE-PLAN.md) | Rules and procedure for archiving retired pages before the redesign: KEEP / DECIDE / ARCHIVE for all 679 repo files (mapping only, nothing moved) |
+| [nav-audit/](nav-audit/) | Live nav audit: every sidebar item on all eight help centers, verified three ways and in a browser, mapped to repo files. Tools, method and the 2026-11-06 run |
 | [artifacts/redesign-rollout-exploration.md](artifacts/redesign-rollout-exploration.md) | Local copy of the exploration summary doc |
 | [artifacts/help-center-mockups.html](artifacts/help-center-mockups.html) | Local copy of the interactive mockups (open in a browser): a landing page and a content page for each product |
 
@@ -44,7 +46,9 @@ are the snapshot of record from 2026-10-14.
 
 ## When this resumes
 
-1. Re-run the counts in `CONTENT-SURVEY.md`, because the repos will have moved.
+1. Re-run the nav audit (`nav-audit/README.md`) and the counts in
+   `CONTENT-SURVEY.md`, because the site and the repos will have moved.
+   Archive retired pages per `ARCHIVE-PLAN.md` before adding any frontmatter.
 2. Re-check the line references in `PLUGIN-REFACTOR-SPEC.md` against the
    current plugin version.
 3. Work through `PER-PRODUCT-DECISIONS.md` for the pilot product (Kepler is the

@@ -1,0 +1,66 @@
+[
+  {
+    "key": "desktop",
+    "items": 99,
+    "hidden": 0,
+    "clicks": 11,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "gitlens",
+    "items": 37,
+    "hidden": 0,
+    "clicks": 4,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "kepler",
+    "items": 34,
+    "hidden": 0,
+    "clicks": 6,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "mcp",
+    "items": 5,
+    "hidden": 0,
+    "clicks": 0,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "cli",
+    "items": 10,
+    "hidden": 0,
+    "clicks": 0,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "gkdev",
+    "items": 18,
+    "hidden": 0,
+    "clicks": 2,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "gijc",
+    "items": 131,
+    "hidden": 0,
+    "clicks": 22,
+    "copies": 1,
+    "diffs": 0
+  },
+  {
+    "key": "gijdc",
+    "items": 320,
+    "hidden": 0,
+    "clicks": 39,
+    "copies": 1,
+    "diffs": 0
+  }
+]

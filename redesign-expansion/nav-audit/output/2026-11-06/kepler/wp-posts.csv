@@ -1,0 +1,34 @@
+post_id,slug,link,title,date,modified,in_nav,repo_file_with_this_slug,collision_base,collision_size,collision_group,status
+18087,setup-instructions,https://help.gitkraken.com/kepler/setup-instructions/,Setting up Kepler,2026-06-25T07:06:47,2026-06-25T07:06:47,no,,,,,NO REPO FILE — exists only in WordPress
+18720,actions,https://help.gitkraken.com/kepler/actions/,Actions,2026-11-04T21:09:32,2026-11-04T21:09:32,yes (item 18749),kepler/actions.md,,,,matches one repo file
+18724,agent-graph,https://help.gitkraken.com/kepler/agent-graph/,The Agent Graph,2026-11-04T21:09:33,2026-11-04T21:09:33,yes (item 18752),kepler/agent-graph.md,,,,matches one repo file
+18117,agent-integrations,https://help.gitkraken.com/kepler/agent-integrations/,Agent Integrations,2026-11-04T21:09:34,2026-11-04T21:09:34,yes (item 18759),kepler/agent-integrations.md,,,,matches one repo file
+18120,agent-sessions,https://help.gitkraken.com/kepler/agent-sessions/,Agent Sessions,2026-11-04T21:09:35,2026-11-04T21:09:35,yes (item 18755),kepler/agent-sessions.md,,,,matches one repo file
+18727,arranging-your-work,https://help.gitkraken.com/kepler/arranging-your-work/,Arranging Your Work,2026-11-04T21:09:35,2026-11-04T21:09:35,yes (item 18748),kepler/arranging-your-work.md,,,,matches one repo file
+20039,ask-kepler,https://help.gitkraken.com/kepler/ask-kepler/,Ask Kepler,2026-11-04T21:09:36,2026-11-04T21:09:36,yes (item 20052),kepler/ask-kepler.md,,,,matches one repo file
+18122,create-task,https://help.gitkraken.com/kepler/create-task/,Create a task,2026-11-04T21:09:37,2026-11-04T21:09:37,yes (item 18754),kepler/create-task.md,,,,matches one repo file
+18159,environment-and-setup,https://help.gitkraken.com/kepler/environment-and-setup/,Environment and Setup,2026-10-30T22:33:16,2026-10-30T22:33:16,no,kepler/environment-and-setup.md,,,,matches one repo file
+18160,issue-tracker-integrations,https://help.gitkraken.com/kepler/issue-tracker-integrations/,Issue Tracker Integrations,2026-11-04T21:09:38,2026-11-04T21:09:38,yes (item 18760),kepler/issue-tracker-integrations.md,,,,matches one repo file
+18077,kepler-getting-started,https://help.gitkraken.com/kepler/kepler-getting-started/,Getting Started with Kepler,2026-11-04T21:09:31,2026-11-04T21:09:31,yes (item 18084),kepler/Kepler-Getting-Started.md,,,,matches one repo file
+18737,kepler-interface,https://help.gitkraken.com/kepler/kepler-interface/,The Kepler Interface,2026-11-04T21:09:39,2026-11-04T21:09:39,yes (item 18747),kepler/kepler-interface.md,,,,matches one repo file
+18076,kepler-new-page-template,https://help.gitkraken.com/kepler/kepler-new-page-template/,New Page Title,2026-10-30T17:30:31,2026-10-30T17:30:31,no,kepler/kepler-New-Page-Template.md,,,,matches one repo file
+19489,mcp-servers,https://help.gitkraken.com/kepler/mcp-servers/,MCP Servers,2026-11-04T21:09:40,2026-11-04T21:09:40,yes (item 19516),kepler/mcp-servers.md,,,,matches one repo file
+18119,pull-request-integrations,https://help.gitkraken.com/kepler/pull-request-integrations/,Pull Request Integrations,2026-11-04T21:09:41,2026-11-04T21:09:41,yes (item 18761),kepler/pull-request-integrations.md,,,,matches one repo file
+20076,quick-answers,https://help.gitkraken.com/kepler/quick-answers/,Quick Answers,2026-11-04T21:09:42,2026-11-04T21:09:42,yes (item 20080),kepler/quick-answers.md,,,,matches one repo file
+19145,release-notes-current,https://help.gitkraken.com/kepler/release-notes-current/,Kepler 0.x,2026-10-30T17:30:36,2026-10-30T17:30:36,yes (item 19146),kepler/release-notes-current.md,,,,matches one repo file
+18123,remote-environments,https://help.gitkraken.com/kepler/remote-environments/,Remote Environments,2026-11-04T21:09:43,2026-11-04T21:09:43,yes (item 19515),kepler/remote-environments.md,,,,matches one repo file
+18740,review-changes,https://help.gitkraken.com/kepler/review-changes/,Review Changes,2026-11-04T21:09:44,2026-11-04T21:09:44,yes (item 18756),kepler/review-changes.md,,,,matches one repo file
+1290,settings,https://help.gitkraken.com/kepler/settings/,Settings,2026-11-04T21:09:52,2026-11-04T21:09:52,yes (item 18763),kepler/settings.md,,,,matches one repo file
+20236,settings-actions,https://help.gitkraken.com/kepler/settings-actions/,Action Settings,2026-11-04T21:09:45,2026-11-04T21:09:45,yes (item 20257),kepler/settings-actions.md,,,,matches one repo file
+20237,settings-agents,https://help.gitkraken.com/kepler/settings-agents/,Agent Settings,2026-11-04T21:09:46,2026-11-04T21:09:46,yes (item 20256),kepler/settings-agents.md,,,,matches one repo file
+20238,settings-app,https://help.gitkraken.com/kepler/settings-app/,App Settings,2026-11-04T21:09:47,2026-11-04T21:09:47,yes (item 20255),kepler/settings-app.md,,,,matches one repo file
+20239,settings-environment,https://help.gitkraken.com/kepler/settings-environment/,Environment Settings,2026-11-04T21:09:47,2026-11-04T21:09:47,yes (item 20254),kepler/settings-environment.md,,,,matches one repo file
+20240,settings-integrations,https://help.gitkraken.com/kepler/settings-integrations/,Integration Settings,2026-11-04T21:09:48,2026-11-04T21:09:48,yes (item 20253),kepler/settings-integrations.md,,,,matches one repo file
+20241,settings-repositories,https://help.gitkraken.com/kepler/settings-repositories/,Repository Settings,2026-11-04T21:09:49,2026-11-04T21:09:49,yes (item 20252),kepler/settings-repositories.md,,,,matches one repo file
+20242,settings-setup-account,https://help.gitkraken.com/kepler/settings-setup-account/,Setup and Account Settings,2026-10-30T22:33:29,2026-10-30T22:33:29,yes (item 20251),kepler/settings-setup-account.md,,,,matches one repo file
+20243,settings-tasks,https://help.gitkraken.com/kepler/settings-tasks/,Task Settings,2026-11-04T21:09:50,2026-11-04T21:09:50,yes (item 20250),kepler/settings-tasks.md,,,,matches one repo file
+20244,settings-updates-help,https://help.gitkraken.com/kepler/settings-updates-help/,Update and Help Settings,2026-11-04T21:09:51,2026-11-04T21:09:51,yes (item 20249),kepler/settings-updates-help.md,,,,matches one repo file
+18742,task-view,https://help.gitkraken.com/kepler/task-view/,The Task View,2026-11-04T21:09:52,2026-11-04T21:09:52,yes (item 18751),kepler/task-view.md,,,,matches one repo file
+18743,tasks-and-resources,https://help.gitkraken.com/kepler/tasks-and-resources/,Tasks and Resources,2026-11-04T21:09:53,2026-11-04T21:09:53,yes (item 18750),kepler/tasks-and-resources.md,,,,matches one repo file
+18744,voice-input,https://help.gitkraken.com/kepler/voice-input/,Voice Input,2026-11-02T20:52:06,2026-11-02T20:52:06,yes (item 18757),kepler/voice-input.md,,,,matches one repo file
+18118,workflow-views,https://help.gitkraken.com/kepler/workflow-views/,Workflow Views,2026-11-04T21:09:54,2026-11-04T21:09:54,no,kepler/workflow-views.md,,,,matches one repo file

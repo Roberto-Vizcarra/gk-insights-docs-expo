@@ -1,0 +1,50 @@
+{
+  "items": [
+    {
+      "item_id": "15042",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Getting Started with MCP",
+      "href": "https://help.gitkraken.com/mcp/mcp-getting-started/",
+      "visible": true
+    },
+    {
+      "item_id": "17855",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken MCP Apps",
+      "href": "https://help.gitkraken.com/mcp/mcp-apps/",
+      "visible": true
+    },
+    {
+      "item_id": "15043",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Example Workflows",
+      "href": "https://help.gitkraken.com/mcp/mcp-example-workflows/",
+      "visible": true
+    },
+    {
+      "item_id": "15040",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Tools Reference",
+      "href": "https://help.gitkraken.com/mcp/mcp-tools-reference/",
+      "visible": true
+    },
+    {
+      "item_id": "15041",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Prompts Reference",
+      "href": "https://help.gitkraken.com/mcp/mcp-prompts-reference/",
+      "visible": true
+    }
+  ],
+  "menu_copies_in_dom": 1,
+  "copy_used": 0,
+  "clicks": 0,
+  "hidden": [],
+  "reveal_errors": {},
+  "diffs": []
+}

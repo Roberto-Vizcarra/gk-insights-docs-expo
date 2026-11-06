@@ -1,0 +1,90 @@
+{
+  "items": [
+    {
+      "item_id": "8325",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Install and Set Up GitKraken CLI",
+      "href": "https://help.gitkraken.com/cli/cli-home/",
+      "visible": true
+    },
+    {
+      "item_id": "19398",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How GitKraken CLI Works with GitLens and GitKraken Desktop",
+      "href": "https://help.gitkraken.com/cli/gk-cli-gitlens-and-gitkraken-desktop/",
+      "visible": true
+    },
+    {
+      "item_id": "19397",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Use AI Features in GitKraken CLI",
+      "href": "https://help.gitkraken.com/cli/gk-cli-ai-features/",
+      "visible": true
+    },
+    {
+      "item_id": "19393",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Track Pull Requests and Issues in GitKraken CLI",
+      "href": "https://help.gitkraken.com/cli/gk-cli-pull-requests-and-issues/",
+      "visible": true
+    },
+    {
+      "item_id": "19394",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Connect Providers in GitKraken CLI",
+      "href": "https://help.gitkraken.com/cli/gk-cli-providers/",
+      "visible": true
+    },
+    {
+      "item_id": "19395",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Use GitKraken CLI with AI Coding Agents",
+      "href": "https://help.gitkraken.com/cli/gk-cli-mcp/",
+      "visible": true
+    },
+    {
+      "item_id": "19396",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Script GitKraken CLI with JSON Output",
+      "href": "https://help.gitkraken.com/cli/gk-cli-json-output/",
+      "visible": true
+    },
+    {
+      "item_id": "13926",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "How to Manage Work Items in GitKraken CLI",
+      "href": "https://help.gitkraken.com/cli/gk-cli-work-items/",
+      "visible": true
+    },
+    {
+      "item_id": "19399",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken CLI Security and Data Storage Information",
+      "href": "https://help.gitkraken.com/cli/cli-security/",
+      "visible": true
+    },
+    {
+      "item_id": "13021",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitKraken CLI Support Terms and Conditions",
+      "href": "https://help.gitkraken.com/cli/cli-terms-and-conditions/",
+      "visible": true
+    }
+  ],
+  "menu_copies_in_dom": 1,
+  "copy_used": 0,
+  "clicks": 0,
+  "hidden": [],
+  "reveal_errors": {},
+  "diffs": []
+}

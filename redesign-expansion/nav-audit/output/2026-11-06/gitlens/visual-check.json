@@ -1,0 +1,306 @@
+{
+  "items": [
+    {
+      "item_id": "19624",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitLens Docs Home",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-docs-home/",
+      "visible": true
+    },
+    {
+      "item_id": "14444",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Start Here",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "14448",
+      "depth": 1,
+      "parent_item_id": "14444",
+      "label": "Getting Started",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-home/",
+      "visible": true
+    },
+    {
+      "item_id": "14512",
+      "depth": 1,
+      "parent_item_id": "14444",
+      "label": "Integrations",
+      "href": "https://help.gitkraken.com/gitlens/gl-integrations/",
+      "visible": true
+    },
+    {
+      "item_id": "14450",
+      "depth": 1,
+      "parent_item_id": "14444",
+      "label": "Commit Graph is Home",
+      "href": "https://help.gitkraken.com/gitlens/home-view/",
+      "visible": true
+    },
+    {
+      "item_id": "14451",
+      "depth": 1,
+      "parent_item_id": "14444",
+      "label": "GitLens Views",
+      "href": "https://help.gitkraken.com/gitlens/side-bar/",
+      "visible": true
+    },
+    {
+      "item_id": "14485",
+      "depth": 1,
+      "parent_item_id": "14444",
+      "label": "GitKraken Account",
+      "href": "https://help.gitkraken.com/gitlens/gl-gk-account/",
+      "visible": true
+    },
+    {
+      "item_id": "14455",
+      "depth": 1,
+      "parent_item_id": "14444",
+      "label": "GitLens Settings Overview",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-settings/",
+      "visible": true
+    },
+    {
+      "item_id": "15867",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Using Gitlens Features to Enhance your workflows",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "15864",
+      "depth": 1,
+      "parent_item_id": "15867",
+      "label": "Understanding an Unfamiliar Codebase",
+      "href": "https://help.gitkraken.com/gitlens/gl-workflow-understanding-codebases/",
+      "visible": true
+    },
+    {
+      "item_id": "15866",
+      "depth": 1,
+      "parent_item_id": "15867",
+      "label": "Cleaning Up and Preparing Work for Review",
+      "href": "https://help.gitkraken.com/gitlens/gl-workflow-cleanup-prepare-for-review/",
+      "visible": true
+    },
+    {
+      "item_id": "15865",
+      "depth": 1,
+      "parent_item_id": "15867",
+      "label": "Orchestrating Complex Git Operations",
+      "href": "https://help.gitkraken.com/gitlens/gl-workflow-orchestrate-complex-git-operations/",
+      "visible": true
+    },
+    {
+      "item_id": "14472",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Release Notes",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-release-notes-current/",
+      "visible": true
+    },
+    {
+      "item_id": "17902",
+      "depth": 1,
+      "parent_item_id": "14472",
+      "label": "Current v18.x",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-release-notes-current/",
+      "visible": true
+    },
+    {
+      "item_id": "17901",
+      "depth": 1,
+      "parent_item_id": "14472",
+      "label": "v17.x",
+      "href": "https://help.gitkraken.com/gitlens/gl-release-v17-x/",
+      "visible": true
+    },
+    {
+      "item_id": "17900",
+      "depth": 1,
+      "parent_item_id": "14472",
+      "label": "v16.x and older",
+      "href": "https://help.gitkraken.com/gitlens/gl-releases-old/",
+      "visible": true
+    },
+    {
+      "item_id": "14456",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "GitLens Community vs. GitLens Pro",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-community-vs-gitlens-pro/",
+      "visible": true
+    },
+    {
+      "item_id": "14457",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "AI in GitLens",
+      "href": "https://help.gitkraken.com/gitlens/gl-gk-ai/",
+      "visible": true
+    },
+    {
+      "item_id": "14458",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Workflows",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "18605",
+      "depth": 1,
+      "parent_item_id": "14458",
+      "label": "Manage Parallel Development from the Commit Graph",
+      "href": "https://help.gitkraken.com/gitlens/gl-parallel-dev-workflow/",
+      "visible": true
+    },
+    {
+      "item_id": "18606",
+      "depth": 1,
+      "parent_item_id": "14458",
+      "label": "Take Agent-Generated Work from Change to Merge",
+      "href": "https://help.gitkraken.com/gitlens/gl-agent-generated-work-end-to-end/",
+      "visible": true
+    },
+    {
+      "item_id": "18607",
+      "depth": 1,
+      "parent_item_id": "14458",
+      "label": "Prepare Your Branch to Ship",
+      "href": "https://help.gitkraken.com/gitlens/gl-branch-prep-to-ship/",
+      "visible": true
+    },
+    {
+      "item_id": "14513",
+      "depth": 1,
+      "parent_item_id": "14458",
+      "label": "Interactive Code History",
+      "href": "https://help.gitkraken.com/gitlens/gl-interactive-code-history/",
+      "visible": true
+    },
+    {
+      "item_id": "14514",
+      "depth": 1,
+      "parent_item_id": "14458",
+      "label": "Accelerate PR Reviews",
+      "href": "https://help.gitkraken.com/gitlens/gl-accelerate-pr-reviews/",
+      "visible": true
+    },
+    {
+      "item_id": "14515",
+      "depth": 1,
+      "parent_item_id": "14458",
+      "label": "Streamline Collaboration",
+      "href": "https://help.gitkraken.com/gitlens/gl-streamline-collaboration/",
+      "visible": true
+    },
+    {
+      "item_id": "14462",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Popular Features",
+      "href": "#",
+      "visible": true
+    },
+    {
+      "item_id": "14516",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "Commit Graph",
+      "href": "https://help.gitkraken.com/gitlens/gl-commit-graph/",
+      "visible": true
+    },
+    {
+      "item_id": "14517",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "Launchpad",
+      "href": "https://help.gitkraken.com/gitlens/gl-launchpad/",
+      "visible": true
+    },
+    {
+      "item_id": "14518",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "GitLens Worktrees",
+      "href": "https://help.gitkraken.com/gitlens/gl-worktrees/",
+      "visible": true
+    },
+    {
+      "item_id": "14519",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "Visual File History",
+      "href": "https://help.gitkraken.com/gitlens/gl-visual-file-history/",
+      "visible": true
+    },
+    {
+      "item_id": "14520",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "Cloud Patches",
+      "href": "https://help.gitkraken.com/gitlens/gl-cloud-patches/",
+      "visible": true
+    },
+    {
+      "item_id": "14521",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "GitLens Code Suggest",
+      "href": "https://help.gitkraken.com/gitlens/gl-code-suggest/",
+      "visible": true
+    },
+    {
+      "item_id": "14522",
+      "depth": 1,
+      "parent_item_id": "14462",
+      "label": "Workspaces",
+      "href": "https://help.gitkraken.com/gitlens/gl-workspaces/",
+      "visible": true
+    },
+    {
+      "item_id": "14471",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "All Features",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-features/",
+      "visible": true
+    },
+    {
+      "item_id": "14473",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Security",
+      "href": "https://help.gitkraken.com/gitlens/gl-security/",
+      "visible": true
+    },
+    {
+      "item_id": "14474",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "FAQs",
+      "href": "https://help.gitkraken.com/gitlens/gitlens-faq/",
+      "visible": true
+    },
+    {
+      "item_id": "14475",
+      "depth": 0,
+      "parent_item_id": null,
+      "label": "Terms & Conditions",
+      "href": "https://help.gitkraken.com/gitlens/gl-terms-and-conditions/",
+      "visible": true
+    }
+  ],
+  "menu_copies_in_dom": 1,
+  "copy_used": 0,
+  "clicks": 4,
+  "hidden": [],
+  "reveal_errors": {},
+  "diffs": []
+}

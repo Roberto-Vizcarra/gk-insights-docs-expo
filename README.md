@@ -77,3 +77,9 @@ Markdown in `gk-insights-expo/` syncs to WordPress via Git It Write. Custom
 fields must be nested under `custom_fields:` in the YAML frontmatter or they are
 not stored as post meta. Git It Write does not delete WordPress posts when
 source files are removed — those must be deleted manually in WP Admin.
+
+The `gki-docs-authoring` Claude Code skill (`.claude/skills/gki-docs-authoring/`)
+documents the frontmatter, page skeletons and the Markdown patterns the plugin
+turns into components. Before committing a content change, run
+`python .claude/skills/gki-docs-authoring/scripts/check_pages.py` and
+`python preview/build.py`.

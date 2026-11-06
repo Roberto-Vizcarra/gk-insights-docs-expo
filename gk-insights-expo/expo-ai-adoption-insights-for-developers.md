@@ -18,17 +18,17 @@ custom_fields:
     nav_order: 90
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-**GitKraken Insights for Developers** is a personal page for each member of your organization. It shows where your AI spend goes, the AI sessions and models you use, and how ready the repositories you work in are for agents. This page explains who gets the page, how to turn it on, and what each view shows. It doesn't cover the org-wide pages that Owners, Admins, and Managers use; for those, start with [Reading Your First Dashboard](/insights-expo/expo-ai-adoption-first-dashboard).
+**GitKraken Insights for Developers** is a personal page for each member of your organization. It shows where your AI spend goes, the AI sessions and models you use, and how ready the repositories you work in are for agents. For the org-wide pages that Owners, Admins, and Managers use, start with [Reading Your First Dashboard](/insights-expo/expo-ai-adoption-first-dashboard).
 
 ---
 
 ## Who gets the page
 
-The page is for members of your organization who don't have org-wide access to Insights. Owners, Admins, and Managers already see everyone's data on the org-wide pages, so the personal page isn't offered to them.
+The page is for members of your organization who do not have org-wide access to Insights. Owners, Admins, and Managers already see everyone's data on the org-wide pages, so the personal page is not offered to them.
 
-The page is available only when an Owner or Admin turns on **GitKraken Insights for Developers** for the organization. When the setting is off, the page isn't available to anyone. Turning it on lets each person see their own data; it doesn't give anyone access to another person's data.
+The page is available only when an Owner or Admin turns on **GitKraken Insights for Developers** for the organization. When the setting is off, the page is not available to anyone. Turning it on lets each person see their own data; it does not give anyone access to another person's data.
 
 ### Turn the page on for your organization
 
@@ -45,7 +45,7 @@ For the setting's details, see [GitKraken Insights for Developers](/insights-exp
 Once the setting is on, opening Insights takes you to your personal page. The sidebar has two groups:
 
 * **Insights:** **Overview**, **Agent Adoption**, **Repositories**, **Delivery**, and **AI Sessions**.
-* **Level Up:** **Coaching** and **About the framework**. **Goals & Streaks** and **Benchmarks** are marked **Coming soon** and aren't available yet.
+* **Level Up:** **Coaching** and **About the framework**. **Goals & Streaks** and **Benchmarks** are marked **Coming soon** and are not available yet.
 
 Use the filters at the top of the page to change the time window.
 
@@ -63,11 +63,11 @@ The **Overview** shows where your AI spend goes, and how ready the repositories 
 * **Latest sessions.** Your most recent AI sessions, each with its top skill and cost. To see where a session's token value went, by skill and by model, click the session. To open the full list, click **View all sessions**.
 * **Repositories.** The average AI readiness of the repositories in your organization, with a **Needs attention** list of active, low-scoring repositories. To open the full list, click **View all repositories**.
 
-**Top skills by token value** and **Latest sessions** are measured from Claude Code, GitHub Copilot, and OpenCode sessions. **Model choices** covers every connected AI tool, so the two don't always add up to the same total.
+**Top skills by token value** and **Latest sessions** are measured from Claude Code, GitHub Copilot, and OpenCode sessions. **Model choices** covers every connected AI tool, so the two do not always add up to the same total.
 
 GitHub Copilot models appear in **Model choices** only when your organization has a **GitHub Copilot** or **Agent OTel Data** connection. Per-model Copilot spend comes from Copilot telemetry. A GitHub Copilot connection through a personal access token reports only an estimated seat-level cost, so it has no per-model breakdown.
 
-> **Note: Devin and OpenCode are available on request.** These connections aren't turned on for every organization. To enable them, your organization's admin can contact your GitKraken account team.
+> **Note: Devin and OpenCode are available on request.** These connections are not turned on for every organization. To enable them, your organization's admin can contact your GitKraken account team.
 
 ## Use the other views
 
@@ -83,14 +83,14 @@ Each sidebar item opens a focused view of your own data:
 
 ### Read your delivery charts
 
-The **Delivery** view counts your pull requests, but it doesn't open lists of pull requests. Those lists draw on organization-wide data that only Owners, Admins, and Managers can open. If a list is refused, it reads **These pull requests are not available**.
+The **Delivery** view counts your pull requests, but it does not open lists of pull requests. Those lists draw on organization-wide data that only Owners, Admins, and Managers can open. If a list is refused, it reads **These pull requests are not available**.
 
 ### Read your AI sessions
 
 The **AI Sessions** view shows the same metric strip and the same **Overview**, **Sessions**, **Pull Requests**, and **Issues** tabs as the org-wide [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions) page, scoped to your own sessions. A notice explains which AI tools report sessions:
 
-* Sessions cover Claude Code, Codex, Devin, OpenCode, and GitHub Copilot through OpenTelemetry.
-* Cursor, and GitHub Copilot connected without OpenTelemetry, report usage that isn't grouped into sessions. Their activity appears in **Agent Adoption** instead.
+* Sessions cover Claude Code, Codex, Devin, OpenCode, Gemini, and GitHub Copilot through OpenTelemetry.
+* Cursor, and GitHub Copilot connected without OpenTelemetry, report usage that is not grouped into sessions. Their activity appears in **Agent Adoption** instead.
 * Pull requests, commits, and issues are linked to a session from the point you connect your environment onward. A session that ran before that point shows no delivery activity.
 
 For what each card, tab, and column means, see [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions).

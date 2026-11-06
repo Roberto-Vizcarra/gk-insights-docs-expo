@@ -17,11 +17,13 @@ custom_fields:
     nav_parent: expo-ai-adoption-flow-metrics
     page_type: content
 ---
+<kbd>Last updated: November 2026</kbd>
+
 ## Review Cycles
 
 > _The average number of "changes requested" reviews a PR receives before it gets merged. Bucketed as 0 / 1 / 2 / 3+._
 
-**Family:** Flow & Cycle Time · **Cadence:** Per PR, aggregated · **Where it appears:** /ai-adoption/ai-impact, PR drill-down tables
+**Family:** Flow & Cycle Time · **Cadence:** Per PR, aggregated · **Where it appears:** /insights/ai-impact, PR drill-down tables
 
 ### At a glance
 
@@ -52,9 +54,9 @@ The buckets are the more useful presentation — they show the _shape_ of the pr
 Review Cycles tells you about a few different problems at once:
 
 * **PR size.** Big PRs accumulate more reviewable surface area, more review feedback, more cycles. High cycles usually correlate with high effort scores.
-* **Spec clarity.** When developers don't have a clear spec, the review _becomes_ the spec. Cycles spike.
-* **Reviewer-author calibration.** A reviewer who reflexively requests changes on every PR will inflate cycles regardless of PR quality.
-* **Style guide drift.** PRs failing for inconsistent style or lint should not show up here — but if your team's automation isn't catching those, they will.
+* **Spec clarity.** When developers do not have a clear spec, the review _becomes_ the spec. Cycles spike.
+* **Reviewer-author calibration.** A reviewer who reflexively requests changes on every PR inflates cycles regardless of PR quality.
+* **Style guide drift.** PRs failing for inconsistent style or lint should not show up here — but if your team's automation is not catching those, they will.
 
 Compared to Cycle Time, Review Cycles is more _causal_. Cycle Time tells you it took 5 days; Review Cycles tells you it took 5 days _because_ of three rounds of back-and-forth.
 
@@ -71,7 +73,7 @@ The distribution matters as much as the mean. A team with 60% at 0 cycles, 30% a
 
 ### Where it appears
 
-* **/ai-adoption/ai-impact** — Review Cycles bucketed breakdown is available as a dimension on Cycle Time and PR Volume charts.
+* **/insights/ai-impact** — Review Cycles bucketed breakdown is available as a dimension on Cycle Time and PR Volume charts.
 * **PR drill-down tables** — every PR drill-down has a Cycles column.
 
 ### Settings that affect it
@@ -92,13 +94,13 @@ None. Review Cycles is a measurement.
 * **Write better PR descriptions.** A PR with a clear "what / why / how to test" description gets approved faster than one with title only. AI-assisted PR descriptions are a low-effort win here.
 * **Tighten the spec before coding.** PRs that change scope during review are PRs that get cycles. Get spec alignment in the design stage, not the review stage.
 * **Calibrate reviewers.** If one reviewer's PRs always get more cycles than peers, have a quick conversation. Reviewer perfectionism is a fixable habit.
-* **Automate style enforcement.** Lint failures, formatting nits, and type errors should never be in a human review. If they are, your CI isn't catching them.
+* **Automate style enforcement.** Lint failures, formatting nits, and type errors should never be in a human review. If they are, your CI is not catching them.
 
 ### Limitations and gotchas
 
-* **Doesn't measure the _quality_ of feedback.** A PR with three cycles that resulted in genuinely better code is a healthy outcome; a PR with 0 cycles that shipped a bug is not. Use Review Cycles alongside CFR.
-* **Doesn't count dismissed reviews.** A "changes requested" that gets dismissed without action still counts as a cycle.
-* **A PR that bypasses formal review** (e.g. small fix from a senior IC, merged after a comment) shows as 0 cycles.
+* **Does not measure the _quality_ of feedback.** A PR with three cycles that resulted in genuinely better code is a healthy outcome; a PR with 0 cycles that shipped a bug is not. Use Review Cycles alongside CFR.
+* **Does not count dismissed reviews.** A "changes requested" that gets dismissed without action still counts as a cycle.
+* **A PR that bypasses formal review** (for example, a small fix from a senior IC, merged after a comment) shows as 0 cycles.
 
 ### FAQ
 

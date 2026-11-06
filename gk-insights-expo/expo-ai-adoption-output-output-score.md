@@ -21,7 +21,7 @@ custom_fields:
 
 > _Effort-weighted shipping rate per developer or per team, per working week. Adds up the complexity of every merged PR, direct commit, and formally reviewed PR in the window, weighting commits and reviews at half the rate of authored PRs by default, then divides by working weeks with PTO excluded._
 
-**Family:** Output & Throughput · **Cadence:** Window-based · **Where it appears:** /ai-adoption/developers, /ai-adoption/teams, /ai-adoption/ai-tools-comparison, /ai-adoption/capex
+**Family:** Output & Throughput · **Cadence:** Window-based · **Where it appears:** /insights/developers, /insights/teams, /insights/ai-tools-comparison, /insights/capex
 
 ### At a glance
 
@@ -44,7 +44,7 @@ Where:
 
 * **Working weeks** = the weeks in the window minus the developer's PTO weeks.
 
-* **PR effort** = `COALESCE(effort_score, auto_effort_score, 0)` summed over PRs the developer authored and merged in the window.
+* **PR effort** = `COALESCE(effort_score, auto_effort_score, 0)` summed over PRs the developer authored and merged in the window. A merged PR's effort is shared among the developers who authored its commits.
 * **DC effort** = same COALESCE, summed over direct commits the developer authored in the window.
 * **Reviewed-PR effort** = same COALESCE, summed over PRs where the developer left a formal review (state `APPROVED` or `CHANGES_REQUESTED`). Each PR counts once per reviewer.
 * **MergedPRWeight** = Merged PR Weight setting (default 1; range 0–1). Set to 0 to score on direct commits and reviews only.
@@ -68,20 +68,20 @@ Effort comes from an LLM classifier (`auto_effort_score`) and can be manually ov
 
 **Per-developer rate.** For each developer in the window:
 
-1. Sum effort across their authored merged PRs (drafts and bots excluded; optionally Chore-excluded).
+1. Sum effort across their authored merged PRs (drafts and bots excluded; optionally Chore-excluded). A merged PR's effort is shared among the developers who authored its commits.
 2. Sum effort across their authored direct commits (bots and empty commits excluded; optionally Chore-excluded).
 3. Sum effort across PRs they formally reviewed (state `APPROVED` or `CHANGES_REQUESTED`; the same PR can credit multiple reviewers).
 4. Multiply the PR sum by `MergedPRWeight`, the DC sum by `DCWeight`, and the review sum by `ReviewWeight`.
 5. Add the three terms.
-6. Divide by the developer's working weeks in the window (PTO excluded) to get the per-week rate shown as **/wk**.
+6. Divide by the developer's working weeks in the window (PTO excluded) to get the per-week rate, shown in effort points as **N pts/wk**. It is not a PR count, so it is not expected to match [Throughput](/insights-expo/expo-ai-adoption-output-throughput), which counts merged PRs and direct commits.
 
 Hover a developer's Output Score on the Developers table to see this calculation for that developer: each effort term, the working weeks minus PTO, the per-week rate, and how it's normalized to 0–100 for Output Norm.
 
-> **Why "Reviewed" here won't match GitHub's review count.** Insights credits a review only when a developer left a formal **Approve** or **Request changes** — plain comments don't count — and credits each PR once per reviewer no matter how many reviews they left, excluding self-reviews and bots. GitHub's own "reviews" number is broader, so the two will legitimately differ.
+> **Why "Reviewed" here does not match GitHub's review count.** Insights credits a review only when a developer left a formal **Approve** or **Request changes** (plain comments do not count), and credits each PR once per reviewer no matter how many reviews they left, excluding self-reviews and bots. GitHub's own "reviews" number is broader, so the two will legitimately differ.
 
-**Team aggregate.** For team rows on /ai-adoption/teams, the score is the team's effort per working week, pooled across its members' PTO-adjusted working weeks. Members who only reviewed count too. This per-week rate is what makes team scores comparable across team sizes.
+**Team aggregate.** For team rows on /insights/teams, the score is the team's effort per working week, pooled across its members' PTO-adjusted working weeks. Members who only reviewed count too. This per-week rate is what makes team scores comparable across team sizes.
 
-**The Chore asymmetry.** When the "Exclude Chore" toggle is on (default), Chore-category items are excluded from the **effort sums** — but the **counts shown in the cell stay raw**. So a developer who shipped 5 PRs and 12 direct commits will always show "5 merged · 12 direct" in the breakdown, even if half were chores. This asymmetry exists so developers whose window happened to be mostly chores don't disappear from the developer table.
+**The Chore asymmetry.** When the "Exclude Chore" toggle is on (default), Chore-category items are excluded from the **effort sums** — but the **counts shown in the cell stay raw**. So a developer who shipped 5 PRs and 12 direct commits will always show "5 merged · 12 direct" in the breakdown, even if half were chores. This asymmetry exists so developers whose window happened to be mostly chores do not disappear from the developer table.
 
 **Sub-week windows.** For windows shorter than 7 days, the per-dev divisor uses per-row working weeks floored at a minimum, and the org P90 benchmark widens to a trailing 7-day cohort so the rate keeps meaningful resolution. Output Score is already a per-week rate; the widened benchmark applies to its normalized variant (**Output Norm**, used by AI Tier). The benchmark is never narrowed by the team filter, but filtering by Repositories or Organizations computes it for just that scope.
 
@@ -93,7 +93,7 @@ Output Score is the dashboard's answer to the chronic problem that raw PR counts
 
 The review-credit term matters for the same reason. A senior engineer who spent the window doing high-quality reviews on substantive PRs has produced real value; the older Velocity metric ignored that work entirely.
 
-Output Score also threads cleanly into the [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) composite. Normalized to org P90 and scaled by Maturity Factor (we call that derived value **Output Norm**), it becomes the "shipping" leg of the composite alongside Adoption and Agentic.
+Output Score also threads cleanly into the [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) composite. Normalized to org P90 and scaled by Maturity Factor (a derived value called **Output Norm**), it becomes the "shipping" leg of the composite alongside Adoption and Agentic.
 
 For leaders, the most useful reading is **Output Score over time alongside Adoption Score over time**. AI rollouts almost always show Adoption rising first, then Output rising 4–12 weeks later.
 
@@ -112,14 +112,14 @@ For teams, compare the per-week rate directly. A team averaging an Output Score 
 
 ### Where it appears
 
-* **/ai-adoption/developers** — main **Output Score /wk** column on the [Developers](/insights-expo/expo-ai-adoption-developers) table. Hover the score to see the calculation. The breakdown under it reads "X opened · Y merged · Z direct · W reviewed"; click it to open the Output Score drill-down.
-* **/ai-adoption/teams** — **Output Score /wk** column, sortable. Hover a team's score to see its merged PRs, direct commits, review credits, members, and working weeks.
-* **/ai-adoption/ai-tools-comparison** — cohort comparison uses Output Score as a key metric.
-* **/ai-adoption/capex** — Output Score with CapEx vs OpEx classification for the capitalization grid.
+* **/insights/developers** — main **Output Score (pts/wk)** column on the [Developers](/insights-expo/expo-ai-adoption-developers) table. Hover the score to see the calculation. The breakdown under it reads "X opened · Y merged · Z direct · W reviewed"; click it to open the Output Score drill-down.
+* **/insights/teams** — **Output Score (pts/wk)** column, sortable. The breakdown under each score reads "from X merged · Y direct · Z review credits". Hover a team's score to see its merged PRs, direct commits, review credits, members, and working weeks. Each reviewer earns one review credit per PR, so a PR reviewed by two teammates counts twice and review credits can exceed the number of merged PRs.
+* **/insights/ai-tools-comparison** — cohort comparison uses Output Score as a key metric.
+* **/insights/capex** — Output Score with CapEx vs OpEx classification for the capitalization grid.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-table-01-v3@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
-  <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value, and $ / Output columns.</figcaption>
+  <img src="/wp-content/uploads/gki-developers-table-01-v6@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output (2.02 pts/wk) and % Power Users (+10.0 pp from 40.0%), each with its change from the previous period and the first three with their Org P90 scoring thresholds, a banner whose Opportunity block reads that everyone in view is at Regular adoption or above, beside Risers and Fallers, and the first five rows of the All Developers table, each name with a pts vs prev trend chip, with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk) with an opened, merged, direct and reviewed breakdown, Token Usage Value and $ / Output" />
+  <figcaption>Developers page — KPI cards and the All Developers table with Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk), Token Usage Value, and $ / Output columns.</figcaption>
 </figure>
 
 **The Output Score drill-down.** Click a developer's Output Score breakdown on the Developers table to open the work behind the score, for any connected Git provider. The drill-down has three tabs, each with search, filters, a **Columns** menu, and **Export CSV**:
@@ -170,7 +170,7 @@ If a developer has no authored changes in the period, the drill-down says the sc
 * **Calibrate effort scores.** If the LLM-assigned `auto_effort_score` is consistently wrong for your team's domain, have a senior engineer override the most miscategorized PRs.
 * **Audit Chore exclusion behavior.** On most teams the default reflects the right definition of "real output." For an SRE team where dependency upgrades _are_ the job, turn it off.
 * **Track Output trajectory, not the absolute number.** Output Score that climbed from 4 → 8 per dev over a quarter is a stronger signal than a static 9 from a team that has been at 9 for a year.
-* **Pair Output review with WIP review.** A team with low Output may have a lot of work _in progress_ that hasn't merged.
+* **Pair Output review with WIP review.** A team with low Output may have a lot of work _in progress_ that has not merged.
 
 ### Limitations and gotchas
 
@@ -178,7 +178,7 @@ If a developer has no authored changes in the period, the drill-down says the sc
 * **The score is a weekly rate, so short windows are noisy.** A 14-day and a 90-day Output Score are on the same per-week scale, but a short window rests on fewer weeks of work, so one large PR moves it more.
 * **Chore filtering changes the score, not the counts.** This is intentional but trips people up.
 * **Merged PR Weight, Direct Commit Weight, or Review Weight at 0 hides that term entirely from the score.**
-* **Bots and drafts are excluded.**
+* **Drafts and most bots are excluded.**
 
 ### FAQ
 
@@ -189,10 +189,10 @@ A: Velocity treated all PRs as equal-weight and ignored review work. That worked
 A: An LLM classifier worker reads each PR or commit diff and assigns one of five effort tiers. The rubric ignores LOC and focuses on the change's apparent scope, intent, and complexity. See [Effort Score](/insights-expo/expo-ai-adoption-output-effort-score).
 
 **Q: Why is my Output Score 0 even though I shipped a big PR?**
-A: Three common causes: (1) the PR's `auto_effort_score` hasn't been computed yet, (2) the PR's category is Chore and the "Exclude Chore" toggle is on, or (3) the PR merged outside the window you selected.
+A: Three common causes: (1) the PR's `auto_effort_score` has not been computed yet, (2) the PR's category is Chore and the "Exclude Chore" toggle is on, or (3) the PR merged outside the window you selected.
 
 **Q: Why are direct commits and reviews weighted lower than authored PRs?**
 A: Empirically, direct commits trend toward smaller, less-reviewed work, and a single review takes less effort than authoring the same PR. The 0.5 defaults reflect those averages. Tune via [Direct Commit Weight](/insights-expo/expo-ai-adoption-settings#direct-commit-weight) and [Review Weight](/insights-expo/expo-ai-adoption-settings#review-weight).
 
 **Q: Can I see what effort score a specific PR got?**
-A: Yes. /ai-adoption/data-explorer → PRs tab shows the Effort column for every PR, sortable.
+A: Yes. /insights/data-explorer → PRs tab shows the Effort column for every PR, sortable.

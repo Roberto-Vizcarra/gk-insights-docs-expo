@@ -18,9 +18,9 @@ custom_fields:
     nav_order: 60
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-The **Developers** page shows how each developer is adopting AI agents: daily use, autonomy in agentic workflows, delivered output, and AI spend. This page explains each part of the Developers page and how to read it, from the table to the detail you see when you expand a developer. It assumes your git provider and AI tools already report to Insights. To connect them, see [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data). For how each score is calculated, see the metric pages linked from each section.
+The **Developers** page shows how each developer is adopting AI agents: daily use, autonomy in agentic workflows, delivered output, and AI spend. Read it from the table down to the detail you see when you expand a developer. The page fills in once your git provider and AI tools report to Insights. To connect them, see [Connect Your Data](/insights-expo/expo-ai-adoption-connect-your-data). For how each score is calculated, see the metric pages linked from each section.
 
 > **Who can see it:** The Developers page is available to **Owners**, **Admins**, and **Managers**. Other members see their own figures on [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
 
@@ -33,13 +33,13 @@ The Developers page is a coaching view, not a ranking. Use it to find who needs 
 In the Insights sidebar, under **Agent Leaderboard**, click **By Developer**. The page opens with a filter bar, four KPI cards, an insight banner, and the **All Developers** table. Below the table, three explainer cards describe the scores: **Score Tiers**, **How is the Agent Adoption Score calculated?**, and **What is the Agent Autonomy Score?**
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-table-01-v3@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output and % Power Users, an Opportunity, Risers and Fallers banner, and the All Developers table listing ten developers with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output" />
+  <img src="/wp-content/uploads/gki-developers-table-01-v6@2x.png" class="help-center-img img-bordered" alt="The Developers page in GitKraken Insights with Timeframe, Granularity, Filters and Teams filters, KPI cards for Avg Adoption, Avg Autonomy, Avg Output (2.02 pts/wk) and % Power Users (+10.0 pp from 40.0%), each with its change from the previous period and the first three with their Org P90 scoring thresholds, a banner whose Opportunity block reads that everyone in view is at Regular adoption or above, beside Risers and Fallers, and the first five rows of the All Developers table, each name with a pts vs prev trend chip, with their Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk) with an opened, merged, direct and reviewed breakdown, Token Usage Value and $ / Output" />
   <figcaption>The Developers page: filter bar, KPI cards, insight banner, and the All Developers table.</figcaption>
 </figure>
 
 ## Narrow the page with filters
 
-The filter bar sets the scope for everything on the page. It holds **Timeframe**, **Granularity**, **Filters**, and **Teams**, plus **Export CSV**, which downloads the developer rows you're viewing. When any filter is active, **Clear all** resets them.
+The filter bar sets the scope for everything on the page. It holds **Timeframe**, **Granularity**, **Filters**, and **Teams**, plus **Export CSV**, which downloads the developer rows you're viewing. When any filter is active, **Clear filters** resets them and keeps the timeframe.
 
 Open **Filters** to add a filter. The menu lists these filters:
 
@@ -54,7 +54,7 @@ Open **Filters** to add a filter. The menu lists these filters:
   <figcaption>The Filters menu on the Developers page.</figcaption>
 </figure>
 
-If your organization's Claude Code telemetry includes Cowork activity ([connect Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork)), a **Surface** control also appears, with **All**, **Claude Code**, and **Cowork**. Choosing a surface narrows only the detail you see when you expand a developer. Scores and tables still include activity from every surface. Detail panels that can't be split by surface say **Includes activity from all surfaces**, and the Agent Adoption Insight card is hidden while a surface is selected.
+If your organization's Claude Code telemetry includes Cowork activity ([connect Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork)), the **Filters** menu also lists **Claude**, with **Claude Code** and **Cowork**. The choice shows on the bar as a chip, such as **Claude: Cowork**; clear the chip to see all activity again. The Claude filter narrows the detail you see when you expand a developer, including its Agent Adoption, Agent Autonomy, and tier scores. Output in the detail, the All Developers table, and the team tables still include all activity. Detail panels that cannot be split by surface say **Includes activity from all surfaces**, and the Agent Adoption Insight card is hidden while the Claude filter is set.
 
 ## Read the KPI cards and the insight banner
 
@@ -64,6 +64,10 @@ Four KPI cards summarize the developers in the current scope:
 * **Avg Autonomy** — the mean [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score).
 * **Avg Output** — the mean [Output Score](/insights-expo/expo-ai-adoption-output-output-score) per working week, with its normalized value, out of 100, beside it.
 * **% Power Users** — the share of active developers in the Power User [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier).
+
+Each card shows the change against the previous period: a percentage for the three averages, and percentage points (**pp**) for **% Power Users**. The comparison is hidden while the **AI Tier**, **AI Tool**, **AI Model**, or **Developer** filter is applied.
+
+Under **Scoring thresholds**, the **Avg Adoption**, **Avg Autonomy**, and **Avg Output** cards show the benchmarks their scores are measured against, such as **Prompts / weekday** or **Output / working week**. Each benchmark is labeled **Org P90**, your organization's 90th percentile, or **Admin target**, a target an admin set under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks).
 
 The insight banner below the cards has three blocks. Click a developer's name in any block to jump to that developer's row in the table:
 
@@ -75,7 +79,7 @@ When **Opportunity** has no estimate, the block says why:
 
 * Everyone in the view is on time off for the period.
 * Everyone in the view is at Regular adoption or above, so no untapped capacity remains.
-* The baseline month has no delivery activity yet. If you just connected, the estimate fills in once the first sync finishes. Otherwise, an organization admin can pick a different [Baseline Period](/insights-expo/expo-ai-adoption-settings#baseline-period) in AI Adoption settings.
+* The baseline month has no delivery activity yet. If you just connected, the estimate fills in once the first sync finishes. Otherwise, an organization admin can pick a different [Baseline Period](/insights-expo/expo-ai-adoption-settings#baseline-period) in Insights settings.
 * Delivery pace in the period is at or below your baseline month, so no measurable capacity is left to unlock.
 
 Without previous-window data, **Risers** and **Fallers** read **No prior-period data to compare**.
@@ -86,13 +90,13 @@ The **All Developers** table has one row per developer. Use **Filter by name** t
 
 | Column | What it shows |
 | --- | --- |
-| **Developer** | The developer's name. A row labelled **Automation** collects activity from automated accounts; it has no tier or scores and doesn't expand. |
+| **Developer** | The developer's name. When the developer's composite tier score moved against the previous period, a chip beside the name shows the change, such as **↑ 5 pts vs prev**. A row labeled **Automation** collects activity from automated accounts; it has no tier or scores and does not expand. |
 | **Team** | The developer's team. |
 | **Tier** | The developer's [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier), from a weighted blend of Agent Adoption, Agent Autonomy, and Output. |
 | **Agent Adoption Score** | The [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score), from 0 to 100. |
 | **Agent Autonomy Score** | The [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score), from 0 to 100. |
-| **Output Score /wk** | The [Output Score](/insights-expo/expo-ai-adoption-output-output-score) per working week. Click it to open the breakdown of the pull requests and commits behind it. |
-| **Token Usage Value** | AI API spend across your connected AI coding tools in the selected window. |
+| **Output Score (pts/wk)** | The [Output Score](/insights-expo/expo-ai-adoption-output-output-score) in effort points per working week (**pts/wk**). It weighs work by effort, so it is not a pull request count and is not expected to match Throughput. Click it to open the breakdown of the pull requests and commits behind it. |
+| **Token Usage Value** | AI API spend across your connected AI coding tools in the selected window. When all of your organization's AI spend is GitHub Copilot, the column reads **Copilot Usage**. |
 | **AI Credits Used** | Copilot premium-model credits in the window, as reported by GitHub, with input and output token counts below when GitHub reports them. The column appears only when your organization uses GitHub Copilot and has credit data. |
 | **$ / Output** | AI API spend per point of output the developer shipped in the window. |
 
@@ -102,10 +106,10 @@ Read **$ / Output** as cost efficiency: a lower figure means more shipped effort
 
 ### Show, hide, and resize columns
 
-Click **Columns** above the table to choose which columns to show. The menu reads **Visible columns** with a count, and a checkbox for each column you can hide. After you hide a column, **Show all** brings every column back, and **Reset widths** restores the default widths. To resize a column, drag the edge of its header. Your browser remembers the visible columns and widths for this table. On narrow screens, columns can't be hidden or resized.
+Click **Columns** above the table to choose which columns to show. The menu reads **Visible columns** with a count, and a checkbox for each column you can hide. After you hide a column, **Show all** brings every column back, and **Reset widths** restores the default widths. To resize a column, drag the edge of its header. Your browser remembers the visible columns and widths for this table. On narrow screens, columns cannot be hidden or resized.
 
 <figure>
-  <img src="/wp-content/uploads/gki-developers-columns-01-v3@2x.png" class="help-center-img img-bordered" alt="The Columns menu open over the All Developers table, showing Visible columns 7 of 7 with checked boxes for Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score /wk, Token Usage Value and $ / Output (the longer names truncated), above the table header and the first three developer rows" />
+  <img src="/wp-content/uploads/gki-developers-columns-01-v4@2x.png" class="help-center-img img-bordered" alt="The Columns menu open over the All Developers table, showing Visible columns 7 of 7 with checked boxes for Team, Tier, Agent Adoption Score, Agent Autonomy Score, Output Score (pts/wk), Token Usage Value and $ / Output (the longer names truncated), above the table header and the first three developer rows" />
   <figcaption>The Columns menu above the All Developers table.</figcaption>
 </figure>
 
@@ -123,7 +127,7 @@ The detail opens on **Overview**. If the tab you're on disappears after you chan
 
 ### Overview tab
 
-The **Overview** tab is a coaching scorecard. It opens with the **Agent Adoption Insight** card. Click the bulb to generate an AI-written read of the developer's tier, what drives it, and where to nudge next. Insights generates the read only when you click. When the developer's activity is too sparse, the card says there isn't enough adoption signal to summarize.
+The **Overview** tab is a coaching scorecard. It opens with the **Agent Adoption Insight** card. Click the bulb to generate an AI-written read of the developer's tier, what drives it, and where to nudge next. Insights generates the read only when you click. When the developer's activity is too sparse, the card says there is not enough adoption signal to summarize.
 
 > **Note:** AI-generated insight cards appear only when your organization has AI features enabled. If an organization admin has turned AI features off, the card is hidden.
 
@@ -149,11 +153,11 @@ A developer on time off for the whole window shows **Fully on PTO for the select
 
 #### Mark a day off
 
-If you can manage Insights data, for example as an organization admin, you can mark or clear a developer's day off on the activity heatmap. Click a day, or move to it with the keyboard and press Enter or Space. The tooltip reads **Mark as time off** or **Clear time off**. A day you mark shows as **Day off** and counts the same way as time off synced from [BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#mark-time-off-by-hand): it can move the developer to the On PTO tier, and it leaves the day out of per-week rates. If the change doesn't save, Insights says so and you can try again.
+If you can manage Insights data, for example as an organization admin, you can mark or clear a developer's day off on the activity heatmap. Click a day, or move to it with the keyboard and press Enter or Space. The tooltip reads **Mark as time off** or **Clear time off**. A day you mark shows as **Day off** and counts the same way as time off synced from [BambooHR](/insights-expo/expo-ai-adoption-connect-jira-bamboohr#mark-time-off-by-hand): it can move the developer to the On PTO tier, and it leaves the day out of per-week rates. If the change does not save, Insights says so and you can try again.
 
 ### Agent Adoption tab
 
-The **Agent Adoption** tab shows the developer's activity over time, with one card per AI tool they used: **Claude Code**, **Codex**, **OpenCode**, **Cursor**, **Copilot (OTEL)**, **Devin**, and **Copilot (PAT)**. **Copilot (OTEL)** comes from GitHub Copilot through [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry), and **Copilot (PAT)** from the [GitHub Copilot connection](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot). Devin and OpenCode are available on request — contact your GitKraken account team.
+The **Agent Adoption** tab shows the developer's activity over time, with one card per AI tool they used: **Claude Code**, **Codex**, **OpenCode**, **Gemini**, **Cursor**, **Copilot (OTEL)**, **Devin**, and **Copilot (PAT)**. **Copilot (OTEL)** comes from GitHub Copilot through [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry), and **Copilot (PAT)** from the [GitHub Copilot connection](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot). Devin and OpenCode are available on request — contact your GitKraken account team.
 
 Each card groups its charts into up to five sections:
 
@@ -177,7 +181,7 @@ The **AI Sessions** tab shows the developer's AI coding sessions and the skills 
 The top of the tab shows four panels:
 
 * **Token value trend.** The developer's token value over time, **Overall** and for **Skills**, the share spent while a skill was active.
-* **Cost per Delivery.** Token value divided by the effort the developer delivered in the same period, with a dashed trend line. Periods with no delivered work have no bar. Delivered effort weights work by estimated complexity but isn't the Output Score, so this figure won't match the **$ / Output** column.
+* **Cost per Delivery.** Token value divided by the effort the developer delivered in the same period, with a dashed trend line. Periods with no delivered work have no bar. Delivered effort weights work by estimated complexity but is not the Output Score, so this figure will not match the **$ / Output** column.
 * **Selected period.** Token value spent on skills, **Skill uses**, **Distinct skills**, and **Token value / run**, then **Merged PRs**, **Direct commits**, **Reviewed PRs**, and **Delivered effort** in points.
 * **Breakdown by model.** How the developer's token value or token volume splits across models, for skill and non-skill work. Use the toggle to switch between the two.
 
@@ -190,7 +194,7 @@ The trends follow the page's **Granularity**.
 
 Below the panels, the tab shows how skills were used:
 
-* **Top skills by token value.** Each skill's own token value, with its install source, its model mix, the share that ran inside subagents, and how many runs and sessions used it. Toggle between **Total** and **Per run**. A **No skill** row shows token value spent with no skill active, for context.
+* **Top skills by token value.** Each skill's own token value, with its install source, its model mix, the share that ran inside subagents, and how many runs and sessions used it. Toggle between **Total** and **Per run**. A **No skill** row shows token value spent with no skill active, for context. Skills from plugins outside Anthropic's official marketplaces share one **third-party** row, because Claude Code does not report their names. Hover the row's info icon for the explanation.
 * **Invocation trigger.** How each skill started: the developer invoked it directly, another skill called it, the agent chose it, or it loaded with an agent's context.
 * **Skill source.** Where the skills came from: user (personal), project (shared in the repository), bundled or built-in (included with the coding agent), plugin, custom directory, or remote (organization or enterprise).
 
@@ -203,7 +207,7 @@ An expanded session shows its time span and token value, and any pull requests i
 * The **work** lane shows what each prompt turn did, as bars whose length is proportional to token value. Each bar names its skill, or **No skill**, with its cost and model.
 * The **git** lane shows the git activity each turn produced: pull requests, direct commits, and branch changes, in time order. Markers show where the context window was compacted.
 
-When a session's git activity wasn't recorded, the timeline says so and shows the work lane alone. Click a skill on the timeline to open its **Segment detail**: token value, API requests, prompts sent (count and length only, never prompt text), how hands-on the work was, cache hit rate, models, tools used, where the work ran, and any failed tools or API errors.
+When a session's git activity was not recorded, the timeline says so and shows the work lane alone. Click a skill on the timeline to open its **Segment detail**: token value, API requests, prompts sent (count and length only, never prompt text), how hands-on the work was, cache hit rate, models, tools used, where the work ran, and any failed tools or API errors.
 
 Sessions that spawned subagents list them under **Subagents**, grouped by agent type, with each type's cost and main model. The segment detail also shows **Subagents spawned**, with the share of requests they made. Click a subagent type to open its **Agent detail**: token value, requests, tool calls, tokens, cache hit rate, and models. A subagent always reads as **Autonomous**, because it takes no prompts of its own.
 

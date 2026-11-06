@@ -17,15 +17,15 @@ custom_fields:
     nav_order: 30
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 ## For engineering leaders
 
-You run multiple teams. You have a board meeting next week and a 1:1 with your VP the week after. This guide is how to extract the right answers in 30 minutes flat.
+You run multiple teams. You have a board meeting next week and a 1:1 with your VP the week after. Use the weekly scan and quarterly review below to get the right answers in 30 minutes.
 
 ### Your weekly 10-minute scan
 
-Every Monday morning, open `/teams` with the date range set to the last 14 days. Look at three things:
+Every Monday morning, open `/insights/teams` with the date range set to the last 14 days. Look at three things:
 
 1. **Tier mix bars.** Are any teams disproportionately Emerging or Explorer? That's a leading indicator of an adoption problem you can intervene on this week.
 2. **Cycle Time outliers.** Any team over 4 days? Click in — almost always it's a review bottleneck (high review cycles) or a WIP problem (too many open PRs), not coding speed.
@@ -39,13 +39,13 @@ A 45-minute structured review using four pages. Do this once per quarter with yo
 
 #### Step 1 — Org-level AI rollout health (5 min)
 
-Open `/executive`. Note: AI Adoption % current vs. last quarter, Power User % current vs. last quarter, AI-Assisted % current vs. last quarter.
+Open `/insights/executive`. Note: AI Adoption % current vs. last quarter, Power User % current vs. last quarter, AI-Assisted % current vs. last quarter.
 
 **Question to answer:** Did we move the rollout forward this quarter? If yes, by how much and on which teams? If no, what's blocking us?
 
 #### Step 2 — Delivery health (10 min)
 
-Stay on `/executive`. Look at Cycle Time, Throughput, Deploy Frequency, and CFR trends.
+Stay on `/insights/executive`. Look at Cycle Time, Throughput, Deploy Frequency, and CFR trends.
 
 **Question to answer:** Did delivery health improve, hold, or regress alongside AI adoption? You're testing the thesis "AI use should compound into better flow."
 
@@ -53,7 +53,7 @@ If Cycle Time worsened despite adoption climbing — flag for investigation. It 
 
 #### Step 3 — Team-by-team review (20 min)
 
-Open `/teams`. Walk through each team's expanded row.
+Open `/insights/teams`. Walk through each team's expanded row.
 
 For each team, write down: their adoption trajectory (improving / steady / declining), their delivery trajectory (improving / steady / declining), one specific question they should answer at their next team retro.
 
@@ -61,15 +61,19 @@ The dashboard's job is to surface the questions. The answers come from the team.
 
 #### Step 4 — Investment review (10 min)
 
-Open `/ai-adoption/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ saved per week, AI-Assisted % of lines changed.
+Open `/insights/ai-impact`. Look at: Productivity Uplift % vs. baseline, estimated $ saved per week, AI-Assisted % of lines changed.
 
-**Question to answer:** Is the AI tooling spend still returning more value than it costs? For most orgs running Claude Code + Cursor, breakeven happens in single-digit weeks. If yours hasn't, look at adoption depth — the math fails when adoption is shallow even if it's broad.
+**Question to answer:** Is the AI tooling spend still returning more value than it costs? For most orgs running Claude Code + Cursor, breakeven happens in single-digit weeks. If yours has not, look at adoption depth — the math fails when adoption is shallow even if it's broad.
 
 ### How to read scores fairly
 
 The most common mistake leaders make with this dashboard is reading individual developer scores as a performance review proxy. Read [Read this family responsibly](/insights-expo/expo-ai-adoption-agentic-metrics#read-this-family-responsibly) before you go anywhere near a 1:1 talking about a score.
 
-What scores _are_ good for: **Cohort comparison** ("Our backend team has 80% Power Users, our mobile team has 20%. Why?"), **Onboarding signal** ("New hires are landing in Emerging after 8 weeks instead of Explorer. Something's wrong with our onboarding."), **Tooling signal** ("Three teams using Cursor + Claude Code together hit Power User faster than teams on Claude Code alone.").
+What scores _are_ good for:
+
+* **Cohort comparison** ("Our backend team has 80% Power Users, our mobile team has 20%. Why?")
+* **Onboarding signal** ("New hires are landing in Emerging after 8 weeks instead of Explorer. Something's wrong with our onboarding.")
+* **Tooling signal** ("Three teams using Cursor + Claude Code together hit Power User faster than teams on Claude Code alone.")
 
 What scores are _not_ good for: "Why is Alex at Explorer when Sam is at Power User?" Without context (project, role, week), that question is unanswerable from the dashboard.
 

@@ -18,9 +18,9 @@ custom_fields:
     nav_order: 10
     page_type: index
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-GitKraken Insights is the dashboard your engineering organization uses to see — in one place — how AI tools, code delivery, and team capacity actually interact. This section gets you oriented in about ten minutes.
+GitKraken Insights is the dashboard your engineering organization uses to see, in one place, how AI tools, code delivery, and team capacity interact. Get oriented in about 10 minutes.
 
 ---
 
@@ -38,9 +38,9 @@ It connects your git provider, your AI coding tool telemetry, your Jira customer
 
 | Page | When to use it |
 | --- | --- |
-| **/teams** _(the default landing)_ | Weekly leadership review. Team-by-team adoption and delivery, side by side. |
-| **/developers** | When you want to drill into individuals: who's a Power User, who's struggling to adopt, who needs onboarding. |
-| **/executive** | Monthly or quarterly reports up the chain. Pre-shaped for execs with hero KPIs and trend lines. |
+| **/insights/teams** | Weekly leadership review. Team-by-team adoption and delivery, side by side. |
+| **/insights/developers** _(the default landing)_ | When you want to drill into individuals: who's a Power User, who's struggling to adopt, who needs onboarding. |
+| **/insights/executive** | Monthly or quarterly reports up the chain. Pre-shaped for execs with hero KPIs and trend lines. |
 
 ## Explore by developer, repository, tool, and session
 
@@ -57,7 +57,11 @@ The **Agent Leaderboard** pages in the sidebar each look at AI adoption from one
 
 ## Adjust table columns
 
-Most AI Adoption tables have a **Columns** menu. To choose which columns appear, open **Columns** and select or clear each column under **Visible columns**. To bring every column back, click **Show all**. To resize a column, drag the edge of its header, or focus the edge and use the arrow keys. To undo your resizing, click **Reset widths** in the **Columns** menu. Insights remembers your column choices in this browser. On narrow screens, columns can't be hidden or resized.
+Most Insights tables have a **Columns** menu. To choose which columns appear, open **Columns** and select or clear each column under **Visible columns**. To bring every column back, click **Show all**. To resize a column, drag the edge of its header, or focus the edge and use the arrow keys. To undo your resizing, click **Reset widths** in the **Columns** menu. Insights remembers your column choices in this browser. On narrow screens, columns cannot be hidden or resized.
+
+## Read the filter options
+
+The **Team**, **Repositories**, **Org**, and **Developer** filters list every option in your organization, grouped under **Matching code activity** and **No matching code activity** for the selected period and your other filters. If you pick an option with no activity, a note under the filter bar says so, and empty cards and tables read **No activity for the selected filters**. To clear every filter but the timeframe, click **Clear filters**. For an example, see [Set the scope first](/insights-expo/expo-ai-adoption-first-dashboard#set-the-scope-first).
 
 ## A note on benchmarks
 

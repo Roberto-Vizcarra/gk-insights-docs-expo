@@ -19,13 +19,15 @@ custom_fields:
     page_type: content
 ---
 <!-- FLAG FOR HUMAN REVIEW: API key creation (gkDotDevApiKeys) is treated as not widely available (Viz, 2026-10-15). The page stays visible with an available-on-request note; revisit once availability is clarified. -->
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-The Manual Releases API lets you record releases in GitKraken Insights that aren't captured automatically from your git provider — for example, releases cut by an external CI/CD system, deploys to a platform GitKraken doesn't read, or historical releases you want to backfill.
+Use the Manual Releases API to record releases in GitKraken Insights that your git provider does not capture automatically. For example, record releases cut by an external CI/CD system, deploys to a platform GitKraken does not read, or historical releases you want to backfill.
 
 Manual releases appear alongside automatically detected releases in Insights reporting, and contribute to release-based metrics such as [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency).
 
-> **Note — available on request.** Creating API keys isn't turned on for every organization yet. To use the Manual Releases API, contact your GitKraken account team to enable API keys for your organization. Once it's enabled, you can create keys under **API keys** in your account's **Security** settings.
+To read Insights data rather than record releases, use the read-only Insights analytics API, documented on the [GitKraken Developer Portal](https://developer.gitkraken.dev). Sign in with your GitKraken account to view it.
+
+> **Note — available on request.** Creating API keys is not turned on for every organization yet. To use the Manual Releases API, contact your GitKraken account team to enable API keys for your organization. After API keys are enabled, you can create keys under **API keys** in your account's **Security** settings.
 
 > **Plan:** GitKraken Insights
 > **Role:** An account that can create API keys for your organization
@@ -81,7 +83,7 @@ Content type: `application/json`
 | `id` | string | Yes | Release identifier, unique within the repository. |
 | `repo` | string | Yes | Repository name in `owner/name` form. The repository must already exist in your organization for the given `gitProvider`. |
 | `gitProvider` | string | Yes | Git provider. One of: `github`, `githubEnterprise`, `gitlab`, `gitlabSelfHosted`, `bitbucket`, `bitbucketServer`, `azure`, `azureDevopsServer`. |
-| `releasedAt` | string (date-time) | Yes | Release time in RFC 3339 format, e.g. `2026-07-09T14:30:00Z`. |
+| `releasedAt` | string (date-time) | Yes | Release time in RFC 3339 format, for example `2026-07-09T14:30:00Z`. |
 | `tagName` | string | No | Release tag. |
 | `headBranch` | string | No | Branch the release was cut from. |
 
@@ -106,7 +108,7 @@ curl -i -X POST https://api.gitkraken.dev/v1/insights/analytics/releases \
 | Status | Meaning |
 | --- | --- |
 | `201` | Release created. The response body is empty. |
-| `400` | Bad request — a required field is missing or malformed, the `id` already exists in this repository, or the `repo` isn't known for the given `gitProvider`. |
+| `400` | Bad request — a required field is missing or malformed, the `id` already exists in this repository, or the `repo` is not known for the given `gitProvider`. |
 | `401` | Unauthenticated — the API key is missing, malformed, or expired. |
 | `403` | Unauthorized — the key lacks Insights write permission for this organization. |
 | `500` | Internal server error. |
@@ -119,7 +121,7 @@ curl -i -X POST https://api.gitkraken.dev/v1/insights/analytics/releases \
 DELETE /v1/insights/analytics/releases/{id}
 ```
 
-Deletes a manual release. Only manual releases can be deleted — releases detected automatically from your git provider are not removable through this endpoint.
+Deletes a manual release. You can delete only manual releases. This endpoint cannot remove releases detected automatically from your git provider.
 
 ### Path parameters
 
@@ -134,7 +136,7 @@ Both are required to identify the release, since `id` is only unique within a re
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
 | `repo` | string | Yes | Repository name in `owner/name` form. URL-encode the `/` as `%2F`. |
-| `gitProvider` | string | Yes | Git provider, e.g. `github`. |
+| `gitProvider` | string | Yes | Git provider, for example `github`. |
 
 ### Example request
 

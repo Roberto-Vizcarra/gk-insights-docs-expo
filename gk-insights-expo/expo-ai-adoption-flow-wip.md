@@ -17,11 +17,13 @@ custom_fields:
     nav_parent: expo-ai-adoption-flow-metrics
     page_type: content
 ---
+<kbd>Last updated: November 2026</kbd>
+
 ## Work In Progress (WIP)
 
 > _Number of pull requests currently open. The backlog of unmerged work._
 
-**Family:** Flow & Cycle Time · **Cadence:** Point-in-time snapshot, trended over the window · **Where it appears:** /ai-adoption/ai-impact
+**Family:** Flow & Cycle Time · **Cadence:** Point-in-time snapshot, trended over the window · **Where it appears:** /insights/ai-impact
 
 ### At a glance
 
@@ -39,7 +41,7 @@ For trend lines, the count is sampled at fixed intervals across the window and p
 
 ### How GitKraken Insights calculates it
 
-A PR is in WIP if its `state = 'open'` and it is not a draft. Bot-authored PRs are excluded.
+A PR is in WIP if its `state = 'open'` and it is not a draft. PRs by excluded developers are left out (most bot accounts are excluded automatically).
 
 For the trend view, the backend samples the count at a daily cadence (or whatever the chart granularity is set to) and plots it.
 
@@ -66,7 +68,7 @@ For org-level WIP, watch the _trend_. Sudden spikes always tell a story. Slow dr
 
 ### Where it appears
 
-* **/ai-adoption/ai-impact** — WIP trend chart available as a breakdown view.
+* **/insights/ai-impact** — WIP trend chart available as a breakdown view.
 
 <figure>
   <img src="/wp-content/uploads/ai-adoption-wip-trend.png" class="help-center-img img-bordered" alt="Flow & Delivery board in GitKraken Insights showing KPI cards for Throughput, Cycle Time, Review Speed, PR First Pass, WIP, CFR, and AI Adoption, with the WIP card displaying the count of open PRs and how many are older than three days" />
@@ -96,8 +98,8 @@ None. WIP is a raw count.
 
 * **A snapshot, not an average.** WIP varies through the week (highest Thursday afternoon, lowest after weekend merges). One snapshot can mislead; trend tells the story.
 * **Drafts are excluded.** A team that uses drafts heavily has WIP that under-counts the actual work in flight.
-* **Bots are excluded.**
-* **No size weighting.** WIP doesn't care if those 25 open PRs are all 0.1-effort dep bumps or all 0.9-effort migrations.
+* **Bots are mostly excluded.** Most bot accounts are excluded automatically, so their PRs do not count toward WIP. A bot an admin includes in the roster counts like any other developer.
+* **No size weighting.** WIP counts the same whether those 25 open PRs are all 0.1-effort dep bumps or all 0.9-effort migrations.
 
 ### FAQ
 
@@ -108,4 +110,4 @@ A: Yes — every open PR counts. If your team uses stacking heavily, your WIP ru
 A: Almost certainly yes. PRs older than \~30 days are vanishingly likely to merge. They distort WIP and waste reviewer mental bandwidth.
 
 **Q: How do I see _which_ PRs are in WIP?**
-A: Open PRs are visible in your repo's PR list and in the underlying data on /ai-adoption/data-explorer. The dashboard surfaces WIP as a count and trend.
+A: Open PRs are visible in your repo's PR list and in the underlying data on /insights/data-explorer. The dashboard surfaces WIP as a count and trend.

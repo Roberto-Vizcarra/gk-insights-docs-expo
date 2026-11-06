@@ -18,9 +18,9 @@ custom_fields:
     nav_order: 70
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-The **AI Sessions** page shows every AI coding session across your organization, and how those sessions roll up into the pull requests and issues they delivered. This page explains each part of AI Sessions and how to read it. It assumes your AI tools already report to Insights. To connect them, see [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel) and [Connect AI Coding Tools](/insights-expo/expo-ai-adoption-connect-ai-tools).
+The **AI Sessions** page shows every AI coding session across your organization, and how those sessions roll up into the pull requests and issues they delivered. The page fills in once your AI tools report to Insights. To connect them, see [Connect Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel) and [Connect AI Coding Tools](/insights-expo/expo-ai-adoption-connect-ai-tools).
 
 > **Who can see it:** AI Sessions is available to **Owners**, **Admins**, and **Managers**. Other members see their own sessions in the AI Sessions view of [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
 
@@ -42,21 +42,21 @@ Six cards summarize the sessions in the selected window. Each card shows its cha
 | **Avg parallel sessions** | How many sessions a developer typically runs at the same time, with the peak. Insights weights overlap by time: the total duration of every session divided by the span those sessions covered together. |
 | **Autonomous run** | How long the agent works between prompts, shown as the 90th percentile (P90), with the median and the number of runs. Each run lasts from a prompt to the agent's last activity before the next prompt. |
 | **Skills / session** | The average number of distinct skills used in a session, and the share of sessions that use at least one skill. |
-| **Cost / session** | The mean cost of a session, with the median and P90 beside it so a few expensive sessions don't hide the typical one. |
+| **Cost / session** | The mean cost of a session, with the median and P90 beside it so a few expensive sessions do not hide the typical one. |
 | **Total usage value** | The total usage value of every session in the window, divided by merged pull requests and by issues. |
 
 Usage value and token value are the estimated dollar value of the tokens a session consumed.
 
-Not every AI tool reports every metric. When a card covers fewer tools than the page does, it names the tools it covers, for example **Covers Claude Code only**. When run durations aren't recorded for every day in the range, **Autonomous run** reads as unavailable.
+Not every AI tool reports every metric. When a card covers fewer tools than the page does, it names the tools it covers, for example **Covers Claude Code only**. When run durations are not recorded for every day in the range, **Autonomous run** reads as unavailable.
 
 ## Understand which sessions are covered
 
-A notice below the metric strip explains two things the figures can't show on their own:
+A notice below the metric strip explains two things the figures cannot show on their own:
 
-* **Which AI tools report sessions.** Sessions cover Claude Code, Codex, Devin, OpenCode, and GitHub Copilot through OpenTelemetry. Cursor, and GitHub Copilot connected without OpenTelemetry, report usage that isn't grouped into sessions. Their activity appears on the other AI Adoption pages instead.
+* **Which AI tools report sessions.** Sessions cover Claude Code, Codex, Devin, OpenCode, Gemini, and GitHub Copilot through OpenTelemetry. Cursor, and GitHub Copilot connected without OpenTelemetry, report usage that is not grouped into sessions. Their activity appears on the other Insights pages instead.
 * **When delivery is linked.** Pull requests, commits, and issues are linked to a session from the point each developer connects their environment onward. A session that ran before that point shows no delivery activity.
 
-> **Note: Devin and OpenCode are available on request.** These connections aren't turned on for every organization. To enable them, contact your GitKraken account team.
+> **Note: Devin and OpenCode are available on request.** These connections are not turned on for every organization. To enable them, contact your GitKraken account team.
 
 To hide the notice, click its close button. Your browser remembers the choice.
 
@@ -76,7 +76,7 @@ The tab holds these cards:
 * **Breakdown by model.** A donut of how the window's token value and token volume split across models.
 * **Skills invocation trigger.** How each skill started: a developer invoked it directly, another skill called it, the agent chose it, or it loaded with an agent's context.
 * **Skill source.** Where the skills came from: user (personal), project (shared in the repository), bundled or built-in, plugin, custom directory, or remote (organization or enterprise).
-* **Top skills by token value.** The skills with the highest token value, beside the token value spent with no skill active.
+* **Top skills by token value.** The skills with the highest token value, beside the token value spent with no skill active. Skills from plugins outside Anthropic's official marketplaces share one **third-party** row, because Claude Code does not report their names. Hover the row's info icon for the explanation.
 * **Autonomous run distribution.** How long autonomous runs lasted, grouped into duration bands, with the P90 band highlighted.
 
 If the cohort has no session activity in the period, the tab says so and keeps only the run distribution.
@@ -102,12 +102,12 @@ The table has these columns:
 | **Direct** | Commits the developer pushed straight to a branch, with no pull request. |
 | **Commits** | Every commit the session's captured activity resolved to, including commits someone else authored. This count can be higher than **Direct**. |
 | **Started** | When the session started. |
-| **Token value** | The session's total token value. The bar splits skill work (purple) from work with no skill active (grey). |
+| **Token value** | The session's total token value. The bar splits skill work (purple) from work with no skill active (gray). |
 
 Some cells show a status instead of a value:
 
-* **Not applicable:** the AI tool doesn't report skills.
-* **Not tracked:** the session's git activity was never captured. This status doesn't mean zero.
+* **Not applicable:** the AI tool does not report skills.
+* **Not tracked:** the session's git activity was never captured. This status does not mean zero.
 * **Couldn't load:** the page's delivery details failed to load.
 
 ### Open a session
@@ -119,7 +119,7 @@ Below that, the **Session timeline by token value** lays the session out in time
 * **Work · skills** shows the work each prompt turn did. Bar length is proportional to token value. To open a segment's detail, click a skill. The detail covers the segment's requests, prompts, models, and tools, and any subagents it spawned, grouped by agent type.
 * **Git · commits, by time** shows the git activity each turn produced: pull requests, direct commits, and branch changes. Each pull request shows how the session relates to it, such as **Authored** or **Reviewed**, and any review verdict: **Approved**, **Changes requested**, or **Commented**.
 
-A **context compaction** marker shows when the session's context window filled and older turns were summarized. When git activity wasn't recorded for a session, the git lane says so. Sessions from AI tools that don't report skills have no timeline to open.
+A **context compaction** marker shows when the session's context window filled and older turns were summarized. When git activity was not recorded for a session, the git lane says so. Sessions from AI tools that do not report skills have no timeline to open.
 
 <figure>
   <img src="/wp-content/uploads/gki-ai-sessions-session-detail-01-v2@2x.png" class="help-center-img img-bordered" alt="The Sessions tab of AI Sessions: the All sessions table, with its Skills filter, session search and Columns menu, and David Kim's session expanded. The detail shows the session's time span and token value, token usage value by model and by skill, three linked merged pull requests marked Authored, and the session timeline: a Work lane of skill and no-skill runs with their token value beside a Git lane of commits and pull requests in time order. Two collapsed session rows and the pager follow." />
@@ -154,7 +154,7 @@ To see the pull requests and sessions behind an issue, click its row.
 
 ### Open a session from a pull request or issue
 
-On both roll-up tabs, you can expand a contributing session into the same timeline as on the **Sessions** tab. To open it, click the session's row. A session that isn't linked to a developer can't be opened.
+On both roll-up tabs, you can expand a contributing session into the same timeline as on the **Sessions** tab. To open it, click the session's row. A session that is not linked to a developer cannot be opened.
 
 ---
 

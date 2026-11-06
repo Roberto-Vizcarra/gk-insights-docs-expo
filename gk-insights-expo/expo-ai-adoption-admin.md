@@ -18,6 +18,8 @@ custom_fields:
     page_type: index
 ---
 
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 Configuration, security, and API reference for GitKraken Insights AI Adoption.
+
+The read-only Insights analytics API is documented on the [GitKraken Developer Portal](https://developer.gitkraken.dev). Sign in with your GitKraken account to view it.

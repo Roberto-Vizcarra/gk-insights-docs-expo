@@ -18,9 +18,9 @@ custom_fields:
     nav_order: 0
     page_type: main-index
 ---
-<kbd>Last updated: September 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
-GitKraken Insights gives engineering leaders a single view of how AI tools, code delivery, and team capacity work together. The AI Adoption section measures how much your team is actually using AI, how autonomously, and what AI is actually delivering — in time and dollars.
+GitKraken Insights gives engineering leaders a single view of how AI tools, code delivery, and team capacity work together. The AI Adoption section measures how much your team uses AI, how autonomously, and what AI delivers — in time and dollars.
 
 ---
 
@@ -64,12 +64,12 @@ A private view for each developer of their own AI sessions, model choices, and s
 
 ## Where AI Adoption shows up in the product
 
-* **/ai-adoption/developers** — primary surface. Each row has Adoption, Agentic, Tier, and a heatmap.
-* **/ai-adoption/teams** — team tiers and team averages for adoption, autonomy, and output.
-* **/ai-adoption/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users).
-* **/ai-adoption/sessions** — every AI coding session, rolled up into pull requests and issues. See [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions).
-* **/ai-adoption/me** — each developer's own page, for members without org-wide access. See [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
-* **/ai-adoption/executive** — hero KPI ("AI Adoption %") and trend lines.
-* **/ai-adoption/ai-impact** — autonomy deep dive and Business Impact / ROI.
-* **/ai-adoption/capex** — CapEx / OpEx split as the primary surface.
-* Adjacent surfaces in the same nav family: **/ai-adoption/board-metrics**, **/ai-adoption/data-connections**, **/ai-adoption/data-explorer**, **/ai-adoption/settings/\***.
+* **/insights/developers** — primary surface. Each row has Adoption, Agentic, Tier, and a heatmap.
+* **/insights/teams** — team tiers and team averages for adoption, autonomy, and output.
+* **/insights/ai-tools-comparison** — cohort comparisons (e.g. team A vs. team B, or Claude vs. Codex users).
+* **/insights/sessions** — every AI coding session, rolled up into pull requests and issues. See [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions).
+* **/insights/me** — each developer's own page, for members without org-wide access. See [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
+* **/insights/executive** — hero KPI ("AI Adoption %") and trend lines.
+* **/insights/ai-impact** — autonomy deep dive and Business Impact / ROI.
+* **/insights/capex** — CapEx / OpEx split as the primary surface.
+* Adjacent surfaces in the same nav family: **/insights/board-metrics**, **/insights/settings/data-connections**, **/insights/data-explorer**, **/insights/settings/\***.

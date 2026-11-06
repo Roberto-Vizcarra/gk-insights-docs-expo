@@ -21,11 +21,11 @@ custom_fields:
 
 > _Merged PRs plus direct commits in the window, expressed per active developer per week for cross-team comparison._
 
-**Family:** Output & Throughput · **Cadence:** Window-based · **Where it appears:** /ai-adoption/executive, /ai-adoption/ai-tools-comparison, /ai-adoption/ai-impact
+**Family:** Output & Throughput · **Cadence:** Window-based · **Where it appears:** /insights/executive, /insights/ai-tools-comparison, /insights/ai-impact
 
 ### At a glance
 
-Throughput is the raw count metric — how many changes your team shipped, counting merged PRs and direct commits. It is the simpler, older sibling of [Output Score](/insights-expo/expo-ai-adoption-output-output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick gut check.
+Throughput is the raw count metric — how many changes your team shipped, counting merged PRs and direct commits. It is the simpler, older sibling of [Output Score](/insights-expo/expo-ai-adoption-output-output-score). Output Score is generally a better metric for cross-team or cross-window comparison because it weights for effort. Throughput is better when you want a clean count over time _for the same team_ (where effort distribution is roughly constant) or when you need a quick check.
 
 ### Formula
 
@@ -34,24 +34,24 @@ Throughput (per active dev per week) = (merged PRs + direct commits) / active de
 Throughput (team total)              = SUM(merged PRs + direct commits in window)
 ```
 
-Drafts and bot-authored PRs are excluded. The Executive View's Throughput tile reads "Merged + direct per dev per week", and its sparkline and the PR Volume card's per-developer figure use the same formula.
+Drafts and PRs by [excluded developers](/insights-expo/expo-ai-adoption-settings#developer-visibility) (most bot accounts are excluded automatically) are left out. The Executive View's Throughput tile reads "Count of merged PRs + direct commits per dev per week", and its sparkline and the PR Volume card's per-developer figure use the same formula.
 
 ### How GitKraken Insights calculates it
 
-**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Drafts are excluded. PRs whose author git-provider login matches a bot pattern (e.g. `*[bot]`) are excluded. Add the [direct commits](/insights-expo/expo-ai-adoption-output-direct-commits) pushed in the same window.
+**Step 1.** Count merged PRs in the window. A PR is "in the window" if its `merged_at` timestamp falls within `[from, to)`. Leave out drafts and PRs by excluded developers. Add the [direct commits](/insights-expo/expo-ai-adoption-output-direct-commits) pushed in the same window.
 
 **Step 2.** For team-level views, divide by the count of active developers and by the number of weeks in the window. The result is merged PRs plus direct commits per active dev per week — the comparison-ready rate.
 
-**Step 3.** Per-developer Throughput is the raw count of that developer's merged PRs in the window. The /ai-adoption/developers cell shows it as a clickable breakdown (X opened · Y merged · Z direct); clicking opens the drill-down sheet.
+**Step 3.** Per-developer Throughput is the raw count of that developer's merged PRs in the window. The /insights/developers cell shows it as a clickable breakdown (X opened · Y merged · Z direct · W reviewed); clicking opens the drill-down sheet.
 
 **Who counts as "active."** An active developer for the window has `is_active = true`, was not fully on PTO across the window, and contributed at least one merged PR, direct commit, or formal review.
 
 ### Why it matters
 
-Two things Throughput tells you that Output Score doesn't:
+Throughput tells you 2 things that Output Score does not:
 
 1. **How many distinct things shipped.** If your team's count drops while Output Score stays steady, you are shipping fewer-but-bigger PRs. That can be a good thing (right-sizing) or a bad thing (PRs growing because review queues are slow). Throughput is the signal.
-2. **A quick gut check.** Output Score requires Effort Score to be assigned, which requires the LLM classifier to have run. Throughput is computable instantly from any window of PR data.
+2. **A quick check.** Output Score requires Effort Score to be assigned, which requires the LLM classifier to have run. Throughput is computable instantly from any window of PR data.
 
 ### How to read it
 
@@ -66,9 +66,9 @@ The "right" number depends on PR size discipline. A team shipping 0.5-effort PRs
 
 ### Where it appears
 
-* **/ai-adoption/executive** — Throughput as one of the headline trend lines.
-* **/ai-adoption/ai-tools-comparison** — cohort comparisons display Throughput alongside Output Score.
-* **/ai-adoption/ai-impact** — PR Volume trends in the System Metrics view.
+* **/insights/executive** — Throughput as one of the headline trend lines.
+* **/insights/ai-tools-comparison** — cohort comparisons display Throughput alongside Output Score.
+* **/insights/ai-impact** — PR Volume trends in the System Metrics view.
 
 ### Settings that affect it
 
@@ -93,7 +93,7 @@ None. Throughput is a raw count — no admin knobs change it. If you want effort
 
 * **Raw counts are misleading for cross-team comparison.** A team merging 20 0.1-effort docs PRs per week looks more productive than a team merging 3 0.9-effort migration PRs per week. Use Output Score instead when comparing.
 * **Throughput drops during long features.** Teams working on multi-week initiatives may legitimately show low Throughput. Pair with WIP to distinguish "stuck" from "deep-work."
-* **Bots are excluded.** Dependabot, security bots, and similar tools don't inflate Throughput.
+* **Most bots are excluded.** Insights excludes most bot accounts automatically, so Dependabot, security bots, and similar tools do not inflate Throughput.
 
 ### FAQ
 
@@ -104,4 +104,4 @@ A: They answer different questions. Throughput is "how many?" Output Score is "h
 A: They are shipping many small things. That is fine for some work (UI iteration, bug fixes) and a warning sign for others (a backend team should usually have substantial PRs in the mix).
 
 **Q: Does the count include PRs that were merged but reverted?**
-A: Yes. Reverts are tracked as a separate signal but don't subtract from Throughput in the standard view.
+A: Yes. Reverts are tracked as a separate signal but do not subtract from Throughput in the standard view.

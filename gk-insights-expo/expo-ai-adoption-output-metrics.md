@@ -19,12 +19,12 @@ custom_fields:
     nav_parent: expo-ai-adoption-metrics
     page_type: index
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 
 This family answers: **what is your team shipping, and how much of it is substantive work?**
 
-It is the dashboard's "delivered output" lens — distinct from Flow (how fast?) and DORA (how reliably?). Output asks: of all the work that came out of this team this window, how does it stack up against itself over time and against the org?
+It is the dashboard's "delivered output" lens — distinct from Flow (how fast?) and DORA (how reliably?). Output asks: of all the work that came out of this team this window, how does it compare with its own past windows and with the rest of the org?
 
 ---
 
@@ -33,7 +33,7 @@ It is the dashboard's "delivered output" lens — distinct from Flow (how fast?)
 | Metric | What it captures |
 | --- | --- |
 | [**Output Score**](/insights-expo/expo-ai-adoption-output-output-score) | The headline. Effort-weighted shipping rate per developer or per team. Replaces the older raw "Velocity" count. |
-| [**Throughput**](/insights-expo/expo-ai-adoption-output-throughput) | Raw PR count — merged PRs per week, per developer or per team. |
+| [**Throughput**](/insights-expo/expo-ai-adoption-output-throughput) | Raw count of merged PRs plus direct commits per week, per developer or per team. |
 | [**Direct Commits**](/insights-expo/expo-ai-adoption-output-direct-commits) | Commits pushed straight to a default branch without a PR. Counted as output with a configurable weight. |
 | [**Effort Score (Complexity)**](/insights-expo/expo-ai-adoption-output-effort-score) | The 0.1–0.9 per-PR / per-commit complexity estimate that powers Output Score. |
 
@@ -80,7 +80,7 @@ Output Score (per team)
 
 The three terms are:
 
-* **PR effort** — the developer's own merged PRs in the window. Each PR's effort is `COALESCE(effort_score, auto_effort_score, 0)`, weighted by `MergedPRWeight` (the **Merged PR Weight** setting, default 1).
+* **PR effort** — the developer's own merged PRs in the window. A merged PR's effort is shared among the developers who authored its commits. Each PR's effort is `COALESCE(effort_score, auto_effort_score, 0)`, weighted by `MergedPRWeight` (the **Merged PR Weight** setting, default 1).
 * **DC effort** — the developer's direct commits in the window, weighted by `DCWeight` (default 0.5). Settable per-org as `direct_commit_weight`.
 * **Reviewed-PR effort** — the effort of PRs the developer formally reviewed (approved or requested changes), weighted by `ReviewWeight` (default 0.5). Settable per-org as `review_weight`. Set to 0 to disable the review-credit term entirely.
 
@@ -96,16 +96,16 @@ When the score is rate-normalized for AI Tier (Output Norm), the per-dev sum is 
 
 Three habits:
 
-1. **Read Output Score alongside Adoption Score.** High Output + low Adoption = the team ships well without AI (a baseline). High Output + high Adoption = AI is paying off. Low Output + high Adoption = adoption is happening but value isn't.
-2. **Read team Output Score per active developer, not in absolute totals.** A team of 12 will always out-ship a team of 4. The per-dev rate is the apples-to-apples comparison.
-3. **Don't read raw PR count when effort varies.** Use Output Score when comparing developers or teams; use Throughput when comparing _the same team over time_ (where effort distribution is roughly constant).
+1. **Read Output Score alongside Adoption Score.** High Output + low Adoption = the team ships well without AI (a baseline). High Output + high Adoption = AI is paying off. Low Output + high Adoption = adoption is happening but value is not.
+2. **Read team Output Score per active developer, not in absolute totals.** A team of 12 will always out-ship a team of 4. The per-dev rate is the like-for-like comparison.
+3. **Do not read raw PR count when effort varies.** Use Output Score when comparing developers or teams; use Throughput when comparing _the same team over time_ (where effort distribution is roughly constant).
 
 ---
 
 ## Where this family shows up
 
-* **/ai-adoption/developers** — Output Score column, with a clickable opened/merged/direct breakdown that drills into the PR panel.
-* **/ai-adoption/teams** — Output Score per active developer column.
-* **/ai-adoption/ai-tools-comparison** — cohort comparisons use Output Score as a key metric.
-* **/ai-adoption/capex** — Output Score with CapEx / OpEx categorization for the capitalization split.
-* **/ai-adoption/data-explorer** — per-PR and per-commit Effort Score visible in the underlying data.
+* **/insights/developers** — Output Score column, with a clickable opened/merged/direct/reviewed breakdown that drills into the PR panel.
+* **/insights/teams** — Output Score per active developer column.
+* **/insights/ai-tools-comparison** — cohort comparisons use Output Score as a key metric.
+* **/insights/capex** — Output Score with CapEx / OpEx categorization for the capitalization split.
+* **/insights/data-explorer** — per-PR and per-commit Effort Score visible in the underlying data.

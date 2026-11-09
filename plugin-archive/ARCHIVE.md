@@ -14,3 +14,4 @@ then hard-refresh; the version string busts the CSS/JS cache.
 | 2026-11-03 09:07 | 1.17.4 | gki-docs-helper-v1.17.4.zip | F0D59A6C663E | 8f27094 |
 | 2026-11-03 09:12 | 1.17.5 | gki-docs-helper-v1.17.5.zip | 2BF83BC95B8E | e58604b (never deployed; superseded by 1.17.6 in the same PR) |
 | 2026-11-03 09:24 | 1.17.6 | gki-docs-helper-v1.17.6.zip | 3995D0463946 | 56b5011 (never deployed; superseded by 1.17.7 in the same PR) |
+| 2026-11-09 13:30 | 1.17.7 | gki-docs-helper-v1.17.7.zip | 94754CC7CBE6 | origin/main@00081ea |

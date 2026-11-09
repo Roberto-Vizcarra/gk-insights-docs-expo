@@ -1016,13 +1016,31 @@ function gki_auth_rest_exclude_gated( $args, $request ) {
     return $args;
 }
 
-add_filter( 'rest_prepare_post', 'gki_auth_rest_block_single', 10, 3 );
+add_filter( 'rest_request_before_callbacks', 'gki_auth_rest_block_single', 10, 3 );
 
 /**
- * Refuse a single gated post (GET /wp/v2/posts/<id>, ?slug=, embeds).
+ * Refuse a single gated post (/wp/v2/posts/<id> and its sub-routes, and the
+ * same route when reached as an _embed of another response).
+ *
+ * This runs before the controller, which is the documented place to return a
+ * WP_Error. Until 1.17.8 the check lived on rest_prepare_post; WP 6.8's
+ * get_item() calls ->link_header() on whatever prepare returns, so the
+ * WP_Error fataled and the endpoint answered 500 instead of 401. ?slug= and
+ * ?include= go through the collection query, which rest_post_query already
+ * filters.
+ *
+ * @param WP_REST_Response|WP_HTTP_Response|WP_Error|mixed $response
+ * @param array                                          $handler
+ * @param WP_REST_Request                                $request
  */
-function gki_auth_rest_block_single( $response, $post, $request ) {
-    if ( gki_auth_should_hide() && gki_auth_post_is_gated( $post ) ) {
+function gki_auth_rest_block_single( $response, $handler, $request ) {
+    if ( is_wp_error( $response ) || ! gki_auth_should_hide() ) {
+        return $response;
+    }
+    if ( ! preg_match( '#^/wp/v2/posts/(\d+)(?:/|$)#', $request->get_route(), $m ) ) {
+        return $response;
+    }
+    if ( gki_auth_post_is_gated( (int) $m[1] ) ) {
         return new WP_Error(
             'gki_auth_required',
             'Sign in with a GitKraken account that has an Insights subscription to read this page.',
@@ -1030,6 +1048,87 @@ function gki_auth_rest_block_single( $response, $post, $request ) {
         );
     }
     return $response;
+}
+
+/**
+ * IDs of every post in the gated category, any status. Cached per request.
+ *
+ * @return int[]
+ */
+function gki_auth_gated_post_ids() {
+    static $ids = null;
+    if ( $ids === null ) {
+        $cat = gki_auth_gated_category_id();
+        $ids = $cat ? array_map( 'intval', get_posts( array(
+            'post_type'        => 'post',
+            'post_status'      => 'any',
+            'category'         => $cat,
+            'fields'           => 'ids',
+            'posts_per_page'   => -1,
+            'no_found_rows'    => true,
+            'suppress_filters' => true,
+        ) ) ) : array();
+    }
+    return $ids;
+}
+
+add_filter( 'searchwp\rest\args', 'gki_auth_searchwp_rest_exclude_gated', 10, 2 );
+
+/**
+ * SearchWP replaces every /wp/v2/search handler with its own (SearchWP\Rest),
+ * which runs SWP_Query against its own index and never fires
+ * rest_post_search_query. Exclude the gated posts at its query so results
+ * and totals stay right.
+ */
+function gki_auth_searchwp_rest_exclude_gated( $args, $context = array() ) {
+    if ( gki_auth_should_hide() ) {
+        $ids = gki_auth_gated_post_ids();
+        if ( $ids ) {
+            $not_in = isset( $args['post__not_in'] ) ? (array) $args['post__not_in'] : array();
+            $args['post__not_in'] = array_values( array_unique( array_map( 'intval', array_merge( $not_in, $ids ) ) ) );
+        }
+    }
+    return $args;
+}
+
+add_filter( 'rest_post_dispatch', 'gki_auth_rest_search_strip_gated', 10, 3 );
+
+/**
+ * Last line for /wp/v2/search, whichever handler answered it (core, SearchWP,
+ * or anything registered later through wp_rest_search_handlers): drop every
+ * result that is a gated post. The query-level filters above normally leave
+ * nothing for this to remove.
+ */
+function gki_auth_rest_search_strip_gated( $result, $server, $request ) {
+    if ( ! gki_auth_should_hide() || $request->get_route() !== '/wp/v2/search' ) {
+        return $result;
+    }
+    if ( ! ( $result instanceof WP_REST_Response ) || $result->is_error() ) {
+        return $result;
+    }
+    $data = $result->get_data();
+    if ( ! is_array( $data ) ) {
+        return $result;
+    }
+    $gated = array_flip( gki_auth_gated_post_ids() );
+    $kept  = array();
+    foreach ( $data as $item ) {
+        $id   = is_array( $item ) && isset( $item['id'] ) ? (int) $item['id'] : 0;
+        $type = is_array( $item ) && isset( $item['type'] ) ? $item['type'] : '';
+        if ( $id && $type === 'post' && isset( $gated[ $id ] ) ) {
+            continue;
+        }
+        $kept[] = $item;
+    }
+    if ( count( $kept ) !== count( $data ) ) {
+        $result->set_data( $kept );
+        $removed = count( $data ) - count( $kept );
+        $total   = $result->get_headers()['X-WP-Total'] ?? null;
+        if ( $total !== null ) {
+            $result->header( 'X-WP-Total', (string) max( 0, (int) $total - $removed ) );
+        }
+    }
+    return $result;
 }
 
 /* --- oEmbed ---------------------------------------------------------------- */

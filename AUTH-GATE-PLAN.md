@@ -143,8 +143,8 @@ WordPress uses to serve a post was open:
 
 | Route | Found | Fixed by |
 |---|---|---|
-| `GET /wp-json/wp/v2/posts/<id>`, `?slug=`, `?categories=` | Full rendered content of all 50 posts | `rest_prepare_post` → 401; `rest_post_query` excludes the category |
-| `GET /wp-json/wp/v2/search` | Titles + URLs | `rest_post_search_query` excludes the category |
+| `GET /wp-json/wp/v2/posts/<id>`, `?slug=`, `?categories=` | Full rendered content of all 50 posts | `rest_request_before_callbacks` → 401 for `/wp/v2/posts/<gated id>` and its sub-routes (v1.17.8; the original `rest_prepare_post` → `WP_Error` fataled on WP 6.8 and answered 500); `rest_post_query` excludes the category |
+| `GET /wp-json/wp/v2/search` | Titles + URLs | `rest_post_search_query` excludes the category (core handler); `searchwp\rest\args` adds the gated IDs to `post__not_in` (SearchWP replaces the handler and never fires the core filter; leaked 7 hits until v1.17.8); `rest_post_dispatch` strips any gated post a future handler still returns |
 | `GET /wp-json/oembed/1.0/embed?url=` | Title + embed HTML | `oembed_response_data` → false (404) |
 | Feeds, `?s=`, date/author/tag archives, blog index | Empty on prod (host quirk), open in WordPress itself | `pre_get_posts` on the main query excludes the category |
 | `/category/insights-expo/` archive | Excerpts of every page | Now a gated page — shows the gate |

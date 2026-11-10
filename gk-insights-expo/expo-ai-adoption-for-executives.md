@@ -30,7 +30,7 @@ You do not have time to learn the product. You have time for four numbers and a 
 
 ### The four numbers
 
-Open `/insights/executive`. Five hero cards stretch across the top. The four that matter most:
+Open **Executive View** (**Reporting → Executive View** in the sidebar, `/insights/executive`). Five hero cards stretch across the top. The four that matter most:
 
 #### 1. AI Adoption %
 
@@ -44,7 +44,7 @@ Percent of your active developers at Explorer tier or above (score ≥ 25). This
 
 Percent of _changes_ (PRs + direct commits, weighted by lines changed) where the developer used AI in or around the change. Different from Adoption %: a developer can have AI installed (counts toward Adoption) without using it on a given change (does not count toward AI-Assisted).
 
-> **How this is detected — and why it can read low.** AI-Assisted is inferred by _association_: a change counts when it carries an AI co-author trailer **or** the developer had AI activity within the [AI Correlation Window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window) of the change. Teams whose developers use AI without the `Co-authored-by` trailer — or whose AI tool is not connected as a provider — will see AI-Assisted read lower than reality.
+> **How this is detected — and why it can read low.** AI-Assisted is inferred by _association_: a change counts when it carries an AI co-author trailer **or** the developer had AI activity within the [AI Correlation Window](/insights-expo/expo-ai-adoption-settings#ai-to-commit-correlation-window) of the commit, or of one of the PR's commits. Teams whose developers use AI without the `Co-authored-by` trailer — or whose AI tool is not connected as a provider — will see AI-Assisted read lower than reality.
 
 **Read it as:** a behavioral indicator. The closer this gets to AI Adoption %, the more thoroughly AI is integrated into actual work.
 
@@ -56,7 +56,7 @@ Median time from work start to merge. The start follows the [Cycle Time Start Si
 
 #### 4. Throughput
 
-Merged PRs plus direct commits per week, normalized per active developer. The card's sparkline plots the same figure over the window.
+Merged PRs plus direct commits per week, normalized per active developer. The card's sparkline plots the same figure over the window. With **Filters** → **Linked to an issue** on, the card counts only merged PRs linked to an issue and reads **Count of merged PRs linked to an issue per dev per week**; see [Set the scope first](/insights-expo/expo-ai-adoption-first-dashboard#set-the-scope-first).
 
 **Read it as:** volume of shipped work. Read alongside Output Score (effort-weighted) — Throughput is "how many things"; Output Score is "how much stuff."
 
@@ -96,5 +96,5 @@ The dashboard's job is to give you the first two. The third one is your call.
 If you want one more level of detail:
 
 * **For "is AI actually paying off?"** → [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift)
-* **For "where are we slow?"** → `/insights/ai-impact` (Cycle Time phase breakdown)
-* **For "which team needs attention?"** → `/insights/teams`
+* **For "where are we slow?"** → **AI Impact** (`/insights/ai-impact`), for the Cycle Time phase breakdown
+* **For "which team needs attention?"** → **By Team** (`/insights/teams`)

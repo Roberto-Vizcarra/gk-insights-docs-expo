@@ -24,7 +24,7 @@ The **Developers** page shows how each developer is adopting AI agents: daily us
 
 > **Who can see it:** The Developers page is available to **Owners**, **Admins**, and **Managers**. Other members see their own figures on [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers).
 
-The Developers page is a coaching view, not a ranking. Use it to find who needs help forming an AI habit and who is ready for bigger agent tasks, not to slot people on a curve.
+The Developers page is a coaching view, not a ranking. Use it to find who needs help forming an AI habit and who is ready for bigger agent tasks, not to rank people against each other.
 
 ---
 
@@ -46,13 +46,15 @@ Open **Filters** to add a filter. The menu lists these filters:
 * **Team**, **Org**, **Workspace**, and **Repositories**, which narrow the page to part of your organization.
 * **Developer**, which picks individual developers.
 * **AI Tier**, which keeps developers in the tiers you choose.
-* **AI Tool**, which keeps developers by the combination of AI tools they used in the window, such as **Claude Code** on its own or **Claude + Cursor**. The cohorts follow the same tool combinations as [By AI Tool & Model](/insights-expo/expo-ai-adoption-ai-tools-comparison). Cohorts that include Devin or OpenCode appear only for organizations where those tools are enabled. Devin and OpenCode are available on request — contact your GitKraken account team.
+* **AI Tool**, which keeps developers by the combination of AI tools they used in the window, such as **Claude Code** on its own or **Claude + Cursor**. The cohorts follow the same tool combinations as [By AI Tool & Model](/insights-expo/expo-ai-adoption-ai-tools-comparison). Cohorts that include Devin or OpenCode appear only for organizations where those tools are enabled. Devin and OpenCode are available on request. To enable them, contact your GitKraken account team.
 * **AI Model**, which keeps a developer when they used any of the models you select in the window, not only their main model. **None** keeps developers with no model data.
 
 <figure>
   <img src="/wp-content/uploads/gki-developers-filters-01-v3@2x.png" class="help-center-img img-bordered" alt="The Filters dropdown on the Developers page open below the filter bar, listing Team (checked), Org, Workspace, Repositories, Developer, AI Tier, AI Tool and AI Model, beside the Timeframe, Granularity and Teams filters" />
   <figcaption>The Filters menu on the Developers page.</figcaption>
 </figure>
+
+When you open the page from a cohort's **Developers** count or drill-down link on [By AI Tool & Model](/insights-expo/expo-ai-adoption-ai-tools-comparison), a chip such as **Tool cohort: Claude Code** or **Model cohort: Claude Sonnet 5** narrows the table to exactly that cohort, so it lists the developers the card counted. Clear the chip to remove it.
 
 If your organization's Claude Code telemetry includes Cowork activity ([connect Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork)), the **Filters** menu also lists **Claude**, with **Claude Code** and **Cowork**. The choice shows on the bar as a chip, such as **Claude: Cowork**; clear the chip to see all activity again. The Claude filter narrows the detail you see when you expand a developer, including its Agent Adoption, Agent Autonomy, and tier scores. Output in the detail, the All Developers table, and the team tables still include all activity. Detail panels that cannot be split by surface say **Includes activity from all surfaces**, and the Agent Adoption Insight card is hidden while the Claude filter is set.
 
@@ -65,7 +67,7 @@ Four KPI cards summarize the developers in the current scope:
 * **Avg Output** — the mean [Output Score](/insights-expo/expo-ai-adoption-output-output-score) per working week, with its normalized value, out of 100, beside it.
 * **% Power Users** — the share of active developers in the Power User [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier).
 
-Each card shows the change against the previous period: a percentage for the three averages, and percentage points (**pp**) for **% Power Users**. The comparison is hidden while the **AI Tier**, **AI Tool**, **AI Model**, or **Developer** filter is applied.
+Each card shows the change against the previous period: a percentage for the three averages, and percentage points (**pp**) for **% Power Users**. The comparison is hidden while the **AI Tier**, **AI Tool**, **AI Model**, **Tool cohort**, **Model cohort**, or **Developer** filter is applied.
 
 Under **Scoring thresholds**, the **Avg Adoption**, **Avg Autonomy**, and **Avg Output** cards show the benchmarks their scores are measured against, such as **Prompts / weekday** or **Output / working week**. Each benchmark is labeled **Org P90**, your organization's 90th percentile, or **Admin target**, a target an admin set under [Benchmarks](/insights-expo/expo-ai-adoption-settings#benchmarks).
 
@@ -90,17 +92,19 @@ The **All Developers** table has one row per developer. Use **Filter by name** t
 
 | Column | What it shows |
 | --- | --- |
-| **Developer** | The developer's name. When the developer's composite tier score moved against the previous period, a chip beside the name shows the change, such as **↑ 5 pts vs prev**. A row labeled **Automation** collects activity from automated accounts; it has no tier or scores and does not expand. |
+| **Developer** | The developer's name. When the developer's composite tier score moved against the previous period, a chip beside the name shows the change, such as **↑ 5 pts vs prev**. |
 | **Team** | The developer's team. |
 | **Tier** | The developer's [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier), from a weighted blend of Agent Adoption, Agent Autonomy, and Output. |
 | **Agent Adoption Score** | The [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score), from 0 to 100. |
 | **Agent Autonomy Score** | The [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score), from 0 to 100. |
-| **Output Score (pts/wk)** | The [Output Score](/insights-expo/expo-ai-adoption-output-output-score) in effort points per working week (**pts/wk**). It weighs work by effort, so it is not a pull request count and is not expected to match Throughput. Click it to open the breakdown of the pull requests and commits behind it. |
+| **Output Score (pts/wk)** | The [Output Score](/insights-expo/expo-ai-adoption-output-output-score) in effort points per working week (**pts/wk**). It weighs work by effort, so it is not a pull request count and is not expected to match Throughput. |
 | **Token Usage Value** | AI API spend across your connected AI coding tools in the selected window. When all of your organization's AI spend is GitHub Copilot, the column reads **Copilot Usage**. |
 | **AI Credits Used** | Copilot premium-model credits in the window, as reported by GitHub, with input and output token counts below when GitHub reports them. The column appears only when your organization uses GitHub Copilot and has credit data. |
 | **$ / Output** | AI API spend per point of output the developer shipped in the window. |
 
-Hover a score for its breakdown by AI tool. For GitHub Copilot, the breakdown labels which source scored it: **OTEL** or **PAT**.
+A row labeled **Automation** collects activity from automated accounts. It has no tier or scores and does not expand.
+
+Hover a score for its breakdown by AI tool. For GitHub Copilot, the breakdown labels which source scored it: **OTEL** or **PAT**. To open the breakdown of the pull requests and commits behind an **Output Score (pts/wk)** value, click it.
 
 Read **$ / Output** as cost efficiency: a lower figure means more shipped effort per AI dollar. **$0.00** means the developer shipped output without billed AI usage. A dash means no scored output for the window, for example a developer on time off for the whole window or the Automation row. Very small ratios read **<$0.01**. **$ / Output** is also in the CSV export.
 
@@ -157,7 +161,7 @@ If you can manage Insights data, for example as an organization admin, you can m
 
 ### Agent Adoption tab
 
-The **Agent Adoption** tab shows the developer's activity over time, with one card per AI tool they used: **Claude Code**, **Codex**, **OpenCode**, **Gemini**, **Cursor**, **Copilot (OTEL)**, **Devin**, and **Copilot (PAT)**. **Copilot (OTEL)** comes from GitHub Copilot through [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry), and **Copilot (PAT)** from the [GitHub Copilot connection](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot). Devin and OpenCode are available on request — contact your GitKraken account team.
+The **Agent Adoption** tab shows the developer's activity over time, with one card per AI tool they used: **Claude Code**, **Codex**, **OpenCode**, **Gemini**, **Cursor**, **Copilot (OTEL)**, **Devin**, and **Copilot (PAT)**. **Copilot (OTEL)** comes from GitHub Copilot through [Agent OTel Data](/insights-expo/expo-ai-adoption-connect-otel#github-copilot-opentelemetry), and **Copilot (PAT)** from the [GitHub Copilot connection](/insights-expo/expo-ai-adoption-connect-ai-tools#github-copilot). Devin and OpenCode are available on request. To enable them, contact your GitKraken account team.
 
 Each card groups its charts into up to five sections:
 
@@ -176,7 +180,7 @@ Where a tool has benchmarks, each line is drawn against the org's developers who
 
 ### AI Sessions tab
 
-The **AI Sessions** tab shows the developer's AI coding sessions and the skills they used. A note at the top reads **Measured from Claude Code, GitHub Copilot and OpenCode sessions**, which names the tools that report skill activity. GitHub Copilot counts here when it reports through Agent OTel Data. OpenCode is available on request — contact your GitKraken account team. For every session across your organization, see [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions).
+The **AI Sessions** tab shows the developer's AI coding sessions and the skills they used. A note at the top reads **Measured from Claude Code, GitHub Copilot and OpenCode sessions**, which names the tools that report skill activity. GitHub Copilot counts here when it reports through Agent OTel Data. OpenCode is available on request. To enable it, contact your GitKraken account team. For every session across your organization, see [AI Sessions](/insights-expo/expo-ai-adoption-ai-sessions).
 
 The top of the tab shows four panels:
 

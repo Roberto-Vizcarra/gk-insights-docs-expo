@@ -1,6 +1,6 @@
 ---
 title: Reading Your First Dashboard
-description: A guided walkthrough of the /teams page in GitKraken Insights — what every column means, how to read team tiers and scores, and where to click next.
+description: A guided walkthrough of the Teams page in GitKraken Insights — what every column means, how to read team tiers and scores, and where to click next.
 product: GitKraken Insights
 content_type: how-to
 audience: all
@@ -30,7 +30,7 @@ In about 10 minutes, learn what every column on the Teams page (`/insights/teams
 Before you read anything, set two filters at the top of the page:
 
 1. **Date range.** Default is the last 7 days. For a two-week review, switch to 14 days. For a quarter-end review, switch to 90 days. Sub-7-day windows force some rates to zero, so do not pick "yesterday" expecting full data. Rolling ranges such as **Last 14 days** end on the last day your data has fully synced and keep their length, so a range can end a day or two before today. When that happens, an info icon beside the date picker shows the **Data through** date.
-2. **Department or team.** Open **Filters** → **Team** and pick the slice of the org you care about. A filter shows on the bar as a chip only once it's set. If you have a `Default Department` set in Settings, this comes pre-filled.
+2. **Department or team.** Open **Filters** → **Team** and pick the slice of the org you care about. A filter shows on the bar as a chip only once it's set. If you have a **Default Department** set in Settings → General, this comes pre-filled.
 
 Everything on the page reflects those two filters.
 
@@ -48,6 +48,15 @@ If you pick an option with no activity, a note under the filter bar reads **No m
 </figure>
 
 **Claude filter (Claude Cowork orgs).** Once your organization's Claude Code telemetry includes Claude Cowork activity ([connect Cowork](/insights-expo/expo-ai-adoption-connect-otel#claude-cowork)), the **Filters** menu on the Teams and Developers pages also lists **Claude**, with **Claude Code** and **Cowork**. It narrows the expanded developer detail, including its Agent Adoption, Agent Autonomy, and tier scores. Output and the team and developer tables always include all activity. Clear the **Claude** chip to return to all activity.
+
+**Linked to an issue filter (Reporting pages).** On Executive View, Board Metrics, Team Lead Insights, and Throughput & Quality, the **Filters** menu also lists **Linked to an issue**. Select it to count only pull requests linked to an issue. Direct commits drop out, so Throughput reads **Count of merged PRs linked to an issue per dev per week**, and the **Direct commits** series leaves the PR volume charts.
+
+While the **Linked to an issue: Yes** chip is on the bar, the **AI Insight** banner is hidden, and cards the filter does not change, such as Change Failure Rate and AI Adoption, say **The Linked to an issue filter does not narrow this metric.** in their info. Clear the chip to count all changes again.
+
+<figure>
+  <img src="/wp-content/uploads/gki-linked-issue-filter-01.png" class="help-center-img img-bordered" alt="The Throughput & Quality page's filter bar with the Filters menu open: Linked to an issue, Team, Org, Workspace, Repositories and Annotation Type, with Linked to an issue expanded to its single Linked to an issue option" />
+  <figcaption>The Linked to an issue filter in the Filters menu on Throughput & Quality.</figcaption>
+</figure>
 
 ### The team table — column by column
 
@@ -75,7 +84,7 @@ The team's repositories that have a readiness assessment from the last 14 days. 
 
 #### AI Readiness
 
-The team's AI readiness tier, from the average AI-readiness score (0–100) of the repositories counted in **Repos**: Exemplary (80 and above), Good (55 and above), Basic (25 and above), or Not Ready (below 25). A dash means the team has no tier. Repository and organization filters do not change it.
+The team's AI readiness tier, from the average AI-readiness score (0 to 100) of the repositories counted in **Repos**: Exemplary (80 and above), Good (55 and above), Basic (25 and above), or Not Ready (below 25). A dash means the team has no tier. Repository and organization filters do not change it.
 
 → [Repositories](/insights-expo/expo-ai-adoption-repositories)
 
@@ -99,7 +108,7 @@ The average Agent Autonomy Score of the team's members: how autonomously they wo
 
 #### Output Score (pts/wk)
 
-Effort-weighted shipping rate, in effort points per working week. A team that ships fewer but bigger PRs can have the same Output Score as a team that ships many small ones. It is not a PR count, so it is not expected to match Throughput. Below the score, the cell shows what it's built from: merged PRs, direct commits, and review credits. A PR reviewed by two teammates earns two review credits, so review credits can exceed the number of merged PRs.
+Effort-weighted shipping rate, in effort points per working week. A team that ships fewer but bigger PRs can have the same Output Score as a team that ships many small ones. It is not a PR count, so it is not expected to match Throughput. Below the score, the cell shows what it's built from: merged PRs, direct commits, and review credits. A PR reviewed by two teammates earns two review credits, so review credits can exceed the number of merged PRs. Click the breakdown to open the team's Output Score drill-down: the authored PRs, direct commits, and reviews behind the score, with the effort credited to each team member.
 
 → [Output Score](/insights-expo/expo-ai-adoption-output-output-score)
 
@@ -108,6 +117,12 @@ Effort-weighted shipping rate, in effort points per working week. A team that sh
 The team's median PR cycle time in the selected window, from work start to merge. Lower is faster. Work start follows the [Cycle Time Start Signal](/insights-expo/expo-ai-adoption-settings#cycle-time-start-signal) setting, and PRs longer than [Cycle Time Max Days](/insights-expo/expo-ai-adoption-settings#cycle-time-max-days) are left out.
 
 → [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time)
+
+#### Releases
+
+Releases from the team's repositories or pull requests in the selected window. A release attributed to several teams counts for each team.
+
+→ [Deployment Frequency](/insights-expo/expo-ai-adoption-dora-deployment-frequency)
 
 #### Token Usage Value
 
@@ -137,11 +152,11 @@ Per-repo readiness, with each repository's score, readiness tier, and assessment
 
 #### Developers
 
-The full developer roster for that team with individual Adoption Scores, Output Scores, AI Tier, and a Direct Commits column. Click any developer to drill further into their profile (this navigates to `/insights/developers`).
+The full developer roster for that team with individual Adoption Scores, Output Scores, AI Tier, and a Direct Commits column. Click any developer to open their profile on the By Developer page (`/insights/developers`).
 
 #### System Metrics
 
-Cycle Time + PR Volume trends for the team. Use the dimension dropdown to break either chart down by author, AI tier, or PR category.
+Cycle Time and PR Volume trends for the team. Use the dimension dropdown to break either chart down by author, AI tier, or PR category.
 
 #### Releases
 
@@ -162,21 +177,21 @@ Pick your next page based on what you saw on the Teams page:
 
 | If you saw … | Go to … |
 | --- | --- |
-| A team with low adoption | `/insights/developers`, filtered to that team — find the Emerging cohort |
-| A team with slow cycle time | `/insights/flow-delivery` → Flow tab → switch dimension to "phase" |
-| A team with high output but low AI | `/insights/ai-tools-comparison` → compare that team to a high-AI peer |
-| A team you do not recognize | `/insights/settings` → Teams — check the roster |
-| An exec asking "what's the ROI?" | `/insights/ai-impact` and `/insights/executive` |
+| A team with low adoption | **By Developer**, filtered to that team — find the Emerging cohort |
+| A team with slow cycle time | **Team Lead Insights** → **Flow** tab — the Cycle Time chart splits time by phase (**⋯** → **View** → **By Phase**) |
+| A team with high output but low AI | **By AI Tool & Model** — compare that team to a high-AI peer |
+| A team you do not recognize | **Settings** → **Teams** — check the roster |
+| An exec asking "what's the ROI?" | **AI Impact** and **Executive View** |
 
 ### What the dashboard does not show you (and why)
 
 * **Code quality at the line level.** Insights does not run static analysis or measure code health beyond cycle metrics. Use your existing tools (SonarQube, Code Climate, etc.) for that.
 * **Sentiment.** A team can have great numbers and miserable morale. The dashboard is one input — your one-on-ones are another.
-* **Pre-2026-03-05 AI usage.** Claude Code OTEL instrumentation started March 5, 2026. Anything earlier is undercounted.
+* **AI usage before March 5, 2026.** Claude Code telemetry data starts on March 5, 2026, so AI usage before that date is undercounted.
 
 ### Glossary refresher
 
-* **Active developer:** is_active = true _and_ shipped at least one PR or direct commit in the window _and_ was not fully on PTO.
+* **Active developer:** a developer who is not **Excluded** in Settings → Developers, shipped at least one PR or direct commit in the window, and was not on PTO for the whole window.
 * **Window:** the date range you selected at the top.
 * **P90:** 90th-percentile cap computed across your whole active org. Sets the ceiling for normalized scores.
-* **Maturity Factor:** an org-wide scaling knob, set as **Company AI Readiness (%)** in Settings (default 100%). At 100%, a P90 developer scores 100; at 75%, they score 75. Adjusts everyone's tier ceiling.
+* **Maturity Factor:** an org-wide scaling setting, set as **Company AI Readiness (%)** in Settings (default 100%). At 100%, a P90 developer scores 100; at 75%, they score 75. Adjusts everyone's tier ceiling.

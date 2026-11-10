@@ -20,11 +20,26 @@ custom_fields:
 ---
 <kbd>Last updated: November 2026</kbd>
 
-Admin settings change how GitKraken Insights calculates scores and metrics. Each setting below is grouped by the Settings tab it lives on, with what it changes and the metrics it affects. Metric pages link to each setting by name.
+Use the admin settings to change how GitKraken Insights calculates scores and metrics. For each setting, find where it is in Settings, what it changes, and the metrics it affects.
 
-For product-wide administration — loading the developer roster, defining teams, wiring up Jira for CFR, syncing BambooHR PTO, and Demo Mode — see [For Admins](/insights-expo/expo-ai-adoption-for-admins) in Getting Started.
+For product-wide administration — loading the developer roster, defining teams, wiring up Jira for CFR, and syncing BambooHR PTO — see [For Admins](/insights-expo/expo-ai-adoption-for-admins) in Getting Started.
 
-**Where these settings live.** Most of the per-org settings on this page are editable in the Settings → General form and stored in the `app_settings` table. The form is grouped into **Scoring baseline** (`maturity_factor`, `developer_hourly_rate`, Working Hours Per Week, `baseline_period_start`, Cycle Time Max Days, Cycle Time Start Signal, Cycle Time Unit of Work, AI Correlation Window, and Ignore reviews from bot accounts), **Benchmarks**, **Defaults** (`default_department`), **Output score** (Merged PR Weight, Direct Commit Weight, Review Weight, Exclude Chore from Output Score, and Exclusion rules), **Access to Insights**, **Tier and provider weights**, and **AI cost rates**. The rest live on other Settings tabs: per-developer hourly rates, developer visibility, and suggested merges (Settings → Developers), your organization structure (Settings → Departments), work categories (Settings → Categorization), and repository teams and readiness checks (Settings → Repositories).
+**Where these settings live.** You change most per-org settings in the Settings → General form. The form groups them into these sections:
+
+* **Scoring baseline** — Company AI Readiness (%), Developer Hourly Rate ($), Working Hours Per Week, Baseline Period, Cycle Time Max Days, Cycle Time Start Signal, Cycle Time Unit of Work, AI Correlation Window (minutes), and Ignore reviews from bot accounts
+* **Benchmarks**
+* **Defaults** — Default Department
+* **Output score** — Merged PR Weight, Direct Commit Weight, Review Weight, Exclude Chore from Output Score, and Exclusion rules
+* **Access to Insights**
+* **Tier and provider weights**
+* **AI cost rates**
+
+The rest are on other Settings tabs:
+
+* **Settings → Developers** — per-developer hourly rates, developer visibility, and suggested merges
+* **Settings → Departments** — your organization structure
+* **Settings → Categorization** — work categories
+* **Settings → Repositories** — repository teams and readiness checks
 
 **Who can change them.** Changing these settings requires permission to manage organization settings (organization owners and admins have it). Without it, you see the form read-only, with a note to ask an organization admin or owner. Settings in the form take effect when you click **Save changes**; exclusion rules and AI cost rates save immediately.
 
@@ -46,16 +61,16 @@ Labeled **"Company AI Readiness (%)"** in the General tab, under **Scoring basel
 |  |  |
 | --- | --- |
 | **Default** | 100% (a factor of 1.00) |
-| **Range** | 1 – 100% |
+| **Range** | 1% to 100% |
 | **Type** | Whole-number percentage |
 
 **What it does.** Scales every P90-based score (Adoption, Agentic, Output Norm). The value is the maximum possible score: a "perfect" developer scores this percentage, not 100. At the default 100%, a developer at the org's 90th percentile scores 100. At 75%, the same developer scores 75 — leaving headroom for the org to grow into the Power User band. Enter at least 1%: a value below 1% is not valid, and scores fall back to the 100% default.
 
 **Why you'd raise or lower it.**
 
-* **Lower (50% – 70%):** Early in your AI rollout. You want every developer to see room to grow. Few or no Power Users yet.
+* **Lower (50% to 70%):** Early in your AI rollout. You want every developer to see room to grow. Few or no Power Users yet.
 * **Middle (around 75%):** Active rollout. The tier ceiling pushes the top 10% to keep improving.
-* **Higher (85% – 100%, the default):** Mature orgs with widespread, deep adoption where you want the scoring to reflect that maturity in absolute terms.
+* **Higher (85% to 100%, the default):** Mature orgs with widespread, deep adoption where you want the scoring to reflect that maturity in absolute terms.
 
 Increase the setting as your org's AI maturity grows.
 
@@ -67,15 +82,15 @@ Increase the setting as your org's AI maturity grows.
 
 ### Tier Weights
 
-Three weights that say how much Adoption, Agentic, and Output each count toward the [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) composite. _In Settings UI: yes._
+Three weights that say how much Adoption, Agentic, and Output each count toward the [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier) composite. _In Settings UI: yes._ Settings → General, under **Tier and provider weights**.
 
-| Weight | Default | App-settings key | What it emphasizes |
-| --- | --- | --- | --- |
-| **Adoption** | 0.5 | `tier_weight_adoption` | Daily, consistent AI use |
-| **Agentic** | 0.2 | `tier_weight_agentic` | Autonomous multi-step AI work |
-| **Output** | 0.3 | `tier_weight_output` | Effort-weighted shipping rate |
+| Weight | Default | What it emphasizes |
+| --- | --- | --- |
+| **Adoption** | 0.5 | Daily, consistent AI use |
+| **Agentic** | 0.2 | Autonomous multi-step AI work |
+| **Output** | 0.3 | Effort-weighted shipping rate |
 
-**Range:** Adoption and Agentic (labeled **Autonomy** in Settings) accept 0 or more; Output must be greater than 0. We store raw values, then renormalize to sum to 1.0 on read — the form shows a live preview of the resulting percentages.
+**Range:** Adoption and Agentic (labeled **Autonomy** in Settings) accept 0 or more; Output must be greater than 0. GitKraken Insights scales the weights you enter so they add up to 100%, and the form shows a live preview of the resulting percentages.
 
 **What it does.** The three weights compete for the 100% budget. The tier-badge tooltip in the app shows the live percentages for every developer.
 
@@ -100,14 +115,14 @@ _In Settings UI: yes._ Settings → General, under **Tier and provider weights**
 |  |  |
 | --- | --- |
 | **Default** | 1.0 for every provider |
-| **Range** | 0.0 – 1.0 |
-| **Type** | Float, one per AI provider |
+| **Range** | 0.0 to 1.0 |
+| **Type** | Decimal number, one per AI provider |
 
 **What it does.** When your org connects more than one AI provider, Provider Weights control how much each provider counts toward a developer's **Agent Adoption Score** and **Agent Autonomy Score**. One weight per provider applies to both scores. At 1.0 a provider counts at full weight; lower it to de-emphasize a provider; 0 turns off that provider's contribution.
 
 **Which providers are listed.** The form shows one row for each of **Claude**, **Codex**, **Cursor**, **Copilot**, **Devin**, **OpenCode**, and **Gemini**, whether or not your org has connected that provider. A provider with no activity contributes nothing, whatever its weight. The [Devin](/insights-expo/expo-ai-adoption-connect-ai-tools#devin) and [OpenCode](/insights-expo/expo-ai-adoption-connect-otel#opencode) connections are available on request — contact your GitKraken account team to have them turned on.
 
-**How they combine.** Each provider is scored on its own; the provider scores are multiplied by their weights, added together, and capped at 100 before the Maturity Factor applies. Provider Weights replace the earlier fixed 25% Cursor Boost — at the default 1.0, Cursor counts at the same weight as every other provider.
+**How they combine.** Each provider is scored on its own; the provider scores are multiplied by their weights, added together, and capped at 100 before the Maturity Factor applies. At the default 1.0, Cursor counts at the same weight as every other provider.
 
 **Not the same as the four-factor blend.** Provider Weights decide how providers combine _with each other_. The four-factor blend that produces each provider's own Adoption score — Daily Regularity 35%, Hourly Spread 25%, Prompt Depth 25%, Token Output 15% — is fixed and is not editable in Settings.
 
@@ -124,7 +139,7 @@ _In Settings UI: yes._ Settings → General, under **Benchmarks**.
 |  |  |
 | --- | --- |
 | **Default** | 0 for every target (follow the org P90) |
-| **Range** | 0 or more (Active Hours / Weekday Target: 0 – 24) |
+| **Range** | 0 or more (Active Hours / Weekday Target: 0 to 24) |
 | **Type** | Number, one per target |
 
 **What it does.** Each target is a fixed benchmark that replaces the org P90 as the denominator for one scoring factor. A developer at or above the target gets full credit for that factor. Leave a target at 0 to keep measuring against the org P90. Next to each field, the form shows your org's current P50 and P90 (recommended) as guidance.
@@ -150,8 +165,8 @@ _In Settings UI: yes._ Settings → General, under **Output score**.
 |  |  |
 | --- | --- |
 | **Default** | 1 |
-| **Range** | 0.0 – 1.0 |
-| **Type** | Float |
+| **Range** | 0.0 to 1.0 |
+| **Type** | Decimal number |
 
 **What it does.** Scales the effort from PRs the developer authored and merged in the [Output Score](/insights-expo/expo-ai-adoption-output-output-score) formula:
 
@@ -168,13 +183,13 @@ Output Score = MergedPRWeight × SUM(PR effort) + DirectCommitWeight × SUM(DC e
 
 ### Direct Commit Weight
 
-_In Settings UI: yes._ App-settings key: `direct_commit_weight`.
+_In Settings UI: yes._ Settings → General, under **Output score**.
 
 |  |  |
 | --- | --- |
 | **Default** | 0.5 |
-| **Range** | 0.0 – 1.0 |
-| **Type** | Float |
+| **Range** | 0.0 to 1.0 |
+| **Type** | Decimal number |
 
 **What it does.** Scales direct commits (pushes straight to a default branch with no PR) relative to merged PRs in the [Output Score](/insights-expo/expo-ai-adoption-output-output-score) formula:
 
@@ -197,15 +212,15 @@ Output Score = MergedPRWeight × SUM(PR effort) + DirectCommitWeight × SUM(DC e
 
 ### Review Weight
 
-_In Settings UI: yes._ App-settings key: `review_weight`.
+_In Settings UI: yes._ Settings → General, under **Output score**.
 
 |  |  |
 | --- | --- |
 | **Default** | 0.5 |
-| **Range** | 0.0 – 1.0 |
-| **Type** | Float |
+| **Range** | 0.0 to 1.0 |
+| **Type** | Decimal number |
 
-**What it does.** Scales review-credit — effort from PRs a developer formally reviewed (state `APPROVED` or `CHANGES_REQUESTED`) — relative to authored PRs in the [Output Score](/insights-expo/expo-ai-adoption-output-output-score) formula:
+**What it does.** Scales review-credit — effort from PRs a developer formally reviewed by approving them or requesting changes — relative to authored PRs in the [Output Score](/insights-expo/expo-ai-adoption-output-output-score) formula:
 
 ```
 Output Score = MergedPRWeight × SUM(PR effort) + DirectCommitWeight × SUM(DC effort) + ReviewWeight × SUM(reviewed-PR effort)
@@ -226,20 +241,20 @@ Output Score = MergedPRWeight × SUM(PR effort) + DirectCommitWeight × SUM(DC e
 
 ### Exclude Chore from Output Score
 
-_In Settings UI: yes._ App-settings key: `output_score_exclude_chore`.
+_In Settings UI: yes._ Settings → General, under **Output score**.
 
 |  |  |
 | --- | --- |
 | **Default** | On (chores excluded) |
 | **Type** | Boolean toggle |
 
-**What it does.** When **on**, Chore-category PRs and commits are subtracted from the _effort_ side of the Output Score. The displayed PR / DC _counts_ still include chores — only the effort sums change.
+**What it does.** When **on**, Chore-category PRs and commits are subtracted from the _effort_ side of the Output Score. The displayed PR and direct commit _counts_ still include chores — only the effort sums change.
 
 Which categories count as Chore is set by the **Chore** flag in [Work categories](#work-categories).
 
-**Why the asymmetric treatment.** If a developer's window happens to be all chores (e.g. they spent a sprint on dependency bumps), we do not want them to disappear from the developer table. The Output Score will dip, but the count cell still says "5 PRs, 12 direct commits" so they remain visible. The Output Score tooltip shows you the chore subset that was subtracted.
+**Why counts still include chores.** If a developer's window is all chores (for example, a sprint of dependency bumps), the developer stays visible in the developer table. The Output Score dips, but the count cell still says "5 PRs, 12 direct commits". The Output Score tooltip shows you the chore subset that was subtracted.
 
-**When to turn off.** Rarely. The default reflects most orgs' definition of "real output". Turn off if you've explicitly decided chores are part of how you measure delivery — e.g. for an SRE team where dependency upgrades _are_ the job.
+**When to turn off.** Rarely. The default reflects most orgs' definition of "real output". Turn off if you've explicitly decided chores are part of how you measure delivery — for example, for an SRE team where dependency upgrades _are_ the job.
 
 **Affects:** [Output Score](/insights-expo/expo-ai-adoption-output-output-score), and downstream [AI Tier](/insights-expo/expo-ai-adoption-agentic-ai-tier).
 
@@ -280,12 +295,12 @@ _In Settings UI: yes._
 |  |  |
 | --- | --- |
 | **Default** | 30 minutes |
-| **Range** | 1 – 60 minutes |
+| **Range** | 1 to 60 minutes |
 | **Type** | Whole number (minutes) |
 
 Labeled **"AI Correlation Window (minutes)"** in the General tab, under **Scoring baseline**.
 
-**What it does.** Sets how close in time a developer's AI activity has to be to a change for that change to count as AI-assisted. A PR or direct commit is flagged AI-assisted when the developer had AI events within this window of the change's lifecycle. A wider window links more activity to AI; a narrower one is stricter. Co-author-trailer detection is separate and is not affected by this setting.
+**What it does.** Sets how close an AI coding session must be to a commit for that work to count as AI-assisted. A direct commit is flagged AI-assisted when its author had AI activity within this window of the commit. A PR is flagged when the author of any of its commits had AI activity within this window of that commit; AI activity elsewhere in the PR's life does not count. A wider window links more activity to AI; a narrower one is stricter. Co-author-trailer detection is separate and is not affected by this setting.
 
 **Why you'd raise or lower it.**
 
@@ -293,9 +308,9 @@ Labeled **"AI Correlation Window (minutes)"** in the General tab, under **Scorin
 * **Default (30 minutes):** A practical middle ground for most teams.
 * **Wider (up to 60 minutes):** Your developers prompt AI well before they commit, and the default misses that work.
 
-**Changing it recalculates AI-assisted metrics for past periods**, not just new activity, so previously-computed AI-assisted flags — and the AI-Assisted % values built on them — shift to match the new window.
+**Changing it recalculates AI-assisted metrics for past periods**, not just new activity, so the AI-assisted status of past PRs and commits — and the AI-Assisted % values built on it — shift to match the new window.
 
-**Affects:** [AI-Assisted Percentage](/insights-expo/expo-ai-adoption-impact-cost-ai-assisted-percentage), and the AI-Assisted status shown in PR drill-down tables.
+**Affects:** [AI-Assisted Percentage](/insights-expo/expo-ai-adoption-impact-cost-ai-assisted-percentage), and the **AI** badge shown in PR drill-down tables.
 
 ---
 
@@ -334,7 +349,7 @@ ROI = (throughput speedup − 1) × working hours per week × sum of developer h
 
 Each developer in the sum counts at their own hourly rate if they have one, and at this organization rate otherwise.
 
-**How to set it.** Use your fully-loaded internal developer cost rate (salary × benefits × overhead, divided by working hours). Most orgs land between $50 and $200/hour. If you do not have a precise number, the default $75 is a reasonable industry midpoint for a senior IC.
+**How to set it.** Use your fully-loaded internal developer cost rate (salary × benefits × overhead, divided by working hours). Most orgs land between $50 and $200/hour. If you do not have a precise number, the default $75 is a reasonable industry midpoint for a senior individual contributor.
 
 **Affects:** [Productivity Uplift](/insights-expo/expo-ai-adoption-impact-cost-productivity-uplift) dollar figures and the AI Impact ROI cards.
 
@@ -347,7 +362,7 @@ _In Settings UI: yes._ Settings → General, under **Scoring baseline**.
 |  |  |
 | --- | --- |
 | **Default** | 40 hours |
-| **Range** | 1 – 80 |
+| **Range** | 1 to 80 |
 | **Type** | Number (hours) |
 
 **What it does.** The standard work week for your organization. The AI Impact page uses it to turn throughput gains into hours and dollars saved per developer: the speedup over the baseline, minus 1, times this value gives the additional hours per developer per week. Set it to your org's real standard week (for example, 37.5 or 35) so the hours and dollar figures reflect it.
@@ -384,7 +399,7 @@ _In Settings UI: yes._ Settings → General, under **Scoring baseline**.
 |  |  |
 | --- | --- |
 | **Default** | 30 days |
-| **Range** | 1 – 365 |
+| **Range** | 1 to 365 |
 | **Type** | Whole number (days) |
 
 **What it does.** Caps the PR cycle-time lookback window. PRs whose work-start-to-merge duration exceeds this value are left out of cycle-time analytics, comparison, and team readiness views.
@@ -440,18 +455,18 @@ Breakdowns, drill-downs, and scores always use pull requests, whichever unit you
 
 ### Default Department
 
-_In Settings UI: yes._
+_In Settings UI: yes._ Settings → General, under **Defaults**.
 
 |  |  |
 | --- | --- |
 | **Default** | None (admin picks) |
 | **Type** | Dropdown |
 
-**What it does.** Pre-selects which teams are visible to a user the first time they hit the dashboard. Once a user has saved a different selection it sticks per-user in browser storage.
+**What it does.** Pre-selects the teams in this department the first time a user opens the dashboard. After a user picks a different team selection, their own selection applies instead.
 
 **When to set it.** Use this to anchor the dashboard to the largest, most-watched department in your org. Engineering leadership usually picks "Engineering" or the equivalent rolled-up group.
 
-**Affects:** Initial view on `/insights/teams`, `/insights/developers`, `/insights/executive`, and every page with a team filter.
+**Affects:** The initial view on **By Team**, **By Developer**, **Executive View**, and every page with a team filter.
 
 ---
 
@@ -464,7 +479,7 @@ _In Settings UI: yes._ Settings → General, under **Access to Insights**.
 | **Default** | Off |
 | **Type** | Checkbox ("Turn on for everyone in the organization") |
 
-**What it does.** Gives members of your organization who do not have org-wide access to Insights their own [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers) page: where their AI spend goes, the sessions and models they use, and how ready the repositories they work in are for agents. Turning it on lets each person see their own data in the organization; it does not give anyone access to another person's data. Owners, Admins, and Managers already see everyone's data on the org-wide pages, so the personal page is not offered to them. When the setting is off, the personal page is not available to anyone.
+**What it does.** Gives members of your organization who do not have org-wide access to Insights their own [GitKraken Insights for Developers](/insights-expo/expo-ai-adoption-insights-for-developers) page: where their AI spend goes, the sessions and models they use, and how ready the repositories they work in are for agents. Turning it on lets each person see their own data in the organization; it does not give anyone access to another person's data. Owners, Admins, and Leads already see everyone's data on the org-wide pages, so the personal page is not offered to them. When the setting is off, the personal page is not available to anyone.
 
 A member with no synced AI activity yet sees a **No adoption data to show** message on the page until their activity syncs.
 
@@ -503,6 +518,8 @@ Click **Save rate**. The change saves immediately — no **Save changes** click 
 
 ## Developers settings
 
+On Settings → Developers, set per-developer hourly rates, choose each developer's visibility, and review suggested merges.
+
 ### Per-developer hourly rate
 
 _In Settings UI: yes._ Settings → Developers — open a developer with **Edit**, or select several developers and use the **Hourly rate** bulk action.
@@ -510,7 +527,7 @@ _In Settings UI: yes._ Settings → Developers — open a developer with **Edit*
 |  |  |
 | --- | --- |
 | **Default** | Empty (uses the organization's Developer Hourly Rate) |
-| **Range** | 0.01 – 100,000, up to two decimal places |
+| **Range** | 0.01 to 100,000, up to 2 decimal places |
 | **Type** | Currency, per developer |
 
 **What it does.** Labeled **Hourly rate ($)** on the developer's edit form. Sets this developer's own rate for cost and ROI on the AI Impact page, in place of the organization's [Developer Hourly Rate](#developer-hourly-rate). Leave it empty to use the organization rate.
@@ -538,6 +555,8 @@ _In Settings UI: yes._ Settings → Developers, in the **Visibility** column —
 
 **Bot accounts.** Most bot accounts are excluded automatically. In the roster, a **Bot** badge marks each account that is not a person: a bot, AI agent, service account, or activity that cannot be attributed to anyone. If a bot account has no badge and you do not want its work to count, exclude it yourself.
 
+**Marking bots.** Owners and admins can correct the **Bot** badge. In a developer's row, select **Mark as a bot**, or **Mark as not a bot** for an account that is really a person. To relabel several at once, select them and use **Mark as a bot N** or **Mark as not a bot N**. Automatic detection never changes a label an admin set. Marking an account as a bot does not exclude it: bots still count in metrics until you exclude them, so the message that confirms the change offers **Exclude**.
+
 **Finding excluded developers.** The roster shows Included and Hidden developers by default, so an excluded developer drops out of view. To see excluded developers again — for example, to include a bot whose work should count — add **Excluded** to the **Visibility** filter. Clearing the filter returns it to the default. When a change moves a developer out of the current view, a message confirms the change and offers **Undo**.
 
 **Filtering by type.** When the roster has any bot accounts, a **Type** filter appears beside **Visibility**, with **All**, **People**, and **Bots**. **Bots** lists bot accounts of every visibility, so the **Visibility** filter is turned off while it's selected; set **Type** back to **All** to filter by visibility again.
@@ -558,6 +577,8 @@ When one person shows up as several developer records — for example, a differe
 * **Needs your review** — likely matches for you to check.
 
 Each suggestion shows the evidence for it, such as the same email, the same login on a provider, or a similar name. Select the groups you want, click **Merge selected**, then confirm with **Merge records**. Merging keeps one record and permanently removes the others. **Merges cannot be undone.**
+
+**Bots and people cannot be merged.** When you merge a bot account with a person, Insights stops the merge and tells you why. When the bot account is really that person, select **Mark as not a bot** on it first (see [Developer visibility](#developer-visibility)), then merge.
 
 **Finding more matches.** Click **Find merges** (or **Find more merges** when suggestions are already listed) to use GitKraken AI to process your developer records and look for more possible merges. GitKraken AI cannot search for more merges on every roster — the sheet tells you when it cannot.
 
@@ -597,6 +618,8 @@ Select a department to see its teams. Click **Add teams** to add more, or remove
 ---
 
 ## Categorization settings
+
+On Settings → Categorization, define the work categories that GitKraken Insights sorts pull requests and commits into.
 
 ### Work categories
 

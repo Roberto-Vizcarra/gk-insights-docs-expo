@@ -85,7 +85,7 @@ Model cards on the **AI Models** tab add two rows:
 Both count every developer who used the model, not only developers whose main model it is. A dash means the tool does not report tokens or cost per model.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v5@2x.png" class="help-center-img img-bordered" alt="The AI Models tab of AI Tools Comparison in its By primary model view, with the By primary and All models toggle on the right: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend, above an AI Insight banner comparing the models' merged PRs per developer per week" />
+  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v6@2x.png" class="help-center-img img-bordered" alt="The AI Models tab of AI Tools Comparison in its By primary model view, with the By primary and All models toggle on the right: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend, above an AI Insight banner comparing the models' merged PRs per developer per week" />
   <figcaption>Model cards on the AI Models tab in the By primary view, with Tokens and Spend.</figcaption>
 </figure>
 

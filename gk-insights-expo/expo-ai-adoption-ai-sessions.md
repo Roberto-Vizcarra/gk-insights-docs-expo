@@ -83,7 +83,7 @@ The tab holds these cards:
 If the cohort has no session activity in the period, the tab says so and keeps only the run distribution.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-sessions-overview-01-v4@2x.png" class="help-center-img img-bordered" alt="The Overview tab of AI Sessions, with a note that the figures cover only the AI tools that report skill activity, here Claude Code. Cards show the Token Value Trend, Cost per Output Score, a Breakdown by Model donut, Skills Invocation Trigger and Skill Source bars, Skills by Developers bars with a Source filter and a Search skills box, the Top Skills by Token Value table and the Autonomous Run Distribution histogram." />
+  <img src="/wp-content/uploads/gki-ai-sessions-overview-01-v5@2x.png" class="help-center-img img-bordered" alt="The Overview tab of AI Sessions, with a note that the figures cover only the AI tools that report skill activity, here Claude Code. Cards show the Token Value Trend, Cost per Output Score, a Breakdown by Model donut, Skills Invocation Trigger and Skill Source bars, Skills by Developers bars with a Source filter and a Search skills box, the Top Skills by Token Value table and the Autonomous Run Distribution histogram." />
   <figcaption>The Overview tab of AI Sessions.</figcaption>
 </figure>
 
@@ -92,7 +92,7 @@ In **Skills by developers**, each bar shows the skill's source, such as **projec
 To see who ran a skill, click its bar. A drawer lists the developers who ran that skill in the period, ordered by runs, with their **Runs**, **Sessions**, **Token value**, **Cost per run**, and **Last used**. To open a developer on the [Developers page](/insights-expo/expo-ai-adoption-developers), click their name.
 
 <figure>
-  <img src="/wp-content/uploads/gki-skill-developers-drawer-01.png" class="help-center-img img-bordered" alt="The Skills by developers drawer for the code-review skill, tagged project, reading 10 of 10 developers for 6/1/2026 - 6/28/2026, with a table of each developer's name and email, Runs, Sessions, Token value, Cost per run and Last used, ordered by runs from Aisha Patel to Carlos Ruiz" />
+  <img src="/wp-content/uploads/gki-skill-developers-drawer-01-v2@2x.png" class="help-center-img img-bordered" alt="The Skills by developers drawer for the code-review skill, tagged project, reading 10 of 10 developers for 6/1/2026 - 6/28/2026, with a table of each developer's name and email, Runs, Sessions, Token value, Cost per run and Last used, ordered by runs from Aisha Patel to Carlos Ruiz" />
   <figcaption>The developers behind one skill, opened from Skills by developers.</figcaption>
 </figure>
 

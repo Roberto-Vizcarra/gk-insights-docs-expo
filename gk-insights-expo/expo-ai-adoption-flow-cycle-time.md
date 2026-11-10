@@ -177,7 +177,7 @@ The card covers issues resolved in the window, grouped by the date they were res
 **See the issues behind the chart.** Click a point on the chart to list the issues resolved in that period, or click the issue count in the header to list every issue in the window. The list shows each issue's **Key** (a link to the issue in your tracker), **Title**, **Backlog** and **Active** time, **Tracker**, **Type**, and its **Created**, **In progress**, and **Done** dates, newest first. Issues that never went in progress show a dash for their phases and are left out of the phase medians; a note above the list says how many there are.
 
 <figure>
-  <img src="/wp-content/uploads/gki-issue-cycle-time-drilldown-01.png" class="help-center-img img-bordered" alt="The Issue Cycle Time drill-down for the Jun 8 - Jun 14, 2026 bucket, noting that 4 of 21 issues never went in progress and aren't in the phase medians, with a search box, Columns, and a table of Key, Title, Backlog, Active, Tracker, Type, Created, In progress and Done, where issues that never went in progress show a dash under Backlog, Active and In progress" />
+  <img src="/wp-content/uploads/gki-issue-cycle-time-drilldown-01-v2@2x.png" class="help-center-img img-bordered" alt="The Issue Cycle Time drill-down for the Jun 8 - Jun 14, 2026 bucket, noting that 4 of 21 issues never went in progress and aren't in the phase medians, with a search box, Columns, and a table of Key, Title, Backlog, Active, Tracker, Type, Created, In progress and Done, where issues that never went in progress show a dash under Backlog, Active and In progress" />
   <figcaption>The issues behind one week of the Issue Cycle Time chart.</figcaption>
 </figure>
 

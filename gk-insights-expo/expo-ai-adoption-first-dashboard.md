@@ -54,7 +54,7 @@ If you pick an option with no activity, a note under the filter bar reads **No m
 While the **Linked to an issue: Yes** chip is on the bar, the **AI Insight** banner is hidden, and cards the filter does not change, such as Change Failure Rate and AI Adoption, say **The Linked to an issue filter does not narrow this metric.** in their info. Clear the chip to count all changes again.
 
 <figure>
-  <img src="/wp-content/uploads/gki-linked-issue-filter-01.png" class="help-center-img img-bordered" alt="The Throughput & Quality page's filter bar with the Filters menu open: Linked to an issue, Team, Org, Workspace, Repositories and Annotation Type, with Linked to an issue expanded to its single Linked to an issue option" />
+  <img src="/wp-content/uploads/gki-linked-issue-filter-01-v2@2x.png" class="help-center-img img-bordered" alt="The Throughput & Quality page's filter bar with the Filters menu open: Linked to an issue, Team, Org, Workspace, Repositories and Annotation Type, with Linked to an issue expanded to its single Linked to an issue option" />
   <figcaption>The Linked to an issue filter in the Filters menu on Throughput & Quality.</figcaption>
 </figure>
 

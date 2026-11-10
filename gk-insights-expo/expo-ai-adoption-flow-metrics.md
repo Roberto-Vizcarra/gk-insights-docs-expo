@@ -90,7 +90,7 @@ From top to bottom, the page shows these cards:
 Click a point on a Cycle Time or PR volume chart to open the PRs behind it, or a point on the Issue Cycle Time chart to open the issues behind it. On **First Response Time**, click a point or the **PRs reviewed** count in the header to list the PRs opened in that period, on **Reviewed** and **Not reviewed** tabs, with each PR's first response and response time.
 
 <figure>
-  <img src="/wp-content/uploads/gki-first-response-drilldown-01.png" class="help-center-img img-bordered" alt="The All PRs First Response Time drill-down with a 3.2h median for Jun 1 - Jun 28, 2026, a note that first response time runs from when a PR is opened to its first review (a comment, approval, or change request), the Reviewed (189) and Not reviewed (6) tabs, a search box, and a table of Repo, PR, Author, Opened, First response and Response time with pagination" />
+  <img src="/wp-content/uploads/gki-first-response-drilldown-01-v2@2x.png" class="help-center-img img-bordered" alt="The All PRs First Response Time drill-down with a 3.2h median for Jun 1 - Jun 28, 2026, a note that first response time runs from when a PR is opened to its first review (a comment, approval, or change request), the Reviewed (189) and Not reviewed (6) tabs, a search box, and a table of Repo, PR, Author, Opened, First response and Response time with pagination" />
   <figcaption>The First Response Time drill-down, with reviewed and not-reviewed PRs on separate tabs.</figcaption>
 </figure>
 

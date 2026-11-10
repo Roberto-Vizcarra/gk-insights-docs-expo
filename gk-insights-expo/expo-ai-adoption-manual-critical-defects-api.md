@@ -18,7 +18,7 @@ custom_fields:
     card_description: ""
 ---
 <!-- FLAG FOR HUMAN REVIEW: API key creation (gkDotDevApiKeys) is not confirmed released to all customers; unhide by moving into the admin nav once confirmed. -->
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 The Manual Critical Defects API lets you record critical defects in GitKraken Insights that aren't captured automatically from your issue tracker — for example, incidents tracked in a system GitKraken doesn't read, defects reported directly by customers, or historical defects you want to backfill.
 

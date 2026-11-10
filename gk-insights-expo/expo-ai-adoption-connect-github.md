@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 10
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 Connect GitHub Cloud or GitHub Enterprise Server to sync repository, pull request, and contributor activity into GitKraken Insights. Your git provider powers every PR, commit, contributor, and cycle-time metric.
 

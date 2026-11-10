@@ -17,7 +17,7 @@ custom_fields:
     nav_order: 80
     page_type: content
 ---
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 The **Surveys** page lets you ask your developers how their work and their AI tools are going, and read the answers next to the numbers. Use it to send a survey from the library of ready-made surveys, track who has responded, and read and export the results. The metrics show what developers do; a survey shows how they feel about it. This page doesn't cover writing your own questions: every survey starts from a library template.
 

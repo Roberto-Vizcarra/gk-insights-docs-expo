@@ -61,19 +61,9 @@ Every metric on the dashboard is downstream of one of these syncs. If a number l
 
 The 12-hour **safety lag** on AI events sync catches events that your AI tools report late, into time ranges that were already synced, so no data is missed. Expect counts to shift slightly within a 24-hour-old window.
 
-### The unmatched lists
+### Bugs assigned to unmatched Jira assignees
 
-Settings → Developers lists names Insights could not match automatically in 2 places:
-
-#### Unmatched PTO names
-
-When the BambooHR feed has a name like "Jeffrey Schinella" but your roster has "Jeff Schinella," the sync drops the name into the unmatched list. Use the combobox to map it. After you map it, the alias persists.
-
-#### Unmatched Jira assignees
-
-Same pattern: Jira assignees whose accounts do not tie to a known developer email. Map each one once, and future bugs from that assignee go to the right developer automatically.
-
-**Treat both lists like an inbox.** Empty them weekly. An unmatched PTO name means you are miscounting effective weekdays for that developer; customer bugs assigned to an unmatched Jira assignee cannot be tied to a release, so they are not counted in Change Failure Rate. The CFR readouts show how many, with a note such as "3 bugs not attributed to a team".
+Customer bugs assigned to someone GitKraken Insights cannot match to a roster developer cannot be tied to a release, so they are not counted in Change Failure Rate. The CFR readouts show how many, with a note such as "3 bugs not attributed to a team", and **Status** on the Jira connection (Settings → Data Connections) shows the number of unmatched assignees.
 
 ### Roster hygiene
 

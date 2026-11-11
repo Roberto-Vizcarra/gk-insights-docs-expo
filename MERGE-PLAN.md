@@ -1,8 +1,37 @@
 # Merging back into `/gk-insights/`
 
-**Status:** not started — reference for when the expo build is folded into the
-main Insights Help Center.
+**Status:** content staged (2026-11-11); plugin and WordPress steps not started.
 **Written:** 2026-09-23, against plugin v1.17.3.
+
+### Done: content staged for `gitkraken/gk-insights-docs` → `expo` branch
+
+The repo is laid out like the upstream repo so it can merge into its `expo`
+branch (currently identical to upstream `main`):
+
+| Was | Now |
+|---|---|
+| `gk-insights-expo/expo-ai-adoption-*.md` | `gk-insights/ai-adoption-*.md` (61 files; slug scheme decided: drop `expo-`) |
+| `gk-insights-expo/expo-ai-adoption.md` (hidden redirect stub) | `gk-insights/ai-adoption.md` — keeps upstream's `/gk-insights/ai-adoption` URL alive as a pointer to Home |
+| `taxonomy.category: insights-expo` | `gk-insights` (all 71 Markdown files, archive included) |
+| Links `/insights-expo/expo-ai-adoption-*` | `/gk-insights/ai-adoption-*` (556 links) |
+| `nav_parent: expo-ai-adoption-*` | `nav_parent: ai-adoption-*` (26 pages) |
+| `Legacy-Insights-Docs-Archive/expo-gk-insights-*.md`, `expo-surveys.md` | Upstream file names restored (`gk-insights-*.md`, `surveys.md`), still in the archive folder, so they are not synced |
+| `check_pages.py`, `preview/build.py`, authoring skill | Point at `gk-insights/`, category `gk-insights`, `ai-adoption-*`; links to archived classic pages are accepted |
+
+Effect of the merge on upstream: the 10 upstream `gk-insights/ai-adoption*.md`
+pages are replaced **in place** (same paths, so Git It Write updates the same
+posts and the URLs do not change). The 10 classic pages and the three
+`exploration-v*.md` pages leave `gk-insights/`; Git It Write does not delete,
+so their posts stay published until someone unpublishes or redirects them.
+
+**Not done, deliberately:** the plugin. `GKI_DOCS_CATEGORY` is still
+`insights-expo`, and the hard-coded `/insights-expo/` login paths in
+`gki-auth.php` are unchanged, so the plugin will not template, nav, search or
+gate the `gk-insights` posts until §1 is decided and §3 step 4 is done. The
+local preview (`preview/build.py`) runs the plugin unmodified, so it stops with
+"The plugin did not supply a template" until then. `local-dev/setup.ps1`,
+`LOCAL-DEV.md` and `AUTH-GATE-PLAN.md` still describe production as it is
+(the `insights-expo` sandbox) and change at the cut-over.
 
 The expo site lives under its own WordPress category, `insights-expo`
 (term ID 83), with page slugs prefixed `expo-ai-adoption-`. That was a
@@ -12,7 +41,7 @@ docs, **everything keyed on `insights-expo` or `expo-ai-adoption` has to move
 to the `gk-insights` category and its slugs.** This document is the inventory
 of what that means, so the merge can be planned rather than discovered.
 
-Nothing here needs doing now.
+The content side is done (see above); the rest waits on §1.
 
 ---
 

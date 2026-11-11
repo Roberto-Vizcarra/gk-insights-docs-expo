@@ -23,7 +23,7 @@ far is confidential.
 | `Taste-design-expo` | 1.15.x | Pass A/B exploration with the three-way design switch. Superseded; kept for reference. |
 
 ### What the plugin does today (pass-c-structural)
-- ~60 Markdown files in `gk-insights-expo/` synced to WordPress via Git It Write
+- ~60 Markdown files in `gk-insights/` synced to WordPress via Git It Write
 - 3-column layout: collapsible left nav (nested section → sub-index → page), center content, right TOC
 - Command palette (Ctrl/Cmd-K, `/`) over the server-built search index; legacy search inputs kept hidden. Home and every index page also carry a **landing search field** ("What are you looking for?") that is the palette's front door — focusing or typing opens the palette seeded with the text (`gki_docs_render_landing_search()`, `initLandingSearch()` in `gki-passc.js`); without JS it is a real form that submits to `?s=`.
 - Card grid index pages with tinted icons (auto-rendered from frontmatter); Intro → Cards → Overview, split at the first `<hr>`
@@ -69,7 +69,8 @@ site-down incidents came from testing in prod.
 
 ### Content Location
 ```
-gk-insights-expo/           # ~60 Markdown files → WP posts via Git It Write
+gk-insights/                # ~60 Markdown files → WP posts via Git It Write (category gk-insights)
+Legacy-Insights-Docs-Archive/  # Classic Insights pages superseded by this build; not synced, posts still live
 ```
 **Writing or editing pages:** use the `gki-docs-authoring` skill
 (`.claude/skills/gki-docs-authoring/`). It covers the frontmatter fields, page
@@ -162,8 +163,9 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 
 ### Git It Write Requirements
 - Custom fields MUST be nested under `custom_fields:` in YAML frontmatter to be stored as WordPress post meta. Top-level YAML keys are NOT stored.
-- WordPress URLs: `help.gitkraken.com/insights-expo/{slug}` — slug comes from filename.
-- Internal links use `/insights-expo/expo-ai-adoption-*` format.
+- WordPress URLs: `help.gitkraken.com/gk-insights/{slug}` — slug comes from filename.
+- Internal links use `/gk-insights/ai-adoption-*` format.
+- Content is staged for the upstream repo (`gitkraken/gk-insights-docs`, `expo` branch): folder `gk-insights/`, `taxonomy.category: gk-insights`, slugs `ai-adoption-*`. Production and the plugin still run on the `insights-expo` sandbox until the cut-over in `MERGE-PLAN.md`.
 - Git It Write does NOT auto-delete WP posts when source files are removed. Old posts must be manually deleted from WP Admin.
 
 ### Plugin Workflow
@@ -209,11 +211,11 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 ## Site Structure
 
 ### Nav Sections (frontmatter-driven, sorted by nav_order)
-1. **Home** — `expo-ai-adoption-home.md` (main-index, card grid of section indexes)
+1. **Home** — `ai-adoption-home.md` (main-index, card grid of section indexes)
 2. **Getting Started** — 6 pages (index + first-dashboard, for-executives, for-engineering-leaders, for-team-leads, for-admins)
 3. **Connect Your Data** — 8 pages (index + github, bitbucket, azure-devops, gitlab, ai-tools, otel, jira-bamboohr)
 4. **Metrics** — 26 pages total:
-   - `expo-ai-adoption-metrics.md` (section index)
+   - `ai-adoption-metrics.md` (section index)
    - **Adoption & Agentic** — sub-index + 5 metric pages (adoption-score, autonomy-score, ai-tier, maturity-factor, cursor-boost)
    - **Output & Throughput** — sub-index + 4 metric pages (output-score, throughput, direct-commits, effort-score)
    - **Flow & Cycle Time** — sub-index + 4 metric pages (cycle-time, review-cycles, first-pass-rate, wip)
@@ -222,7 +224,7 @@ Full explanations in `LOCAL-DEV.md`. The short version:
 5. **Playbooks** — 5 pages (index + tier-weights, ai-rollout, slow-cycle-time, high-cfr)
 6. **Admin & API** — 4 pages (index + settings, security-permissions, manual-releases-api)
 
-Plus 2 hidden pages (nav_category: hidden): `expo-ai-adoption.md` (redirect) and `expo-ai-adoption-manual-critical-defects-api.md` (draft, pending API-key availability)
+Plus 2 hidden pages (nav_category: hidden): `ai-adoption.md` (redirect) and `ai-adoption-manual-critical-defects-api.md` (draft, pending API-key availability)
 
 ### Page Types
 - `main-index` — the home page; Pass C hero + role paths + metric map, then remaining content

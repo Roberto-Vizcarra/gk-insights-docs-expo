@@ -152,7 +152,7 @@ A: Not by default. …
 A blank line between the Q and A lines breaks the pair.
 
 **Related metrics.** A table with the metric links in the first column:
-`| [Cycle Time](/insights-expo/expo-ai-adoption-flow-cycle-time) | The work-start-to-merge portion. |`.
+`| [Cycle Time](/gk-insights/ai-adoption-flow-cycle-time) | The work-start-to-merge portion. |`.
 
 **Where it appears.** Bullets whose bold lead is a product path:
 
@@ -205,7 +205,7 @@ So `> **Before you start:** …` is info, `> **Heads up:** …` is warn, and
 `> **Tip:** …` is tip. Pick the lead phrase for the type you want, but don't
 twist the wording to get it.
 
-### Settings blocks (`expo-ai-adoption-settings.md`)
+### Settings blocks (`ai-adoption-settings.md`)
 
 ```markdown
 ### Maturity Factor

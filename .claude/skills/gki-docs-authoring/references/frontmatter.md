@@ -17,7 +17,7 @@ plan_required: GitKraken Insights
 status: GA                       # optional
 integrations: [GitHub, GitLab]   # optional, flow list
 taxonomy:
-    category: insights-expo      # REQUIRED, exactly this
+    category: gk-insights      # REQUIRED, exactly this
 custom_fields:
     card_color: green
     card_description: "Formula, calculation, interpretation, and FAQ for Lead Time for Changes"
@@ -25,7 +25,7 @@ custom_fields:
     nav_category: metrics
     nav_label: "Lead Time for Changes"
     nav_order: 42
-    nav_parent: expo-ai-adoption-dora-metrics
+    nav_parent: ai-adoption-dora-metrics
     page_type: content
 ---
 ```
@@ -77,29 +77,29 @@ Check this against the files before you rely on it. Running
 
 | Section (`nav_category`) | Index page (`nav_order`) | Colour | Children |
 |---|---|---|---|
-| home | `expo-ai-adoption-home` (0, `main-index`) | purple | — |
-| getting-started | `expo-ai-adoption-getting-started` (10) | purple | first-dashboard 10, for-executives 20, for-engineering-leaders 30, for-team-leads 40, for-admins 50, developers 60, repositories 65, ai-sessions 70, ai-tools-comparison 75, surveys 80, insights-for-developers 90. Each has its own `card_icon`. |
-| connect-your-data | `expo-ai-adoption-connect-your-data` (20) | blue | connect-github 10, -bitbucket 20, -azure-devops 30, -gitlab 40, -ai-tools 50, -otel 55, -jira-bamboohr 60, -linear-youtrack 65, -clickup 67 |
-| metrics | `expo-ai-adoption-metrics` (30) | green | five family sub-indexes, each `nav_parent: expo-ai-adoption-metrics` (below) |
-| playbooks | `expo-ai-adoption-playbooks` (40) | amber | playbook-tier-weights 10, -ai-rollout 20, -slow-cycle-time 30, -high-cfr 40 |
-| admin | `expo-ai-adoption-admin` (50) | red | settings 10, manual-releases-api 20, security-permissions 30 |
-| hidden | — | — | `expo-ai-adoption` (redirect), `expo-ai-adoption-manual-critical-defects-api` (draft) |
+| home | `ai-adoption-home` (0, `main-index`) | purple | — |
+| getting-started | `ai-adoption-getting-started` (10) | purple | first-dashboard 10, for-executives 20, for-engineering-leaders 30, for-team-leads 40, for-admins 50, developers 60, repositories 65, ai-sessions 70, ai-tools-comparison 75, surveys 80, insights-for-developers 90. Each has its own `card_icon`. |
+| connect-your-data | `ai-adoption-connect-your-data` (20) | blue | connect-github 10, -bitbucket 20, -azure-devops 30, -gitlab 40, -ai-tools 50, -otel 55, -jira-bamboohr 60, -linear-youtrack 65, -clickup 67 |
+| metrics | `ai-adoption-metrics` (30) | green | five family sub-indexes, each `nav_parent: ai-adoption-metrics` (below) |
+| playbooks | `ai-adoption-playbooks` (40) | amber | playbook-tier-weights 10, -ai-rollout 20, -slow-cycle-time 30, -high-cfr 40 |
+| admin | `ai-adoption-admin` (50) | red | settings 10, manual-releases-api 20, security-permissions 30 |
+| hidden | — | — | `ai-adoption` (redirect), `ai-adoption-manual-critical-defects-api` (draft) |
 
 Metric families (`page_type: index`, `nav_category: metrics`,
-`nav_parent: expo-ai-adoption-metrics`). Each child metric page uses the
+`nav_parent: ai-adoption-metrics`). Each child metric page uses the
 family's icon and `nav_order` = family order + 1, 2, 3 …
 
 | Family sub-index | `nav_order` | `card_icon` | Metric pages (slug tail → order) |
 |---|---|---|---|
-| `expo-ai-adoption-agentic-metrics` — Adoption & Agentic | 10 | `user-check` | agentic-adoption-score 11, agentic-autonomy-score 12, agentic-ai-tier 13, agentic-maturity-factor 14, agentic-cursor-boost 15 |
-| `expo-ai-adoption-output-metrics` — Output & Throughput | 20 | `package` | output-output-score 21, output-throughput 22, output-direct-commits 23, output-effort-score 24 |
-| `expo-ai-adoption-flow-metrics` — Flow & Cycle Time | 30 | `clock` | flow-cycle-time 31, flow-review-cycles 32, flow-first-pass-rate 33, flow-wip 34 |
-| `expo-ai-adoption-dora-metrics` — DORA & Quality | 40 | `shield-check` | dora-deployment-frequency 41, dora-lead-time 42, dora-change-failure-rate 43, dora-mttr 44 |
-| `expo-ai-adoption-impact-cost-metrics` — AI Impact & Cost | 50 | `currency-dollar` | impact-cost-productivity-uplift 51, impact-cost-ai-assisted-percentage 52, impact-cost-capex-opex 53, impact-cost-spend-by-tier 54 |
+| `ai-adoption-agentic-metrics` — Adoption & Agentic | 10 | `user-check` | agentic-adoption-score 11, agentic-autonomy-score 12, agentic-ai-tier 13, agentic-maturity-factor 14, agentic-cursor-boost 15 |
+| `ai-adoption-output-metrics` — Output & Throughput | 20 | `package` | output-output-score 21, output-throughput 22, output-direct-commits 23, output-effort-score 24 |
+| `ai-adoption-flow-metrics` — Flow & Cycle Time | 30 | `clock` | flow-cycle-time 31, flow-review-cycles 32, flow-first-pass-rate 33, flow-wip 34 |
+| `ai-adoption-dora-metrics` — DORA & Quality | 40 | `shield-check` | dora-deployment-frequency 41, dora-lead-time 42, dora-change-failure-rate 43, dora-mttr 44 |
+| `ai-adoption-impact-cost-metrics` — AI Impact & Cost | 50 | `currency-dollar` | impact-cost-productivity-uplift 51, impact-cost-ai-assisted-percentage 52, impact-cost-capex-opex 53, impact-cost-spend-by-tier 54 |
 
 ## Naming
 
-- File name: `expo-ai-adoption-<section-or-family>-<topic>.md`, lowercase and
+- File name: `ai-adoption-<section-or-family>-<topic>.md`, lowercase and
   hyphenated. Metric pages carry their family prefix (`dora-`, `flow-`,
   `output-`, `agentic-`, `impact-cost-`). Two things match on the slug tail:
   the instrument registry (`gki_passc_instruments()`) and Home's role paths

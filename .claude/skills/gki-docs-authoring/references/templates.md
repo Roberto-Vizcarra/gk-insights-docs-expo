@@ -10,7 +10,7 @@ Integrity). After writing, run `scripts/check_pages.py <file>` and
 
 ## Metric page
 
-File: `gk-insights-expo/expo-ai-adoption-<family-prefix>-<metric>.md`
+File: `gk-insights/ai-adoption-<family-prefix>-<metric>.md`
 
 ````markdown
 ---
@@ -21,7 +21,7 @@ content_type: reference
 audience: all
 plan_required: GitKraken Insights
 taxonomy:
-    category: insights-expo
+    category: gk-insights
 custom_fields:
     card_color: green
     card_description: "Formula, calculation, interpretation, and FAQ for <Metric Name>"
@@ -29,7 +29,7 @@ custom_fields:
     nav_category: metrics
     nav_label: "<Metric Name>"
     nav_order: <family order + n, e.g. 45>
-    nav_parent: expo-ai-adoption-<family>-metrics
+    nav_parent: ai-adoption-<family>-metrics
     page_type: content
 ---
 <kbd>Last updated: <Month YYYY></kbd>
@@ -76,7 +76,7 @@ custom_fields:
 
 ### Settings that affect it
 
-* [**<Setting>**](/insights-expo/expo-ai-adoption-settings#<setting-anchor>) (Settings → <tab>) — <effect>.
+* [**<Setting>**](/gk-insights/ai-adoption-settings#<setting-anchor>) (Settings → <tab>) — <effect>.
 
 ### How to improve it
 
@@ -98,7 +98,7 @@ A: <Answer.>
 
 | Metric | Relationship |
 | --- | --- |
-| [<Sibling>](/insights-expo/expo-ai-adoption-<slug>) | <how they relate> |
+| [<Sibling>](/gk-insights/ai-adoption-<slug>) | <how they relate> |
 
 ### Where it appears
 
@@ -118,7 +118,7 @@ and the family card grid pick it up automatically.
 
 ## Metric family sub-index
 
-File: `gk-insights-expo/expo-ai-adoption-<family>-metrics.md`
+File: `gk-insights/ai-adoption-<family>-metrics.md`
 
 ```markdown
 ---
@@ -130,7 +130,7 @@ audience: all
 plan_required: GitKraken Insights
 status: GA
 taxonomy:
-    category: insights-expo
+    category: gk-insights
 custom_fields:
     card_color: green
     card_description: <the metrics, comma-separated>
@@ -138,7 +138,7 @@ custom_fields:
     nav_category: metrics
     nav_label: <Family Label>
     nav_order: <next multiple of 10, e.g. 60>
-    nav_parent: expo-ai-adoption-metrics
+    nav_parent: ai-adoption-metrics
     page_type: index
 ---
 <kbd>Last updated: <Month YYYY></kbd>
@@ -151,7 +151,7 @@ custom_fields:
 
 | Metric | What it captures |
 | --- | --- |
-| [**<Metric>**](/insights-expo/expo-ai-adoption-<slug>) | <…> |
+| [**<Metric>**](/gk-insights/ai-adoption-<slug>) | <…> |
 
 ---
 
@@ -160,7 +160,7 @@ custom_fields:
 1. <…>
 ```
 
-A new family also needs a line on `expo-ai-adoption-metrics.md` if that page
+A new family also needs a line on `ai-adoption-metrics.md` if that page
 lists the families in prose.
 
 ---
@@ -178,7 +178,7 @@ content_type: reference
 audience: all
 plan_required: GitKraken Insights
 taxonomy:
-    category: insights-expo
+    category: gk-insights
 custom_fields:
     card_color: <purple|blue|green|amber|red>
     card_description: <…>
@@ -200,7 +200,7 @@ finds them through the fallback.
 
 ## How-to / connect / admin page
 
-File: `gk-insights-expo/expo-ai-adoption-<section-prefix>-<topic>.md` (for
+File: `gk-insights/ai-adoption-<section-prefix>-<topic>.md` (for
 example `connect-<tool>`)
 
 ```markdown
@@ -213,7 +213,7 @@ audience: admin
 plan_required: GitKraken Insights
 status: GA
 taxonomy:
-    category: insights-expo
+    category: gk-insights
 custom_fields:
     card_color: blue
     card_description: <short subtitle; searchable>
@@ -251,7 +251,7 @@ pages use `getting-started` and `purple`. A screenshot before the first H2
 
 ## Playbook
 
-File: `gk-insights-expo/expo-ai-adoption-playbook-<topic>.md`
+File: `gk-insights/ai-adoption-playbook-<topic>.md`
 
 ```markdown
 ---
@@ -262,7 +262,7 @@ content_type: how-to
 audience: <…>
 plan_required: GitKraken Insights
 taxonomy:
-    category: insights-expo
+    category: gk-insights
 custom_fields:
     card_color: amber
     card_description: <…>
@@ -312,8 +312,8 @@ custom_fields:
 
 | Page | Why |
 | --- | --- |
-| [<Page>](/insights-expo/expo-ai-adoption-<slug>) | <…> |
-| [<Page>](/insights-expo/expo-ai-adoption-<slug>) | <…> |
+| [<Page>](/gk-insights/ai-adoption-<slug>) | <…> |
+| [<Page>](/gk-insights/ai-adoption-<slug>) | <…> |
 ```
 
 With two or more rows of links, the table gets the related-table treatment.

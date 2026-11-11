@@ -1,7 +1,7 @@
 # Local preview
 
-Renders every page in `gk-insights-expo/*.md` into a browsable copy of the Help
-Center (`help.gitkraken.com/insights-expo/`), using the plugin's own PHP. It
+Renders every page in `gk-insights/*.md` into a browsable copy of the Help
+Center (`help.gitkraken.com/gk-insights/`), using the plugin's own PHP. It
 renders whatever branch is checked out, so you can preview a branch before it
 syncs to WordPress.
 
@@ -30,7 +30,7 @@ keeps running; build again from another terminal.
 | `--strict` | Treat PHP warnings and notices as failures. |
 | `--no-install` | If PHP is missing, print the install command instead of running it. |
 
-The build exits non-zero if a page links to an `/insights-expo/` page that does
+The build exits non-zero if a page links to a `/gk-insights/` page that does
 not exist, if a page references an image that is not in `_images/`, or (with
 `--strict`) if the plugin raised a PHP warning. The pages are still written;
 the problems are listed at the end, one line each.
@@ -73,7 +73,7 @@ Nothing in it copies repo content. Images are referenced in place:
 `/wp-content/uploads/<name>` becomes `../../_images/<name>`. The plugin's CSS
 and JS are referenced in place under `gki-docs-helper/`, with the file's mtime
 added to `?ver=` so a reload always picks up your edits. Links to
-`/insights-expo/<slug>/` (and to `https://help.gitkraken.com/insights-expo/...`)
+`/gk-insights/<slug>/` (and to `https://help.gitkraken.com/gk-insights/...`)
 become `<slug>.html`. The pages work from `file://` and from `--serve`.
 
 ## How it renders

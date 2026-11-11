@@ -1,6 +1,6 @@
 ---
 name: gki-docs-authoring
-description: Write, add, move, or edit pages in the GitKraken Insights AI Adoption Help Center (gk-insights-expo/*.md, help.gitkraken.com/insights-expo/) so they work with the GKI Docs Helper plugin's Pass C design. Covers the custom_fields frontmatter that builds the nav, breadcrumbs, card grids, Home metric map and search; page types; the Markdown patterns the plugin turns into spec panels, formula panels, step rails, tier scales, callouts, FAQs and checklists; and the lint and preview checks to run before committing. Use for any content change in gk-insights-expo/, including new metric pages, new connect or playbook pages, renaming or re-parenting pages, and nav order changes. For changes to the plugin's PHP, CSS or JS, use the gki-docs-helper skill instead.
+description: Write, add, move, or edit pages in the GitKraken Insights AI Adoption Help Center (gk-insights/*.md, help.gitkraken.com/gk-insights/) so they work with the GKI Docs Helper plugin's Pass C design. Covers the custom_fields frontmatter that builds the nav, breadcrumbs, card grids, Home metric map and search; page types; the Markdown patterns the plugin turns into spec panels, formula panels, step rails, tier scales, callouts, FAQs and checklists; and the lint and preview checks to run before committing. Use for any content change in gk-insights/, including new metric pages, new connect or playbook pages, renaming or re-parenting pages, and nav order changes. For changes to the plugin's PHP, CSS or JS, use the gki-docs-helper skill instead.
 ---
 
 # Authoring Insights Help Center pages
@@ -18,10 +18,10 @@ write layout HTML. There are two levers:
    the component. If you don't, it renders as plain prose. Nothing breaks either
    way.
 
-How the pipeline runs: Markdown in `gk-insights-expo/` → Git It Write
-(Parsedown v1.7.4 + ParsedownExtra) → a WP `post` in category `insights-expo` →
+How the pipeline runs: Markdown in `gk-insights/` → Git It Write
+(Parsedown v1.7.4 + ParsedownExtra) → a WP `post` in category `gk-insights` →
 the plugin's filters at priorities 15/16/17 → `templates/single-gki.php`. The
-slug is the file name. The URL is `/insights-expo/<slug>/`.
+slug is the file name. The URL is `/gk-insights/<slug>/`.
 
 ## Before you start
 
@@ -47,12 +47,12 @@ slug is the file name. The URL is `/insights-expo/<slug>/`.
 4. **Wire it in.** Card grids, nav, breadcrumbs and the Home metric map update
    on their own. Hand-written cross-references do not. Check for each of these:
    - the parent index's overview tables and lists, such as "The four DORA
-     metrics" on `expo-ai-adoption-dora-metrics.md`
+     metrics" on `ai-adoption-dora-metrics.md`
    - **Related metrics** tables on sibling metric pages
    - "Related pages" tables on playbooks
    - any page that links to a slug you renamed
 
-   Internal links are root-relative: `/insights-expo/expo-ai-adoption-<name>`,
+   Internal links are root-relative: `/gk-insights/ai-adoption-<name>`,
    plus `#anchor` if needed (the heading text, lowercased and hyphenated).
 5. **Lint:**
    `python .claude/skills/gki-docs-authoring/scripts/check_pages.py [files…]`.
@@ -60,7 +60,10 @@ slug is the file name. The URL is `/insights-expo/<slug>/`.
    `ERROR`. Read each `WARN` and either fix it or know why it's fine.
 6. **Preview:** `python preview/build.py`. It renders every page with the
    plugin's own PHP and opens Home (see `preview/README.md`). It exits non-zero
-   on a broken `/insights-expo/` link or a missing image. Open the page you
+   on a broken `/gk-insights/` link or a missing image. (Until the plugin's
+   `GKI_DOCS_CATEGORY` is switched from `insights-expo` to `gk-insights` — see
+   `MERGE-PLAN.md` §1 — the preview stops with "The plugin did not supply a
+   template"; that is the plugin, not your page.) Open the page you
    changed and check:
    - it sits in the right place in the nav
    - the breadcrumb is correct

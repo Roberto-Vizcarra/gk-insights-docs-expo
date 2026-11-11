@@ -17,7 +17,11 @@ import sys
 from collections import defaultdict
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', '..'))
-CONTENT = os.path.join(REPO, 'gk-insights-expo')
+CONTENT = os.path.join(REPO, 'gk-insights')
+# Classic Insights pages the AI Adoption build superseded. They are no longer
+# synced, but their /gk-insights/ posts are still published, so links to them
+# resolve.
+LEGACY = os.path.join(REPO, 'Legacy-Insights-Docs-Archive')
 IMAGES = os.path.join(REPO, '_images')
 
 PAGE_TYPES = {'content', 'index', 'main-index'}
@@ -43,6 +47,8 @@ METRIC_SECTIONS = [
     ('Related metrics', r'^related metrics$'),
     ('Where it appears', r'^where it appears$'),
 ]
+
+LEGACY_SLUGS = {os.path.splitext(n)[0] for n in os.listdir(LEGACY) if n.endswith('.md')} if os.path.isdir(LEGACY) else set()
 
 problems = []
 
@@ -105,15 +111,15 @@ def check_front_matter(slug, page):
     if fm is None:
         report('ERROR', slug, 'no YAML frontmatter (--- block) at the top of the file')
         return False
-    if not slug.startswith('expo-ai-adoption'):
-        report('WARN', slug, 'file name does not start with expo-ai-adoption-; the slug comes from the file name')
+    if not slug.startswith('ai-adoption'):
+        report('WARN', slug, 'file name does not start with ai-adoption-; the slug comes from the file name')
     if not fm.get('title'):
         report('ERROR', slug, 'missing title')
     if not fm.get('description'):
         report('WARN', slug, 'missing description (used for SEO and the page summary)')
     tax = fm.get('taxonomy')
-    if not isinstance(tax, dict) or tax.get('category') != 'insights-expo':
-        report('ERROR', slug, 'taxonomy.category must be insights-expo, or the post lands outside the Help Center')
+    if not isinstance(tax, dict) or tax.get('category') != 'gk-insights':
+        report('ERROR', slug, 'taxonomy.category must be gk-insights, or the post lands outside the Help Center')
     for key in NAV_KEYS:
         if key in fm:
             report('ERROR', slug, f'{key} is a top-level key; Git It Write only stores fields nested under custom_fields:')
@@ -224,12 +230,14 @@ def check_body(slug, page, pages):
         report('ERROR', slug, 'contains <script>; scripts in content are not supported')
 
     # internal links
-    for m in re.finditer(r'(?:https://help\.gitkraken\.com)?/insights-expo/([a-z0-9-]+)/?(#[^)\s"]*)?', prose):
+    for m in re.finditer(r'(?:https://help\.gitkraken\.com)?/gk-insights/([a-z0-9-]+)/?(#[^)\s"]*)?', prose):
         target = m.group(1)
         if target in ('login',):
             continue
-        if target not in pages:
-            report('ERROR', slug, f'links to /insights-expo/{target}, which is not a page in gk-insights-expo/')
+        if target in LEGACY_SLUGS:
+            report('INFO', slug, f'links to classic page /gk-insights/{target} (archived in Legacy-Insights-Docs-Archive/, still published)')
+        elif target not in pages:
+            report('ERROR', slug, f'links to /gk-insights/{target}, which is not a page in gk-insights/')
     # images
     # Root-relative uploads map to _images/ (as in preview/build.py); absolute
     # URLs on other hosts (Home's marketing graphics) are not checked.
@@ -244,7 +252,7 @@ def check_body(slug, page, pages):
 def check_metric(slug, prose, pages, fields):
     parent = fields.get('nav_parent', '')
     if not parent or cf(pages.get(parent, {'fm': {}})).get('page_type') != 'index':
-        report('ERROR', slug, 'metric page needs nav_parent set to its family sub-index (e.g. expo-ai-adoption-dora-metrics), or it is missing from the Home metric map')
+        report('ERROR', slug, 'metric page needs nav_parent set to its family sub-index (e.g. ai-adoption-dora-metrics), or it is missing from the Home metric map')
     lines = prose.splitlines()
     first_h3 = next((i for i, l in enumerate(lines) if l.startswith('### ')), len(lines))
     head = '\n'.join(lines[:first_h3])
@@ -274,7 +282,7 @@ def main(argv):
         only = {os.path.splitext(os.path.basename(a))[0] for a in argv}
         unknown = only - set(pages)
         for u in sorted(unknown):
-            report('ERROR', u, 'not found in gk-insights-expo/ (or its name starts with _ and Git It Write skips it)')
+            report('ERROR', u, 'not found in gk-insights/ (or its name starts with _ and Git It Write skips it)')
     for slug, page in pages.items():
         if check_front_matter(slug, page):
             check_body(slug, page, pages)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render gk-insights-expo/*.md into a browsable local copy of the Help Center.
+"""Render gk-insights/*.md into a browsable local copy of the Help Center.
 
     python preview/build.py            build preview/out/, then open Home in the browser
     python preview/build.py --no-open  build only
@@ -29,14 +29,14 @@ from functools import partial
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
-PAGES_DIR = os.path.join(REPO, 'gk-insights-expo')
+PAGES_DIR = os.path.join(REPO, 'gk-insights')
 IMAGES_DIR = os.path.join(REPO, '_images')
 PLUGIN_DIR = os.path.join(REPO, 'gki-docs-helper')
 OUT = os.path.join(HERE, 'out')
 CACHE = os.path.join(OUT, '.cache')
-HOME_SLUG = 'expo-ai-adoption-home'
+HOME_SLUG = 'ai-adoption-home'
 SITE = 'https://help.gitkraken.com'   # production origin; links to it become local files
-CATEGORY = 'insights-expo'
+CATEGORY = 'gk-insights'
 PLUGIN_URL_PATH = '/wp-content/plugins/gki-docs-helper/'
 
 # WordPress core files the renderer loads, pinned to production's release.

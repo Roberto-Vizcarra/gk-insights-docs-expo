@@ -8,7 +8,7 @@ and the custom WordPress plugin that renders them at
 
 | Path | What it is |
 |---|---|
-| `gk-insights-expo/` | ~60 Markdown pages, synced to WordPress by Git It Write |
+| `gk-insights/` | ~60 Markdown pages (category `gk-insights`, slugs `ai-adoption-*`), synced to WordPress by Git It Write |
 | `gki-docs-helper/` | The WordPress plugin: template, CSS, JS, Elementor overrides, auth gate |
 | `local-dev/` | Dockerized WordPress for testing plugin changes off production |
 | `_images/` | Screenshots referenced by the Markdown pages |
@@ -73,7 +73,7 @@ way. `.\archive-and-build.ps1 -FromRef <ref>` archives a committed build.
 
 ## Content changes
 
-Markdown in `gk-insights-expo/` syncs to WordPress via Git It Write. Custom
+Markdown in `gk-insights/` syncs to WordPress via Git It Write. Custom
 fields must be nested under `custom_fields:` in the YAML frontmatter or they are
 not stored as post meta. Git It Write does not delete WordPress posts when
 source files are removed — those must be deleted manually in WP Admin.

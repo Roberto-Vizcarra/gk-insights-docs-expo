@@ -59,7 +59,7 @@ The **Overview** shows where your AI spend goes, and how ready the repositories 
 * **Agent Adoption Insight.** Click the bulb for an AI read on your tier, what's driving it, and where to nudge next. The card appears only when your organization's plan includes GitKraken AI features and the organization has AI features turned on.
 * **About the framework.** Opens an explanation of the tier shown in your header.
 * **Model choices.** Where your token spend goes, by model.
-* **Top skills by token value.** Your five highest-spending skills for the window. A skill that calls other skills counts only its own turns. The card is hidden when the window has no skill activity.
+* **Top skills by token value.** Your five highest-spending skills for the window, each with its source, such as **project** or **plugin**. A skill that calls other skills counts only its own turns. The card is hidden when the window has no skill activity.
 * **Latest sessions.** Your most recent AI sessions, each with its top skill and cost. To see where a session's token value went, by skill and by model, click the session. To open the full list, click **View all sessions**.
 * **Repositories.** The average AI readiness of the repositories in your organization, with a **Needs attention** list of active, low-scoring repositories. To open the full list, click **View all repositories**.
 

@@ -21,7 +21,7 @@ custom_fields:
 ---
 <kbd>Last updated: November 2026</kbd>
 
-This family covers the industry-standard four DORA metrics — Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery — plus the customer-bug volume that powers CFR and MTTR.
+The DORA & Quality family measures delivery speed and stability with the four industry-standard DORA metrics — Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery — plus the customer-bug volume that powers CFR and MTTR.
 
 ---
 
@@ -48,7 +48,7 @@ GitKraken Insights adapts the original DORA definitions in these ways:
 
 * **Deployment Frequency** counts release events per window, using each repo's configured [release signal](/insights-expo/expo-ai-adoption-dora-deployment-frequency#release-signals-by-provider). You need release detection configured for each repo — without it, the metric shows an empty state.
 * **Lead Time** measures from _work start_ to _delivering release_. The [Cycle Time Start Signal](/insights-expo/expo-ai-adoption-settings#cycle-time-start-signal) setting decides when work starts, for Lead Time and Cycle Time alike. While it is not set, Lead Time starts at the first commit, not at issue creation. An admin can choose **In progress** to start the clock when the linked issue moves to in progress, if that comes before the first commit.
-* **CFR** is the rate of _releases that produced a customer-reported bug_, not the rate of all bugs. The signal is the customer bugs from your connected issue tracker — Jira, Linear, YouTrack, Azure Boards, or [ClickUp](/insights-expo/expo-ai-adoption-connect-clickup) — identified by that connection's defect detection. Internal bugs caught in QA do not count — a deliberate choice so CFR focuses on bugs that actually shipped and reached customers.
+* **CFR** is the rate of _releases that produced a customer-reported bug_, not the rate of all bugs. The signal is the customer bugs from your connected issue tracker — Jira, Linear, YouTrack, Azure Boards, or [ClickUp](/insights-expo/expo-ai-adoption-connect-clickup) — identified by that connection's defect detection. Internal bugs caught in QA do not count, so CFR reflects only bugs that shipped and reached customers.
 * **MTTR** measures median hours from a customer bug being opened to resolved. It uses the same customer bugs from your connected issue tracker as CFR. MTTR is not shown on the standard Insights pages.
 
 ---
@@ -78,7 +78,7 @@ If Deployment Frequency rises while CFR also rises, AI is enabling faster but wo
 
 ## Board Metrics page
 
-Board Metrics (**Reporting → Board Metrics** in the sidebar, `/insights/board-metrics`) collects engineering health indicators for leadership reporting on one page. Set **Timeframe**, **Granularity**, **Filters**, and **Teams** at the top, or select **Export CSV** to download the figures.
+Board Metrics (**Reporting → Board Metrics** in the sidebar, `/insights/board-metrics`) collects engineering health indicators for leadership reporting on one page. Set **Timeframe**, **Granularity**, **Filters**, and **Teams** at the top, or select **Export CSV** to download the figures. **Filters** → **Linked to an issue** counts only pull requests linked to an issue and leaves direct commits out; see [Set the scope first](/insights-expo/expo-ai-adoption-first-dashboard#set-the-scope-first).
 
 The KPI tiles across the top show **Cycle Time**, **Change Lead Time**, **Deployment Frequency**, **CFR** (with "N failed / M releases"), **Agent Adoption**, and **PRs / Dev / Week**, each against the previous period. Several tiles open the data behind them: select the **Deployment Frequency** value to list every release in the period, the **CFR** value to list the failed releases, or the **Agent Adoption** subtitle to list the developers actively using AI.
 
@@ -88,7 +88,7 @@ The charts below show:
 * **Change Lead Time** — median time from a change's work start to the release that delivered it. Select a point to see the changes behind it, with each change's merge and release dates and lead time. When Cycle Time Unit of Work is set to **Issue**, a point opens the releases behind it instead.
 * **Deployment Frequency** — production releases per week, against the previous period. To list a week's releases, hide **Previous Period** in the legend, then select that week's bar.
 * **Customer Bugs & Change Failure Rate** — the change failure rate with failed and total releases, then Customer Bugs by Priority (Highest, High, Medium, Low, and Other). On Board Metrics this card always shows all defect definitions, so it matches the CFR tile. Select the rate to see the failed releases and the customer bugs behind each, or a priority count to see those bugs.
-* **Avg Changes / Developer** — average merged PRs plus direct commits per active developer per week, compared against the previous period. Select the merged and direct count in the header, or a bar, to open the changes behind it.
+* **Avg Changes / Developer** — average merged PRs plus direct commits per active developer per week, compared against the previous period. With **Linked to an issue** on, it counts only merged PRs linked to an issue. Select the merged and direct count in the header, or a bar, to open the changes behind it.
 * **Agent Adoption** — how many developers fall in each AI tier. Select a tier to open **Developers by adoption tier**, which lists the developers in that tier and links on to By Developer.
 
 MTTR is not on Board Metrics.

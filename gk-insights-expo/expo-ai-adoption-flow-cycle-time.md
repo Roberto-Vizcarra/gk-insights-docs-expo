@@ -44,12 +44,12 @@ For a team or org view, Cycle Time is shown as the median across PRs merged in t
 
 ### How GitKraken Insights calculates it
 
-**The four phases.** Cycle Time is decomposed into four phases. Each PR's timestamps are computed and the phase durations are summed:
+**The four phases.** Cycle Time is made of four phases. For each PR, GitKraken Insights adds up the time spent in each one:
 
 1. **Coding** — from when work started to when the PR was opened. The [Cycle Time Start Signal](/insights-expo/expo-ai-adoption-settings#cycle-time-start-signal) setting decides when work starts. Captures "writing the code before showing anyone."
 2. **Pickup** — from PR open to its first review: an approval, a changes-requested review, or a review comment. Captures "PR is waiting for someone to look at it." On GitHub, only a submitted review ends Pickup; plain comments on the pull request do not. On GitLab, Bitbucket, and Azure DevOps, a review comment also counts.
 3. **Review** — from the first review to merge. Captures the back-and-forth time.
-4. **Deploy** — from `merged_at` to the production deploy timestamp. Only populated when release detection is configured for the repo. When release detection is not set up, the Deploy phase is omitted from the total rather than substituted with anything else. A PR's **Total** in the drill-down ends at merge and does not include Deploy.
+4. **Deploy** — from merge to the production deploy. Only populated when release detection is configured for the repo. When release detection is not set up, the Deploy phase is omitted from the total rather than substituted with anything else. A PR's **Total** in the drill-down ends at merge and does not include Deploy.
 
 **PRs merged without a qualifying review.** A PR that merges without a qualifying review has no Pickup or Review time. In the PR drill-down, those two columns show a dash, and the time from PR open to merge appears under **Unattributed** instead. That way Coding + Pickup + Review + Unattributed still adds up to the PR's Total when work started before the PR was opened. Sort by Unattributed to find PRs that merged without review.
 
@@ -93,9 +93,9 @@ Median industry numbers for typical web and services engineering teams:
 | Total Cycle Time | Read it as |
 | --- | --- |
 | **< 24 hours** | Elite — fast, lean teams with strong review discipline |
-| **1 – 2 days** | Strong — typical for high-performing engineering orgs |
-| **2 – 4 days** | Fair — common in larger orgs; usually has Pickup or Review opportunity |
-| **4 – 7 days** | Needs attention — investigate phase breakdown |
+| **1 to 2 days** | Strong — typical for high-performing engineering orgs |
+| **2 to 4 days** | Fair — common in larger orgs; usually has Pickup or Review opportunity |
+| **4 to 7 days** | Needs attention — investigate phase breakdown |
 | **> 7 days** | Stuck — review process broken, or PRs structurally too big |
 
 **Always read the phase breakdown** before drawing conclusions. The most common pattern in teams over three days is **Pickup dominates** — PRs sit waiting for review. The fix is almost always tighter review queue discipline, not faster coding.
@@ -124,7 +124,7 @@ On the breakdown cards, the **Total / Trend** switch in the card header toggles 
 * [**Cycle Time Unit of Work**](/insights-expo/expo-ai-adoption-settings#cycle-time-unit-of-work) (Settings → General) — whether the headline Cycle Time times each pull request or each resolved issue. Default: Pull request.
 * **Issue tracker integration** — the In progress start signal reads when a PR's linked issue moved to in progress. Without linked issues, work starts at the first commit.
 * **Release detection** — without configured releases, the Deploy phase is omitted.
-* [**Cycle Time Max Days**](/insights-expo/expo-ai-adoption-settings#cycle-time-max-days) (Settings → General) — PRs whose work-start-to-merge duration exceeds this many days are excluded. Default 30, range 1–365.
+* [**Cycle Time Max Days**](/insights-expo/expo-ai-adoption-settings#cycle-time-max-days) (Settings → General) — PRs whose work-start-to-merge duration exceeds this many days are excluded. Default 30, range 1 to 365.
 * [**Ignore reviews from bot accounts**](/insights-expo/expo-ai-adoption-settings#ignore-reviews-from-bot-accounts) (Settings → General) — when on, reviews from bot accounts do not stop the clock on pickup, review, or cycle time. Default off.
 
 No other admin settings affect Cycle Time. It is a measurement.
@@ -143,7 +143,7 @@ No other admin settings affect Cycle Time. It is a measurement.
 
 Listed by impact, highest first:
 
-* **Establish a weekly review-clearing ritual.** Fifteen minutes per week to walk through the oldest open PRs. Decide: ship, give a deadline, or close. This single habit fixes the Pickup phase on most teams within 2–4 weeks.
+* **Establish a weekly review-clearing ritual.** Fifteen minutes per week to walk through the oldest open PRs. Decide: ship, give a deadline, or close. This single habit fixes the Pickup phase on most teams within 2 to 4 weeks.
 * **Right-size PRs.** Teams with high Cycle Time and high Review Cycles are over-batching. Aim for PRs that can be reviewed in 15 minutes.
 * **Reduce reviewer load.** A team with 6 developers and 25 open PRs has a reviewer problem, not a coder problem.
 * **Use AI to clean up small PRs.** Routine small PRs (formatting fixes, tests, docs) lend themselves to AI-assisted shipping. Moving the long tail of small work to AI-assisted flow can free reviewer time for substantive PRs.
@@ -174,10 +174,17 @@ The card covers issues resolved in the window, grouped by the date they were res
   <figcaption>The Issue Cycle Time card, split into Backlog and Active time.</figcaption>
 </figure>
 
+**See the issues behind the chart.** Click a point on the chart to list the issues resolved in that period, or click the issue count in the header to list every issue in the window. The list shows each issue's **Key** (a link to the issue in your tracker), **Title**, **Backlog** and **Active** time, **Tracker**, **Type**, and its **Created**, **In progress**, and **Done** dates, newest first. Issues that never went in progress show a dash for their phases and are left out of the phase medians; a note above the list says how many there are.
+
+<figure>
+  <img src="/wp-content/uploads/gki-issue-cycle-time-drilldown-01-v2@2x.png" class="help-center-img img-bordered" alt="The Issue Cycle Time drill-down for the Jun 8 - Jun 14, 2026 bucket, noting that 4 of 21 issues never went in progress and aren't in the phase medians, with a search box, Columns, and a table of Key, Title, Backlog, Active, Tracker, Type, Created, In progress and Done, where issues that never went in progress show a dash under Backlog, Active and In progress" />
+  <figcaption>The issues behind one week of the Issue Cycle Time chart.</figcaption>
+</figure>
+
 ### FAQ
 
 **Q: Should I optimize toward "shortest possible Cycle Time"?**
-A: No. Push toward "predictable, low-variance Cycle Time." A team with a tight 36–48 hour distribution is healthier than a team with a wild range from 4 hours to 4 days, even if the second team's average is lower.
+A: No. Push toward "predictable, low-variance Cycle Time." A team with a tight 36 to 48 hour distribution is healthier than a team with a wild range from 4 hours to 4 days, even if the second team's average is lower.
 
 **Q: Why does our team's Cycle Time look terrible the week before a release?**
 A: Pre-release weeks accumulate PRs that were held back for the release. They merge in a burst, but their Coding and Pickup phases stretched across the embargo. This is a normal artifact.

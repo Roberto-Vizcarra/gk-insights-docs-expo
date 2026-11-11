@@ -18,7 +18,7 @@ custom_fields:
     page_type: index
 ---
 
-<kbd>Last updated: October 2026</kbd>
+<kbd>Last updated: November 2026</kbd>
 
 GitKraken Insights tracks 21 metrics across five families. Each family measures a different dimension of your team's AI adoption and delivery health. Select a family below to see every metric it contains.
 

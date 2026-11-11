@@ -31,7 +31,7 @@ The **AI Tools Comparison** page groups your developers into cohorts by the AI t
 In the Insights sidebar, under **Agent Leaderboard**, click **By AI Tool & Model**. The page opens with a filter bar and two tabs:
 
 * **AI Tools** compares cohorts of single tools and tool combinations. The page opens on this tab.
-* **AI Models** compares cohorts by the AI model developers used.
+* **AI Models** compares cohorts by each developer's primary model, or lists every model your developers used.
 
 The filter bar holds **Timeframe**, **Granularity**, **Filters**, and **Teams**. The filters apply to every card, chart, and table on the page.
 
@@ -41,9 +41,12 @@ When your organization has GitKraken AI features turned on, an **AI Insight** ba
 
 On the **AI Tools** tab, a cohort is the combination of AI tools a developer used in the selected window. A developer who used only Claude Code is in the **Claude Code** cohort. A developer who used Claude Code and Cursor is in **Claude + Cursor**. Cohorts can combine any of Claude Code, Cursor, Codex, GitHub Copilot, Devin, OpenCode, and Gemini. Developers with no AI tool activity in the window form the **None** cohort.
 
-Devin and OpenCode are available on request — contact your GitKraken account team. Cohorts that include them appear only for organizations where those tools are enabled. The **AI Tool** filter on the [Developers page](/insights-expo/expo-ai-adoption-developers) uses the same cohorts.
+Devin and OpenCode are available on request. To enable them, contact your GitKraken account team. Cohorts that include them appear only for organizations where those tools are enabled. The **AI Tool** filter on the [Developers page](/insights-expo/expo-ai-adoption-developers) uses the same cohorts.
 
-On the **AI Models** tab, each card is one model, and counts every developer who used that model in the window.
+On the **AI Models** tab, a toggle switches between two views:
+
+* **By primary** counts each developer once, under the model they used most in the window. Each card is one model's cohort, and the charts and the **Productivity Metrics** table compare these cohorts.
+* **All models** shows a card for every model any developer used, with its **Share of requests**, **Developers**, **Tokens**, and **Spend**. A developer who used several models counts toward each, so this view shows usage only and does not compare productivity.
 
 Only cohorts with developers in the window get a card, so the set of cards changes with the timeframe and filters. On the **AI Tools** tab, click **Show N empty cohorts** to add a card for each single tool with no active developers in the window; each reads **No active developers in this period**. Click **Hide empty cohorts** to remove them again. Tool combinations never get an empty card.
 
@@ -51,7 +54,7 @@ Only cohorts with developers in the window get a card, so the set of cards chang
 
 On the **AI Tools** tab, the cards are grouped under **Single tools** and **Tool combinations**. Cards on the **AI Models** tab are not grouped. Each cohort card lists these figures for its developers:
 
-* **Developers** — active developers in the cohort during the selected period.
+* **Developers** — active developers in the cohort during the selected period. Click the count to open the [Developers page](/insights-expo/expo-ai-adoption-developers) narrowed to exactly those developers.
 * **Adoption** — the average [Agent Adoption Score](/insights-expo/expo-ai-adoption-agentic-adoption-score).
 * **Autonomy** — the average [Agent Autonomy Score](/insights-expo/expo-ai-adoption-agentic-autonomy-score).
 * **Median Cycle Time** — the median time from start of work to pull request merge, for pull requests of 30 days or less. Lower is better.
@@ -82,8 +85,8 @@ Model cards on the **AI Models** tab add two rows:
 Both count every developer who used the model, not only developers whose main model it is. A dash means the tool does not report tokens or cost per model.
 
 <figure>
-  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v5@2x.png" class="help-center-img img-bordered" alt="The AI Tools Comparison page with its AI Models tab selected: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend, above an AI Insight banner comparing the models' merged PRs per developer per week" />
-  <figcaption>Model cards on the AI Models tab, with Tokens and Spend.</figcaption>
+  <img src="/wp-content/uploads/gki-ai-tools-comparison-by-model-01-v6@2x.png" class="help-center-img img-bordered" alt="The AI Models tab of AI Tools Comparison in its By primary model view, with the By primary and All models toggle on the right: cards for Claude Sonnet 5, Claude Fable 5 and GPT-5.4, each listing Developers, Adoption, Autonomy, Median Cycle Time, PRs / Dev / Week, Changes / Dev / Week, Tokens and Spend, above an AI Insight banner comparing the models' merged PRs per developer per week" />
+  <figcaption>Model cards on the AI Models tab in the By primary view, with Tokens and Spend.</figcaption>
 </figure>
 
 ## Compare cohorts over time
@@ -97,16 +100,16 @@ Below the cards, four charts compare the cohorts:
 
 The trend charts follow the page's **Granularity**.
 
-**Focus on one cohort.** Click a cohort in a chart's legend to focus it: the other cohorts fade, and a **Clear focus** button appears. Click **Clear focus** to show every cohort again.
+To focus on one cohort, click it in a chart's legend. The other cohorts fade, and a **Clear focus** button appears. Click **Clear focus** to show every cohort again.
 
 ### See the pull requests behind a point
 
-Hover a point or bar to see which cohort it belongs to; the tooltip ends with a hint such as **Click to see Claude Code PRs**. Click it to open a drill-down of the pull requests behind it, for that cohort. On **Total Changes / Developer**, the drill-down also lists direct commits. While a cohort is focused, a click opens that cohort.
+Hover a point or bar to see which cohort it belongs to; the tooltip ends with a hint such as **Click to see Claude Code PRs**. Click the point or bar to open a drill-down of the pull requests behind it, for that cohort. On **Total Changes / Developer**, the drill-down also lists direct commits. While a cohort is focused, a click opens that cohort.
 
 In the drill-down:
 
 * Use the **AI tool** or **AI model** picker to switch cohorts, or choose **All cohorts**, without closing the drill-down. Each option shows its count of pull requests.
-* For a tool cohort, click the link that names it, such as **See Claude Code users on Developers page**, to open the [Developers page](/insights-expo/expo-ai-adoption-developers) filtered to that AI tool. For the **None** cohort, the link reads **See users with no AI tool on Developers page**.
+* Click the link that names the cohort, such as **See Claude Code users on Developers page**, to open the [Developers page](/insights-expo/expo-ai-adoption-developers) narrowed to that cohort. For the **None** cohort, the link reads **See users with no AI tool on Developers page** or **See users with no AI model on Developers page**.
 * For a model cohort, **Developers in this list** names the authors of the listed pull requests.
 
 <figure>
